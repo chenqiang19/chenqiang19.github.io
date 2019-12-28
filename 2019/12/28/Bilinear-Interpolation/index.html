@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 <meta name="theme-color" content="#222">
 <meta name="generator" content="Hexo 4.0.0">
@@ -46,16 +46,16 @@
   };
 </script>
 
-  <meta name="description" content="线性插值已知两点(x0, y0), (x1, y1)求x0和x1之间某一个位置x对应的y：$$\frac{y-y_0}{x-x_0} &#x3D; \frac{y_1-y_0}{x_1-x_0}\quad &#x3D;&amp;gt;\quad y &#x3D; \frac{x_1-x}{x_1-x_0}y_0 + \frac{x-x_0}{x_1-x_0}y_1$$ 双线性插值 核心思想是在两个方向分别进行一次线性插值。 求未知函数">
-<meta name="keywords" content="图像插值,Biliner Interpolation">
+  <meta name="description" content="线性插值已知两点(x0, y0), (x1, y1)求x0和x1之间某一个位置x对应的y：  \frac{y-y_0}{x-x_0} &#x3D; \frac{y_1-y_0}{x_1-x_0}\quad &#x3D;&amp;gt;\quad y &#x3D; \frac{x_1-x}{x_1-x_0}y_0 + \frac{x-x_0}{x_1-x_0}y_1双线性插值 核心思想是在两个方向分别进行一次线性插值。 求未知函数 f 在点">
+<meta name="keywords" content="图像插值,Bilinear Interpolation">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Bilinear Interpolation">
 <meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;12&#x2F;28&#x2F;Bilinear-Interpolation&#x2F;index.html">
 <meta property="og:site_name" content="编辑尼撑">
-<meta property="og:description" content="线性插值已知两点(x0, y0), (x1, y1)求x0和x1之间某一个位置x对应的y：$$\frac{y-y_0}{x-x_0} &#x3D; \frac{y_1-y_0}{x_1-x_0}\quad &#x3D;&amp;gt;\quad y &#x3D; \frac{x_1-x}{x_1-x_0}y_0 + \frac{x-x_0}{x_1-x_0}y_1$$ 双线性插值 核心思想是在两个方向分别进行一次线性插值。 求未知函数">
+<meta property="og:description" content="线性插值已知两点(x0, y0), (x1, y1)求x0和x1之间某一个位置x对应的y：  \frac{y-y_0}{x-x_0} &#x3D; \frac{y_1-y_0}{x_1-x_0}\quad &#x3D;&amp;gt;\quad y &#x3D; \frac{x_1-x}{x_1-x_0}y_0 + \frac{x-x_0}{x_1-x_0}y_1双线性插值 核心思想是在两个方向分别进行一次线性插值。 求未知函数 f 在点">
 <meta property="og:locale" content="en">
 <meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;home&#x2F;qiangchen&#x2F;Pictures&#x2F;BI.png">
-<meta property="og:updated_time" content="2019-12-28T09:48:06.039Z">
+<meta property="og:updated_time" content="2019-12-28T10:35:30.823Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;home&#x2F;qiangchen&#x2F;Pictures&#x2F;BI.png">
 
@@ -104,11 +104,11 @@
   </style>
 </noscript>
 
-<link rel="alternate" href="/atom.xml" title="编辑尼撑" type="application/atom+xml">
+<link rel="alternate" href="/atom.xml" title="编辑尼撑" type="application/atom+xml"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage">
-  <div class="container use-motion">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container use-motion">
     <div class="headband"></div>
 
     <header class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -238,7 +238,7 @@
               <span class="post-meta-item-text">Posted on</span>
               
 
-              <time title="Created: 2019-12-28 16:19:45 / Modified: 17:48:06" itemprop="dateCreated datePublished" datetime="2019-12-28T16:19:45+08:00">2019-12-28</time>
+              <time title="Created: 2019-12-28 16:19:45 / Modified: 18:35:30" itemprop="dateCreated datePublished" datetime="2019-12-28T16:19:45+08:00">2019-12-28</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -263,17 +263,20 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h3 id="线性插值"><a href="#线性插值" class="headerlink" title="线性插值"></a><strong>线性插值</strong></h3><p>已知两点(x0, y0), (x1, y1)求x0和x1之间某一个位置x对应的y：<br>$$<br>\frac{y-y_0}{x-x_0} = \frac{y_1-y_0}{x_1-x_0}\quad =&gt;\quad y = \frac{x_1-x}{x_1-x_0}y_0 + \frac{x-x_0}{x_1-x_0}y_1<br>$$</p>
-<h3 id="双线性插值"><a href="#双线性插值" class="headerlink" title="双线性插值"></a>双线性插值</h3><p><img src="/home/qiangchen/Pictures/BI.png" alt="Biliner Interpolation"></p>
+        <h3 id="线性插值"><a href="#线性插值" class="headerlink" title="线性插值"></a><strong>线性插值</strong></h3><p>已知两点(x0, y0), (x1, y1)求x0和x1之间某一个位置x对应的y：</p>
+<script type="math/tex; mode=display">
+\frac{y-y_0}{x-x_0} = \frac{y_1-y_0}{x_1-x_0}\quad =>\quad y = \frac{x_1-x}{x_1-x_0}y_0 + \frac{x-x_0}{x_1-x_0}y_1</script><h3 id="双线性插值"><a href="#双线性插值" class="headerlink" title="双线性插值"></a>双线性插值</h3><p><img src="/home/qiangchen/Pictures/BI.png" alt="Biliner Interpolation"></p>
 <p>核心思想是在两个方向分别进行一次线性插值。</p>
-<p>求未知函数 f 在点 P = (x, y) 的值，假设我们已知函数 f 在 Q11 = (x1, y1)、Q12 = (x1, y2), Q21 = (x2, y1) 以及 Q22 = (x2, y2) 四个点的值。f可以是一个像素点的像素值。首先在 x 方向进行线性插值：<br>$$<br>f(R_1)\approx \frac{x_2-x}{x_2-x_1}f(Q_{11}) + \frac{x-x_1}{x_2-x_1}f(Q_{21})\quad where R_1 = (x, y_1)<br>$$</p>
-<p>$$<br>f(R_2)\approx \frac{x_2-x}{x_2-x_1}f(Q_{12}) + \frac{x-x_1}{x_2-x_1}f(Q_{22})\quad where R_2 = (x, y_2)<br>$$</p>
-<p>然后在y方向进行线性插值：<br>$$<br>f(P)\approx \frac{y_2-y}{y_2-y_1}f(R_{1}) + \frac{y-y_1}{y_2-y_1}f(R_{2})\quad 将f(R_1)和f(R_2)带进来<br>$$<br>两个技巧：</p>
+<p>求未知函数 f 在点 P = (x, y) 的值，假设我们已知函数 f 在 Q11 = (x1, y1)、Q12 = (x1, y2), Q21 = (x2, y1) 以及 Q22 = (x2, y2) 四个点的值。f可以是一个像素点的像素值。首先在 x 方向进行线性插值：</p>
+<script type="math/tex; mode=display">
+f(R_1)\approx \frac{x_2-x}{x_2-x_1}f(Q_{11}) + \frac{x-x_1}{x_2-x_1}f(Q_{21})\quad where R_1 = (x, y_1)</script><script type="math/tex; mode=display">
+f(R_2)\approx \frac{x_2-x}{x_2-x_1}f(Q_{12}) + \frac{x-x_1}{x_2-x_1}f(Q_{22})\quad where R_2 = (x, y_2)</script><p>然后在y方向进行线性插值：</p>
+<script type="math/tex; mode=display">
+f(P)\approx \frac{y_2-y}{y_2-y_1}f(R_{1}) + \frac{y-y_1}{y_2-y_1}f(R_{2})\quad 将f(R_1)和f(R_2)带进来</script><p>两个技巧：</p>
 <p>一、提高插值时对像素的充分利用</p>
 <p>二、加快计算速度(以整数代替，使用位移&gt;&gt;实现)</p>
 <p>下面的code参考自<a href="https://blog.csdn.net/random_repick/article/details/76165851" target="_blank" rel="noopener">C++双线性插值</a></p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">void bilinear(cv::Mat src, cv::Mat dst)&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">    double scale_x &#x3D; (double)(src.cols &#x2F; dst.cols)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">    double scale_y &#x3D; (double)(src.rows &#x2F; dst.rows)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">    for(int i &#x3D; 0; i &lt; row; ++i) &#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">        &#x2F;&#x2F;以ptr的方式访问dst的数据 修改p极为修改dst（指针）</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">        uchar *p &#x3D; dst.ptr&lt;uchar&gt;(i);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">        &#x2F;&#x2F;使两个图像的几何中心重合，采样更合理</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">        &#x2F;&#x2F;将dst的坐标点映射会src</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line">        float y &#x3D; (i + 0.5) * scale_y - 0.5;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line">        &#x2F;&#x2F;int下取整，相当于y值左上角的整数坐标</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">11</span></pre></td><td class="code"><pre><span class="line">        int fy &#x3D; (int)y;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">12</span></pre></td><td class="code"><pre><span class="line">        &#x2F;&#x2F;y为坐标的小数部分</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">13</span></pre></td><td class="code"><pre><span class="line">        y -&#x3D; fy;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">14</span></pre></td><td class="code"><pre><span class="line">        fy &#x3D; std::min(fy, src.rows - 2);  </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">15</span></pre></td><td class="code"><pre><span class="line">    	fy &#x3D; std::max(0, fy); </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">16</span></pre></td><td class="code"><pre><span class="line">        &#x2F;&#x2F;以整数计算速度更快</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">17</span></pre></td><td class="code"><pre><span class="line">        short y1 &#x3D; (1.f - y)*2048;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">18</span></pre></td><td class="code"><pre><span class="line">        short y2 &#x3D; 2048 - y1;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">19</span></pre></td><td class="code"><pre><span class="line">        for(int j &#x3D; 0; j &lt; col; ++j) &#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">20</span></pre></td><td class="code"><pre><span class="line">            &#x2F;&#x2F;trick</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">21</span></pre></td><td class="code"><pre><span class="line">            float x &#x3D; (j + 0.5) * scale_x - 0.5;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">22</span></pre></td><td class="code"><pre><span class="line">            int fx &#x3D; (int)x;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">23</span></pre></td><td class="code"><pre><span class="line">            x -&#x3D; fx;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">24</span></pre></td><td class="code"><pre><span class="line">            if (fx &lt; 0)&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">25</span></pre></td><td class="code"><pre><span class="line">            	x &#x3D; 0, fx &#x3D; 0;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">26</span></pre></td><td class="code"><pre><span class="line">            &#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">27</span></pre></td><td class="code"><pre><span class="line">            if (fx &gt;&#x3D; src.cols -1) &#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">28</span></pre></td><td class="code"><pre><span class="line">            	x &#x3D; 0, fx &#x3D; src.cols -2;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">29</span></pre></td><td class="code"><pre><span class="line">            &#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">30</span></pre></td><td class="code"><pre><span class="line">            &#x2F;&#x2F;trick</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">31</span></pre></td><td class="code"><pre><span class="line">            short x1 &#x3D; (1.f - x) * 2048;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">32</span></pre></td><td class="code"><pre><span class="line">            short x2 &#x3D; 2048 - x1;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">33</span></pre></td><td class="code"><pre><span class="line">            &#x2F;&#x2F;结果右移22位抵消2048的平方</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">34</span></pre></td><td class="code"><pre><span class="line">            int pos &#x3D; i * dst.rows + j</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">35</span></pre></td><td class="code"><pre><span class="line">            p[pos] &#x3D; (src.at&lt;uchar&gt;(fx,fy)*x1*y1 + src.at&lt;uchar&gt;		                                        (fx+1,fy)*x2*y1+src.at&lt;uchar&gt;(fx,fy+1)*x1*y2 +                                            src.at&lt;uchar&gt;(fx+1,fy+1)*x2*y2) &gt;&gt; 22;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">36</span></pre></td><td class="code"><pre><span class="line">        &#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">37</span></pre></td><td class="code"><pre><span class="line">    &#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">38</span></pre></td><td class="code"><pre><span class="line">&#125;</span></pre></td></tr></table></figure>
-
 
     </div>
 
@@ -284,7 +287,7 @@
       <footer class="post-footer">
           <div class="post-tags">
               <a href="/tags/%E5%9B%BE%E5%83%8F%E6%8F%92%E5%80%BC/" rel="tag"># 图像插值</a>
-              <a href="/tags/Biliner-Interpolation/" rel="tag"># Biliner Interpolation</a>
+              <a href="/tags/Bilinear-Interpolation/" rel="tag"># Bilinear Interpolation</a>
           </div>
 
         
@@ -472,7 +475,7 @@
     });
     gitalk.render('gitalk-container');
   }, window.Gitalk);
-</script>
+</script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
 
 </body>
 </html>
