@@ -46,30 +46,35 @@
   };
 </script>
 
-  <meta name="description" content="记录是忘记的第一助手.">
+  <meta name="description" content="线性插值已知两点(x0, y0), (x1, y1)求x0和x1之间某一个位置x对应的y：  \frac{y-y_0}{x-x_0} &#x3D; \frac{y_1-y_0}{x_1-x_0}\quad &#x3D;&amp;gt;\quad y &#x3D; \frac{x_1-x}{x_1-x_0}y_0 + \frac{x-x_0}{x_1-x_0}y_1双线性插值 核心思想是在两个方向分别进行一次线性插值。 求未知函数 f 在点">
+<meta name="keywords" content="图像插值,Bilinear Interpolation">
 <meta property="og:type" content="website">
-<meta property="og:title" content="编辑尼撑">
-<meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;index.html">
+<meta property="og:title" content="Bilinear Interpolation">
+<meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;Bilinear-Interpolation.html">
 <meta property="og:site_name" content="编辑尼撑">
-<meta property="og:description" content="记录是忘记的第一助手.">
+<meta property="og:description" content="线性插值已知两点(x0, y0), (x1, y1)求x0和x1之间某一个位置x对应的y：  \frac{y-y_0}{x-x_0} &#x3D; \frac{y_1-y_0}{x_1-x_0}\quad &#x3D;&amp;gt;\quad y &#x3D; \frac{x_1-x}{x_1-x_0}y_0 + \frac{x-x_0}{x_1-x_0}y_1双线性插值 核心思想是在两个方向分别进行一次线性插值。 求未知函数 f 在点">
 <meta property="og:locale" content="en">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;home&#x2F;qiangchen&#x2F;Pictures&#x2F;BI.png">
+<meta property="og:updated_time" content="2019-12-28T11:23:55.325Z">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;home&#x2F;qiangchen&#x2F;Pictures&#x2F;BI.png">
 
-<link rel="canonical" href="http://yoursite.com/">
+<link rel="canonical" href="http://yoursite.com/Bilinear-Interpolation">
 
 
 <script id="page-configurations">
   // https://hexo.io/docs/variables.html
   CONFIG.page = {
     sidebar: "",
-    isHome: true,
+    isHome: false,
     isPost: false,
-    isPage: false,
+    isPage: true,
     isArchive: false
   };
 </script>
 
-  <title>编辑尼撑</title>
+  <title>Bilinear Interpolation | 编辑尼撑
+  </title>
   
 
 
@@ -201,65 +206,33 @@
       <div class="main-inner">
         <div class="content-wrap">
           
+  
+  
 
           <div class="content">
             
 
   <div class="posts-expand">
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/12/28/BilinerInterpolation/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Qiang Chen">
-      <meta itemprop="description" content="记录是忘记的第一助手.">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="编辑尼撑">
-    </span>
+    
+    
+    
+    <div class="post-block" lang="en">
       <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2019/12/28/BilinerInterpolation/" class="post-title-link" itemprop="url">BilinerInterpolation</a>
-        </h1>
 
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-              
+<h1 class="post-title" itemprop="name headline">Bilinear Interpolation
+</h1>
 
-              <time title="Created: 2019-12-28 19:41:53 / Modified: 19:44:35" itemprop="dateCreated datePublished" datetime="2019-12-28T19:41:53+08:00">2019-12-28</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86/" itemprop="url" rel="index">
-                    <span itemprop="name">图像处理</span>
-                  </a>
-                </span>
-            </span>
+<div class="post-meta">
+  
 
-          
+</div>
 
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
+</header>
 
       
+      
+      
+      <div class="post-body">
           <h3 id="线性插值"><a href="#线性插值" class="headerlink" title="线性插值"></a><strong>线性插值</strong></h3><p>已知两点(x0, y0), (x1, y1)求x0和x1之间某一个位置x对应的y：</p>
 <script type="math/tex; mode=display">
 \frac{y-y_0}{x-x_0} = \frac{y_1-y_0}{x_1-x_0}\quad =>\quad y = \frac{x_1-x}{x_1-x_0}y_0 + \frac{x-x_0}{x_1-x_0}y_1</script><h3 id="双线性插值"><a href="#双线性插值" class="headerlink" title="双线性插值"></a>双线性插值</h3><p><img src="/home/qiangchen/Pictures/BI.png" alt="Biliner Interpolation"></p>
@@ -275,189 +248,22 @@ f(P)\approx \frac{y_2-y}{y_2-y_1}f(R_{1}) + \frac{y-y_1}{y_2-y_1}f(R_{2})\quad �
 <p>下面的code参考自<a href="https://blog.csdn.net/random_repick/article/details/76165851" target="_blank" rel="noopener">C++双线性插值</a></p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">void bilinear(cv::Mat src, cv::Mat dst)&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">    double scale_x &#x3D; (double)(src.cols &#x2F; dst.cols)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">    double scale_y &#x3D; (double)(src.rows &#x2F; dst.rows)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">    for(int i &#x3D; 0; i &lt; row; ++i) &#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">        &#x2F;&#x2F;以ptr的方式访问dst的数据 修改p极为修改dst（指针）</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">        uchar *p &#x3D; dst.ptr&lt;uchar&gt;(i);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">        &#x2F;&#x2F;使两个图像的几何中心重合，采样更合理</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">        &#x2F;&#x2F;将dst的坐标点映射会src</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line">        float y &#x3D; (i + 0.5) * scale_y - 0.5;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line">        &#x2F;&#x2F;int下取整，相当于y值左上角的整数坐标</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">11</span></pre></td><td class="code"><pre><span class="line">        int fy &#x3D; (int)y;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">12</span></pre></td><td class="code"><pre><span class="line">        &#x2F;&#x2F;y为坐标的小数部分</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">13</span></pre></td><td class="code"><pre><span class="line">        y -&#x3D; fy;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">14</span></pre></td><td class="code"><pre><span class="line">        fy &#x3D; std::min(fy, src.rows - 2);  </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">15</span></pre></td><td class="code"><pre><span class="line">    	fy &#x3D; std::max(0, fy); </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">16</span></pre></td><td class="code"><pre><span class="line">        &#x2F;&#x2F;以整数计算速度更快</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">17</span></pre></td><td class="code"><pre><span class="line">        short y1 &#x3D; (1.f - y)*2048;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">18</span></pre></td><td class="code"><pre><span class="line">        short y2 &#x3D; 2048 - y1;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">19</span></pre></td><td class="code"><pre><span class="line">        for(int j &#x3D; 0; j &lt; col; ++j) &#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">20</span></pre></td><td class="code"><pre><span class="line">            &#x2F;&#x2F;trick</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">21</span></pre></td><td class="code"><pre><span class="line">            float x &#x3D; (j + 0.5) * scale_x - 0.5;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">22</span></pre></td><td class="code"><pre><span class="line">            int fx &#x3D; (int)x;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">23</span></pre></td><td class="code"><pre><span class="line">            x -&#x3D; fx;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">24</span></pre></td><td class="code"><pre><span class="line">            if (fx &lt; 0)&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">25</span></pre></td><td class="code"><pre><span class="line">            	x &#x3D; 0, fx &#x3D; 0;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">26</span></pre></td><td class="code"><pre><span class="line">            &#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">27</span></pre></td><td class="code"><pre><span class="line">            if (fx &gt;&#x3D; src.cols -1) &#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">28</span></pre></td><td class="code"><pre><span class="line">            	x &#x3D; 0, fx &#x3D; src.cols -2;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">29</span></pre></td><td class="code"><pre><span class="line">            &#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">30</span></pre></td><td class="code"><pre><span class="line">            &#x2F;&#x2F;trick</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">31</span></pre></td><td class="code"><pre><span class="line">            short x1 &#x3D; (1.f - x) * 2048;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">32</span></pre></td><td class="code"><pre><span class="line">            short x2 &#x3D; 2048 - x1;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">33</span></pre></td><td class="code"><pre><span class="line">            &#x2F;&#x2F;结果右移22位抵消2048的平方</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">34</span></pre></td><td class="code"><pre><span class="line">            int pos &#x3D; i * dst.rows + j</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">35</span></pre></td><td class="code"><pre><span class="line">            p[pos] &#x3D; (src.at&lt;uchar&gt;(fx,fy)*x1*y1 + src.at&lt;uchar&gt;		                                        (fx+1,fy)*x2*y1+src.at&lt;uchar&gt;(fx,fy+1)*x1*y2 +                                            src.at&lt;uchar&gt;(fx+1,fy+1)*x2*y2) &gt;&gt; 22;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">36</span></pre></td><td class="code"><pre><span class="line">        &#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">37</span></pre></td><td class="code"><pre><span class="line">    &#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">38</span></pre></td><td class="code"><pre><span class="line">&#125;</span></pre></td></tr></table></figure>
 
+      </div>
+      
+      
       
     </div>
+    
 
     
     
     
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/12/28/GBDT/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Qiang Chen">
-      <meta itemprop="description" content="记录是忘记的第一助手.">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="编辑尼撑">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2019/12/28/GBDT/" class="post-title-link" itemprop="url">GBDT</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-              
-
-              <time title="Created: 2019-12-28 19:36:41 / Modified: 19:40:50" itemprop="dateCreated datePublished" datetime="2019-12-28T19:36:41+08:00">2019-12-28</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Machine-Learning/" itemprop="url" rel="index">
-                    <span itemprop="name">Machine Learning</span>
-                  </a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h3 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h3><h4 id="GBDT-Gradient-Boosting-Decision-Tree-的优点"><a href="#GBDT-Gradient-Boosting-Decision-Tree-的优点" class="headerlink" title="GBDT(Gradient Boosting Decision Tree)的优点"></a>GBDT(Gradient Boosting Decision Tree)的优点</h4><ol>
-<li>既可以用于分类，也可以用于回归</li>
-<li>可以进行特征筛选（采用树结构）</li>
-<li>实验效果不错</li>
-</ol>
-<h4 id="GBDT训练过程"><a href="#GBDT训练过程" class="headerlink" title="GBDT训练过程"></a>GBDT训练过程</h4><p><img src="/home/qiangchen/software/Hexo/source/_posts/GBDT/GBDT.png" alt="GBDT"></p>
-<p>gbdt通过多轮迭代产生多个足够简单的弱分类器(低方差、高偏差)，将每轮训练得到的弱分类器加权求和得到最终的分类器，并且不断的减小每轮训练过程产生的残差以实现对目标的分类或回归。</p>
-<p><strong>上图是针对单个分类，如果多分类的话（K），同时训练k个CART树，k个树相互独立，单个树的训练过程一样</strong><br><strong>对于CART树生成的过程，重点关注那个特征最合适，这个特征对应的最优特征值切分点是多少</strong></p>
-<p>通过对每个特征的每个特征值，计算损失值，选取其中最小分量的特征作为树的节点，最小分量对应的特征值作为最佳切分点</p>
-<p>弱分类器一般选择<em>分类回归树</em>,必须符合CART模型；弱分类器的参数一般经过经验风险极小化来确定；损失函数(目标函数)有平方损失函数、0-1损失函数、对数损失函数等。</p>
-<h3 id="特征选择"><a href="#特征选择" class="headerlink" title="特征选择"></a>特征选择</h3><ol>
-<li>假设有M个特征，从中选择一个特征j作为二叉树的第一个节点</li>
-<li>对特征j选择一个切分点m，例如，小于m为一类，大于m为一类</li>
-<li>依次迭代，直到特征划分完为止<br><strong>这里面的关键是如何选取最优特征和该特征对应的最优切分点。这也是之后的改进算法出现的一个切入点</strong></li>
-</ol>
-<h3 id="如何使GBDT对数据具有非线性的拟合能力"><a href="#如何使GBDT对数据具有非线性的拟合能力" class="headerlink" title="如何使GBDT对数据具有非线性的拟合能力"></a>如何使GBDT对数据具有非线性的拟合能力</h3><ol>
-<li>CTR预估中，工业届一般使用逻辑回归，但其本身适合处理线性可分的数据</li>
-<li>为了让逻辑回归能够处理非线性数据，可以通过组合不同的特征</li>
-<li>传统的人工特征组合的方式，不仅耗费人力和时间，实验效果也不是很好。因此，希望通过算法自动、高效的寻找有效的特征组合，以提升模型的效果<br><strong>2014年，Facebook提出利用gbdt去产生有效的特征组合，使用GBDT生成两棵树，通过输入X得到最终的叶子节点作为新的特征与原始特征结合，然后输入逻辑回归进行训练，得到了显著的效果提升</strong></li>
-</ol>
-<hr>
-<blockquote>
-<p>Practical Lessons from Predicting Clicks on Ads at Facebook</p>
-</blockquote>
-<hr>
-<h4 id="细节请参考"><a href="#细节请参考" class="headerlink" title="细节请参考"></a>细节请参考</h4><p><a href="https://www.cnblogs.com/always-fight/p/9400346.html" target="_blank" rel="noopener">Blog-GBDT</a><br>[JianShu](</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/11/30/hello-world/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Qiang Chen">
-      <meta itemprop="description" content="记录是忘记的第一助手.">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="编辑尼撑">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2019/11/30/hello-world/" class="post-title-link" itemprop="url">Hello World</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2019-11-30 00:42:58" itemprop="dateCreated datePublished" datetime="2019-11-30T00:42:58+08:00">2019-11-30</time>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">$ hexo server</span></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">$ hexo generate</span></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html" target="_blank" rel="noopener">Deployment</a></p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
   </div>
-
-  
-
 
 
           </div>
           
+    <div class="comments" id="gitalk-container"></div>
 
         </div>
           
@@ -482,6 +288,7 @@ f(P)\approx \frac{y_2-y}{y_2-y_1}f(R_{1}) + \frac{y-y_1}{y_2-y_1}f(R_{2})\quad �
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#线性插值"><span class="nav-number">1.</span> <span class="nav-text">线性插值</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#双线性插值"><span class="nav-number">2.</span> <span class="nav-text">双线性插值</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -646,12 +453,29 @@ f(P)\approx \frac{y_2-y}{y_2-y_1}f(R_{1}) + \frac{y-y_1}{y_2-y_1}f(R_{2})\quad �
   NexT.utils.getScript('//cdn.jsdelivr.net/npm/mathjax@2/MathJax.js?config=TeX-AMS-MML_HTMLorMML', () => {
     MathJax.Hub.Typeset();
   }, window.MathJax);
-</script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+</script>
 
     
 
   
 
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID: '9c00bb4a73071d490d0b',
+      clientSecret: '0466125432b53cefbd6002b7ea866f7e15bbd9c8',
+      repo: 'chenqiang19.github.io',
+      owner: 'chenqiang19',
+      admin: ['chenqiang19'],
+      id: '36fdb754e2a501c5350460547179f77e',
+        language: '',
+      distractionFreeMode: 'true'
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+</script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
 
 </body>
 </html>

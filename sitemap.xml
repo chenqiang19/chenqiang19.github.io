@@ -2,14 +2,28 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>http://yoursite.com/2019/12/28/Bilinear-Interpolation/</loc>
+    <loc>http://yoursite.com/2019/12/28/BilinerInterpolation/</loc>
+    
+    <lastmod>2019-12-28T11:44:35.521Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2019/12/28/GBDT/</loc>
+    
+    <lastmod>2019-12-28T11:40:50.014Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/Bilinear-Interpolation.html</loc>
     
     <lastmod>2019-12-28T11:23:55.325Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://yoursite.com/2019/12/22/GBDT-1/</loc>
+    <loc>http://yoursite.com/GBDT-1.html</loc>
     
     <lastmod>2019-12-28T09:50:23.659Z</lastmod>
     
