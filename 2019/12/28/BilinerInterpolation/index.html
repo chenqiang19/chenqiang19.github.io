@@ -54,10 +54,10 @@
 <meta property="og:site_name" content="编辑尼撑">
 <meta property="og:description" content="线性插值已知两点(x0, y0), (x1, y1)求x0和x1之间某一个位置x对应的y：  \frac{y-y_0}{x-x_0} &#x3D; \frac{y_1-y_0}{x_1-x_0}\quad &#x3D;&amp;gt;\quad y &#x3D; \frac{x_1-x}{x_1-x_0}y_0 + \frac{x-x_0}{x_1-x_0}y_1双线性插值 核心思想是在两个方向分别进行一次线性插值。 求未知函数 f 在点">
 <meta property="og:locale" content="en">
-<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;home&#x2F;qiangchen&#x2F;software&#x2F;Hexo&#x2F;source&#x2F;_posts&#x2F;BilinerInterpolation&#x2F;BilinerInterpolation.png">
-<meta property="og:updated_time" content="2019-12-28T11:54:44.026Z">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;12&#x2F;28&#x2F;BilinerInterpolation&#x2F;BilinerInterpolation.png">
+<meta property="og:updated_time" content="2019-12-28T12:00:06.449Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;home&#x2F;qiangchen&#x2F;software&#x2F;Hexo&#x2F;source&#x2F;_posts&#x2F;BilinerInterpolation&#x2F;BilinerInterpolation.png">
+<meta name="twitter:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;12&#x2F;28&#x2F;BilinerInterpolation&#x2F;BilinerInterpolation.png">
 
 <link rel="canonical" href="http://yoursite.com/2019/12/28/BilinerInterpolation/">
 
@@ -238,7 +238,7 @@
               <span class="post-meta-item-text">Posted on</span>
               
 
-              <time title="Created: 2019-12-28 19:41:53 / Modified: 19:54:44" itemprop="dateCreated datePublished" datetime="2019-12-28T19:41:53+08:00">2019-12-28</time>
+              <time title="Created: 2019-12-28 19:41:53 / Modified: 20:00:06" itemprop="dateCreated datePublished" datetime="2019-12-28T19:41:53+08:00">2019-12-28</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -265,7 +265,7 @@
       
         <h3 id="线性插值"><a href="#线性插值" class="headerlink" title="线性插值"></a><strong>线性插值</strong></h3><p>已知两点(x0, y0), (x1, y1)求x0和x1之间某一个位置x对应的y：</p>
 <script type="math/tex; mode=display">
-\frac{y-y_0}{x-x_0} = \frac{y_1-y_0}{x_1-x_0}\quad =>\quad y = \frac{x_1-x}{x_1-x_0}y_0 + \frac{x-x_0}{x_1-x_0}y_1</script><h3 id="双线性插值"><a href="#双线性插值" class="headerlink" title="双线性插值"></a>双线性插值</h3><p><img src="/home/qiangchen/software/Hexo/source/_posts/BilinerInterpolation/BilinerInterpolation.png" alt></p>
+\frac{y-y_0}{x-x_0} = \frac{y_1-y_0}{x_1-x_0}\quad =>\quad y = \frac{x_1-x}{x_1-x_0}y_0 + \frac{x-x_0}{x_1-x_0}y_1</script><h3 id="双线性插值"><a href="#双线性插值" class="headerlink" title="双线性插值"></a>双线性插值</h3><p><img src="/2019/12/28/BilinerInterpolation/BilinerInterpolation.png" alt="BI"></p>
 <p>核心思想是在两个方向分别进行一次线性插值。</p>
 <p>求未知函数 f 在点 P = (x, y) 的值，假设我们已知函数 f 在 Q11 = (x1, y1)、Q12 = (x1, y2), Q21 = (x2, y1) 以及 Q22 = (x2, y2) 四个点的值。f可以是一个像素点的像素值。首先在 x 方向进行线性插值：</p>
 <script type="math/tex; mode=display">

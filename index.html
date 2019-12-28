@@ -235,7 +235,7 @@
               <span class="post-meta-item-text">Posted on</span>
               
 
-              <time title="Created: 2019-12-28 19:41:53 / Modified: 19:54:44" itemprop="dateCreated datePublished" datetime="2019-12-28T19:41:53+08:00">2019-12-28</time>
+              <time title="Created: 2019-12-28 19:41:53 / Modified: 20:00:06" itemprop="dateCreated datePublished" datetime="2019-12-28T19:41:53+08:00">2019-12-28</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -262,7 +262,7 @@
       
           <h3 id="线性插值"><a href="#线性插值" class="headerlink" title="线性插值"></a><strong>线性插值</strong></h3><p>已知两点(x0, y0), (x1, y1)求x0和x1之间某一个位置x对应的y：</p>
 <script type="math/tex; mode=display">
-\frac{y-y_0}{x-x_0} = \frac{y_1-y_0}{x_1-x_0}\quad =>\quad y = \frac{x_1-x}{x_1-x_0}y_0 + \frac{x-x_0}{x_1-x_0}y_1</script><h3 id="双线性插值"><a href="#双线性插值" class="headerlink" title="双线性插值"></a>双线性插值</h3><p><img src="/home/qiangchen/software/Hexo/source/_posts/BilinerInterpolation/BilinerInterpolation.png" alt></p>
+\frac{y-y_0}{x-x_0} = \frac{y_1-y_0}{x_1-x_0}\quad =>\quad y = \frac{x_1-x}{x_1-x_0}y_0 + \frac{x-x_0}{x_1-x_0}y_1</script><h3 id="双线性插值"><a href="#双线性插值" class="headerlink" title="双线性插值"></a>双线性插值</h3><p><img src="/2019/12/28/BilinerInterpolation/BilinerInterpolation.png" alt="BI"></p>
 <p>核心思想是在两个方向分别进行一次线性插值。</p>
 <p>求未知函数 f 在点 P = (x, y) 的值，假设我们已知函数 f 在 Q11 = (x1, y1)、Q12 = (x1, y2), Q21 = (x2, y1) 以及 Q22 = (x2, y2) 四个点的值。f可以是一个像素点的像素值。首先在 x 方向进行线性插值：</p>
 <script type="math/tex; mode=display">
@@ -318,7 +318,7 @@ f(P)\approx \frac{y_2-y}{y_2-y_1}f(R_{1}) + \frac{y-y_1}{y_2-y_1}f(R_{2})\quad �
               <span class="post-meta-item-text">Posted on</span>
               
 
-              <time title="Created: 2019-12-28 19:36:41 / Modified: 19:40:50" itemprop="dateCreated datePublished" datetime="2019-12-28T19:36:41+08:00">2019-12-28</time>
+              <time title="Created: 2019-12-28 19:36:41 / Modified: 20:00:20" itemprop="dateCreated datePublished" datetime="2019-12-28T19:36:41+08:00">2019-12-28</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -348,7 +348,7 @@ f(P)\approx \frac{y_2-y}{y_2-y_1}f(R_{1}) + \frac{y-y_1}{y_2-y_1}f(R_{2})\quad �
 <li>可以进行特征筛选（采用树结构）</li>
 <li>实验效果不错</li>
 </ol>
-<h4 id="GBDT训练过程"><a href="#GBDT训练过程" class="headerlink" title="GBDT训练过程"></a>GBDT训练过程</h4><p><img src="/home/qiangchen/software/Hexo/source/_posts/GBDT/GBDT.png" alt="GBDT"></p>
+<h4 id="GBDT训练过程"><a href="#GBDT训练过程" class="headerlink" title="GBDT训练过程"></a>GBDT训练过程</h4><p><img src="/2019/12/28/GBDT/GBDT.png" alt="GBDT"></p>
 <p>gbdt通过多轮迭代产生多个足够简单的弱分类器(低方差、高偏差)，将每轮训练得到的弱分类器加权求和得到最终的分类器，并且不断的减小每轮训练过程产生的残差以实现对目标的分类或回归。</p>
 <p><strong>上图是针对单个分类，如果多分类的话（K），同时训练k个CART树，k个树相互独立，单个树的训练过程一样</strong><br><strong>对于CART树生成的过程，重点关注那个特征最合适，这个特征对应的最优特征值切分点是多少</strong></p>
 <p>通过对每个特征的每个特征值，计算损失值，选取其中最小分量的特征作为树的节点，最小分量对应的特征值作为最佳切分点</p>
