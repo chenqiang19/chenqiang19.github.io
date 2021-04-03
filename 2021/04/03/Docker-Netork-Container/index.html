@@ -46,15 +46,15 @@
   };
 </script>
 
-  <meta name="description" content="Docker������ͨ����������������໥�����ģ�Ҫ��������ͨ�ţ�����ѧϰ��������֪ʶdocker-compose �����ĸ���������������Լ���һ��Ĭ����������Ҫ�ڲ�ͬ��������ͨ�ţ���Ҫ�Զ��幫�����磬eg. mysql����+nacos���� �鿴 Ĭ������1$ docker netwo">
+  <meta name="description" content="Docker容器间通信容器间的网络是相互独立的，要在容器间通信，必须学习网络的相关知识docker-compose 创建的各个容器都会产生自己的一个默认网络所以要在不同的容器间通信，需要自定义公用网络，eg. mysql容器+nacos容器 查看 默认网络1$ docker network ls 几种网络模式：  bridge: 为每一个容器分配、设置IP， 并将容器链接到docker0的虚拟网桥">
 <meta name="keywords" content="Docker,Docker network">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Docker-Netork-Container">
 <meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2021&#x2F;04&#x2F;03&#x2F;Docker-Netork-Container&#x2F;index.html">
 <meta property="og:site_name" content="编辑尼撑">
-<meta property="og:description" content="Docker������ͨ����������������໥�����ģ�Ҫ��������ͨ�ţ�����ѧϰ��������֪ʶdocker-compose �����ĸ���������������Լ���һ��Ĭ����������Ҫ�ڲ�ͬ��������ͨ�ţ���Ҫ�Զ��幫�����磬eg. mysql����+nacos���� �鿴 Ĭ������1$ docker netwo">
+<meta property="og:description" content="Docker容器间通信容器间的网络是相互独立的，要在容器间通信，必须学习网络的相关知识docker-compose 创建的各个容器都会产生自己的一个默认网络所以要在不同的容器间通信，需要自定义公用网络，eg. mysql容器+nacos容器 查看 默认网络1$ docker network ls 几种网络模式：  bridge: 为每一个容器分配、设置IP， 并将容器链接到docker0的虚拟网桥">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:updated_time" content="2021-04-03T12:43:22.758Z">
+<meta property="og:updated_time" content="2021-04-03T12:44:27.332Z">
 <meta name="twitter:card" content="summary">
 
 <link rel="canonical" href="http://yoursite.com/2021/04/03/Docker-Netork-Container/">
@@ -236,7 +236,7 @@
               <span class="post-meta-item-text">Posted on</span>
               
 
-              <time title="Created: 2021-04-03 17:14:13 / Modified: 20:43:22" itemprop="dateCreated datePublished" datetime="2021-04-03T17:14:13+08:00">2021-04-03</time>
+              <time title="Created: 2021-04-03 17:14:13 / Modified: 20:44:27" itemprop="dateCreated datePublished" datetime="2021-04-03T17:14:13+08:00">2021-04-03</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -267,28 +267,28 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h3 id="Docker������ͨ��"><a href="#Docker������ͨ��" class="headerlink" title="Docker������ͨ��"></a>Docker������ͨ��</h3><p>��������������໥�����ģ�Ҫ��������ͨ�ţ�����ѧϰ��������֪ʶ<br>docker-compose �����ĸ���������������Լ���һ��Ĭ������<br>����Ҫ�ڲ�ͬ��������ͨ�ţ���Ҫ�Զ��幫�����磬eg. mysql����+nacos����</p>
-<p>�鿴 Ĭ������<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">$ docker network ls</span></pre></td></tr></table></figure></p>
-<p>��������ģʽ��</p>
+        <h3 id="Docker容器间通信"><a href="#Docker容器间通信" class="headerlink" title="Docker容器间通信"></a>Docker容器间通信</h3><p>容器间的网络是相互独立的，要在容器间通信，必须学习网络的相关知识<br>docker-compose 创建的各个容器都会产生自己的一个默认网络<br>所以要在不同的容器间通信，需要自定义公用网络，eg. mysql容器+nacos容器</p>
+<p>查看 默认网络<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">$ docker network ls</span></pre></td></tr></table></figure></p>
+<p>几种网络模式：</p>
 <ol>
-<li>bridge: Ϊÿһ���������䡢����IP�� �����������ӵ�docker0����������(Ĭ��)��</li>
-<li>host: ����������Լ���������ʹ��������IP�Ͷ˿ڣ�</li>
-<li>none:����ӵ�ж�����namespace, ��û�ж���������ã�</li>
-<li>container: �������ᴴ���Լ�����������ָ������������IP���˿ڡ�</li>
+<li>bridge: 为每一个容器分配、设置IP， 并将容器链接到docker0的虚拟网桥(默认)；</li>
+<li>host: 不会虚拟出自己的网卡，使用宿主的IP和端口；</li>
+<li>none:容器拥有独立的namespace, 但没有对其进行设置；</li>
+<li>container: 容器不会创建自己的网卡，和指定的容器共享IP、端口。</li>
 </ol>
-<p>**bridge: Docker�ػ����̴���һ��������̫����docker0���½������Զ��Žӵ��ýӿ�<br>���������ϵ����������Զ�ת�����ݰ�</p>
-<p>Ĭ�ϣ��ػ����̴���һ�ԶԵ������豸�ӿ�veth pair,һ������Ϊeth0,��һ������Ϊvethxxx��ʵ����������������ͨ��<br>——veth pari����——<br>veth pair�������ԣ���֤������һ��veth���յ����籨�ģ����Ὣ���Ĵ������һ��</p>
-<p>�������鿴������Ϣ<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">$ ip addr</span></pre></td></tr></table></figure></p>
-<p>Docker ������IP��Gateway�鿴 NetworkSettings<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">$ docker inspect ����ID|������</span></pre></td></tr></table></figure></p>
-<p>Docker �鿴����bridgeģʽ�µ�����<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">$ docker network inspect bridge</span></pre></td></tr></table></figure></p>
-<p>**host: ��������ֱ��ʹ����������IP��������ͨ�ţ���������NATת��<br>ȱ�㣺����������ȱ���˸�����</p>
-<p>none: �������繦�ܣ�ֻ��local�ӿڣ����Ը�����������������綨��</p>
-<p>container: Docker�н�Ϊ�ر������ģʽ��—net container:�����е���������|ID<br>������������һ������ջ��ʹ��localhost��Ч����ͨ��</p>
-<p>������ͨ�ţ�Docker1.1.0��ʼ��docker daemon��Ƕ��һ��DNS server,ʹ��������ֱ��ͨ��������ͨ��<br>����1����������ʱʹ��—name������2��ֻ�����Զ����������ʹ�á�<br>�����Զ�������<br>docker network create “common_network” —driver “network type(bridge|host|none)”</p>
-<p>��������: docker network connect �������� ��������<br>�Ͽ�����: docker network disconnect �������� ��������<br>�Ƴ�����: docker network rm ��������</p>
-<p>�鿴����֮���Ƿ����pingͨ<br>1���鿴�����ľ���IP<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">$ docker network inspect bridge</span></pre></td></tr></table></figure></p>
-<p>2�����������Ƿ��pingͨ<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">$ docker <span class="built_in">exec</span> -it contain_1 ping contain_2IP(192.1.19.0)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">$ docker <span class="built_in">exec</span> -it contain_1 ping contain_2</span></pre></td></tr></table></figure></p>
-<p>3������ʹ����ͬ������<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">$ docker run -di --name contain_name_1 --net custom_network image</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">$ docker run -di --name contain_name_2 --net custom_network image</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">$ docker network inspect custom_network <span class="comment">#�鿴��������������IP��Ϣ</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">�ο�: &lt;https://zhuanlan.zhihu.com/p/212772001&gt;</span></pre></td></tr></table></figure></p>
+<p>**bridge: Docker守护进程创建一个虚拟以太网桥docker0，新建容器自动桥接到该接口<br>附加在其上的网卡可以自动转发数据包</p>
+<p>默认，守护进程创建一对对等虚拟设备接口veth pair,一个设置为eth0,另一个设置为vethxxx，实现宿主机与容器的通信<br>——veth pari技术——<br>veth pair技术特性：保证如论哪一个veth接收到网络报文，都会将报文传输给另一方</p>
+<p>宿主机查看网卡信息<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">$ ip addr</span></pre></td></tr></table></figure></p>
+<p>Docker 容器的IP和Gateway查看 NetworkSettings<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">$ docker inspect 容器ID|容器名</span></pre></td></tr></table></figure></p>
+<p>Docker 查看所有bridge模式下的容器<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">$ docker network inspect bridge</span></pre></td></tr></table></figure></p>
+<p>**host: 容器可以直接使用宿主机的IP与外界进行通信，无需额外的NAT转换<br>缺点：容器的网络缺少了隔离性</p>
+<p>none: 禁用网络功能，只有local接口，可以根据需求做更多的网络定制</p>
+<p>container: Docker中较为特别的网络模式，—net container:已运行的容器名称|ID<br>两个容器共享一个网络栈，使用localhost高效快速通信</p>
+<p>容器间通信，Docker1.1.0开始，docker daemon内嵌了一个DNS server,使用器可以直接通过容器名通信<br>需求：1、创建容器时使用—name命名；2、只能在自定义的网络中使用。<br>创建自定义网络<br>docker network create “common_network” —driver “network type(bridge|host|none)”</p>
+<p>连接网络: docker network connect 网络名称 容器名称<br>断开网络: docker network disconnect 网络名称 容器名称<br>移除网络: docker network rm 网络名称</p>
+<p>查看容器之间是否可以ping通<br>1、查看容器的具体IP<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">$ docker network inspect bridge</span></pre></td></tr></table></figure></p>
+<p>2、测试容器是否可ping通<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">$ docker <span class="built_in">exec</span> -it contain_1 ping contain_2IP(192.1.19.0)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">$ docker <span class="built_in">exec</span> -it contain_1 ping contain_2</span></pre></td></tr></table></figure></p>
+<p>3、容器使用相同的网络<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">$ docker run -di --name contain_name_1 --net custom_network image</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">$ docker run -di --name contain_name_2 --net custom_network image</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">$ docker network inspect custom_network <span class="comment">#查看上述两个容器的IP信息</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">参考: &lt;https://zhuanlan.zhihu.com/p/212772001&gt;</span></pre></td></tr></table></figure></p>
 
     </div>
 
@@ -353,7 +353,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Docker������ͨ��"><span class="nav-number">1.</span> <span class="nav-text">Docker������ͨ��</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Docker容器间通信"><span class="nav-number">1.</span> <span class="nav-text">Docker容器间通信</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
