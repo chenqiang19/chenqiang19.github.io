@@ -54,7 +54,7 @@
 <meta property="og:site_name" content="编辑尼撑">
 <meta property="og:description" content="Docker������ͨ����������������໥�����ģ�Ҫ��������ͨ�ţ�����ѧϰ��������֪ʶdocker-compose �����ĸ���������������Լ���һ��Ĭ����������Ҫ�ڲ�ͬ��������ͨ�ţ���Ҫ�Զ��幫�����磬eg. mysql����+nacos���� �鿴 Ĭ������1$ docker netwo">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:updated_time" content="2021-04-03T12:36:58.376Z">
+<meta property="og:updated_time" content="2021-04-03T12:43:22.758Z">
 <meta name="twitter:card" content="summary">
 
 <link rel="canonical" href="http://yoursite.com/2021/04/03/Docker-Netork-Container/">
@@ -236,7 +236,7 @@
               <span class="post-meta-item-text">Posted on</span>
               
 
-              <time title="Created: 2021-04-03 17:14:13 / Modified: 20:36:58" itemprop="dateCreated datePublished" datetime="2021-04-03T17:14:13+08:00">2021-04-03</time>
+              <time title="Created: 2021-04-03 17:14:13 / Modified: 20:43:22" itemprop="dateCreated datePublished" datetime="2021-04-03T17:14:13+08:00">2021-04-03</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -287,7 +287,7 @@
 <p>������ͨ�ţ�Docker1.1.0��ʼ��docker daemon��Ƕ��һ��DNS server,ʹ��������ֱ��ͨ��������ͨ��<br>����1����������ʱʹ��—name������2��ֻ�����Զ����������ʹ�á�<br>�����Զ�������<br>docker network create “common_network” —driver “network type(bridge|host|none)”</p>
 <p>��������: docker network connect �������� ��������<br>�Ͽ�����: docker network disconnect �������� ��������<br>�Ƴ�����: docker network rm ��������</p>
 <p>�鿴����֮���Ƿ����pingͨ<br>1���鿴�����ľ���IP<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">$ docker network inspect bridge</span></pre></td></tr></table></figure></p>
-<p>2�����������Ƿ��pingͨ<br>������ bash<br>$ docker exec -it contain_1 ping contain_2IP(192.1.19.0)<br>$ docker exec -it contain_1 ping contain_2<br>������</p>
+<p>2�����������Ƿ��pingͨ<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">$ docker <span class="built_in">exec</span> -it contain_1 ping contain_2IP(192.1.19.0)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">$ docker <span class="built_in">exec</span> -it contain_1 ping contain_2</span></pre></td></tr></table></figure></p>
 <p>3������ʹ����ͬ������<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">$ docker run -di --name contain_name_1 --net custom_network image</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">$ docker run -di --name contain_name_2 --net custom_network image</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">$ docker network inspect custom_network <span class="comment">#�鿴��������������IP��Ϣ</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">�ο�: &lt;https://zhuanlan.zhihu.com/p/212772001&gt;</span></pre></td></tr></table></figure></p>
 
     </div>
