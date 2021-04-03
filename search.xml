@@ -1,6 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>MySQL-Install-In-Windows10</title>
+    <url>/2021/04/03/MySQL-Install-In-Windows10/</url>
+    <content><![CDATA[<h3 id="MySQL8-Install-in-Windows10"><a href="#MySQL8-Install-in-Windows10" class="headerlink" title="MySQL8 Install in Windows10"></a>MySQL8 Install in Windows10</h3><p>1�� Use mysql-installer-community-8.0.23.0.msi to install<br>download url: <a href="https://www.mysql.com/cn/downloads/" target="_blank" rel="noopener">https://www.mysql.com/cn/downloads/</a>  </p>
+<p>Step1: choise MySQL Community<br><img src="/2021/04/03/MySQL-Install-In-Windows10/mysql_0.png" alt="DOWNLOAD"><br>Step2: choise System<br><img src="/2021/04/03/MySQL-Install-In-Windows10/mysql_1.png" alt="DOWNLOAD"><br>Step3: choise Custom<br><img src="/2021/04/03/MySQL-Install-In-Windows10/mysql_2.png" alt="DOWNLOAD"><br>Step3: choise install product<br><img src="/2021/04/03/MySQL-Install-In-Windows10/mysql_3.png" alt="DOWNLOAD"><br>Step3: next.. next..<br><img src="/2021/04/03/MySQL-Install-In-Windows10/mysql_4.png" alt="DOWNLOAD"><br>Step4: input login in password<br><img src="/2021/04/03/MySQL-Install-In-Windows10/mysql_5.png" alt="DOWNLOAD"><br>Step5: drop Start the MySQL Server at System Startup<br><img src="/2021/04/03/MySQL-Install-In-Windows10/mysql_6.png" alt="DOWNLOAD"><br>Step6: Execute<br><img src="/2021/04/03/MySQL-Install-In-Windows10/mysql_7.png" alt="DOWNLOAD"><br>Step7: Finish!<br><img src="/2021/04/03/MySQL-Install-In-Windows10/mysql_8.png" alt="DOWNLOAD">  </p>
+<p>Verity:<br>2��Add environment:compute(right click)-&gt;property-&gt;advance property-&gt;env variable<br>2.1��MYSQL_HOME-&gt;C:\Program Files\MySQL\MySQL Server 8.0<br>2.2��Path: Add-&gt;%MYSQL_HOME%\bin  </p>
+<p>cmd(Administrator)-&gt;mysql —port=3306 -uroot -pxxxxxx  </p>
+<p>3��if step7 is unsuccessful!  Starting the server error!<br>The configuration for MySQL Server 8.0.23 has failed  </p>
+<p>3.1 remove mysql install<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">mysqld --remove mysql</span></pre></td></tr><tr><td class="code"><pre><span class="line">mysqld --remove mysql80</span></pre></td></tr></table></figure></p>
+<p>3.2 init<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">mysqld --initialize-insecure --user&#x3D;mysql</span></pre></td></tr></table></figure></p>
+<p>3.3 create server<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">mysqld --install msyql</span></pre></td></tr></table></figure></p>
+<p>3.4 start server<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">net start mysql</span></pre></td></tr></table></figure></p>
+<p>3.5 login in<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">mysql -uroot -p (passward is empty, you kan search passward from $MSYQLPATH&#x2F;data&#x2F;***.err)</span></pre></td></tr></table></figure><br>eg. C:\\Program Files\\MySQL\\MySQL Server 8.0\\data\\DESKTOP-PGENXXX.err</p>
+<p>4��You can install Mysql with zip package, but you need configuration by yourself<br>download url: <a href="https://dev.mysql.com/downloads/mysql/" target="_blank" rel="noopener">https://dev.mysql.com/downloads/mysql/</a><br>4.1 unzip<br>4.2 touch my.ini file,<br>[mysqld]<br>port=3306<br>basedir=D:\\xxxx\\xxxx #(zip path, aim to load my.ini file)<br>datadir=D:\\xxxx\\xxxx\data #(storage mysql data)<br>max_connections=200<br>character-set-server=utf8<br>default-storage-engine=INNODB  #(default storage engine)</p>
+<p>[mysql]<br>default-character-set=utf8<br>[client]<br>port=3306<br>default-character-set=utf8</p>
+<p>4.3 install mysql<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">mysqld --initialize-insecure --user&#x3D;mysql --console #(console will show default login in passward)</span></pre></td></tr><tr><td class="code"><pre><span class="line">mysqld -install</span></pre></td></tr><tr><td class="code"><pre><span class="line">net start mysql</span></pre></td></tr><tr><td class="code"><pre><span class="line">mysql -uroot -pxxxx</span></pre></td></tr></table></figure></p>
+<p>5��reset mysql passward<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">net stop mysql</span></pre></td></tr><tr><td class="code"><pre><span class="line">mysqld --console --skip-grant-tables --shared-memory</span></pre></td></tr><tr><td class="code"><pre><span class="line">mysql -uroot -p</span></pre></td></tr><tr><td class="code"><pre><span class="line">use mysql;</span></pre></td></tr><tr><td class="code"><pre><span class="line">update user set authentication_string&#x3D;&#39;&#39; where user&#x3D;��root&#39;;  #(passward set null)</span></pre></td></tr><tr><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="code"><pre><span class="line">net start mysql</span></pre></td></tr><tr><td class="code"><pre><span class="line">mysql -u root -p</span></pre></td></tr><tr><td class="code"><pre><span class="line">alter user ��root&#39;@��localhost&#39; identified with mysql_native_password BY &#39;xxxxxx&#39;</span></pre></td></tr><tr><td class="code"><pre><span class="line">flush privileges;</span></pre></td></tr><tr><td class="code"><pre><span class="line">exit;</span></pre></td></tr></table></figure></p>
+]]></content>
+      <categories>
+        <category>SoftWare</category>
+        <category>MySQL8 Install</category>
+      </categories>
+      <tags>
+        <tag>SoftWare</tag>
+        <tag>MySQL8 Install</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Ubuntu18.04_RabbitMQ_Install</title>
     <url>/2020/11/14/Ubuntu18-04-RabbitMQ-Install/</url>
     <content><![CDATA[<h3 id="RabbitMQ-Install-in-Ubuntu18-04"><a href="#RabbitMQ-Install-in-Ubuntu18-04" class="headerlink" title="RabbitMQ Install in Ubuntu18.04"></a>RabbitMQ Install in Ubuntu18.04</h3><ol>
