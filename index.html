@@ -233,9 +233,8 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2021-04-03 17:28:53 / 修改时间：17:19:35" itemprop="dateCreated datePublished" datetime="2021-04-03T17:28:53+08:00">2021-04-03</time>
+              <time title="创建时间：2021-04-03 20:51:40" itemprop="dateCreated datePublished" datetime="2021-04-03T20:51:40+08:00">2021-04-03</time>
             </span>
 
           
@@ -264,6 +263,7 @@
 <p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p>
 <h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span></pre></td></tr></table></figure>
 <p>More info: <a href="https://hexo.io/docs/one-command-deployment.html" target="_blank" rel="noopener">Deployment</a></p>
+<p>If you want to show Chinese, you must make sure md is saved with utf-8</p>
 
       
     </div>
@@ -308,7 +308,7 @@
               <span class="post-meta-item-text">发表于</span>
               
 
-              <time title="创建时间：2021-04-03 17:14:13 / 修改时间：20:44:27" itemprop="dateCreated datePublished" datetime="2021-04-03T17:14:13+08:00">2021-04-03</time>
+              <time title="创建时间：2021-04-03 17:14:13 / 修改时间：20:53:12" itemprop="dateCreated datePublished" datetime="2021-04-03T17:14:13+08:00">2021-04-03</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -352,8 +352,7 @@
 <p>默认，守护进程创建一对对等虚拟设备接口veth pair,一个设置为eth0,另一个设置为vethxxx，实现宿主机与容器的通信<br>——veth pari技术——<br>veth pair技术特性：保证如论哪一个veth接收到网络报文，都会将报文传输给另一方</p>
 <p>宿主机查看网卡信息<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">$ ip addr</span></pre></td></tr></table></figure></p>
 <p>Docker 容器的IP和Gateway查看 NetworkSettings<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">$ docker inspect 容器ID|容器名</span></pre></td></tr></table></figure></p>
-<p>Docker 查看所有bridge模式下的容器<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">$ docker network inspect bridge</span></pre></td></tr></table></figure></p>
-<p>**host: 容器可以直接使用宿主机的IP与外界进行通信，无需额外的NAT转换<br>缺点：容器的网络缺少了隔离性</p>
+<p>Docker 查看所有bridge模式下的容器<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">$ docker network inspect bridge</span></pre></td></tr></table></figure><br>host: 容器可以直接使用宿主机的IP与外界进行通信，无需额外的NAT转换<br>缺点：容器的网络缺少了隔离性</p>
 <p>none: 禁用网络功能，只有local接口，可以根据需求做更多的网络定制</p>
 <p>container: Docker中较为特别的网络模式，—net container:已运行的容器名称|ID<br>两个容器共享一个网络栈，使用localhost高效快速通信</p>
 <p>容器间通信，Docker1.1.0开始，docker daemon内嵌了一个DNS server,使用器可以直接通过容器名通信<br>需求：1、创建容器时使用—name命名；2、只能在自定义的网络中使用。<br>创建自定义网络<br>docker network create “common_network” —driver “network type(bridge|host|none)”</p>
