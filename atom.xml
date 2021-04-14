@@ -73,7 +73,7 @@
     <link href="http://yoursite.com/2021/04/14/Tensorflow-Source-Code-Learning/"/>
     <id>http://yoursite.com/2021/04/14/Tensorflow-Source-Code-Learning/</id>
     <published>2021-04-14T13:16:49.000Z</published>
-    <updated>2021-04-14T13:37:03.421Z</updated>
+    <updated>2021-04-14T13:41:48.620Z</updated>
     
     <content type="html"><![CDATA[<h3 id="Tensorflow-framework����"><a href="#Tensorflow-framework����" class="headerlink" title="Tensorflow framework����"></a>Tensorflow framework����</h3><p>1��ǰ�˽ӿ����Ե�֧�֣�ͨ��swigʵ������������C/C++�ı�д�ĳ���������ӣ��磺Java,Python��<br>2��ǰ���session�Ĺ���<br>3��graph�Ĺ��������ѡ����к�ִ��<br>4��Operation��Register��Run<br>5��ģ����ͨ�ţ����غͷֲ�ʽ����<br>6�����غͷֲ�ʽ����ģʽ<br>7��CPU��GPU��TPU���칹�豸��֧��</p><p>���������C APIΪ������Ϊǰ�����<br>ǰ�˸���graph�Ĺ����������ݸ�master<br>��˸����ṩ����ʱ��������Ϊ4��<br>1������ʱ��ͼ�Ľ��ܣ���֦�����ŵȲ���<br>2������㣺�ṩop���ӵ��ں�ʵ��<br>3��ͨ�Ų㣺�����ͨ��<br>4���豸�㣺�칹�豸��֧��</p>]]></content>
     
