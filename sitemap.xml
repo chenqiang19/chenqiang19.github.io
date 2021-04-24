@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://yoursite.com/2021/04/03/MySQL-Install-In-Windows10/</loc>
+    
+    <lastmod>2021-04-24T08:54:19.304Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://yoursite.com/2021/04/24/Spring-Boot-Learn/</loc>
     
     <lastmod>2021-04-24T08:45:59.838Z</lastmod>
@@ -19,13 +26,6 @@
     <loc>http://yoursite.com/2020/11/14/Ubuntu18-04-RabbitMQ-Install/</loc>
     
     <lastmod>2021-04-14T14:02:31.308Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://yoursite.com/2021/04/03/MySQL-Install-In-Windows10/</loc>
-    
-    <lastmod>2021-04-14T14:02:02.060Z</lastmod>
     
   </url>
   
