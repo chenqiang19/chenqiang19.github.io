@@ -210,6 +210,85 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/04/24/Spring-Boot-DB/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Qiang Chen">
+      <meta itemprop="description" content="记录是忘记的第一助手.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="编辑尼撑">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/04/24/Spring-Boot-DB/" class="post-title-link" itemprop="url">Spring-Boot-DB</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2021-04-24 18:28:31 / 修改时间：19:04:48" itemprop="dateCreated datePublished" datetime="2021-04-24T18:28:31+08:00">2021-04-24</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Cloud-Compute/" itemprop="url" rel="index">
+                    <span itemprop="name">Cloud Compute</span>
+                  </a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="Spring-Boot连接数据库学习"><a href="#Spring-Boot连接数据库学习" class="headerlink" title="Spring Boot连接数据库学习"></a>Spring Boot连接数据库学习</h2><p>1、Mysql的版本不同依赖和配置信息也不同<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">查看mysql版本</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">$ mysql -uroot -p******</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">&gt; select version();</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">&gt; exit;</span></pre></td></tr></table></figure><br>添加mysql依赖<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">&lt;dependency&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">    &lt;groupId&gt;mysql&lt;&#x2F;groupId&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">    &lt;artifactId&gt;mysql-connector-java&lt;&#x2F;artifactId&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">    &lt;version&gt;8.0.12&lt;&#x2F;version&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">&lt;&#x2F;dependency&gt;</span></pre></td></tr></table></figure><br>数据源配置，在application.properties<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line"># 数据源配置，请修改为实际配置</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">spring.datasource.url&#x3D;jdbc:mysql:&#x2F;&#x2F;localhost:3306&#x2F;databasename?serverTimezone&#x3D;Asia&#x2F;Shanghai&amp;zeroDateTimeBehavior&#x3D;convertToNull&amp;autoReconnect&#x3D;true&amp;useSSL&#x3D;false&amp;failOverReadOnly&#x3D;false</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">spring.datasource.username&#x3D;bimengine</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">spring.datasource.password&#x3D;fgBQLZpgDaxH7xuu</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">spring.datasource.driver-class-name&#x3D;com.mysql.cj.jdbc.Driver</span></pre></td></tr></table></figure></p>
+<p>问题：SpringBoot配置JDBC连接MySQL数据库的时候遇到了报错：HikariPool-1 - Exception during pool initialization</p>
+<ul>
+<li>检查application.properties-&gt;spring.datasource中的url是否是对的，例如数据库名等</li>
+<li>检查用户名和密码</li>
+<li>mysql5和mysql8使用的driver是不一样的注意区别</li>
+<li>检查时区，url中添加&amp;serverTimezone=UTC</li>
+</ul>
+<p>eg:spring.datasource.url=jdbc:mysql://localhost:3306/movie?useUnicode=true&amp;characterEncoding=utf-8&amp;serverTimezone=UTC</p>
+<p>2、添加其他数据库，待写</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/04/24/hello-world/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -800,63 +879,6 @@
   
   
 
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/04/14/Deep-Learning/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Qiang Chen">
-      <meta itemprop="description" content="记录是忘记的第一助手.">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="编辑尼撑">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/04/14/Deep-Learning/" class="post-title-link" itemprop="url">Deep-Learning</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2021-04-14 21:14:54" itemprop="dateCreated datePublished" datetime="2021-04-14T21:14:54+08:00">2021-04-14</time>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
   </div>
 
   
@@ -905,7 +927,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">15</span>
+          <span class="site-state-item-count">16</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -918,7 +940,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">10</span>
+        <span class="site-state-item-count">11</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
