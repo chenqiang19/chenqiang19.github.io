@@ -210,7 +210,10 @@ public class AuthController {
 <ul>
 <li>File-&gt;New-&gt;project-&gt;Spring Initialize-&gt;Next</li>
 <li>填写Group、Artifact、Language、Java Version、Version、Name、Description</li>
-<li>Next-&gt;Web-&gt;Spring Web(随spring boot版本不同而不同)-&gt;Next-&gt;Finish<br><img src="/2021/04/24/Spring-Boot-Learn/1.png" alt="new"></li>
+<li>Next-&gt;Web-&gt;Spring Web(随spring boot版本不同而不同)-&gt;Next-&gt;Finish</li>
+</ul>
+<p><img src="/2021/04/24/Spring-Boot-Learn/1.png" alt="new"></p>
+<ul>
 <li>配置环境File-&gt;Settings-&gt;Build,Execution,Deployment-&gt;Maven<ul>
 <li>Maven home directory #apache-maven-3.6.3的下载目录</li>
 <li>User settings file #apache-maven-3.6.3的配置文件，在其目录的conf下</li>
