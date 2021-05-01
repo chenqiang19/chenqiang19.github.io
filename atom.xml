@@ -155,7 +155,7 @@
     <link href="http://yoursite.com/2021/04/24/Spring-Boot-Learn/"/>
     <id>http://yoursite.com/2021/04/24/Spring-Boot-Learn/</id>
     <published>2021-04-24T08:44:19.000Z</published>
-    <updated>2021-05-01T12:25:40.947Z</updated>
+    <updated>2021-05-01T12:27:09.999Z</updated>
     
     <content type="html"><![CDATA[<h2 id="Spring-Boot学习"><a href="#Spring-Boot学习" class="headerlink" title="Spring Boot学习"></a>Spring Boot学习</h2><h3 id="一、创建Spring-Boot新项目"><a href="#一、创建Spring-Boot新项目" class="headerlink" title="一、创建Spring Boot新项目"></a>一、创建Spring Boot新项目</h3><p>创建工具IDEA</p><ul><li>File-&gt;New-&gt;project-&gt;Spring Initialize-&gt;Next</li><li>填写Group、Artifact、Language、Java Version、Version、Name、Description</li><li>Next-&gt;Web-&gt;Spring Web(随spring boot版本不同而不同)-&gt;Next-&gt;Finish<br><img src="/2021/04/24/Spring-Boot-Learn/1.png" alt="new"></li><li>配置环境File-&gt;Settings-&gt;Build,Execution,Deployment-&gt;Maven<ul><li>Maven home directory #apache-maven-3.6.3的下载目录</li><li>User settings file #apache-maven-3.6.3的配置文件，在其目录的conf下</li><li>Local repository #一般在apache-maven-3的配置中已经指定，依赖的下载路径</li></ul></li></ul><p><img src="/2021/04/24/Spring-Boot-Learn/2.png" alt="new"></p><p>运行程序Application.java<br>浏览器访问：http:localhost:8080<br>会发现如下的错误，前后端没有做映射，后端给出的默认界面</p><p><img src="/2021/04/24/Spring-Boot-Learn/3.png" alt="new"></p><p>前后端分离：前、后端通过RESTful API传递JSON数据进行交流。后端不涉及前端界面的内容，有别于JSP<br><strong>目前RESTful方式的前后端访问方式比较流行，如openstack提供了底层RESTful API接口给后端访问</strong></p><p>前后端对接：前端调用前端的服务器Nginx,后端调用后端的服务器Tomcat<br>反向代理: 前端请求通过前端服务器转发给后端，只需知道后端开放的接口，无需知道如何实现<br>*为了保护服务器，不保留真实地址</p><p>重点:<br>组件的依赖关系、版本的确认</p>]]></content>
     
