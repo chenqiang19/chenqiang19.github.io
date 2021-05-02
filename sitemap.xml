@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://yoursite.com/2021/05/02/Programming-Language/</loc>
+    
+    <lastmod>2021-05-02T13:22:35.813Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://yoursite.com/2021/04/24/Spring-Boot-Learn/</loc>
     
     <lastmod>2021-05-01T12:28:58.271Z</lastmod>
@@ -121,7 +128,7 @@
   </url>
   
   <url>
-    <loc>http://yoursite.com/2021/05/01/hello-world/</loc>
+    <loc>http://yoursite.com/2021/05/02/hello-world/</loc>
     
     <lastmod>2021-04-03T12:51:40.438Z</lastmod>
     
