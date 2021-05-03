@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://yoursite.com/2021/05/04/Tensorflow-Step-One/</loc>
+    
+    <lastmod>2021-05-03T16:31:41.644Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://yoursite.com/2021/05/03/Docker-Volumes/</loc>
     
     <lastmod>2021-05-02T16:58:43.540Z</lastmod>
@@ -142,7 +149,7 @@
   </url>
   
   <url>
-    <loc>http://yoursite.com/2021/05/03/hello-world/</loc>
+    <loc>http://yoursite.com/2021/05/04/hello-world/</loc>
     
     <lastmod>2021-04-03T12:51:40.438Z</lastmod>
     

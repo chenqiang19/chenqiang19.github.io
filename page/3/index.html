@@ -210,6 +210,98 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/11/14/Ubuntu18-04-RabbitMQ-Install/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Qiang Chen">
+      <meta itemprop="description" content="记录是忘记的第一助手.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="编辑尼撑">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/11/14/Ubuntu18-04-RabbitMQ-Install/" class="post-title-link" itemprop="url">Ubuntu18.04_RabbitMQ_Install</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-11-14 18:31:12" itemprop="dateCreated datePublished" datetime="2020-11-14T18:31:12+08:00">2020-11-14</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-04-14 22:02:31" itemprop="dateModified" datetime="2021-04-14T22:02:31+08:00">2021-04-14</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/SoftWare/" itemprop="url" rel="index">
+                    <span itemprop="name">SoftWare</span>
+                  </a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h3 id="RabbitMQ-Install-in-Ubuntu18-04"><a href="#RabbitMQ-Install-in-Ubuntu18-04" class="headerlink" title="RabbitMQ Install in Ubuntu18.04"></a>RabbitMQ Install in Ubuntu18.04</h3><ol>
+<li>set configuration</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">echo &quot;deb https:&#x2F;&#x2F;dl.bintray.com&#x2F;rabbitmq&#x2F;debian trusty main&quot; | sudo tee &#x2F;etc&#x2F;apt&#x2F;sources.list.d&#x2F;bintray.rabbitmq.list</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">echo &quot;deb http:&#x2F;&#x2F;packages.erlang-solutions.com&#x2F;ubuntu trusty contrib&quot; | sudo tee -a &#x2F;etc&#x2F;apt&#x2F;sources.list.d&#x2F;erlang_solutions.list</span></pre></td></tr></table></figure>
+<p>2.import key</p>
+<p>wget -c -O- <a href="http://packages.erlang-solutions.com/ubuntu/erlang_solutions.asc" target="_blank" rel="noopener">http://packages.erlang-solutions.com/ubuntu/erlang_solutions.asc</a> | sudo apt-key add -</p>
+<p>wget -O- <a href="https://dl.bintray.com/rabbitmq/Keys/rabbitmq-release-signing-key.asc" target="_blank" rel="noopener">https://dl.bintray.com/rabbitmq/Keys/rabbitmq-release-signing-key.asc</a> |sudo apt-key add -</p>
+<p>3.Install erlang and RabbitMQ  </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">sudo apt-get update  </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">sudo apt-get install erlang-nox  </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">sudo apt-get install rabbitmq-server</span></pre></td></tr></table></figure>
+<p>4.After installed��RabbitMQ has been started��these are some command of RabbitMQ��<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">sudo service rabbitmq-server start # start  </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">sudo service rabbitmq-server stop # stop  </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">sudo service rabbitmq-server restart # restart  </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">sudo service rabbitmq-server status # show current status</span></pre></td></tr></table></figure></p>
+<p>5.RabbitMQ manager,it is a RabbitMQ;’s WEB tool</p>
+<h1 id="if-you-want-to-use-web-to-manage-RabbitMQ-you-must-to-active-follow-command"><a href="#if-you-want-to-use-web-to-manage-RabbitMQ-you-must-to-active-follow-command" class="headerlink" title="if you want to use web to manage RabbitMQ, you must to active follow command"></a>if you want to use web to manage RabbitMQ, you must to active follow command</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">sudo rabbitmq-plugins enable rabbitmq_management  </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">sudo systemctl restart rabbitmq-server #restart rabbitmq server </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">#browser input��http:&#x2F;&#x2F;localhost:15672 #vetify RabbitMQ manager</span></pre></td></tr></table></figure>
+<p>6.create user and autority<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">#RabbitMQ is interviewed by localhost using default user guest&#x2F;guest from 3.3.0</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">#grammer rabbitmqctl add_user &lt;username&gt; &lt;password&gt;  </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">sudo rabbitmqctl add_user admin admin  </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">#give user admin (administrator) roles  </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">#firewall-cmd --list-ports  rabbitmqctl set_user_tags &lt;username&gt; &lt;tag&gt; [...]  </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">rabbitmqctl set_user_tags admin administrator  </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">#set authority for user admin(start remote accession)  </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">#set authority </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line">rabbitmqctl set_permissions -p &quot;&#x2F;&quot; admin &quot;.*&quot; &quot;.*&quot; &quot;.*&quot;  </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line">#look for  authority </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">11</span></pre></td><td class="code"><pre><span class="line">rabbitmqctl list_permissions -p &#x2F;  </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">12</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">13</span></pre></td><td class="code"><pre><span class="line">7.start firewall authority</span></pre></td></tr></table></figure></p>
+<h1 id="view-open-ports-No-ports-are-open-by-default"><a href="#view-open-ports-No-ports-are-open-by-default" class="headerlink" title="view open ports(No ports are open by default)"></a>view open ports(No ports are open by default)</h1><p>firewall-cmd —list-ports #may be you shoule to install firewalld use sudo install firewalld  </p>
+<h1 id="start-15672-port"><a href="#start-15672-port" class="headerlink" title="start 15672 port"></a>start 15672 port</h1><p>firewall-cmd —zone=public —add-port=15672/tcp —permanent  </p>
+<h1 id="restart-firewall"><a href="#restart-firewall" class="headerlink" title="restart firewall"></a>restart firewall</h1><p>firewall-cmd —reload  </p>
+<h1 id="Then-check-whether-the-port-is-open-the-following-shows-that-the-port-is-open"><a href="#Then-check-whether-the-port-is-open-the-following-shows-that-the-port-is-open" class="headerlink" title="Then check whether the port is open, the following shows that the port is open"></a>Then check whether the port is open, the following shows that the port is open</h1><p>firewall-cmd —list-ports #15672/tcp<br>```</p>
+<h4 id="if-use-Google-broswer-at-windows-to-access-ubuntu-server’s-RabbitMQ-web-manager-you-need-to-modified-hosts-file-in-windows"><a href="#if-use-Google-broswer-at-windows-to-access-ubuntu-server’s-RabbitMQ-web-manager-you-need-to-modified-hosts-file-in-windows" class="headerlink" title="*if use Google broswer at windows to access ubuntu server’s RabbitMQ web manager you need to modified hosts file in windows"></a>*if use Google broswer at windows to access ubuntu server’s RabbitMQ web manager you need to modified hosts file in windows</h4>
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/12/28/BilinerInterpolation/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -438,7 +530,7 @@ f(P)\approx \frac{y_2-y}{y_2-y_1}f(R_{1}) + \frac{y-y_1}{y_2-y_1}f(R_{2})\quad �
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">22</span>
+          <span class="site-state-item-count">23</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
