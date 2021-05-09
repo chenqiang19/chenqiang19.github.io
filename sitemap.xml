@@ -2,6 +2,34 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://yoursite.com/2021/05/09/Compute-Network-RDP/</loc>
+    
+    <lastmod>2021-05-09T11:18:32.971Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2021/05/09/Spring-MVC/</loc>
+    
+    <lastmod>2021-05-09T11:15:48.542Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2021/05/09/Spring-WebSocket/</loc>
+    
+    <lastmod>2021-05-09T11:15:45.050Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2021/05/09/Http-Html-Jsp/</loc>
+    
+    <lastmod>2021-05-09T11:13:05.812Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://yoursite.com/2021/05/04/Tensorflow-Step-One/</loc>
     
     <lastmod>2021-05-03T16:43:40.577Z</lastmod>
@@ -149,7 +177,7 @@
   </url>
   
   <url>
-    <loc>http://yoursite.com/2021/05/04/hello-world/</loc>
+    <loc>http://yoursite.com/2021/05/09/hello-world/</loc>
     
     <lastmod>2021-04-03T12:51:40.438Z</lastmod>
     

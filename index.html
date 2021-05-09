@@ -210,7 +210,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/05/04/hello-world/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/05/09/Compute-Network-RDP/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -224,7 +224,138 @@
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
           
-            <a href="/2021/05/04/hello-world/" class="post-title-link" itemprop="url">Hello World</a>
+            <a href="/2021/05/09/Compute-Network-RDP/" class="post-title-link" itemprop="url">Compute-Network-RDP</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2021-05-09 19:16:58 / 修改时间：19:18:32" itemprop="dateCreated datePublished" datetime="2021-05-09T19:16:58+08:00">2021-05-09</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Compute-Network/" itemprop="url" rel="index">
+                    <span itemprop="name">Compute-Network</span>
+                  </a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="远程桌面-RDP"><a href="#远程桌面-RDP" class="headerlink" title="远程桌面(RDP)"></a>远程桌面(RDP)</h2><h3 id="RDP介绍"><a href="#RDP介绍" class="headerlink" title="RDP介绍"></a>RDP介绍</h3><p>RDP 基于 T-120 系列协议标准，是该协议的扩展。 支持多通道的协议允许单独的虚拟通道用于传输以下信息：</p>
+<ul>
+<li>演示文稿数据</li>
+<li>串行设备通信</li>
+<li>许可信息</li>
+<li>高度加密的数据，如键盘、鼠标活动<h3 id="用途"><a href="#用途" class="headerlink" title="用途"></a>用途</h3>用于终端服务器和终端服务器客户端之间的通信。RDP 旨在支持许多不同类型的网络拓扑，例如 ISDN、POTS。 RDP 还设计用于支持许多 LAN 协议，例如 IPX、NetBIOS、TCP/IP。 当前版本的 RDP 将仅通过 TCP/IP 运行。 通过客户反馈，以后的版本中可能会添加其他协议支持。<br>通过 RDP 堆栈发送和接收数据所涉及的活动基本上与当今常见 LAN 网络七层 OSI 模型标准相同。 要传输的应用程序或服务的数据通过协议堆栈向下传递。 它经过分节，通过 MCS (定向到) 、加密、封装、帧、打包到网络协议，最后通过线路寻址并发送到客户端。 返回的数据的工作方式仅相反。 数据包将去除其地址，然后解包、解密等。 最后，数据呈现给应用程序供使用。 协议堆栈修改的关键部分发生在第四层和第七层之间，其中数据为：</li>
+<li>encrypted</li>
+<li>已封装</li>
+<li>framed</li>
+<li>定向到频道</li>
+<li>已设置优先级<h3 id="RDP历程"><a href="#RDP历程" class="headerlink" title="RDP历程"></a>RDP历程</h3>windows从NT开始提供终端服务，它是微软买来的网络协议技术(Citrix)，服务器端要安装、配置以供客户端连接使用。终端服务使任何一台有权限的终端机，用已知的账号登录服务器，可以使用账号内的资源，包括软件，硬件资源；同时，在协议升级后，客户端连接后可以使用本地的资源，包括本地打印机、声音本地回放，本地磁盘资源和本地硬件接口。所有的计算都在服务器端进行，客户端只需要处理网络连接、接收数据、界面显示和设备数据输出。<h3 id="RDP协议层次"><a href="#RDP协议层次" class="headerlink" title="RDP协议层次"></a>RDP协议层次</h3></li>
+</ul>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>层次名称</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>网络连接层</td>
+<td>RDP协议建立在TCP/IP协议之上，由于传输的数据量比较大，因此在协议的底层首先定义一层网络连接层。它定义了一个完整的RDP数据逻辑包，以避免由于网络包长度过长而被分割使数据丢失。</td>
+</tr>
+<tr>
+<td>ISO数据层</td>
+<td>在网络连接层之上是ISO数据层，它表示RDP数据的正常连接通信。</td>
+</tr>
+<tr>
+<td>虚拟通道层</td>
+<td>在ISO数据层之上，RDP协议定义一个虚拟通道层，用以拆分标示不同虚拟通道的数据，加快客户端处理速度，节省占用网络接口的时间。</td>
+</tr>
+<tr>
+<td>加密解密层</td>
+<td>在虚拟通道层之上，RDP定义一个数据加密解密层。此层用于对所有的功能数据进行加密、解密处理。</td>
+</tr>
+<tr>
+<td>功能数据层</td>
+<td>在加密解密层之上是功能数据，画面信息，本地资源转换，声音数据，打印数据等所有的功能数据信息都在此层进行处理。另外，根据数据类型的不同，这些数据都有各自不同层次的分割，他们的内部层次结构将在各个功能模块中进行阐述。</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><strong>连接过程</strong></p>
+<ol>
+<li>客户端连接服务器</li>
+<li>ISO数据层建立连接</li>
+<li>发送初始协议相关信息，接受加密、解密密钥</li>
+<li>虚拟通道申请</li>
+<li>加密形式发送客户端系统信息，同时验证加密协议</li>
+<li>平台软件证书验证</li>
+<li>各功能建立连接，各功能数据传输，功能实现<h3 id="RDP个模块说明"><a href="#RDP个模块说明" class="headerlink" title="RDP个模块说明"></a>RDP个模块说明</h3></li>
+<li>ISO连接模块:在客户端与服务器的网络套接口建立之后，需要首先建立RDP协议底层连接，得到连接确认后才能正常通信。</li>
+<li>协议信息初始模块:当基本的RDP连接建立后，需要进行客户端与服务器的系统环境、RDP连接环境的信息交流与连接确认。</li>
+<li>通道申请模块:各种功能数据都是通过单独的虚拟通道传输的。初始连接后，在进一步的信息通信之前，需要开辟相应的通道<ul>
+<li>根据当前我们所掌握的信息，RDP协议将图像信息、声音信息、设备信息、剪贴板内容都各自以单一的虚拟通道进行传送，而打印机映射，磁盘映射，端口映射都做为设备信息的内容进行处理</li>
+</ul>
+</li>
+<li>系统初始连接模块:当通道申请各部分通过后，开始系统登录的初始连接。从此数据包开始,所以虚拟通道层以上的网络数据都需要加密。</li>
+<li>图形连接模块:在图形数据发送之前，服务器需要对此功能模块验证，验证内容是所有与图形相关的信息，包括鼠标设置、键盘输入、字体类型、画图命令格式、图形显示的各种类型。</li>
+</ol>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/05/09/hello-world/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Qiang Chen">
+      <meta itemprop="description" content="记录是忘记的第一助手.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="编辑尼撑">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/05/09/hello-world/" class="post-title-link" itemprop="url">Hello World</a>
         </h1>
 
         <div class="post-meta">
@@ -234,7 +365,7 @@
               </span>
               <span class="post-meta-item-text">发表于</span>
 
-              <time title="创建时间：2021-05-04 00:32:35" itemprop="dateCreated datePublished" datetime="2021-05-04T00:32:35+08:00">2021-05-04</time>
+              <time title="创建时间：2021-05-09 19:16:33" itemprop="dateCreated datePublished" datetime="2021-05-09T19:16:33+08:00">2021-05-09</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
@@ -271,6 +402,404 @@
 <h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span></pre></td></tr></table></figure>
 <p>More info: <a href="https://hexo.io/docs/one-command-deployment.html" target="_blank" rel="noopener">Deployment</a></p>
 <p>If you want to show Chinese, you must make sure md is saved with utf-8</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/05/09/Spring-WebSocket/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Qiang Chen">
+      <meta itemprop="description" content="记录是忘记的第一助手.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="编辑尼撑">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/05/09/Spring-WebSocket/" class="post-title-link" itemprop="url">Spring-WebSocket</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2021-05-09 19:13:31 / 修改时间：19:15:45" itemprop="dateCreated datePublished" datetime="2021-05-09T19:13:31+08:00">2021-05-09</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Cloud-Compute/" itemprop="url" rel="index">
+                    <span itemprop="name">Cloud Compute</span>
+                  </a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="WebSocket"><a href="#WebSocket" class="headerlink" title="WebSocket"></a>WebSocket</h2><h3 id="为什么需要WebSocket"><a href="#为什么需要WebSocket" class="headerlink" title="为什么需要WebSocket"></a>为什么需要WebSocket</h3><p>1、HTTP 协议是一种无状态的、无连接的、单向的应用层协议。它采用了请求/响应模型。通信请求只能由客户端发起，服务端对请求做出应答处理。这种通信模型有一个弊端：HTTP 协议无法实现服务器主动向客户端发起消息。<br>2、WebSocket 是 HTML5 开始提供的一种在单个 TCP 连接上进行全双工通讯的协议。<br>3、WebSocket 使得客户端和服务器之间的数据交换变得更加简单，允许服务端主动向客户端推送数据。在 WebSocket API 中，浏览器和服务器只需要完成一次握手，两者之间就直接可以创建持久性的连接，并进行双向数据传输。在 WebSocket API 中，浏览器和服务器只需要做一个握手的动作，然后，浏览器和服务器之间就形成了一条快速通道。两者之间就直接可以数据互相传送。<br>4、HTML5 定义的 WebSocket 协议，能更好的节省服务器资源和带宽，并且能够更实时地进行通讯。<br>5、浏览器通过 JavaScript 向服务器发出建立 WebSocket 连接的请求，连接建立以后，客户端和服务器端就可以通过 TCP 连接直接交换数据。</p>
+<h3 id="WebSocket与Html的对比"><a href="#WebSocket与Html的对比" class="headerlink" title="WebSocket与Html的对比"></a>WebSocket与Html的对比</h3><ul>
+<li>WebSocket是一种通信协议，区别于HTTP协议，HTTP协议只能实现客户端请求，服务端响应的这种单项通信。</li>
+<li>现在，很多网站为了实现推送技术，所用的技术都是 Ajax 轮询。轮询是在特定的的时间间隔（如每1秒），由浏览器对服务器发出HTTP请求，然后由服务器返回最新的数据给客户端的浏览器。这种传统的模式带来很明显的缺点，即浏览器需要不断的向服务器发出请求，然而HTTP请求可能包含较长的头部，其中真正有效的数据可能只是很小的一部分，显然这样会浪费很多的带宽等资源。<h3 id="几种与服务端实时通信的方法"><a href="#几种与服务端实时通信的方法" class="headerlink" title="几种与服务端实时通信的方法"></a>几种与服务端实时通信的方法</h3>在不使用WebSocket与服务器实时交互时，一般，使用AJAX轮询和Long Polling长轮询<br>AJAX轮询也就是定时发送请求，也就是普通的客户端与服务端通信过程。每次都需要新建连接，服务器响应后连接关闭，十分的耗费资源。Long Polling长轮询在服务端带有阻塞。客户端发起一个Long Polling,服务端如果没有数据返回的话，会blocking住请求，等有数据时返回给客户端，单次连接结束。客户端在向服务端建立连接。重复。。。<br><img src="/2021/05/09/Spring-WebSocket/1.png" alt="WebSocket"><h3 id="WebSocket连接过程"><a href="#WebSocket连接过程" class="headerlink" title="WebSocket连接过程"></a>WebSocket连接过程</h3>客户端发起HTTP握手，告诉服务端进行WebSocket协议通讯，并告知WebSocket协议版本。服务端确认协议版本，升级为WebSocket协议。之后如果有数据需要推送，会主动推送给客户端。<br>连接开始时，客户端使用HTTP协议和服务端升级协议，升级完成后，后续数据交换遵循WebSocket协议。我们看看Request Headers<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">Accept-Encoding: gzip, deflate, br</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">Accept-Language: zh,zh-TW;q&#x3D;0.9,en-US;q&#x3D;0.8,en;q&#x3D;0.7,zh-CN;q&#x3D;0.6</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">Cache-Control: no-cache</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">Connection: Upgrade</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">Host: 127.0.0.1:3000</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">Origin: http:&#x2F;&#x2F;localhost:3000</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">Pragma: no-cache</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">Sec-WebSocket-Extensions: permessage-deflate; client_max_window_bits</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line">Sec-WebSocket-Key: bwb9SFiJONXhQ&#x2F;A4pLaXIg&#x3D;&#x3D;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line">Sec-WebSocket-Version: 13</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">11</span></pre></td><td class="code"><pre><span class="line">Upgrade: websocket</span></pre></td></tr></table></figure>
+重点的描述信息：</li>
+</ul>
+<ul>
+<li>Connection: Upgrade 表示要升级协议</li>
+<li>Upgrade: websocket 要升级协议到websocket协议</li>
+<li>Sec-WebSocket-Version 表示websocket的版本。如果服务端不支持该版本，需要返回一个Sec-WebSocket-Versionheader，里面包含服务端支持的版本号。</li>
+<li>Sec-WebSocket-Key 对应服务端响应头的Sec-WebSocket-Accept，由于没有同源限制，websocket客户端可任意连接支持websocket的服务。这个就相当于一个钥匙一把锁，避免多余的，无意义的连接。</li>
+</ul>
+<p>服务端响应：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">Connection: Upgrade</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">Sec-WebSocket-Accept: 2jrbCWSCPlzPtxarlGTp4Y8XD20&#x3D;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">Upgrade: websocket</span></pre></td></tr></table></figure></p>
+<ul>
+<li>Sec-WebSocket-Accept: 用来告知客服端，服务器愿意发起一个websocket连接， 值根据客户端请求头的Sec-WebSocket-Key计算出来<h3 id="WebSocket的用法"><a href="#WebSocket的用法" class="headerlink" title="WebSocket的用法"></a>WebSocket的用法</h3>当你获取 Web Socket 连接后，你可以通过<strong>send()</strong>方法来向服务器发送数据，并通过<strong>onmessage</strong>事件来接收服务器返回的数据。WebSocket 对象提供了用于创建和管理 WebSocket 连接，以及可以通过该连接发送和接收数据的 API。<br>使用 WebSocket() 构造函数来构造一个 WebSocket。</li>
+</ul>
+<p>构造函数: WebSocket(url[, protocols]),返回一个WebSocket对象。</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>Constant</th>
+<th>Value</th>
+<th>解释</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>WebSocket.CONNECTING</td>
+<td>0</td>
+<td>表示连接尚未建立</td>
+</tr>
+<tr>
+<td>WebSocket.OPEN</td>
+<td>1</td>
+<td>表示连接已建立，可以进行通信</td>
+</tr>
+<tr>
+<td>WebSocket.CLOSING</td>
+<td>2</td>
+<td>表示连接正在进行关闭</td>
+</tr>
+<tr>
+<td>WebSocket.CLOSED</td>
+<td>3</td>
+<td>表示连接已经关闭或者连接不能打开</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>属性</th>
+<th>解释</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>WebSocket.binaryType</td>
+<td>使用二进制的数据类型连接</td>
+</tr>
+<tr>
+<td>WebSocket.bufferedAmount</td>
+<td>未发送至服务器的字节数</td>
+</tr>
+<tr>
+<td>WebSocket.extensions</td>
+<td>服务器选择的扩展</td>
+</tr>
+<tr>
+<td>WebSocket.onclose</td>
+<td>用于指定连接关闭后的回调函数</td>
+</tr>
+<tr>
+<td>WebSocket.onerror</td>
+<td>用于指定连接失败后的回调函数</td>
+</tr>
+<tr>
+<td>WebSocket.onmessage</td>
+<td>用于指定当从服务器接受到信息时的回调函数</td>
+</tr>
+<tr>
+<td>WebSocket.onopen</td>
+<td>用于指定连接成功后的回调函数</td>
+</tr>
+<tr>
+<td>WebSocket.protocol</td>
+<td>服务器选择的下属协议(只读)</td>
+</tr>
+<tr>
+<td>WebSocket.readyState</td>
+<td>当前的链接状态只读)</td>
+</tr>
+<tr>
+<td>WebSocket.url</td>
+<td>WebSocket 的绝对路径只读)</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>方法</th>
+<th>解释</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>WebSocket.close([code[, reason]])</td>
+<td>关闭当前链接</td>
+</tr>
+<tr>
+<td>WebSocket.send(data)</td>
+<td>对要传输的数据进行排队</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>事件</th>
+<th>事件处理程序</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>open</td>
+<td>Socket.onopen</td>
+<td>连接建立时触发</td>
+</tr>
+<tr>
+<td>message</td>
+<td>Socket.onmessage</td>
+<td>客户端接收服务端数据时触发</td>
+</tr>
+<tr>
+<td>error</td>
+<td>Socket.onerror</td>
+<td>通信发生错误时触发</td>
+</tr>
+<tr>
+<td>close</td>
+<td>Socket.onclose</td>
+<td>连接关闭时触发</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><em>也可以使用addEventListener()来监听上面的事件</em><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; Create WebSocket connection.</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">const socket &#x3D; new WebSocket(&#39;ws:&#x2F;&#x2F;localhost:8080&#39;);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; Connection opened</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">socket.addEventListener(&#39;open&#39;, function (event) &#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">    socket.send(&#39;Hello Server!&#39;);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">&#125;);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; Listen for messages</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line">socket.addEventListener(&#39;message&#39;, function (event) &#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">11</span></pre></td><td class="code"><pre><span class="line">    console.log(&#39;Message from server &#39;, event.data);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">12</span></pre></td><td class="code"><pre><span class="line">&#125;);</span></pre></td></tr></table></figure></p>
+<h3 id="WebSocket实例"><a href="#WebSocket实例" class="headerlink" title="WebSocket实例"></a>WebSocket实例</h3><p>WebSocket 协议本质上是一个基于 TCP 的协议。</p>
+<p>为了建立一个 WebSocket 连接，客户端浏览器首先要向服务器发起一个 HTTP 请求，这个请求和通常的 HTTP 请求不同，包含了一些附加头信息，其中附加头信息”Upgrade: WebSocket”表明这是一个申请协议<strong>升级</strong>的 HTTP 请求，服务器端解析这些附加的头信息然后产生应答信息返回给客户端，客户端和服务器端的 WebSocket 连接就建立起来了，双方就可以通过这个连接通道自由的传递信息，并且这个连接会持续存在直到客户端或者服务器端的某一方主动的关闭连接。</p>
+<h3 id="客户端的HTML和JavaScript"><a href="#客户端的HTML和JavaScript" class="headerlink" title="客户端的HTML和JavaScript"></a>客户端的HTML和JavaScript</h3><p>目前大部分浏览器支持 WebSocket() 接口，你可以在以下浏览器中尝试实例： Chrome, Mozilla, Opera 和 Safari。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">&lt;!DOCTYPE HTML&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">&lt;html&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">   &lt;head&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">   &lt;meta charset&#x3D;&quot;utf-8&quot;&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">   &lt;title&gt;菜鸟教程(runoob.com)&lt;&#x2F;title&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">    </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">      &lt;script type&#x3D;&quot;text&#x2F;javascript&quot;&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">         function WebSocketTest()</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line">         &#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line">            if (&quot;WebSocket&quot; in window)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">11</span></pre></td><td class="code"><pre><span class="line">            &#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">12</span></pre></td><td class="code"><pre><span class="line">               alert(&quot;您的浏览器支持 WebSocket!&quot;);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">13</span></pre></td><td class="code"><pre><span class="line">               </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">14</span></pre></td><td class="code"><pre><span class="line">               &#x2F;&#x2F; 打开一个 web socket</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">15</span></pre></td><td class="code"><pre><span class="line">               var ws &#x3D; new WebSocket(&quot;ws:&#x2F;&#x2F;localhost:9998&#x2F;echo&quot;);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">16</span></pre></td><td class="code"><pre><span class="line">                </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">17</span></pre></td><td class="code"><pre><span class="line">               ws.onopen &#x3D; function()</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">18</span></pre></td><td class="code"><pre><span class="line">               &#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">19</span></pre></td><td class="code"><pre><span class="line">                  &#x2F;&#x2F; Web Socket 已连接上，使用 send() 方法发送数据</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">20</span></pre></td><td class="code"><pre><span class="line">                  ws.send(&quot;发送数据&quot;);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">21</span></pre></td><td class="code"><pre><span class="line">                  alert(&quot;数据发送中...&quot;);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">22</span></pre></td><td class="code"><pre><span class="line">               &#125;;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">23</span></pre></td><td class="code"><pre><span class="line">                </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">24</span></pre></td><td class="code"><pre><span class="line">               ws.onmessage &#x3D; function (evt) </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">25</span></pre></td><td class="code"><pre><span class="line">               &#123; </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">26</span></pre></td><td class="code"><pre><span class="line">                  var received_msg &#x3D; evt.data;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">27</span></pre></td><td class="code"><pre><span class="line">                  alert(&quot;数据已接收...&quot;);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">28</span></pre></td><td class="code"><pre><span class="line">               &#125;;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">29</span></pre></td><td class="code"><pre><span class="line">                </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">30</span></pre></td><td class="code"><pre><span class="line">               ws.onclose &#x3D; function()</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">31</span></pre></td><td class="code"><pre><span class="line">               &#123; </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">32</span></pre></td><td class="code"><pre><span class="line">                  &#x2F;&#x2F; 关闭 websocket</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">33</span></pre></td><td class="code"><pre><span class="line">                  alert(&quot;连接已关闭...&quot;); </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">34</span></pre></td><td class="code"><pre><span class="line">               &#125;;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">35</span></pre></td><td class="code"><pre><span class="line">            &#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">36</span></pre></td><td class="code"><pre><span class="line">            </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">37</span></pre></td><td class="code"><pre><span class="line">            else</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">38</span></pre></td><td class="code"><pre><span class="line">            &#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">39</span></pre></td><td class="code"><pre><span class="line">               &#x2F;&#x2F; 浏览器不支持 WebSocket</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">40</span></pre></td><td class="code"><pre><span class="line">               alert(&quot;您的浏览器不支持 WebSocket!&quot;);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">41</span></pre></td><td class="code"><pre><span class="line">            &#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">42</span></pre></td><td class="code"><pre><span class="line">         &#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">43</span></pre></td><td class="code"><pre><span class="line">      &lt;&#x2F;script&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">44</span></pre></td><td class="code"><pre><span class="line">        </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">45</span></pre></td><td class="code"><pre><span class="line">   &lt;&#x2F;head&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">46</span></pre></td><td class="code"><pre><span class="line">   &lt;body&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">47</span></pre></td><td class="code"><pre><span class="line">   </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">48</span></pre></td><td class="code"><pre><span class="line">      &lt;div id&#x3D;&quot;sse&quot;&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">49</span></pre></td><td class="code"><pre><span class="line">         &lt;a href&#x3D;&quot;javascript:WebSocketTest()&quot;&gt;运行 WebSocket&lt;&#x2F;a&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">50</span></pre></td><td class="code"><pre><span class="line">      &lt;&#x2F;div&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">51</span></pre></td><td class="code"><pre><span class="line">      </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">52</span></pre></td><td class="code"><pre><span class="line">   &lt;&#x2F;body&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">53</span></pre></td><td class="code"><pre><span class="line">&lt;&#x2F;html&gt;</span></pre></td></tr></table></figure></p>
+<h3 id="Spring中WebSocket的使用"><a href="#Spring中WebSocket的使用" class="headerlink" title="Spring中WebSocket的使用"></a>Spring中WebSocket的使用</h3><p>1、添加jar包：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">&lt;dependency&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">  &lt;groupId&gt;org.springframework&lt;&#x2F;groupId&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">  &lt;artifactId&gt;spring-websocket&lt;&#x2F;artifactId&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">  &lt;version&gt;$&#123;spring.version&#125;&lt;&#x2F;version&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">&lt;&#x2F;dependency&gt;</span></pre></td></tr></table></figure><br>2、如何使用WebSocket<br>2.1 创建WebSocket处理器<br>扩展<strong>TextWebSocketHandler</strong>或<strong>BinaryWebSocketHandler</strong>,或实现<strong>WebSocketHandler</strong>,覆盖指定的方法。Spring在收到WebSocket事件时，会自动调用事件对应的方法。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">import org.springframework.web.socket.WebSocketHandler;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">import org.springframework.web.socket.WebSocketSession;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">import org.springframework.web.socket.TextMessage;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">public class MyHandler extends TextWebSocketHandler &#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">    @Override</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">    public void handleTextMessage(WebSocketSession session, TextMessage message) &#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line">        &#x2F;&#x2F; ...</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line">    &#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">11</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">12</span></pre></td><td class="code"><pre><span class="line">&#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">13</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">14</span></pre></td><td class="code"><pre><span class="line">public interface WebSocketHandler &#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">15</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">16</span></pre></td><td class="code"><pre><span class="line">   &#x2F;**</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">17</span></pre></td><td class="code"><pre><span class="line">    * 建立连接后触发的回调</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">18</span></pre></td><td class="code"><pre><span class="line">    *&#x2F;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">19</span></pre></td><td class="code"><pre><span class="line">   void afterConnectionEstablished(WebSocketSession session) throws Exception;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">20</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">21</span></pre></td><td class="code"><pre><span class="line">   &#x2F;**</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">22</span></pre></td><td class="code"><pre><span class="line">    * 收到消息时触发的回调</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">23</span></pre></td><td class="code"><pre><span class="line">    *&#x2F;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">24</span></pre></td><td class="code"><pre><span class="line">   void handleMessage(WebSocketSession session, WebSocketMessage&lt;?&gt; message) throws Exception;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">25</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">26</span></pre></td><td class="code"><pre><span class="line">   &#x2F;**</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">27</span></pre></td><td class="code"><pre><span class="line">    * 传输消息出错时触发的回调</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">28</span></pre></td><td class="code"><pre><span class="line">    *&#x2F;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">29</span></pre></td><td class="code"><pre><span class="line">   void handleTransportError(WebSocketSession session, Throwable exception) throws Exception;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">30</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">31</span></pre></td><td class="code"><pre><span class="line">   &#x2F;**</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">32</span></pre></td><td class="code"><pre><span class="line">    * 断开连接后触发的回调</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">33</span></pre></td><td class="code"><pre><span class="line">    *&#x2F;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">34</span></pre></td><td class="code"><pre><span class="line">   void afterConnectionClosed(WebSocketSession session, CloseStatus closeStatus) throws Exception;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">35</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">36</span></pre></td><td class="code"><pre><span class="line">   &#x2F;**</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">37</span></pre></td><td class="code"><pre><span class="line">    * 是否处理分片消息</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">38</span></pre></td><td class="code"><pre><span class="line">    *&#x2F;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">39</span></pre></td><td class="code"><pre><span class="line">   boolean supportsPartialMessages();</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">40</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">41</span></pre></td><td class="code"><pre><span class="line">&#125;</span></pre></td></tr></table></figure><br>2.2 配置WebSocket<br>两种方式：注解和xml,作用是将WebSocket处理器添加到注册中心<br>1、注解的方式<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">import org.springframework.web.socket.config.annotation.EnableWebSocket;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">import org.springframework.web.socket.config.annotation.WebSocketConfigurer;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">import org.springframework.web.socket.config.annotation.WebSocketHandlerRegistry;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">@Configuration</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">@EnableWebSocket</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">public class WebSocketConfig implements WebSocketConfigurer &#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line">    @Override</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line">    public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) &#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">11</span></pre></td><td class="code"><pre><span class="line">        registry.addHandler(myHandler(), &quot;&#x2F;myHandler&quot;);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">12</span></pre></td><td class="code"><pre><span class="line">    &#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">13</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">14</span></pre></td><td class="code"><pre><span class="line">    @Bean</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">15</span></pre></td><td class="code"><pre><span class="line">    public WebSocketHandler myHandler() &#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">16</span></pre></td><td class="code"><pre><span class="line">        return new MyHandler();</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">17</span></pre></td><td class="code"><pre><span class="line">    &#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">18</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">19</span></pre></td><td class="code"><pre><span class="line">&#125;</span></pre></td></tr></table></figure><br>2、xml方式<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">&lt;beans xmlns&#x3D;&quot;http:&#x2F;&#x2F;www.springframework.org&#x2F;schema&#x2F;beans&quot;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">    xmlns:xsi&#x3D;&quot;http:&#x2F;&#x2F;www.w3.org&#x2F;2001&#x2F;XMLSchema-instance&quot;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">    xmlns:websocket&#x3D;&quot;http:&#x2F;&#x2F;www.springframework.org&#x2F;schema&#x2F;websocket&quot;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">    xsi:schemaLocation&#x3D;&quot;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">        http:&#x2F;&#x2F;www.springframework.org&#x2F;schema&#x2F;beans</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">        http:&#x2F;&#x2F;www.springframework.org&#x2F;schema&#x2F;beans&#x2F;spring-beans.xsd</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">        http:&#x2F;&#x2F;www.springframework.org&#x2F;schema&#x2F;websocket</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">        http:&#x2F;&#x2F;www.springframework.org&#x2F;schema&#x2F;websocket&#x2F;spring-websocket.xsd&quot;&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line">    &lt;websocket:handlers&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">11</span></pre></td><td class="code"><pre><span class="line">        &lt;websocket:mapping path&#x3D;&quot;&#x2F;myHandler&quot; handler&#x3D;&quot;myHandler&quot;&#x2F;&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">12</span></pre></td><td class="code"><pre><span class="line">    &lt;&#x2F;websocket:handlers&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">13</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">14</span></pre></td><td class="code"><pre><span class="line">    &lt;bean id&#x3D;&quot;myHandler&quot; class&#x3D;&quot;org.springframework.samples.MyHandler&quot;&#x2F;&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">15</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">16</span></pre></td><td class="code"><pre><span class="line">&lt;&#x2F;beans&gt;</span></pre></td></tr></table></figure><br><strong>重点:在启动类中添加注解@EnableWebSocket</strong></p>
+<p><a href="https://www.runoob.com/html/html5-websocket.html" target="_blank" rel="noopener">reference</a></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/05/09/Spring-MVC/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Qiang Chen">
+      <meta itemprop="description" content="记录是忘记的第一助手.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="编辑尼撑">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/05/09/Spring-MVC/" class="post-title-link" itemprop="url">Spring-MVC</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2021-05-09 19:13:23 / 修改时间：19:15:48" itemprop="dateCreated datePublished" datetime="2021-05-09T19:13:23+08:00">2021-05-09</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Cloud-Compute/" itemprop="url" rel="index">
+                    <span itemprop="name">Cloud Compute</span>
+                  </a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="MVC设计概述"><a href="#MVC设计概述" class="headerlink" title="MVC设计概述"></a>MVC设计概述</h2><p>在早期 Java Web 的开发中，统一把显示层、控制层、数据层的操作全部交给 JSP 或者 JavaBean 来进行处理，我们称之为 Model1：<br><img src="/2021/05/09/Spring-MVC/m1.png" alt="mvc"></p>
+<ul>
+<li><strong>出现的弊端：</strong></li>
+<li>SP 和 Java Bean 之间严重耦合，Java 代码和 HTML 代码也耦合在了一起</li>
+<li>要求开发者不仅要掌握 Java ，还要有高超的前端水平</li>
+<li>前端和后端相互依赖，前端需要等待后端完成，后端也依赖前端完成，才能进行有效的测试</li>
+<li>代码难以复用<br>正因为上面的种种弊端，所以很快这种方式就被 Servlet + JSP + Java Bean 所替代了，早期的 MVC 模型（Model2）如下图：<br>!(mvc)[Spring-MVC/2.png]<br>首先用户的请求会到达 Servlet，然后根据请求调用相应的 Java Bean，并把所有的显示结果交给 JSP 去完成，这样的模式我们就称为 MVC 模式<br><strong>M 代表 模型（Model）</strong><br>  模型是什么呢？ 模型就是数据，就是 dao,bean<br><strong>V 代表 视图（View）</strong><br>  视图是什么呢？ 就是网页, JSP，用来展示模型中的数据<br><strong>C 代表 控制器（controller)</strong><br>  控制器是什么？ 控制器的作用就是把不同的数据(Model)，显示在不同的视图(View)上，Servlet 扮演的就是这样的角色<h3 id="Spring-MVC-的架构"><a href="#Spring-MVC-的架构" class="headerlink" title="Spring MVC 的架构"></a>Spring MVC 的架构</h3>为解决持久层中一直未处理好的数据库事务的编程，又为了迎合 NoSQL 的强势崛起，Spring MVC 给出了方案：<br>!(mvc)[Spring-MVC/3.png]<br><strong>传统的模型层被拆分为了业务层(Service)和数据访问层（DAO,Data Access Object）</strong>。 在 Service 下可以通过 Spring 的声明式事务操作数据访问层，而在service上还允许我们访问 NoSQL，这样就能够满足异军突起的 NoSQL 的使用了，它可以大大提高互联网系统的性能。<br><strong>优点：</strong>1、结构松散，几乎可以在 Spring MVC 中使用各类视图；2、松耦合，各个模块分离；3、与 Spring 无缝集成<h3 id="创建一个Spring-MVC-demo"><a href="#创建一个Spring-MVC-demo" class="headerlink" title="创建一个Spring MVC demo"></a>创建一个Spring MVC demo</h3><h4 id="第一步：在-IDEA-中新建-Spring-MVC-项目"><a href="#第一步：在-IDEA-中新建-Spring-MVC-项目" class="headerlink" title="第一步：在 IDEA 中新建 Spring MVC 项目"></a>第一步：在 IDEA 中新建 Spring MVC 项目</h4><strong>根据IDEA的不同版本会有不同的创建方式</strong><br>1、IDEA2020的创建方式：File-&gt;New-&gt;Project-&gt;Java-&gt;Next-&gt;Next-&gt;Project name-&gt;Finish<br>2、添加Spring MVC,右击工程名-&gt;Add Framework Support-&gt;Spring-&gt;Spring MVC-&gt;Download-&gt;OK<br>3、会多出一个lib文件夹(存放Spring MVC的依赖包)和web文件夹<br>!(mvc)[Spring-MVC/4.png]<br>4、点击idea的File=&gt;选择项目结构（Project Structure）-&gt;点击Artifacts=&gt;Fix(在右下角)-&gt;add以下两个依赖<br>!(mvc)[Spring-MVC/5-1.png]<br>5、都添加完之后：Fix会消失，最后一定要点击Apply然后点击ok即可<br>6、添加成功后：项目目录会多出两个配置文件<br>!(mvc)[Spring-MVC/5-2.png]<br>目录结构为：<br>!(mvc)[Spring-MVC/6.png]<h4 id="第二步：修改-web-xml"><a href="#第二步：修改-web-xml" class="headerlink" title="第二步：修改 web.xml"></a>第二步：修改 web.xml</h4>!(mvc)[Spring-MVC/7.png]<br>把<url-pattern>元素的值改为 / ，表示要拦截所有的请求，并交由Spring MVC的后台控制器来处理<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">&lt;servlet-mapping&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">	&lt;servlet-name&gt;dispatcher&lt;&#x2F;servlet-name&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">	&lt;url-pattern&gt;&#x2F;&lt;&#x2F;url-pattern&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">&lt;&#x2F;servlet-mapping&gt;</span></pre></td></tr></table></figure>
+<h4 id="第三步：编辑-dispatcher-servlet-xml"><a href="#第三步：编辑-dispatcher-servlet-xml" class="headerlink" title="第三步：编辑 dispatcher-servlet.xml"></a>第三步：编辑 dispatcher-servlet.xml</h4>这个文件名的开头dispatcher 与上面web.xml中的<servlet-name>元素配置的dispatcher对应，这是Spring MVC的映射配置文件（xxx-servlet.xml），我们编辑如下：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">&lt;?xml version&#x3D;&quot;1.0&quot; encoding&#x3D;&quot;UTF-8&quot;?&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">&lt;beans xmlns&#x3D;&quot;http:&#x2F;&#x2F;www.springframework.org&#x2F;schema&#x2F;beans&quot;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">       xmlns:xsi&#x3D;&quot;http:&#x2F;&#x2F;www.w3.org&#x2F;2001&#x2F;XMLSchema-instance&quot;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">       xsi:schemaLocation&#x3D;&quot;http:&#x2F;&#x2F;www.springframework.org&#x2F;schema&#x2F;beans http:&#x2F;&#x2F;www.springframework.org&#x2F;schema&#x2F;beans&#x2F;spring-beans.xsd&quot;&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">    &lt;bean id&#x3D;&quot;simpleUrlHandlerMapping&quot;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">          class&#x3D;&quot;org.springframework.web.servlet.handler.SimpleUrlHandlerMapping&quot;&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">        &lt;property name&#x3D;&quot;mappings&quot;&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line">            &lt;props&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line">                &lt;!-- &#x2F;hello 路径的请求交给 id 为 helloController 的控制器处理--&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">11</span></pre></td><td class="code"><pre><span class="line">                &lt;prop key&#x3D;&quot;&#x2F;hello&quot;&gt;helloController&lt;&#x2F;prop&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">12</span></pre></td><td class="code"><pre><span class="line">            &lt;&#x2F;props&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">13</span></pre></td><td class="code"><pre><span class="line">        &lt;&#x2F;property&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">14</span></pre></td><td class="code"><pre><span class="line">    &lt;&#x2F;bean&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">15</span></pre></td><td class="code"><pre><span class="line">    &lt;bean id&#x3D;&quot;helloController&quot; class&#x3D;&quot;controller.HelloController&quot;&gt;&lt;&#x2F;bean&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">16</span></pre></td><td class="code"><pre><span class="line">&lt;&#x2F;beans&gt;</span></pre></td></tr></table></figure>
+<h4 id="第四步：编写-HelloController"><a href="#第四步：编写-HelloController" class="headerlink" title="第四步：编写 HelloController"></a>第四步：编写 HelloController</h4>在 Package【controller】下创建 【HelloController】类，并实现 org.springframework.web.servlet.mvc.Controller 接口：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">package controller;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">import org.springframework.web.servlet.ModelAndView;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">import org.springframework.web.servlet.mvc.Controller;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">public class HelloController implements Controller&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">    @Override</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">    public ModelAndView handleRequest(javax.servlet.http.HttpServletRequest httpServletRequest, javax.servlet.http.HttpServletResponse httpServletResponse) throws Exception &#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line">        return null;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line">    &#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">11</span></pre></td><td class="code"><pre><span class="line">&#125;</span></pre></td></tr></table></figure>
+Spring MVC 通过 ModelAndView 对象把模型和视图结合在一起<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">package controller;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">import org.springframework.web.servlet.ModelAndView;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">import org.springframework.web.servlet.mvc.Controller;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">public class HelloController implements Controller &#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">    public ModelAndView handleRequest(javax.servlet.http.HttpServletRequest httpServletRequest, javax.servlet.http.HttpServletResponse httpServletResponse) throws Exception &#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line">        ModelAndView mav &#x3D; new ModelAndView(&quot;index.jsp&quot;);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line">        mav.addObject(&quot;message&quot;, &quot;Hello Spring MVC&quot;);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">11</span></pre></td><td class="code"><pre><span class="line">        return mav;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">12</span></pre></td><td class="code"><pre><span class="line">    &#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">13</span></pre></td><td class="code"><pre><span class="line">&#125;</span></pre></td></tr></table></figure>
+这里表示视图的是index.jsp，模型数据的是 message，内容是 “Hello Spring MVC”<h4 id="第五步：准备-index-jsp"><a href="#第五步：准备-index-jsp" class="headerlink" title="第五步：准备 index.jsp"></a>第五步：准备 index.jsp</h4>将 index.jsp 的内容修改为：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">&lt;%@ page language&#x3D;&quot;java&quot; contentType&#x3D;&quot;text&#x2F;html; charset&#x3D;UTF-8&quot;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">    pageEncoding&#x3D;&quot;UTF-8&quot; isELIgnored&#x3D;&quot;false&quot;%&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line"> </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">&lt;h1&gt;$&#123;message&#125;&lt;&#x2F;h1&gt;</span></pre></td></tr></table></figure>
+<h4 id="第六步：部署-Tomcat-及相关环境"><a href="#第六步：部署-Tomcat-及相关环境" class="headerlink" title="第六步：部署 Tomcat 及相关环境"></a>第六步：部署 Tomcat 及相关环境</h4>在【Run】菜单项下找到【Edit Configurations】<br>!(mvc)[Spring-MVC/8.png]<br>配置 Tomcat 环境：<br>!(mvc)[Spring-MVC/9.png]<br>选择好本地的 Tomcat 服务器，并改好名字：<br>!(mvc)[Spring-MVC/10.png]<br>在 Deployment 标签页下完成如下操作：<br>!(mvc)[Spring-MVC/11.png]<h4 id="第七步：重启服务器"><a href="#第七步：重启服务器" class="headerlink" title="第七步：重启服务器"></a>第七步：重启服务器</h4>重启服务器，输入地址：localhost/hello<br>!(mvc)[Spring-MVC/12.png]<h3 id="跟踪-Spring-MVC-的请求"><a href="#跟踪-Spring-MVC-的请求" class="headerlink" title="跟踪 Spring MVC 的请求"></a>跟踪 Spring MVC 的请求</h3>每当用户在 Web 浏览器中点击链接或者提交表单的时候，请求就开始工作了，像是邮递员一样，从离开浏览器开始到获取响应返回，它会经历很多站点，在每一个站点都会留下一些信息同时也会带上其他信息，下图为 Spring MVC 的请求流程<br>!(mvc)[Spring-MVC/13.png]<br>!(mvc)[Spring-MVC/00.png]<h4 id="第一站：DispatcherServlet"><a href="#第一站：DispatcherServlet" class="headerlink" title="第一站：DispatcherServlet"></a>第一站：DispatcherServlet</h4>从请求离开浏览器以后，第一站到达的就是 DispatcherServlet，看名字这是一个 Servlet，通过 J2EE 的学习，我们知道 Servlet 可以拦截并处理 HTTP 请求，DispatcherServlet 会拦截所有的请求，并且将这些请求发送给 Spring MVC 控制器。<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">&lt;servlet&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">    &lt;servlet-name&gt;dispatcher&lt;&#x2F;servlet-name&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">    &lt;servlet-class&gt;org.springframework.web.servlet.DispatcherServlet&lt;&#x2F;servlet-class&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">    &lt;load-on-startup&gt;1&lt;&#x2F;load-on-startup&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">&lt;&#x2F;servlet&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">&lt;servlet-mapping&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">    &lt;servlet-name&gt;dispatcher&lt;&#x2F;servlet-name&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">    &lt;!-- 拦截所有的请求 --&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line">    &lt;url-pattern&gt;&#x2F;&lt;&#x2F;url-pattern&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line">&lt;&#x2F;servlet-mapping&gt;</span></pre></td></tr></table></figure>
+<strong>DispatcherServlet 的任务就是拦截请求发送给 Spring MVC 控制器。</strong><h4 id="第二站：处理器映射（HandlerMapping）"><a href="#第二站：处理器映射（HandlerMapping）" class="headerlink" title="第二站：处理器映射（HandlerMapping）"></a>第二站：处理器映射（HandlerMapping）</h4><strong>问题：</strong>典型的应用程序中可能会有多个控制器，这些请求到底应该发给哪一个控制器呢？<br>所以 DispatcherServlet 会查询一个或多个处理器映射来确定请求的下一站在哪里，处理器映射会根据请求所携带的 URL 信息来进行决策，例如上面的例子中，我们通过配置 simpleUrlHandlerMapping 来将 /hello 地址交给 helloController 处理：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">&lt;bean id&#x3D;&quot;simpleUrlHandlerMapping&quot;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">      class&#x3D;&quot;org.springframework.web.servlet.handler.SimpleUrlHandlerMapping&quot;&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">    &lt;property name&#x3D;&quot;mappings&quot;&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">        &lt;props&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">            &lt;!-- &#x2F;hello 路径的请求交给 id 为 helloController 的控制器处理--&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">            &lt;prop key&#x3D;&quot;&#x2F;hello&quot;&gt;helloController&lt;&#x2F;prop&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">        &lt;&#x2F;props&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">    &lt;&#x2F;property&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line">&lt;&#x2F;bean&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line">&lt;bean id&#x3D;&quot;helloController&quot; class&#x3D;&quot;controller.HelloController&quot;&gt;&lt;&#x2F;bean&gt;</span></pre></td></tr></table></figure>
+<h4 id="第三站：控制器"><a href="#第三站：控制器" class="headerlink" title="第三站：控制器"></a>第三站：控制器</h4>一旦选择了合适的控制器， DispatcherServlet 会将请求发送给选中的控制器，到了控制器，请求会卸下其负载（用户提交的请求）等待控制器处理完这些信息：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">public ModelAndView handleRequest(javax.servlet.http.HttpServletRequest httpServletRequest, javax.servlet.http.HttpServletResponse httpServletResponse) throws Exception &#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">    &#x2F;&#x2F; 处理逻辑</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">    ....</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">&#125;</span></pre></td></tr></table></figure>
+<h4 id="第四站：返回-DispatcherServlet"><a href="#第四站：返回-DispatcherServlet" class="headerlink" title="第四站：返回 DispatcherServlet"></a>第四站：返回 DispatcherServlet</h4>当控制器在完成逻辑处理后，通常会产生一些信息，这些信息就是需要返回给用户并在浏览器上显示的信息，它们被称为模型（Model）。仅仅返回原始的信息时不够的——这些信息需要以用户友好的方式进行格式化，一般会是 HTML，所以，信息需要发送给一个视图（view），通常会是 JSP。<br>控制器所做的最后一件事就是将模型数据打包，并且表示出用于渲染输出的视图名（逻辑视图名）。它接下来会将请求连同模型和视图名发送回 DispatcherServlet。<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">public ModelAndView handleRequest(javax.servlet.http.HttpServletRequest httpServletRequest, javax.servlet.http.HttpServletResponse httpServletResponse) throws Exception &#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">    &#x2F;&#x2F; 处理逻辑</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">    ....</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">    &#x2F;&#x2F; 返回给 DispatcherServlet</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">    return mav;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">&#125;</span></pre></td></tr></table></figure>
+<h4 id="第五站：视图解析器"><a href="#第五站：视图解析器" class="headerlink" title="第五站：视图解析器"></a>第五站：视图解析器</h4>这样以来，控制器就不会和特定的视图相耦合，传递给 DispatcherServlet 的视图名并不直接表示某个特定的 JSP。（实际上，它甚至不能确定视图就是 JSP）相反，它传递的仅仅是一个逻辑名称，这个名称将会用来查找产生结果的真正视图。<br>DispatcherServlet 将会使用视图解析器（view resolver）来将逻辑视图名匹配为一个特定的视图实现，它可能是也可能不是 JSP<blockquote>
+<p>上面的例子是直接绑定到了 index.jsp 视图</p>
+<h4 id="第六站：视图"><a href="#第六站：视图" class="headerlink" title="第六站：视图"></a>第六站：视图</h4><p>它的最后一站是视图的实现，在这里它交付模型数据，请求的任务也就完成了。视图使用模型数据渲染出结果，这个输出结果会通过响应对象传递给客户端。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">&lt;%@ page language&#x3D;&quot;java&quot; contentType&#x3D;&quot;text&#x2F;html; charset&#x3D;UTF-8&quot;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">         pageEncoding&#x3D;&quot;UTF-8&quot; isELIgnored&#x3D;&quot;false&quot;%&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">&lt;h1&gt;$&#123;message&#125;&lt;&#x2F;h1&gt;</span></pre></td></tr></table></figure>
+<h3 id="使用注解配置-Spring-MVC"><a href="#使用注解配置-Spring-MVC" class="headerlink" title="使用注解配置 Spring MVC"></a>使用注解配置 Spring MVC</h3><p>上面我们已经对 Spring MVC 有了一定的了解，并且通过 XML 配置的方式创建了第一个 Spring MVC 程序，我们来看看基于注解应该怎么完成上述程序的配置：</p>
+<h4 id="第一步：为-HelloController-添加注解"><a href="#第一步：为-HelloController-添加注解" class="headerlink" title="第一步：为 HelloController 添加注解"></a>第一步：为 HelloController 添加注解</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">package controller;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">import org.springframework.web.bind.annotation.RequestMapping;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">import org.springframework.web.servlet.ModelAndView;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">@Controller</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">public class HelloController&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line">    @RequestMapping(&quot;&#x2F;hello&quot;)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line">    public ModelAndView handleRequest(javax.servlet.http.HttpServletRequest httpServletRequest, javax.servlet.http.HttpServletResponse httpServletResponse) throws Exception &#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">11</span></pre></td><td class="code"><pre><span class="line">        ModelAndView mav &#x3D; new ModelAndView(&quot;index.jsp&quot;);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">12</span></pre></td><td class="code"><pre><span class="line">        mav.addObject(&quot;message&quot;, &quot;Hello Spring MVC&quot;);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">13</span></pre></td><td class="code"><pre><span class="line">        return mav;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">14</span></pre></td><td class="code"><pre><span class="line">    &#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">15</span></pre></td><td class="code"><pre><span class="line">&#125;</span></pre></td></tr></table></figure></blockquote>
+</servlet-name></url-pattern></li>
+<li>@Controller 注解：用来声明控制器</li>
+<li>@RequestMapping 注解：表示路径 /hello 会映射到该方法上<h4 id="第二步：取消之前的-XML-注释"><a href="#第二步：取消之前的-XML-注释" class="headerlink" title="第二步：取消之前的 XML 注释"></a>第二步：取消之前的 XML 注释</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">&lt;?xml version&#x3D;&quot;1.0&quot; encoding&#x3D;&quot;UTF-8&quot;?&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">&lt;beans xmlns&#x3D;&quot;http:&#x2F;&#x2F;www.springframework.org&#x2F;schema&#x2F;beans&quot;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">       xmlns:xsi&#x3D;&quot;http:&#x2F;&#x2F;www.w3.org&#x2F;2001&#x2F;XMLSchema-instance&quot;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">       xmlns:context&#x3D;&quot;http:&#x2F;&#x2F;www.springframework.org&#x2F;schema&#x2F;context&quot;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">       xsi:schemaLocation&#x3D;&quot;http:&#x2F;&#x2F;www.springframework.org&#x2F;schema&#x2F;beans http:&#x2F;&#x2F;www.springframework.org&#x2F;schema&#x2F;beans&#x2F;spring-beans.xsd http:&#x2F;&#x2F;www.springframework.org&#x2F;schema&#x2F;context http:&#x2F;&#x2F;www.springframework.org&#x2F;schema&#x2F;context&#x2F;spring-context.xsd&quot;&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">    &lt;!--&lt;bean id&#x3D;&quot;simpleUrlHandlerMapping&quot;--&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">                                        &lt;!--class&#x3D;&quot;org.springframework.web.servlet.handler.SimpleUrlHandlerMapping&quot;&gt;--&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line">    &lt;!--&lt;property name&#x3D;&quot;mappings&quot;&gt;--&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line">            &lt;!--&lt;props&gt;--&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">11</span></pre></td><td class="code"><pre><span class="line">                &lt;!--&lt;!&amp;ndash; &#x2F;hello 路径的请求交给 id 为 helloController 的控制器处理&amp;ndash;&gt;--&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">12</span></pre></td><td class="code"><pre><span class="line">                &lt;!--&lt;prop key&#x3D;&quot;&#x2F;hello&quot;&gt;helloController&lt;&#x2F;prop&gt;--&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">13</span></pre></td><td class="code"><pre><span class="line">            &lt;!--&lt;&#x2F;props&gt;--&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">14</span></pre></td><td class="code"><pre><span class="line">        &lt;!--&lt;&#x2F;property&gt;--&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">15</span></pre></td><td class="code"><pre><span class="line">    &lt;!--&lt;&#x2F;bean&gt;--&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">16</span></pre></td><td class="code"><pre><span class="line">    &lt;!--&lt;bean id&#x3D;&quot;helloController&quot; class&#x3D;&quot;controller.HelloController&quot;&gt;&lt;&#x2F;bean&gt;--&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">17</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">18</span></pre></td><td class="code"><pre><span class="line">    &lt;!-- 扫描controller下的组件 --&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">19</span></pre></td><td class="code"><pre><span class="line">    &lt;context:component-scan base-package&#x3D;&quot;controller&quot;&#x2F;&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">20</span></pre></td><td class="code"><pre><span class="line">&lt;&#x2F;beans&gt;</span></pre></td></tr></table></figure>
+在 dispatcher-servlet.xml 文件中，注释掉之前的配置，然后增加一句组件扫描。<h4 id="第三步：重启服务器"><a href="#第三步：重启服务器" class="headerlink" title="第三步：重启服务器"></a>第三步：重启服务器</h4>浏览器输入:localhost/hello<h3 id="简述Model-gt-View中的View"><a href="#简述Model-gt-View中的View" class="headerlink" title="简述Model-&gt;View中的View"></a>简述Model-&gt;View中的View</h3>对于不同的表示技术，Spring MVC 支持许多类型的视图。这些包括 JSP、HTML、PDF、Excel 工作表、XML、Velocity 模板、XSLT、JSON、Atom 和 RSS 提要、JasperReports 等等。但我们最常使用利用 JSTL 编写的 JSP 模板。一般存放在/WEB-INF/目录下<br>JSP全称Java Server Pages，是一种动态网页开发技术。它使用JSP标签在HTML网页中插入Java代码。标签通常以&lt;%开头以%&gt;结束。 JSP标签有多种功能，比如访问数据库、记录用户选择信息、访问JavaBeans组件等，还可以在不同的网页中传递控制信息和共享信息。<br><em>哎，学的不过瘾，待下篇记录前后端交互与jsp的关系吧</em><br><a href="https://www.jianshu.com/p/91a2d0a1e45a" target="_blank" rel="noopener">Spring MVC参考资料</a><br>(Spring MVC安装资料)[<a href="https://blog.csdn.net/qq_36890370/article/details/113815490" target="_blank" rel="noopener">https://blog.csdn.net/qq_36890370/article/details/113815490</a>]</li>
+</ul>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/05/09/Http-Html-Jsp/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Qiang Chen">
+      <meta itemprop="description" content="记录是忘记的第一助手.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="编辑尼撑">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/05/09/Http-Html-Jsp/" class="post-title-link" itemprop="url">Http-Html-Jsp</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2021-05-09 19:09:59 / 修改时间：19:13:05" itemprop="dateCreated datePublished" datetime="2021-05-09T19:09:59+08:00">2021-05-09</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Programming-Language/" itemprop="url" rel="index">
+                    <span itemprop="name">Programming-Language</span>
+                  </a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="前后端交互中的一些宏观知识"><a href="#前后端交互中的一些宏观知识" class="headerlink" title="前后端交互中的一些宏观知识"></a>前后端交互中的一些宏观知识</h2><h3 id="一、浏览器中界面如何渲染"><a href="#一、浏览器中界面如何渲染" class="headerlink" title="一、浏览器中界面如何渲染"></a>一、浏览器中界面如何渲染</h3><p>浏览器能通过解析html语句渲染出页面<br><img src="/2021/05/09/Http-Html-Jsp/n1.jpg" alt="html"><br><strong>问题：</strong>浏览器解析所需的html语句怎么来的？<br>1、简述一下这个过程<br>浏览器通过http请求某个页面，服务器根据请求做响应的处理，将处理的结果包装成html返回给浏览器，浏览器解析。<br>问题：服务器响应一般是java写的，如何包装成html的形式呢？<br>答案：使用Servlet，如下所示为Servlet的默认模板<br><img src="/2021/05/09/Http-Html-Jsp/n2.jpg" alt="html"><br>在web开发早期，通常情况是美工写好html静态页面后，丢给Java程序员。Java开发人员在Servlet中调用Service拿到数据后，逐句复制html静态页面上的html语句到Servlet的中，根据情况将后端的数据与html片段拼接在一起。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">out.println(&quot;&lt;span&gt;用户名是：&quot;+user.age+&lt;&quot;&#x2F;span&gt;&quot;);</span></pre></td></tr></table></figure><br><img src="/2021/05/09/Http-Html-Jsp/n3.jpg" alt="html"><br><strong>为了提高效率</strong>，PHP和ASP.Net在html页面中嵌入相应语言来引入动态数据，避免了手动拷贝html片段输出的尴尬局面<br><img src="/2021/05/09/Http-Html-Jsp/n4.jpg" alt="html"><br><strong>主要目的就是希望在最终输出的html的代码中嵌入后台数据</strong>，除了把html语句拿出来在Servlet里拼接好再输出这种方式外，我们也可以直接在JSP之类的动态模板文件中的HTML语句中写入动态数据<br><strong>JSP是SUN公司为了和PHP一样，高校开发前端动态页面而生产的一门语言</strong></p>
+<h3 id="二、简述JSP"><a href="#二、简述JSP" class="headerlink" title="二、简述JSP"></a>二、简述JSP</h3><p>JSP全称Java Server Page，直译就是“运行在服务器端的页面”。上面已经介绍过，我们可以直接在JSP文件里写HTML代码，使用上把它当做HTML文件。而且JSP中HTML/CSS/JS等的写法和HTML文件中的写法是一模一样的。但它毕竟不是HTML，而且本质差了十万八千里。因为我们还可以把Java代码内嵌在JSP页面中，很方便地把动态数据渲染成静态页面。这一点，HTML打死都做不到。<br>当有人请求JSP时，服务器内部会经历一次动态资源（JSP）到静态资源（HTML）的转化，服务器会自动帮我们把JSP中的HTML片段和数据拼接成静态资源响应给浏览器<br>也就是说JSP是运行在服务器端，但最终发给客户端的都已经是转换好的HTML静态页面（在响应体里）。JSP本质是一个Java类（Servlet），是在服务器端运行的，只不过它输出结果是HTML。<br><img src="/2021/05/09/Http-Html-Jsp/n5.jpg" alt="html"></p>
+<h4 id="JSP执行过程"><a href="#JSP执行过程" class="headerlink" title="JSP执行过程"></a>JSP执行过程</h4><p><img src="/2021/05/09/Http-Html-Jsp/n6.jpg" alt="html"><br>Web浏览器发http请求到Web容器，WEB容器接收到以.jsp为扩展名的URL的访问请求时，它将把该请求交给JSP引擎去处理。Tomcat中的JSP引擎就是一个Servlet程序，它负责解释和执行JSP页面。<br>每个JSP 页面在第一次被访问时，JSP引擎将它翻译成一个Servlet源程序，接着再把这个Servlet源程序编译成Servlet的class类文件，然后再由WEB容器像调用普通Servlet程序一样的方式来装载和解释执行这个由JSP页面翻译成的Servlet程序。 </p>
+<h3 id="三、MVC模式与JAVAEE三层架构"><a href="#三、MVC模式与JAVAEE三层架构" class="headerlink" title="三、MVC模式与JAVAEE三层架构"></a>三、MVC模式与JAVAEE三层架构</h3><p><img src="/2021/05/09/Http-Html-Jsp/n7.jpg" alt="html"><br>参考资料：<br>[浅谈JSP]<a href="https://zhuanlan.zhihu.com/p/42343690" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/42343690</a><br>[JavaScript学习]<a href="https://www.w3school.com.cn/js/js_window.asp" target="_blank" rel="noopener">https://www.w3school.com.cn/js/js_window.asp</a></p>
 
       
     </div>
@@ -709,443 +1238,6 @@
   
   
 
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/05/01/Spring-Cloud-Nacos/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Qiang Chen">
-      <meta itemprop="description" content="记录是忘记的第一助手.">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="编辑尼撑">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/05/01/Spring-Cloud-Nacos/" class="post-title-link" itemprop="url">Spring-Cloud-Nacos</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2021-05-01 13:39:57 / 修改时间：14:58:58" itemprop="dateCreated datePublished" datetime="2021-05-01T13:39:57+08:00">2021-05-01</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Cloud-Compute/" itemprop="url" rel="index">
-                    <span itemprop="name">Cloud Compute</span>
-                  </a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="Nacos"><a href="#Nacos" class="headerlink" title="Nacos"></a>Nacos</h2><h3 id="一、安装nacos-server"><a href="#一、安装nacos-server" class="headerlink" title="一、安装nacos-server"></a>一、安装nacos-server</h3><p>1、下载地址: <a href="https://github.com/alibaba/nacos/releases" target="_blank" rel="noopener">https://github.com/alibaba/nacos/releases</a><br>选择nacos-server-x.x.x.zip下载并解压<br>2、本地创建数据库nacos, 导入nacos解压路径下nacos\conf\nacos-mysql.sql完成数据表的创建和数据初始化<br>编辑配置文件nacos\conf\application.properties,修改后的图图下：<br><img src="/2021/05/01/Spring-Cloud-Nacos/1.png" alt="nacos">  </p>
-<p>3、启动nacos-server服务，确保本机安装并配置了java环境变量<br>进入nacos\bin，执行startup.cmd -m standalone(采用单机模式)<br>4、进入nacos管理控制台<br>查看地址：<a href="http://localhost:8848/nacos" target="_blank" rel="noopener">http://localhost:8848/nacos</a><br>账号/密码: nacos/nacas<br><strong>对比eureka和nacos:&amp;</strong> <strong>eureka</strong>将注册中心和配置中心分离，分别使用SpringCloud Eureka和SpringCloud Config两个组件，配置更新时需要重启服务或者使用SpringCloud Bus消息总线发出通知到各个服务，进而完成配置。此外，eureka已经停止了更新。<strong>nacos</strong>可以同时实现注册和配置中心，以及配置的动态更新。<br><strong>Nacos两个核心功能:</strong> 服务注册与发现，动态配置管理。致力于发现、配置和管理微服务Nacos支持几乎所有主流类型”服务”的发现、配置和管理，如：Kubernetes Service|gRPC &amp; Dubbo RPC Service|Spring Cloud RESTful Service</p>
-<h3 id="Nacos的关键特性包括："><a href="#Nacos的关键特性包括：" class="headerlink" title="Nacos的关键特性包括："></a>Nacos的关键特性包括：</h3><p><strong>1、服务发现和服务健康检测</strong><br><strong>Nacos</strong>支持基于DNS和基于RPC的服务发现。服务提供者使用<em>原生SDK</em>、<em>OpenApi</em>或一个<em>独立的Agent TODO</em>注册Service后。服务消费者可以使用<em>DNS TODO</em>或<em>HTTP&amp;API</em>查找和发现服务。<br><strong>Nacos</strong>提供对服务的实时的<strong>健康检查，阻止向不健康的主机或服务实例发送请求</strong>。Nacos支持传输层(PING或TCP)和应用层(如 HTTP、MySQL、用户自定义)的健康检查。对于复杂的云环境和网络拓扑环境中（如 VPC、边缘网络等）服务的健康检查，Nacos 提供了<strong>agent上报模式</strong>和<strong>服务端主动检测</strong>2种健康检查模式。<br><strong>Nacos</strong>还提供了统一的<strong>健康检查仪表盘</strong>，帮助您根据健康状态管理服务的可用性及流量。<br><strong>2、动态配置服务</strong><br>动态配置服务可以让您以中心化、外部化和动态化的方式管理所有环境的应用配置和服务配置。动态配置消除了配置变更时重新部署应用和服务的需要，让配置管理变得更加高效和敏捷。配置中心化管理让实现无状态服务变得更简单，让服务按需弹性扩展变得更容易。<br><strong>3、动态DNS服务</strong><br>动态 DNS 服务支持权重路由，让您更容易地实现中间层负载均衡、更灵活的路由策略、流量控制以及数据中心内网的简单DNS解析服务。  动态DNS服务还能让您更容易地实现以DNS协议为基础的服务发现，以帮助您消除耦合到厂商私有服务发现 API 上的风险。  </p>
-<h3 id="NACOS服务发现"><a href="#NACOS服务发现" class="headerlink" title="NACOS服务发现"></a>NACOS服务发现</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">&lt;!-- nacos 依赖--&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">&lt;dependency&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">    &lt;groupId&gt;com.alibaba.cloud&lt;&#x2F;groupId&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">    &lt;artifactId&gt;spring-cloud-starter-alibaba-nacos-discovery&lt;&#x2F;artifactId&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">&lt;&#x2F;dependency&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">#启动类入口添加注解开启服务注册和发现</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">@EnableDiscoveryClient</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line">@SpringBootApplication</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line">public class AuthApplication &#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">11</span></pre></td><td class="code"><pre><span class="line">    public static void main(String[] args) &#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">12</span></pre></td><td class="code"><pre><span class="line">        SpringApplication.run(AuthApplication.class);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">13</span></pre></td><td class="code"><pre><span class="line">    &#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">14</span></pre></td><td class="code"><pre><span class="line">&#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">15</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">16</span></pre></td><td class="code"><pre><span class="line">#服务注册中心配置</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">17</span></pre></td><td class="code"><pre><span class="line">spring:</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">18</span></pre></td><td class="code"><pre><span class="line">  application:</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">19</span></pre></td><td class="code"><pre><span class="line">    name: project-name</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">20</span></pre></td><td class="code"><pre><span class="line">  cloud:</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">21</span></pre></td><td class="code"><pre><span class="line">    nacos:</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">22</span></pre></td><td class="code"><pre><span class="line">      discovery:</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">23</span></pre></td><td class="code"><pre><span class="line">        server-addr: http:&#x2F;&#x2F;localhost:8848</span></pre></td></tr></table></figure>
-<p>打开nacos控制台进入服务列表查看  </p>
-<h3 id="NACOS服务配置"><a href="#NACOS服务配置" class="headerlink" title="NACOS服务配置"></a>NACOS服务配置</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">&lt;!-- nacos-config 依赖--&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">&lt;dependency&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">    &lt;groupId&gt;com.alibaba.cloud&lt;&#x2F;groupId&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">    &lt;artifactId&gt;spring-cloud-starter-alibaba-nacos-config&lt;&#x2F;artifactId&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">&lt;&#x2F;dependency&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">#bootstrap.yml指定nacos配置文件名</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">spring:</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line">  application:</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line">    name: project-name</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">11</span></pre></td><td class="code"><pre><span class="line">  cloud:</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">12</span></pre></td><td class="code"><pre><span class="line">    nacos:</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">13</span></pre></td><td class="code"><pre><span class="line">      discovery:</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">14</span></pre></td><td class="code"><pre><span class="line">        server-addr: http:&#x2F;&#x2F;localhost:8848</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">15</span></pre></td><td class="code"><pre><span class="line">      config:</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">16</span></pre></td><td class="code"><pre><span class="line">        file-extension: yaml  # 必须修改成yaml</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">17</span></pre></td><td class="code"><pre><span class="line">        group: DEFAULT_GROUP  # 缺省即可</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">18</span></pre></td><td class="code"><pre><span class="line">        prefix: $&#123;spring.application.name&#125; # 缺省即可</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">19</span></pre></td><td class="code"><pre><span class="line">rsa:</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">20</span></pre></td><td class="code"><pre><span class="line">  publicKey: 123456</span></pre></td></tr></table></figure>
-<p><strong>注意:这里必须使用bootstrap.yml不能是application.yml，避免被nacos自带的配置文件被覆盖</strong><br>SpringBoot读取配置文件的顺序：<br>bootstrap.yml&gt;bootstrap.yaml&gt;bootstrap.properties&gt;nacos settings&gt;application.yml&gt;application.yaml&gt;application.properties</p>
-<pre><code>#添加接口读取配置信息并添加动态刷新配置的注解@RefreshScope
-@RefreshScope
-@RestController
-@RequestMapping(&quot;/oauth&quot;)
-public class AuthController {
-
-    @Value(&quot;${rsa.publicKey}&quot;)
-    public String publicKey;
-
-    @GetMapping(&quot;/publicKey&quot;)
-    public Result getPublicKey(){
-        return Result.success(this.publicKey);
-    }
-}
-</code></pre><p>可以在nacos管理控制台添加和修改配置，从而保持动态更新<br><strong>简单介绍一下数据库CAP理论</strong><br>CAP理论是说对于分布式数据存储，最多只能同时满足一致性（C，Consistency）、可用性（A， Availability）、分区容错性（P，Partition Tolerance）中的两者。  </p>
-<ul>
-<li>一致性，是指对于每一次读操作，要么都能够读到最新写入的数据，要么错误。</li>
-<li>可用性，是指对于每一次请求，都能够得到一个及时的、非错的响应，但是不保证请求的结果是基于最新写入的数据。</li>
-<li>分区容错性，是指由于节点之间的网络问题，即使一些消息对包或者延迟，整个系统能继续提供服务(提供一致性或者可用性)。  </li>
-</ul>
-<h3 id="服务的订阅和发现"><a href="#服务的订阅和发现" class="headerlink" title="服务的订阅和发现"></a>服务的订阅和发现</h3><p><strong>整个服务注册与发现的过程和大致的设计原理和思路</strong><br>一、服务如何注册<br><img src="/2021/05/01/Spring-Cloud-Nacos/2.jpg" alt="nacos">  </p>
-<p><img src="/2021/05/01/Spring-Cloud-Nacos/3.jpg" alt="nacos">  </p>
-<p><img src="/2021/05/01/Spring-Cloud-Nacos/4.jpg" alt="nacos">  </p>
-<p><img src="/2021/05/01/Spring-Cloud-Nacos/5.jpg" alt="nacos">  </p>
-<p>二、服务如何发现<br>服务注册到注册中心后，服务的消费者就可以进行服务发现的流程了，消费者可以直接向注册中心发送获取某个服务实例的请求，这种情况下注册中心将返回所有可用的服务实例给消费者，但是一般不推荐这种情况。另一种方法就是服务的消费者向注册中心订阅某个服务，并提交一个监听器，当注册中心中服务发生变更时，监听器会收到通知，这时消费者更新本地的服务实例列表，以保证所有的服务均是可用的。<br><img src="/2021/05/01/Spring-Cloud-Nacos/6.jpg" alt="nacos">  </p>
-<p><img src="/2021/05/01/Spring-Cloud-Nacos/7.jpg" alt="nacos">  </p>
-<p>三、Nacos服务注册与订阅的完整流程<br><img src="/2021/05/01/Spring-Cloud-Nacos/8.png" alt="nacos">  </p>
-<p>例：服务注册与发现，Dubbo架构为例<br><img src="/2021/05/01/Spring-Cloud-Nacos/9.jpg" alt="nacos">  </p>
-<p>0、服务容器负责启动，加载，运行服务提供者。<br>1、服务提供者在启动时，向注册中心注册自己提供的服务。<br>2、服务消费者在启动时，向注册中心订阅自己所需的服务。<br>3、注册中心返回服务提供者地址列表给消费者，如果有变更，注册中心将基于长连接推送变更数据给消费者。<br>4、服务消费者，从提供者地址列表中，基于软负载均衡算法，选一台提供者进行调用，如果调用失败，再选另一台调用。<br>5、服务消费者和提供者，在内存中累计调用次数和调用时间，定时每分钟发送一次统计数据到监控中心<br><em>其中图中最上方的 Registry 就是注册中心，负责服务的注册与发现。Dubbo 有自己的 Registry 实现，而 Nacos 则是另一种 Registry 的实现。</em></p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/05/01/Spring-Cloud-Gateway/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Qiang Chen">
-      <meta itemprop="description" content="记录是忘记的第一助手.">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="编辑尼撑">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/05/01/Spring-Cloud-Gateway/" class="post-title-link" itemprop="url">Spring-Cloud-Gateway</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2021-05-01 13:15:48 / 修改时间：14:58:58" itemprop="dateCreated datePublished" datetime="2021-05-01T13:15:48+08:00">2021-05-01</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Cloud-Compute/" itemprop="url" rel="index">
-                    <span itemprop="name">Cloud Compute</span>
-                  </a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="介绍Gateway"><a href="#介绍Gateway" class="headerlink" title="介绍Gateway"></a>介绍Gateway</h2><p>API网关:将多个服务对外提供的API汇聚起来，让外部看起来像一个统一的接口。此外，可以在网关中提供额外的功能。可以和以前的单服务做对比，一个服务是一个应用程序由一个统一的进程来管理。<br><img src="/2021/05/01/Spring-Cloud-Gateway/1.jpg" alt="gateway">  </p>
-<p>网关的核心功能：主要功能路由转发+过滤器<br>路由转发: 接受外界请求，通过网关的路由转发，转发到后端的服务上<br>过滤器：提供了25种内置功能加自定义的功能，如网关容错、限流以及额外的处理<br>可以和服务注册中心完美结合，例如：Eureka, Consul, Nacos<br><img src="/2021/05/01/Spring-Cloud-Gateway/2.png" alt="gateway">  </p>
-<p>Spring Cloud微服务中，1.x版本采用Zuul网关其有阻塞到非阻塞的多个版本<br>gateway是SpringCloud自己开发的网关，旨在为微服务架构提供简单有效的统一的API路由管理方式。功能如下： </p>
-<ul>
-<li>基于Spring Framework5,Project Reactor和Spring Boot2.0构建</li>
-<li>动态路由: 能够匹配任何请求属性</li>
-<li>集成Spring Cloud服务发现功能</li>
-<li>可以对路由指定Predicate断言和Filter过滤器，并且断言和过滤器易于编写</li>
-<li>集成Hystrix的熔断功能</li>
-<li>请求限流功能</li>
-<li>支持路径重写  </li>
-</ul>
-<p><img src="/2021/05/01/Spring-Cloud-Gateway/3.png" alt="gateway">  </p>
-<p>上图最主要的就是路由，其中，Predicates和Filters作用于特定路由<br>Route(路由):一个路由包括ID，URI,<em>Predicate</em>集合和<em>Filter</em>集合<br>如果聚合谓词为真，则匹配路由<br>Predicate: 允许开发人员匹配HTTP请求中的任何内容，比如Header和参数<br>Filter: 可以在发送下流请求之前或之后修改请求和响应<br><img src="/2021/05/01/Spring-Cloud-Gateway/4.png" alt="gateway">  </p>
-<p>客户端向 Spring Cloud Gateway <strong>发出请求</strong>。然后在 Gateway Handler Mapping中 <strong>找到与请求相匹配的路由</strong>，将其<strong>发送到Gateway Web Handler</strong>。Handler 再通过指定的<strong>过滤器链来将请求发送到我们实际的服务执行业务逻辑</strong>，然后返回。过滤器之间用虚线分开是因为过滤器可能会在发送<strong>代理请求之前（“pre”）或之后（“post”）执行业务</strong>逻辑。</p>
-<div class="table-container">
-<table>
-<thead>
-<tr>
-<th style="text-align:center">Filter-Pre(之前)</th>
-<th style="text-align:center">Filter-Post(之后)</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:center">参数校验</td>
-<td style="text-align:center">响应内容</td>
-</tr>
-<tr>
-<td style="text-align:center">权限校验</td>
-<td style="text-align:center">响应头的修改</td>
-</tr>
-<tr>
-<td style="text-align:center">流量监控</td>
-<td style="text-align:center">日志输出</td>
-</tr>
-<tr>
-<td style="text-align:center">日志输出</td>
-<td style="text-align:center">浏览监控</td>
-</tr>
-<tr>
-<td style="text-align:center">协议转换</td>
-<td style="text-align:center">等等</td>
-</tr>
-</tbody>
-</table>
-</div>
-<p>Predicate接受一个输入参数，返回一个布尔值结果。该接口包含多种默认方法将Predicate组合成其他复杂的逻辑如：与、或、非。可以对接口请求进行参数校验，判断新老数据是否有变化，是否需要更新等<br>Spring Cloud Gateway内置了许多Predicate,源码在org.springframework.cloud.gateway.handler.predicate包中只有满足特定要求的请求，并交由router处理。如时间要求，cookie要求，host,method,path等，每一种predicate都会<br>当前的客户端进行判断，是否满足当前的要求。如果满足则交给当前请求处理。如果有很多个Predicate,则按照配置的顺序第一个生效。<br>例一、时间断言<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">spring:  </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">    cloud:    </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">        gateway:      </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">            routes:      </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">            - id: after_route        </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">              uri: http:&#x2F;&#x2F;www.google.com        </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">              predicates:        </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">              - After&#x3D;2018-12-25T14:33:47.789+08:00 #东八区2018-12-25 14:33:47后，将请求都转跳到Google</span></pre></td></tr></table></figure><br>例二、Cookie断言<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">cloud:    </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">    gateway:  </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">        routes:      </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">        - id: cookie_route       </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">          uri: http:&#x2F;&#x2F;www.google.com        </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">          predicates:        </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">          - Cookie&#x3D;cookiename, cookievalue #匹配请求存在cookie名为cookiename, cookie内容匹配ookievalue的，转发到googl</span></pre></td></tr></table></figure><br>例三、Method Route<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">spring:  </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">    cloud:    </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">        gateway:      </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">            routes:      </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">            - id: method_route        </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">              uri: http:&#x2F;&#x2F;www.google.com        </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">              predicates:        </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">              - Method&#x3D;GET #路由匹配到所有GET方法的请求</span></pre></td></tr></table></figure><br>例四、Path Route<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">spring:  </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">    cloud:    </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">        gateway:      </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">            routes:      </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">            - id: host_route        </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">              uri: http:&#x2F;&#x2F;www.google.com       </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">              predicates:        </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">              - Path&#x3D;&#x2F;foo&#x2F;&#123;segment&#125;,&#x2F;bar&#x2F;&#123;segment&#125; #path列表作为参数</span></pre></td></tr></table></figure></p>
-<p>Hystrix GatewayFilter Factory<br>Hystrix是Netflix实现的断路器模式工具包。The Hystrix GatewayFilter就是将断路器使用在gateway路由上，<br>目的是保护服务器避免级联故障，以及在下游失败时可以降级返回。在分布式系统中，服务应该具有自我保护的<br>能力，当依赖服务不可用时，当前服务启动自我保护功能，从而避免雪崩效应。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">Spring Cloud Gateway maven依赖</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">&lt;dependency&gt;    </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">	&lt;groupId&gt;org.springframework.cloud&lt;&#x2F;groupId&gt;   </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">    &lt;artifactId&gt;spring-cloud-starter-hystrix&lt;&#x2F;artifactId&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">&lt;&#x2F;dependency&gt;</span></pre></td></tr></table></figure><br>请求限流：一、方式大量的请求使服务过载，导致服务不可用；二、防止网络攻击。<br><img src="/2021/05/01/Spring-Cloud-Gateway/5.png" alt="gateway">  </p>
-<p>Zuul IO模型：采用阻塞式处理模型，所有request请求对应一个servlet。请求进入servlet container就会为其绑定一个线程。这在并发不高的情况下适用，并发上升时，线程数量上涨，严重影像请求响应时间。<br>Webflux服务器：替换了Servlet线程模型，用少量的线程处理request和request io操作称为Loop线程。业务交给响应式编程框架去处理。阻塞操作交给响应式框架work线程中处理，不阻塞操作交给Loop线程处理。</p>
-<p><strong>Reactor,Netty通信框架</strong></p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/04/24/Spring-Boot-DB/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Qiang Chen">
-      <meta itemprop="description" content="记录是忘记的第一助手.">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="编辑尼撑">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/04/24/Spring-Boot-DB/" class="post-title-link" itemprop="url">Spring-Boot-DB</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2021-04-24 18:28:31" itemprop="dateCreated datePublished" datetime="2021-04-24T18:28:31+08:00">2021-04-24</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-05-01 15:09:18" itemprop="dateModified" datetime="2021-05-01T15:09:18+08:00">2021-05-01</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Cloud-Compute/" itemprop="url" rel="index">
-                    <span itemprop="name">Cloud Compute</span>
-                  </a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="Spring-Boot连接数据库学习"><a href="#Spring-Boot连接数据库学习" class="headerlink" title="Spring Boot连接数据库学习"></a>Spring Boot连接数据库学习</h2><p>一、Mysql的版本不同依赖和配置信息也不同<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">查看mysql版本</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">$ mysql -uroot -p******</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">&gt; select version();</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">&gt; exit;</span></pre></td></tr></table></figure></p>
-<p>添加mysql依赖<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">&lt;dependency&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">    &lt;groupId&gt;mysql&lt;&#x2F;groupId&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">    &lt;artifactId&gt;mysql-connector-java&lt;&#x2F;artifactId&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">    &lt;version&gt;8.0.12&lt;&#x2F;version&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">&lt;&#x2F;dependency&gt;</span></pre></td></tr></table></figure><br>数据源配置，在application.properties<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line"># 数据源配置，请修改为实际配置</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">spring.datasource.url&#x3D;jdbc:mysql:&#x2F;&#x2F;localhost:3306&#x2F;databasename?serverTimezone&#x3D;Asia&#x2F;Shanghai&amp;zeroDateTimeBehavior&#x3D;convertToNull&amp;autoReconnect&#x3D;true&amp;useSSL&#x3D;false&amp;failOverReadOnly&#x3D;false</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">spring.datasource.username&#x3D;bimengine</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">spring.datasource.password&#x3D;fgBQLZpgDaxH7xuu</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">spring.datasource.driver-class-name&#x3D;com.mysql.cj.jdbc.Driver</span></pre></td></tr></table></figure><br>问题：SpringBoot配置JDBC连接MySQL数据库的时候遇到了报错：HikariPool-1 - Exception during pool initialization  </p>
-<ul>
-<li>检查application.properties-&gt;spring.datasource中的url是否是对的，例如数据库名等</li>
-<li>检查用户名和密码</li>
-<li>mysql5和mysql8使用的driver是不一样的注意区别</li>
-<li>检查时区，url中添加&amp;serverTimezone=UTC</li>
-</ul>
-<p>eg:spring.datasource.url=jdbc:mysql://localhost:3306/movie?useUnicode=true&amp;characterEncoding=utf-8&amp;serverTimezone=UTC<br><strong>hikari</strong><br>针对需要手动配置datasource的时候，需要使用手动创建HikariConfig,使用该对象去创建datasource<br>jdbc2.0开始使用DataSource接口来创建连接，对比DriverManager的方式创建连接，DataSource会更优雅一些<br><strong>hikari主要连接池属性</strong></p>
-<div class="table-container">
-<table>
-<thead>
-<tr>
-<th style="text-align:center">主要配置</th>
-<th style="text-align:center">常用配置</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:center">dataSourceC;assName</td>
-<td style="text-align:center">autoCommit</td>
-</tr>
-<tr>
-<td style="text-align:center">jdbcUrl</td>
-<td style="text-align:center">connectionTimeout</td>
-</tr>
-<tr>
-<td style="text-align:center">username</td>
-<td style="text-align:center">idleTimeout</td>
-</tr>
-<tr>
-<td style="text-align:center">password</td>
-<td style="text-align:center">maLifetime</td>
-</tr>
-</tbody>
-</table>
-</div>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">jdbcUrl&#x3D;jdbc:mysql:&#x2F;&#x2F;localhost:3306&#x2F;databasename</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">user&#x3D;test</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">password&#x3D;test</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">dataSource.cachePrepStmts&#x3D;true</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">dataSource.prepStmtCacheSize&#x3D;250</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">dataSource.prepStmtCacheSqlLimit&#x3D;2048</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">dataSource.useServerPrepStmts&#x3D;true</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">dataSource.useLocalSessionState&#x3D;true</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line">dataSource.useLocalTransactionState&#x3D;true</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line">dataSource.rewriteBatchedStatements&#x3D;true</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">11</span></pre></td><td class="code"><pre><span class="line">dataSource.cacheResultSetMetadata&#x3D;true</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">12</span></pre></td><td class="code"><pre><span class="line">dataSource.cacheServerConfiguration&#x3D;true</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">13</span></pre></td><td class="code"><pre><span class="line">dataSource.elideSetAutoCommits&#x3D;true</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">14</span></pre></td><td class="code"><pre><span class="line">dataSource.maintainTimeStats&#x3D;false</span></pre></td></tr></table></figure>
-<h3 id="二、三种数据库连接方式"><a href="#二、三种数据库连接方式" class="headerlink" title="二、三种数据库连接方式"></a>二、三种数据库连接方式</h3><p><strong>1、准备待操纵的数据库表</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">CREATE DATABASE &#x2F;*!32312 IF NOT EXISTS*&#x2F;&#96;springboot_db&#96; &#x2F;*!40100 DEFAULT CHARACTER SET utf8 *&#x2F;;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line"> </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">USE &#96;springboot_db&#96;;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line"> </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">DROP TABLE IF EXISTS &#96;t_author&#96;;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line"> </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">CREATE TABLE &#96;t_author&#96; (</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">  &#96;id&#96; bigint(20) unsigned NOT NULL AUTO_INCREMENT COMMENT &#39;用户ID&#39;,</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line">  &#96;real_name&#96; varchar(32) NOT NULL COMMENT &#39;用户名称&#39;,</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line">  &#96;nick_name&#96; varchar(32) NOT NULL COMMENT &#39;用户匿名&#39;,</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">11</span></pre></td><td class="code"><pre><span class="line">  PRIMARY KEY (&#96;id&#96;)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">12</span></pre></td><td class="code"><pre><span class="line">) ENGINE&#x3D;InnoDB AUTO_INCREMENT&#x3D;1 DEFAULT CHARSET&#x3D;utf8;</span></pre></td></tr></table></figure><br><strong>2、添加配置文件，如上面在application.yml中的连接池配置</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">spring:</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">  datasource:</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">    url: jdbc:mysql:&#x2F;&#x2F;127.0.0.1:3306&#x2F;springboot_db?useUnicode&#x3D;true&amp;characterEncoding&#x3D;UTF-8&amp;useSSL&#x3D;false</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">    driverClassName: com.mysql.jdbc.Driver</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">    username: root</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">    password: root</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">    type: com.alibaba.druid.pool.DruidDataSource</span></pre></td></tr></table></figure><br><strong>3、建立与数据库对应的POJO类</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">public class Author &#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">    private Long id;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">    private String realName;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">    private String nickName;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">    &#x2F;&#x2F; SET和GET方法略</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">&#125;</span></pre></td></tr></table></figure><br><strong>方式一：与JdbcTemplate集成</strong><br><strong>Spring boot依赖:</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">&lt;dependency&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">       &lt;groupId&gt;org.springframework.boot&lt;&#x2F;groupId&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">       &lt;artifactId&gt;spring-boot-starter-jdbc&lt;&#x2F;artifactId&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">&lt;&#x2F;dependency&gt;</span></pre></td></tr></table></figure><br><strong>引入Junit测试starter:</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">&lt;dependency&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">       &lt;groupId&gt;org.springframework.boot&lt;&#x2F;groupId&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">       &lt;artifactId&gt;spring-boot-starter-test&lt;&#x2F;artifactId&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">       &lt;scope&gt;test&lt;&#x2F;scope&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">&lt;&#x2F;dependency&gt;</span></pre></td></tr></table></figure><br><strong>DAO接口:</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">public interface AuthorDao &#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">    int add(Author author);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">    int update(Author author);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">    int delete(Long id);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line">    Author findAuthor(Long id);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">11</span></pre></td><td class="code"><pre><span class="line">    List&lt;Author&gt; findAuthorList();</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">12</span></pre></td><td class="code"><pre><span class="line">&#125;</span></pre></td></tr></table></figure><br><strong>DAO接口实现:</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">@Repository</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">public class AuthorDaoJdbcTemplateImpl implements AuthorDao&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">    </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">    @Autowired</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">    private NamedParameterJdbcTemplate jdbcTemplate;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">    </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">    @Override</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">    public int add(Author author) &#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line">        String sql &#x3D; &quot;insert into t_author(id,real_name,nick_name) &quot; +</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line">                &quot;values(:id,:realName,:nickName)&quot;;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">11</span></pre></td><td class="code"><pre><span class="line">        Map&lt;String, Object&gt; param &#x3D; new HashMap&lt;&gt;();</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">12</span></pre></td><td class="code"><pre><span class="line">        param.put(&quot;id&quot;,author.getId());</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">13</span></pre></td><td class="code"><pre><span class="line">        param.put(&quot;realName&quot;, author.getRealName());</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">14</span></pre></td><td class="code"><pre><span class="line">        param.put(&quot;nickName&quot;, author.getNickName());</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">15</span></pre></td><td class="code"><pre><span class="line">        </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">16</span></pre></td><td class="code"><pre><span class="line">        return (int) jdbcTemplate.update(sql, param);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">17</span></pre></td><td class="code"><pre><span class="line">    &#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">18</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">19</span></pre></td><td class="code"><pre><span class="line">    @Override</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">20</span></pre></td><td class="code"><pre><span class="line">    public int update(Author author) &#123;  </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">21</span></pre></td><td class="code"><pre><span class="line">        return 0;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">22</span></pre></td><td class="code"><pre><span class="line">    &#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">23</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">24</span></pre></td><td class="code"><pre><span class="line">    @Override</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">25</span></pre></td><td class="code"><pre><span class="line">    public int delete(Long id) &#123;    </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">26</span></pre></td><td class="code"><pre><span class="line">        return 0;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">27</span></pre></td><td class="code"><pre><span class="line">    &#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">28</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">29</span></pre></td><td class="code"><pre><span class="line">    @Override</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">30</span></pre></td><td class="code"><pre><span class="line">    public Author findAuthor(Long id) &#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">31</span></pre></td><td class="code"><pre><span class="line">        return null;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">32</span></pre></td><td class="code"><pre><span class="line">    &#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">33</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">34</span></pre></td><td class="code"><pre><span class="line">    @Override</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">35</span></pre></td><td class="code"><pre><span class="line">    public List&lt;Author&gt; findAuthorList() &#123;  </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">36</span></pre></td><td class="code"><pre><span class="line">          return null;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">37</span></pre></td><td class="code"><pre><span class="line">    &#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">38</span></pre></td><td class="code"><pre><span class="line">&#125;</span></pre></td></tr></table></figure><br><strong>通过JUit测试:</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">@RunWith(SpringJUnit4ClassRunner.class)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">@SpringBootTest(classes &#x3D; BootApplication.class)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">public class AuthorDaoTest &#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">    @Autowired</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">    private AuthorDao authorDao;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">    @Test</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line">    public void testInsert() &#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line">        Author author &#x3D; new Author();</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">11</span></pre></td><td class="code"><pre><span class="line">        author.setId(1L);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">12</span></pre></td><td class="code"><pre><span class="line">        author.setRealName(&quot;莫言&quot;);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">13</span></pre></td><td class="code"><pre><span class="line">        author.setNickName(&quot;疯子&quot;);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">14</span></pre></td><td class="code"><pre><span class="line">        </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">15</span></pre></td><td class="code"><pre><span class="line">        authorDao.add(author);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">16</span></pre></td><td class="code"><pre><span class="line">        System.out.println(&quot;插入成功！&quot;);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">17</span></pre></td><td class="code"><pre><span class="line">    &#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">18</span></pre></td><td class="code"><pre><span class="line">&#125;</span></pre></td></tr></table></figure></p>
-<h3 id="方式二-与JPA集成"><a href="#方式二-与JPA集成" class="headerlink" title="方式二: 与JPA集成"></a>方式二: 与JPA集成</h3><p><strong>引入starter：</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">&lt;dependency&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">    &lt;groupId&gt;org.springframework.boot&lt;&#x2F;groupId&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">    &lt;artifactId&gt;spring-boot-starter-data-jpa&lt;&#x2F;artifactId&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">&lt;&#x2F;dependency&gt;</span></pre></td></tr></table></figure><br><strong>对POJO类增加Entity的注解，并指定表命(默认为author)，然后制定ID及其生成策略</strong><br><strong>注: 可以查看JPA知识</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">import javax.persistence.Entity;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">import javax.persistence.GeneratedValue;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">import javax.persistence.Id;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">@Entity(name &#x3D; &quot;t_author&quot;)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">public class Author &#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">    @Id</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">    @GeneratedValue</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line">    private Long id;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line">    private String realName;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">11</span></pre></td><td class="code"><pre><span class="line">    private String nickName;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">12</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">13</span></pre></td><td class="code"><pre><span class="line">    &#x2F;&#x2F; SET和GET方法略</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">14</span></pre></td><td class="code"><pre><span class="line">&#125;</span></pre></td></tr></table></figure><br><strong>接口应该继承JpaRepository</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">public interface AuthorRepository extends JpaRepository&lt;Author, Long&gt; &#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">    public Optional&lt;Author&gt; findById(Long userId);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">    @Query(&quot;select au from com.guxf.domain.Author au where nick_name&#x3D;:nickName&quot;)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">    public List&lt;Author&gt; queryByNickName(@Param(&quot;nickName&quot;) String nickName);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">&#125;</span></pre></td></tr></table></figure><br><strong>测试代码:</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">@RunWith(SpringJUnit4ClassRunner.class)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">@SpringBootTest(classes &#x3D; BootApplication.class)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">public class AuthorDaoTestJPA &#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">    @Autowired</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">    private AuthorRepository authorRepository;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">    @Test</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line">    public void testQuery() &#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line">        List&lt;Author&gt; authorList &#x3D; authorRepository.queryByNickName(&quot;疯子&quot;);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">11</span></pre></td><td class="code"><pre><span class="line">        assertTrue(authorList.size() &gt; 0);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">12</span></pre></td><td class="code"><pre><span class="line">        System.out.println(&quot;成功！&quot;);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">13</span></pre></td><td class="code"><pre><span class="line">    &#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">14</span></pre></td><td class="code"><pre><span class="line">&#125;</span></pre></td></tr></table></figure></p>
-<h3 id="方法三-与MyBatis集成"><a href="#方法三-与MyBatis集成" class="headerlink" title="方法三: 与MyBatis集成"></a>方法三: 与MyBatis集成</h3><p><strong>引入starter: Spring没有定义该starter的版本，所以需要自己指定version</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">&lt;dependency&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">    &lt;groupId&gt;org.mybatis.spring.boot&lt;&#x2F;groupId&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">    &lt;artifactId&gt;mybatis-spring-boot-starter&lt;&#x2F;artifactId&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">    &lt;version&gt;1.1.1&lt;&#x2F;version&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">&lt;&#x2F;dependency&gt;</span></pre></td></tr></table></figure><br><strong>MyBatis一般可以通过XML或者注解的方式来指定SQL</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">spring:</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">  datasource:</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">    url: jdbc:mysql:&#x2F;&#x2F;127.0.0.1:3306&#x2F;springboot_db?useUnicode&#x3D;true&amp;characterEncoding&#x3D;UTF-8&amp;useSSL&#x3D;false</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">    driverClassName: com.mysql.jdbc.Driver</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">    username: root</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">    password: root</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">    type: com.alibaba.druid.pool.DruidDataSource</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line">mybatis:</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line">  #config-locations: mybatis&#x2F;mybatis-config.xml</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">11</span></pre></td><td class="code"><pre><span class="line">  mapper-locations: com&#x2F;guxf&#x2F;mapper&#x2F;*.xml</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">12</span></pre></td><td class="code"><pre><span class="line">  type-aliases-package: com.guxf.mapper.AuthorMapper</span></pre></td></tr></table></figure><br><strong>编写mapper对应的接口:</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">@Mapper</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">public interface AuthorMapper extends BaseMapper&lt;Author&gt; &#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">    public Long insertAuthor(Author author);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">    public void updateAuthor(Author author);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">    public Author queryById(Long id);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line">&#125;</span></pre></td></tr></table></figure><br><strong>配置Mapper的XML文件:</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">&lt;?xml version&#x3D;&quot;1.0&quot; encoding&#x3D;&quot;UTF-8&quot; ?&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">&lt;!DOCTYPE mapper PUBLIC &quot;-&#x2F;&#x2F;mybatis.org&#x2F;&#x2F;DTD Mapper 3.0&#x2F;&#x2F;EN&quot; &quot;http:&#x2F;&#x2F;mybatis.org&#x2F;dtd&#x2F;mybatis-3-mapper.dtd&quot; &gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">&lt;mapper namespace&#x3D;&quot;com.guxf.mapper.AuthorMapper&quot;&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">    &lt;!-- 此处需要注意的是，由于我们数据库定义的id存储类型为intbig,但是我们的Entity中Id是Long --&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">    &lt;!-- 前面的两种方式插入没问题，此处报了数据库类型异常 --&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">    &lt;!-- 所以数据库的ID类型改为了Varchar --&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">    &lt;resultMap id&#x3D;&quot;authorMap&quot; type&#x3D;&quot;com.guxf.domain.Author&quot;&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">        &lt;id column&#x3D;&quot;id&quot; property&#x3D;&quot;id&quot; jdbcType&#x3D;&quot;VARCHAR&quot; &#x2F;&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line">        &lt;result column&#x3D;&quot;real_name&quot; property&#x3D;&quot;realName&quot; jdbcType&#x3D;&quot;VARCHAR&quot; &#x2F;&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line">        &lt;result column&#x3D;&quot;nick_name&quot; property&#x3D;&quot;nickName&quot; jdbcType&#x3D;&quot;VARCHAR&quot; &#x2F;&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">11</span></pre></td><td class="code"><pre><span class="line">    &lt;&#x2F;resultMap&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">12</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">13</span></pre></td><td class="code"><pre><span class="line">    &lt;sql id&#x3D;&quot;base_column&quot;&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">14</span></pre></td><td class="code"><pre><span class="line">        id,real_name,nick_name</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">15</span></pre></td><td class="code"><pre><span class="line">    &lt;&#x2F;sql&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">16</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">17</span></pre></td><td class="code"><pre><span class="line">    &lt;insert id&#x3D;&quot;insertAuthor&quot; parameterType&#x3D;&quot;com.guxf.domain.Author&quot;&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">18</span></pre></td><td class="code"><pre><span class="line">        INSERT INTO</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">19</span></pre></td><td class="code"><pre><span class="line">        t_author(</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">20</span></pre></td><td class="code"><pre><span class="line">        &lt;include refid&#x3D;&quot;base_column&quot; &#x2F;&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">21</span></pre></td><td class="code"><pre><span class="line">        )</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">22</span></pre></td><td class="code"><pre><span class="line">        VALUE</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">23</span></pre></td><td class="code"><pre><span class="line">        (#&#123;id&#125;,#&#123;realName&#125;,#&#123;nickName&#125;)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">24</span></pre></td><td class="code"><pre><span class="line">    &lt;&#x2F;insert&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">25</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">26</span></pre></td><td class="code"><pre><span class="line">    &lt;update id&#x3D;&quot;updateAuthor&quot; parameterType&#x3D;&quot;com.guxf.domain.Author&quot;&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">27</span></pre></td><td class="code"><pre><span class="line">        UPDATE t_author</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">28</span></pre></td><td class="code"><pre><span class="line">        &lt;set&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">29</span></pre></td><td class="code"><pre><span class="line">            &lt;if test&#x3D;&quot;realName !&#x3D; null&quot;&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">30</span></pre></td><td class="code"><pre><span class="line">                real_name &#x3D; #&#123;realName&#125;,</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">31</span></pre></td><td class="code"><pre><span class="line">            &lt;&#x2F;if&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">32</span></pre></td><td class="code"><pre><span class="line">            &lt;if test&#x3D;&quot;nickName !&#x3D; null&quot;&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">33</span></pre></td><td class="code"><pre><span class="line">                nick_name &#x3D; #&#123;nickName&#125;,</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">34</span></pre></td><td class="code"><pre><span class="line">            &lt;&#x2F;if&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">35</span></pre></td><td class="code"><pre><span class="line">        &lt;&#x2F;set&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">36</span></pre></td><td class="code"><pre><span class="line">        WHERE id &#x3D; #&#123;id&#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">37</span></pre></td><td class="code"><pre><span class="line">    &lt;&#x2F;update&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">38</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">39</span></pre></td><td class="code"><pre><span class="line">    &lt;select id&#x3D;&quot;queryById&quot; parameterType&#x3D;&quot;Long&quot; resultMap&#x3D;&quot;authorMap&quot;&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">40</span></pre></td><td class="code"><pre><span class="line">        SELECT id,</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">41</span></pre></td><td class="code"><pre><span class="line">        &lt;include refid&#x3D;&quot;base_column&quot;&gt;&lt;&#x2F;include&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">42</span></pre></td><td class="code"><pre><span class="line">        FROM t_author</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">43</span></pre></td><td class="code"><pre><span class="line">        WHERE id &#x3D; #&#123;id&#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">44</span></pre></td><td class="code"><pre><span class="line">    &lt;&#x2F;select&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">45</span></pre></td><td class="code"><pre><span class="line">&lt;&#x2F;mapper&gt;</span></pre></td></tr></table></figure><br><strong>测试类代码</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">@RunWith(SpringJUnit4ClassRunner.class)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">@SpringBootTest(classes &#x3D; BootApplication.class)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">public class AuthorDaoTestMybatis &#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">    @Autowired</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">    private AuthorMapper mapper;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">    @Test</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line">    public void testInsert() &#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line">        Author author &#x3D; new Author();</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">11</span></pre></td><td class="code"><pre><span class="line">        author.setId(4L);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">12</span></pre></td><td class="code"><pre><span class="line">        author.setRealName(&quot;唐钰&quot;);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">13</span></pre></td><td class="code"><pre><span class="line">        author.setNickName(&quot;小宝&quot;);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">14</span></pre></td><td class="code"><pre><span class="line">        mapper.insertAuthor(author);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">15</span></pre></td><td class="code"><pre><span class="line">        System.out.println(&quot;成功!&quot;);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">16</span></pre></td><td class="code"><pre><span class="line">    &#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">17</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">18</span></pre></td><td class="code"><pre><span class="line">    @Test</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">19</span></pre></td><td class="code"><pre><span class="line">    public void testMybatisQuery() &#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">20</span></pre></td><td class="code"><pre><span class="line">        Author author &#x3D; mapper.queryById(1L);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">21</span></pre></td><td class="code"><pre><span class="line">        assertNotNull(author);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">22</span></pre></td><td class="code"><pre><span class="line">        System.out.println(author);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">23</span></pre></td><td class="code"><pre><span class="line">    &#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">24</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">25</span></pre></td><td class="code"><pre><span class="line">    @Test</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">26</span></pre></td><td class="code"><pre><span class="line">    public void testUpdate() &#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">27</span></pre></td><td class="code"><pre><span class="line">        Author author &#x3D; mapper.queryById(2L);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">28</span></pre></td><td class="code"><pre><span class="line">        author.setNickName(&quot;月儿&quot;);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">29</span></pre></td><td class="code"><pre><span class="line">        author.setRealName(&quot;林月如&quot;);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">30</span></pre></td><td class="code"><pre><span class="line">        mapper.updateAuthor(author);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">31</span></pre></td><td class="code"><pre><span class="line">    &#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">32</span></pre></td><td class="code"><pre><span class="line">&#125;</span></pre></td></tr></table></figure><br><em>mybatis @SELECT注解的动态拼写SQL</em><br>eg:如果要在查询条件中判断条件是否为空，如判断startNo, pageSize不为空<br>在XML中配置如下:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">&lt;when test&#x3D;&#39;startNo!&#x3D;null and pageSize !&#x3D; null &#39;&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">  LIMIT #&#123;startNo&#125;,#&#123;pageSize&#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">&lt;&#x2F;when&gt;</span></pre></td></tr></table></figure><br><strong>使用@SELECT</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">@Select(&quot;&lt;script&gt;&quot;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">	+&quot;select * from mi_taobao where 1&#x3D;1&quot;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">	+&quot;&lt;if test&#x3D;&#39;status !&#x3D; null&#39;&gt;&quot;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">	+&quot;and status &#x3D; #&#123;status&#125;&quot;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">	+&quot;&lt;&#x2F;if&gt;&quot;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">	+&quot;&lt;&#x2F;script&gt;&quot;)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">public List&lt;Taobao&gt; getTaobao(@Param(&quot;status&quot;) Integer status);</span></pre></td></tr></table></figure><br>问题: Caused by: org.apache.ibatis.reflection.ReflectionException: There is no getter for property named ‘status’ in ‘class java.lang.Interger’<br>参数属性不一致导致，需要加@Param(“xxx”),一般两个参数必须添加@Param，一个参数可以不加</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/04/24/Spring-Boot-Learn/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Qiang Chen">
-      <meta itemprop="description" content="记录是忘记的第一助手.">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="编辑尼撑">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/04/24/Spring-Boot-Learn/" class="post-title-link" itemprop="url">Spring-Boot-Learn</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2021-04-24 16:44:19" itemprop="dateCreated datePublished" datetime="2021-04-24T16:44:19+08:00">2021-04-24</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-05-01 20:28:58" itemprop="dateModified" datetime="2021-05-01T20:28:58+08:00">2021-05-01</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Cloud-Compute/" itemprop="url" rel="index">
-                    <span itemprop="name">Cloud Compute</span>
-                  </a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="Spring-Boot学习"><a href="#Spring-Boot学习" class="headerlink" title="Spring Boot学习"></a>Spring Boot学习</h2><h3 id="一、创建Spring-Boot新项目"><a href="#一、创建Spring-Boot新项目" class="headerlink" title="一、创建Spring Boot新项目"></a>一、创建Spring Boot新项目</h3><p>创建工具IDEA</p>
-<ul>
-<li>File-&gt;New-&gt;project-&gt;Spring Initialize-&gt;Next</li>
-<li>填写Group、Artifact、Language、Java Version、Version、Name、Description</li>
-<li>Next-&gt;Web-&gt;Spring Web(随spring boot版本不同而不同)-&gt;Next-&gt;Finish</li>
-</ul>
-<p><img src="/2021/04/24/Spring-Boot-Learn/1.png" alt="new"></p>
-<ul>
-<li>配置环境File-&gt;Settings-&gt;Build,Execution,Deployment-&gt;Maven<ul>
-<li>Maven home directory #apache-maven-3.6.3的下载目录</li>
-<li>User settings file #apache-maven-3.6.3的配置文件，在其目录的conf下</li>
-<li>Local repository #一般在apache-maven-3的配置中已经指定，依赖的下载路径</li>
-</ul>
-</li>
-</ul>
-<p><img src="/2021/04/24/Spring-Boot-Learn/2.png" alt="new"></p>
-<p>运行程序Application.java<br>浏览器访问：http:localhost:8080<br>会发现如下的错误，前后端没有做映射，后端给出的默认界面</p>
-<p><img src="/2021/04/24/Spring-Boot-Learn/3.png" alt="new"></p>
-<p>前后端分离：前、后端通过RESTful API传递JSON数据进行交流。后端不涉及前端界面的内容，有别于JSP<br><strong>目前RESTful方式的前后端访问方式比较流行，如openstack提供了底层RESTful API接口给后端访问</strong></p>
-<p>前后端对接：前端调用前端的服务器Nginx,后端调用后端的服务器Tomcat<br>反向代理: 前端请求通过前端服务器转发给后端，只需知道后端开放的接口，无需知道如何实现<br>*为了保护服务器，不保留真实地址</p>
-<p>重点:<br>组件的依赖关系、版本的确认</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
   </div>
 
   
@@ -1194,20 +1286,20 @@ public class AuthController {
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">23</span>
+          <span class="site-state-item-count">27</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-count">8</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">15</span>
+        <span class="site-state-item-count">16</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
