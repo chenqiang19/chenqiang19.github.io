@@ -326,10 +326,10 @@ Spring MVC 通过 ModelAndView 对象把模型和视图结合在一起<figure cl
 <h3 id="三、MVC模式与JAVAEE三层架构"><a href="#三、MVC模式与JAVAEE三层架构" class="headerlink" title="三、MVC模式与JAVAEE三层架构"></a>三、MVC模式与JAVAEE三层架构</h3><p><img src="/2021/05/09/Http-Html-Jsp/n7.jpg" alt="html"><br>参考资料：<br>[浅谈JSP]<a href="https://zhuanlan.zhihu.com/p/42343690" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/42343690</a><br>[JavaScript学习]<a href="https://www.w3school.com.cn/js/js_window.asp" target="_blank" rel="noopener">https://www.w3school.com.cn/js/js_window.asp</a></p>
 ]]></content>
       <categories>
-        <category>Programming-Language</category>
+        <category>Cloud Compute</category>
       </categories>
       <tags>
-        <tag>Programming-Language</tag>
+        <tag>Cloud Compute</tag>
       </tags>
   </entry>
   <entry>
