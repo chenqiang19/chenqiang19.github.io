@@ -210,6 +210,286 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/05/02/SWIG/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Qiang Chen">
+      <meta itemprop="description" content="记录是忘记的第一助手.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="编辑尼撑">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/05/02/SWIG/" class="post-title-link" itemprop="url">SWIG</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2021-05-02 21:21:44 / 修改时间：21:37:22" itemprop="dateCreated datePublished" datetime="2021-05-02T21:21:44+08:00">2021-05-02</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Programming-Language/" itemprop="url" rel="index">
+                    <span itemprop="name">Programming-Language</span>
+                  </a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="SWIG学习"><a href="#SWIG学习" class="headerlink" title="SWIG学习"></a>SWIG学习</h2><h3 id="一、SWIG介绍"><a href="#一、SWIG介绍" class="headerlink" title="一、SWIG介绍"></a>一、SWIG介绍</h3><p>SWIG(Simplified Wrapper and Interface Generator)简化包装和接口生成器是一种软件开发工具，用于为C/C++程序构建脚本语言接口。<br>目的：简化了将不同语言连接到C和C ++程序的任务。SWIG是一个编译器，它接受C / C ++声明，并创建从其他语言（包括Perl，Python，Tcl，Ruby，Guile和Java）访问这些声明所需的包装器。SWIG通常不需要修改现有代码，并且通常可以在短短几分钟内用于构建可用的界面。<br>SWIG的应用范围：</p>
+<ul>
+<li>构建到现有C程序的解释接口。 </li>
+<li>快速原型开发和应用程序开发。</li>
+<li>交互式调试  </li>
+<li>将遗留软件重新设计或重构为脚本语言组件 </li>
+<li>制作图形用户界面（例如，使用Tk） </li>
+<li>测试C库和程序（使用脚本） </li>
+<li>构建用于脚本语言的高性能C模块</li>
+<li>使C编程更有趣</li>
+<li>等等</li>
+</ul>
+<h3 id="二、为什么需要使用SWIG-gt-为了需要将C-C-的接口提供给别的脚本语言"><a href="#二、为什么需要使用SWIG-gt-为了需要将C-C-的接口提供给别的脚本语言" class="headerlink" title="二、为什么需要使用SWIG-&gt;为了需要将C/C++的接口提供给别的脚本语言"></a>二、为什么需要使用SWIG-&gt;为了需要将C/C++的接口提供给别的脚本语言</h3><p><strong>C/C++的优点：</strong></p>
+<ul>
+<li>对编写程序库的出色支持。</li>
+<li>高性能（数字运算，数据处理，图形等）。</li>
+<li>系统编程和系统集成。</li>
+<li>大型用户社区和软件库。</li>
+</ul>
+<p><strong>C/C++的缺点：</strong></p>
+<ul>
+<li>编写用户界面非常痛苦（例如，考虑使用MFC，X11，GTK或任何其他库进行编程）。</li>
+<li>测试很耗时（编译/调试周期）。</li>
+<li>不经过重新编译就很难重新配置或自定义。</li>
+<li>模块化很棘手。</li>
+<li>安全问题（例如缓冲区溢出）。</li>
+</ul>
+<p><strong>原因：</strong></p>
+<ul>
+<li>为了解决这些限制，许多程序员得出的结论是，<em>针对不同的任务使用不同的编程语言要容易得多</em>。 例如，使用Python或Tcl这样的脚本语言编写图形用户界面可能要容易得多（如果需要更多证据，请考虑数百万程序员使用Visual Basic这样的语言的原因）。</li>
+<li><em>交互式解释器</em>也可以用作有用的调试和测试工具。其他语言（例如Java）可能会大大简化编写分布式计算软件的任务。</li>
+<li>关键是<em>不同的编程语言具有不同的优点和缺点</em>。</li>
+<li>此外，<em>任何编程都不可能完美无缺</em>，因此，通过<em>将语言组合在一起</em>，您可以利用每种语言的最佳功能并大大简化软件开发的某些方面。 </li>
+</ul>
+<p><strong>那么使用SWIG的好处：</strong></p>
+<ul>
+<li>将C / C ++集成到高级语言中通常会导致模块化的设计，更少的代码，更好的灵活性并提高程序员的生产率。</li>
+<li>SWIG试图使C / C ++集成的问题尽可能轻松。</li>
+<li>它提供了多种自定义功能，使您几乎可以更改语言绑定的每个方面。</li>
+</ul>
+<p><strong>SWIG的作用：</strong><br>本质上，SWIG是一种用于生成使C / C ++代码可用于其他各种编程语言的代码的工具。 这些高级编程语言是SWIG代码生成器的目标语言，而C或C ++是输入语言。 运行SWIG时，必须指定一种目标语言。 这导致生成C / C ++代码和指定的目标语言以相互接口。 SWIG可以被多次调用，但是每次调用都指定了不同的目标语言。 将C / C ++与许多不同的目标语言接口的能力是SWIG的核心优势和功能之一。<br><strong>SWIG的组成：</strong><br>SWIG大致上由两个部分组成。 核心组件根据输入的ISO C / C ++和SWIG指令（对C / C ++标准的扩展）创建解析树。 然后将解析树传递到第二组件，第二组件是目标语言模块之一，用于生成特定于高级语言的代码。 SWIG支持许多不同的目标语言，这些目标语言的状态为<code>支持&#39;&#39;或</code>实验’’。 提供此状态是为了指示在使用特定目标语言时预期的成熟程度，因为并非所有目标语言都得到了充分开发。 </p>
+<h3 id="三、SWIG示例"><a href="#三、SWIG示例" class="headerlink" title="三、SWIG示例"></a>三、SWIG示例</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">&#x2F;* File : example.c *&#x2F;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">double My_variable &#x3D; 3.0;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">&#x2F;* Compute factorial of n *&#x2F;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">int fact(int n) &#123;  </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">	if (n &lt;&#x3D; 1)    </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">		return 1;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">	else    </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">		return n*fact(n-1);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line">&#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line">&#x2F;* Compute n mod m *&#x2F;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">11</span></pre></td><td class="code"><pre><span class="line">int my_mod(int n, int m) &#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">12</span></pre></td><td class="code"><pre><span class="line">	return(n % m);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">13</span></pre></td><td class="code"><pre><span class="line">&#125;</span></pre></td></tr></table></figure>
+<p>假设您要访问这些函数以及Tcl中的全局变量My_variable。首先制作如下所示的SWIG接口文件（按照惯例，这些文件带有.i后缀）<br>1、SWIG interface file<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">&#x2F;* File : example.i *&#x2F;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">%module example</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">%&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">&#x2F;* Put headers and other declarations here *&#x2F;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">extern double My_variable;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">extern int    fact(int);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">extern int    my_mod(int n, int m);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">%&#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line">extern double My_variable;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">11</span></pre></td><td class="code"><pre><span class="line">extern int    fact(int);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">12</span></pre></td><td class="code"><pre><span class="line">extern int    my_mod(int n, int m);</span></pre></td></tr></table></figure><br><em>%module提供了SWIG创建模块的名称</em>，%{ %}提供了将其他代码(C头文件/其他C声明)插入c包装器中的位置。<br>2、The swig command<br>SWIG使用swig命令唤醒，下面的命令被用于构建一个Tcl模块<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">unix &gt; swig -tcl example.i</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">unix &gt; gcc -c -fpic example.c example_wrap.c -I&#x2F;usr&#x2F;local&#x2F;include</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">unix &gt; gcc -shared example.o example_wrap.o -o example.so</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">#验证</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">unix &gt; tclsh% </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">load .&#x2F;example.so</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">% fact 424</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">% my_mod 23 7</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line">2</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line">% expr $My_variable + 4.5</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">11</span></pre></td><td class="code"><pre><span class="line">7.5</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">12</span></pre></td><td class="code"><pre><span class="line">%</span></pre></td></tr></table></figure><br>swig命令生成了一个名为example_wrap.c的新文件，该文件应与example.c文件一起编译。现在，大多数操作系统和脚本语言都支持<em>动态加载模块</em>。在我们的示例中，我们的Tcl模块已被编译到一个共享库中，该库可以加载到Tcl中。加载后，Tcl现在可以访问SWIG接口中声明的函数和变量。查看文件example_wrap.c会发现一个令人毛骨悚然的混乱局面。但是，您几乎不需要担心它。<br>3、构建一个python模块<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">unix &gt; swig -python example.i</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">unix &gt; gcc -c -fpic example.c example_wrap.c -I&#x2F;usr&#x2F;local&#x2F;include&#x2F;python2.0</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">unix &gt; gcc -shared example.o example_wrap.o -o _example.so</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">unix &gt; python</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">Python 2.0 (#6, Feb 21 2001, 13:29:45)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">[GCC egcs-2.91.66 19990314&#x2F;Linux (egcs-1.1.2 release)] on linux2</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">Type &quot;copyright&quot;, &quot;credits&quot; or &quot;license&quot; for more information.</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; import example</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; example.fact(4)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line">24</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">11</span></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; example.my_mod(23, 7)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">12</span></pre></td><td class="code"><pre><span class="line">2</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">13</span></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; example.cvar.My_variable + 4.5</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">14</span></pre></td><td class="code"><pre><span class="line">7.5</span></pre></td></tr></table></figure><br>4、Shortcuts，不需要额外的接口文件xxx.i，构建一个Perl5模块<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">unix &gt; swig -perl5 -module example example.h            #指定模块名和c头文件</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">unix &gt; gcc -c example.c example_wrap.c \                #gcc编译 </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">		-I&#x2F;usr&#x2F;local&#x2F;lib&#x2F;perl5&#x2F;sun4-solaris&#x2F;5.003&#x2F;CORE</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">unix &gt; ld -G example.o example_wrap.o -o example.so     #ld链接器进行链接</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">unix &gt; perl5.003</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">use example;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">print example::fact(4), &quot;\n&quot;;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">print example::my_mod(23, 7), &quot;\n&quot;;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line">print $example::My_variable + 4.5, &quot;\n&quot;;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line">&lt;ctrl-d&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">11</span></pre></td><td class="code"><pre><span class="line">24</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">12</span></pre></td><td class="code"><pre><span class="line">27.5</span></pre></td></tr></table></figure></p>
+<h3 id="四、SIWG支持的C-特性"><a href="#四、SIWG支持的C-特性" class="headerlink" title="四、SIWG支持的C++特性"></a>四、SIWG支持的C++特性</h3><ul>
+<li>完整的C99预处理。</li>
+<li>所有ISO C和C ++数据类型。</li>
+<li>函数，变量和常量。</li>
+<li>类。</li>
+<li>单重和多重继承。</li>
+<li>重载的函数和方法。</li>
+<li>重载的运算符。</li>
+<li>C ++模板（包括成员模板，专业化和部分专业化）。</li>
+<li>命名空间。</li>
+<li>变量 长度参数。</li>
+<li>C++智能指针。</li>
+</ul>
+<p>Most of C++11 is also supported. Details are in the <strong>7 SWIG and C++11</strong> chapter. C++14 support is covered in the <strong>8 SWIG and C++14</strong> chapter. C++17 support is covered in the <em>**9 SWIG and C++17</em> chapter.</p>
+<p>如果要深入了解脚本语言如何扩展需要的知识：编译器、链接器、makefile。</p>
+<p><strong>如需了解更多的细节可以查看官网文档</strong><br><a href="http://www.swig.org/Doc4.0/SWIGDocumentation.pdf" target="_blank" rel="noopener">SWIG文档</a></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/05/02/Programming-Language/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Qiang Chen">
+      <meta itemprop="description" content="记录是忘记的第一助手.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="编辑尼撑">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/05/02/Programming-Language/" class="post-title-link" itemprop="url">Programming-Language</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2021-05-02 21:19:36 / 修改时间：21:22:35" itemprop="dateCreated datePublished" datetime="2021-05-02T21:19:36+08:00">2021-05-02</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Programming-Language/" itemprop="url" rel="index">
+                    <span itemprop="name">Programming-Language</span>
+                  </a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="编程语言及其类型的归纳"><a href="#编程语言及其类型的归纳" class="headerlink" title="编程语言及其类型的归纳"></a>编程语言及其类型的归纳</h2><h3 id="一、脚本语言"><a href="#一、脚本语言" class="headerlink" title="一、脚本语言"></a>一、脚本语言</h3><ul>
+<li>介于HTML和C/C++,Java等编程语言之间。HTML通常用于格式化和链接文本，编程语言向及其发出一系列复杂的指令。</li>
+<li>和编程语言一样都有变量，但是没有编程语言严格和复杂的语法和规则。</li>
+<li>需要有相应的脚本引擎来解释执行，需要解释器,是一种解释性语言。不用像C/C++等语言一样需要编译成二进制文件，最后生成可执行文件。</li>
+<li>如JavaScript,ASP,PHP,PERL等</li>
+</ul>
+<h3 id="二、编程范式：命令式编程-Imperative-、声明式编程-Declarative-和函数式编程-Functional"><a href="#二、编程范式：命令式编程-Imperative-、声明式编程-Declarative-和函数式编程-Functional" class="headerlink" title="二、编程范式：命令式编程(Imperative)、声明式编程(Declarative)和函数式编程(Functional)"></a>二、编程范式：命令式编程(Imperative)、声明式编程(Declarative)和函数式编程(Functional)</h3><p>计算机的最下层是CPU指令，其本质就是用“变量定义+顺序执行+分支判断+循环”所表达的逻辑过程。计算机应用的最上层是实现人类社会的某种功能。所以所有计算机编码的过程，就是用逻辑表达现实的过程。层与层之间定义的借口，越接近现实的表达就叫越“声明式”（declarative），越接近计算机的执行过程就叫越“命令式”（imperative）。注意这不是绝对的概念，而是相对的概念。<br>越是声明式，意味着下层要做更多的东西，或者说能力越强。也意味着效率的损失。越是命令式，意味着上层对下层有更多的操作空间，可以按照自己特定的需求要求下层按照某种方式来处理。</p>
+<p><img src="/2021/05/02/Programming-Language/1.png" alt="Language"><br>命令式编程：命令式编程的主要思想是关注计算机执行的步骤，即一步一步告诉计算机先做什么再做什么。<br>声明式编程：声明式编程是以数据结构的形式来表达程序执行的逻辑。它的主要思想是告诉计算机应该做什么，但不指定具体要怎么做。如：SQL<br>函数式编程：和声明式编程的思想是一致的，即只关注做什么而不是怎么做。但函数式编程不仅仅局限于声明式编程。函数式编程最重要的特点是“函数第一位”，即函数可以出现在任何地方，比如你可以把函数作为参数传递给另一个函数，不仅如此你还可以将函数作为返回值。</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/05/01/Spring-Cloud-OpenFeign/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Qiang Chen">
+      <meta itemprop="description" content="记录是忘记的第一助手.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="编辑尼撑">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/05/01/Spring-Cloud-OpenFeign/" class="post-title-link" itemprop="url">Spring-Cloud-OpenFeign</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2021-05-01 20:10:50 / 修改时间：20:22:34" itemprop="dateCreated datePublished" datetime="2021-05-01T20:10:50+08:00">2021-05-01</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Cloud-Compute/" itemprop="url" rel="index">
+                    <span itemprop="name">Cloud Compute</span>
+                  </a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="OpenFeign实现微服务之间的调用"><a href="#OpenFeign实现微服务之间的调用" class="headerlink" title="OpenFeign实现微服务之间的调用"></a>OpenFeign实现微服务之间的调用</h2><h3 id="带着问题来学习"><a href="#带着问题来学习" class="headerlink" title="带着问题来学习"></a>带着问题来学习</h3><p><strong>什么是Feign,OpenFeign与Feign有啥区别，如何使用</strong></p>
+<h3 id="一、Feign介绍"><a href="#一、Feign介绍" class="headerlink" title="一、Feign介绍"></a>一、Feign介绍</h3><p><strong>Feign</strong>是SpringCloud组件中一个轻量级RESTFul的HTTP客户端。其内置了Ribbon实现客户端请求的负载均衡。但是Feign<strong>不支持Spring MVC注解</strong>。</p>
+<h3 id="二、OpenFeign介绍"><a href="#二、OpenFeign介绍" class="headerlink" title="二、OpenFeign介绍"></a>二、OpenFeign介绍</h3><p><strong>OpenFeign</strong>在Feign的基础上支持Spring MVC注解，比如@RequestMapping等。OpenFeign的@FeignClient可以解析Spring MVC的@RequestMapping注解下的接口。并通过动态代理生成实现类，实现类做负载均衡并调用其他服务。</p>
+<h3 id="三、微服务间调用，该怎么办？"><a href="#三、微服务间调用，该怎么办？" class="headerlink" title="三、微服务间调用，该怎么办？"></a>三、微服务间调用，该怎么办？</h3><p>引入了HTTP客户端，及提供RESTFul API供别的服务调用。此处，引入OpenFeign。<br>如果有多个服务A,B,C,D。如果A要调用B中的接口怎么办，之前Feign是这样做的。如果A要调用B，那么需要在A中写被调用者B的FeignClient。而OpenFeign是，A调用B的话，需要在B服务根目录下单独创建一个B-api目录，里面放一个Feign目录存放被别的服务调用的API接口。这样A服务调用B服务时，直接引入B的api即可。<br><strong>好处</strong>：将被调用服务(如服务B)的FeignClient的编写交给负责被调用模块(如服务B)的开发人员，让更熟悉此模块的人去编写对外开发的FeignClient会更加合理，有效。</p>
+<h3 id="四、如何使用"><a href="#四、如何使用" class="headerlink" title="四、如何使用"></a>四、如何使用</h3><p>如有微服务项目中有auth，admin两个服务，auth要调用amdin的load函数，如何实现呢？<br>1、创建admin-api子模块，添加maven依赖(被调用模块)<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">&lt;!-- OpenFeign --&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">&lt;dependency&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">    &lt;groupId&gt;org.springframework.cloud&lt;&#x2F;groupId&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">    &lt;artifactId&gt;spring-cloud-starter-openfeign&lt;&#x2F;artifactId&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">&lt;&#x2F;dependency&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">&lt;!-- OkHttp --&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">&lt;dependency&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">    &lt;groupId&gt;io.github.openfeign&lt;&#x2F;groupId&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line">    &lt;artifactId&gt;feign-okhttp&lt;&#x2F;artifactId&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line">&lt;&#x2F;dependency&gt;</span></pre></td></tr></table></figure><br>2、定义FeignClient接口<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">@FeignClient(&quot;admin&quot;) #这里的admin是服务注册时的服务名，如用nacos</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">public interface UmsAdminService &#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">    @GetMapping(&quot;&#x2F;users&#x2F;loadUserByName&quot;)  #服务调用地址</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">    UserDTO loadUserByName(@RequestParam String username);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">&#125;</span></pre></td></tr></table></figure><br>3、auth添加依赖(调用模块)<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">&lt;dependency&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">    &lt;groupId&gt;com.projectname&lt;&#x2F;groupId&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">    &lt;artifactId&gt;projectname-admin-api&lt;&#x2F;artifactId&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">    &lt;version&gt;1.0.0-SNAPSHOT&lt;&#x2F;version&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">&lt;&#x2F;dependency&gt;</span></pre></td></tr></table></figure><br>4、配置文件开启OpenFeign使用OkHttp作为底层的client,也可以用其他的client，如HttpURLConnection(JDK默认)，feign-httpclient<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">feign:</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">  okhttp:</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">    enabled: true</span></pre></td></tr></table></figure><br>5、auth调用端的调用代码<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">@Autowired</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">private UmsAdminService umsAdminService;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">@GetMapping(&quot;&#x2F;loadUserByName&quot;)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">public Result loadUserByName()&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">    UserDTO userDTO &#x3D; umsAdminService.loadUserByName(&quot;admin&quot;);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">    return Result.success(userDTO);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">&#125;</span></pre></td></tr></table></figure><br>6、在启动类上添加@EnableFeignClients注解<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">@SpringBootApplication</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">@EnableFeignClients</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">public class TestOpenFeignApplication &#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">    public static void main(String[] args) &#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">        SpringApplication.run(TestOpenFeignApplication.class,args);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">    &#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">&#125;</span></pre></td></tr></table></figure></p>
+<p>依次启动项目auth、admin即可<br><strong>注意：@RequestMapping不能在类名上与@FeignClient同时使用</strong></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/05/01/Spring-Cloud-Nacos/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -847,193 +1127,6 @@ public class AuthController {
   
   
 
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/04/14/Tensorflow-Source-Code-Learning/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Qiang Chen">
-      <meta itemprop="description" content="记录是忘记的第一助手.">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="编辑尼撑">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/04/14/Tensorflow-Source-Code-Learning/" class="post-title-link" itemprop="url">Tensorflow-Source-Code-Learning</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2021-04-14 21:16:49 / 修改时间：21:58:22" itemprop="dateCreated datePublished" datetime="2021-04-14T21:16:49+08:00">2021-04-14</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Tensorflow/" itemprop="url" rel="index">
-                    <span itemprop="name">Tensorflow</span>
-                  </a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h3 id="Tensorflow-framework核心"><a href="#Tensorflow-framework核心" class="headerlink" title="Tensorflow framework核心"></a>Tensorflow framework核心</h3><p>1、前端接口语言的支持（通过swig实现其他语言与C/C++的编写的程序进行连接，如：Java,Python）<br>2、前后端session的管理<br>3、graph的构建、分裂、运行和执行<br>4、Operation的Register和Run<br>5、模块间的通信，本地和分布式两种<br>6、本地和分布式运行模式<br>7、CPU、GPU和TPU等异构设备的支持</p>
-<p>整个框架以C API为主，分为前、后端<br>前端负责，graph的构建、并传递给master<br>后端负责提供运行时环境，分为4层<br>1、运行时：图的接受，剪枝，编排等操作<br>2、计算层：提供op算子的内核实现<br>3、通信层：组件间通信<br>4、设备层：异构设备的支持</p>
-<h4 id="Tensorflow-图的构造和执行是相互分离的，大体流程为："><a href="#Tensorflow-图的构造和执行是相互分离的，大体流程为：" class="headerlink" title="Tensorflow 图的构造和执行是相互分离的，大体流程为："></a>Tensorflow 图的构造和执行是相互分离的，大体流程为：</h4><p>1、图的构造：用于在Client端使用前端的多语言编程接口（python、java）添加算子，完成计算图的构造<br>2、图的传递：Client开启Session，通过它建立和Master之间的连接，执行Session Run,将构建好的graph序列化为graphDef后，以Protobuf传给Master<br>3、图的剪枝：Master根据Session.run()传递的fetch和feeds列表，反向遍历全图，找到最小依赖子图，实施剪枝<br>4、图的分裂：Master将最小子图分裂为多个Graph Partition并注册到多个Worker上<br>5、图二次分裂：Worker根据当前的硬件资源，如CPU、GPU、TPU和MLU，将Graph Partition按照op算子设备约束规范二次分裂到不同设备<br>6、图的运行：每个设备，Worker按照op在kernel中的实现完成op运算</p>
-<h4 id="Tensorflow-源码编译"><a href="#Tensorflow-源码编译" class="headerlink" title="Tensorflow 源码编译"></a>Tensorflow 源码编译</h4><p>使用bazel编译，得到pywrap_tensorflow_internal.py 对接上层python调用加载_pywrap_tensorflow_internal.so动态库<br>得到pywrap_tensorflow_internal.cc 对接底层c API,注册了一个函数符号表，实现python接口和c接口的映射</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/04/14/C-Plus-Plus-Summary/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Qiang Chen">
-      <meta itemprop="description" content="记录是忘记的第一助手.">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="编辑尼撑">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/04/14/C-Plus-Plus-Summary/" class="post-title-link" itemprop="url">C-Plus-Plus-Summary</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2021-04-14 21:16:28" itemprop="dateCreated datePublished" datetime="2021-04-14T21:16:28+08:00">2021-04-14</time>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/04/14/Cloud-Compute/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Qiang Chen">
-      <meta itemprop="description" content="记录是忘记的第一助手.">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="编辑尼撑">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/04/14/Cloud-Compute/" class="post-title-link" itemprop="url">Cloud-Compute</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2021-04-14 21:16:04" itemprop="dateCreated datePublished" datetime="2021-04-14T21:16:04+08:00">2021-04-14</time>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
   </div>
 
   
@@ -1082,7 +1175,7 @@ public class AuthController {
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">27</span>
+          <span class="site-state-item-count">30</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
