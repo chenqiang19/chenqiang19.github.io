@@ -18,9 +18,9 @@
   
   <entry>
     <title>Hello World</title>
-    <link href="http://yoursite.com/2021/05/14/hello-world/"/>
-    <id>http://yoursite.com/2021/05/14/hello-world/</id>
-    <published>2021-05-14T13:46:05.524Z</published>
+    <link href="http://yoursite.com/2021/05/15/hello-world/"/>
+    <id>http://yoursite.com/2021/05/15/hello-world/</id>
+    <published>2021-05-15T10:21:10.667Z</published>
     <updated>2021-04-03T12:51:40.438Z</updated>
     
     <content type="html"><![CDATA[<p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p><h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post-location-source-gt-post-directory"><a href="#Create-a-new-post-location-source-gt-post-directory" class="headerlink" title="Create a new post, location: source-&gt;_post directory"></a>Create a new post, location: source-&gt;_post directory</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span></pre></td></tr></table></figure><h3 id="Create-a-new-draft-location-source-gt-drafts-directory"><a href="#Create-a-new-draft-location-source-gt-drafts-directory" class="headerlink" title="Create a new draft, location: source-&gt;_drafts directory"></a>Create a new draft, location: source-&gt;_drafts directory</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">$ hexo new  draft <span class="string">"My New Draft"</span></span></pre></td></tr></table></figure><h3 id="Preview-a-new-draft-shut-down-old-server"><a href="#Preview-a-new-draft-shut-down-old-server" class="headerlink" title="Preview a new draft (shut down old server)"></a>Preview a new draft (shut down old server)</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">$ hexo server --draft</span></pre></td></tr></table></figure><h3 id="publish-a-new-draft-shut-down-old-server"><a href="#publish-a-new-draft-shut-down-old-server" class="headerlink" title="publish a new draft (shut down old server)"></a>publish a new draft (shut down old server)</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">$ hexo publish <span class="string">"My New draft"</span></span></pre></td></tr></table></figure><h3 id="Create-a-new-normal-location-source-gt-c-directory"><a href="#Create-a-new-normal-location-source-gt-c-directory" class="headerlink" title="Create a new normal, location: source-&gt;c directory"></a>Create a new normal, location: source-&gt;c directory</h3><h4 id="normal-is-not-blog-page-it-likes-about-or-contact-us-page"><a href="#normal-is-not-blog-page-it-likes-about-or-contact-us-page" class="headerlink" title="normal is not blog page, it likes about or contact us page."></a>normal is not blog page, it likes about or contact us page.</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">$ hexo new page <span class="string">"My new Normal"</span></span></pre></td></tr></table></figure><h3 id="Preview-a-new-normal"><a href="#Preview-a-new-normal" class="headerlink" title="Preview a new normal"></a>Preview a new normal</h3><p><a href="http://localhost:4000/c/" target="_blank" rel="noopener">http://localhost:4000/c/</a></p><p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p><h3 id="Clean-cache"><a href="#Clean-cache" class="headerlink" title="Clean cache"></a>Clean cache</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">$ hexo clean</span></pre></td></tr></table></figure><h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">$ hexo server</span></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p><h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">$ hexo generate</span></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p><h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/one-command-deployment.html" target="_blank" rel="noopener">Deployment</a></p><p>If you want to show Chinese, you must make sure md is saved with utf-8</p>]]></content>
@@ -35,6 +35,32 @@
     </summary>
     
     
+    
+  </entry>
+  
+  <entry>
+    <title>Machine-Learning-Inductive-Bias</title>
+    <link href="http://yoursite.com/2021/05/15/Machine-Learning-Inductive-Bias/"/>
+    <id>http://yoursite.com/2021/05/15/Machine-Learning-Inductive-Bias/</id>
+    <published>2021-05-15T10:19:54.000Z</published>
+    <updated>2021-05-15T10:22:22.418Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="机器学习中的归纳偏好"><a href="#机器学习中的归纳偏好" class="headerlink" title="机器学习中的归纳偏好"></a>机器学习中的归纳偏好</h2><p><strong>学习，摘录自周志华老师的西瓜书-机器学习</strong>，为了节省时间公式就不编辑了<br><strong>学习</strong>得到的模型对应了假设空间中的一个假设，但由于版本空间的多样性，对于新数据会面临不同的输出空间。<br>那么对于机器学习来说必须要产生一个模型，该如何选择模型呢？<br>根据学习过程中对<strong>某种类型假设的偏好</strong><br>任何一个有效的机器学习算法必须有其归纳偏好，否则它将被假设空间中看似在训练集上”等效”的假设所迷惑，而无法产生确定的学习结果。时而对，时而错，学习的结果显然没有意义。<br><strong>归纳偏好</strong>可看作学习算法自身在一个可能很庞大的假设空间中对假设进行选择的启发式或”价值观”<br>那么如何引导算法确立”正确的”偏好呢？<br><strong>奥卡姆剃刀</strong>是一种常用的，自然科学研究中最基本的原则，即”若有多个假设与观察一致，则选最简单的那个”。如：描述更简单或方程式更简单。<br>事实上，归纳偏好对应了学习算法本身所做出的关于”什么样的模型更好”的假设。在具体的现实问题中，这个假设是否成立，即算法的归纳偏好是否与问题本身匹配，大多数时候直接决定了算法能否取得好的性能。<br><img src="/2021/05/15/Machine-Learning-Inductive-Bias/1.png" alt="Inductive-Bias"><br>上图中如果没有指出对应的场景和偏好，算法A和算法B的优劣情况是一样的。<br><img src="/2021/05/15/Machine-Learning-Inductive-Bias/2.png" alt="Inductive-Bias"><br><img src="/2021/05/15/Machine-Learning-Inductive-Bias/3.png" alt="Inductive-Bias"><br>NFL定义有一个前提，所有”问题”出现的机会相同、或所有问题同等重要。但实际上，我们只关注自己正在试图解决的问题，希望为它找到一个解决方案，至于这个解决方案在别的问题、甚至相似的问题上是否为好的方案，并不关心。<br>脱离具体问题，空谈”什么学习算法更好”毫无意义，必须针对剧吐的学习问题。学习算法自身的归纳偏好与问题是否相配，往往会起到决定性的作用。</p><p><strong>从样例中学习</strong>基于神经网络的连接主义学习。<br>连接主义最大的局限性是其”试错性”，学习过程涉及大量参数，而参数的设置缺乏理论指导，主要靠手工”调参”。参数调节上失之毫厘，学习结果可能谬以千里。</p><h3 id="机器学习的应用"><a href="#机器学习的应用" class="headerlink" title="机器学习的应用"></a>机器学习的应用</h3><p>今天，在计算机科学的诸多分支学科领域中，无论是多媒体、图形学还是网络通信、软件工程乃至体系结构、芯片设计，都能找到机器学习计数的身影，尤其是在计算机视觉、自然语言处理等领域。<br><strong>大数据时代</strong>的三大关键技术：机器学习、云计算、众包(crowdsourcing)<br>大数据时代需要对数据进行收集、存储、传输、管理，目的是为了”利用”大数据。<br><strong>分析利用大数据</strong>，会想到”数据挖掘”，那么数据挖掘和机器学习的联系是怎么样的呢？<br><strong>数据挖掘</strong>领域涉及的关键技术是:数据库、机器学习、统计学。数据库提供了海量数据管理的作用；机器学习和统计学的研究为数据挖掘提供数据分析技术。但统计学的研究成果通常需要经由机器学习研究来形成有效的学习算法，所以数据挖掘的两大关键支撑是数据库和机器学习。</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h2 id=&quot;机器学习中的归纳偏好&quot;&gt;&lt;a href=&quot;#机器学习中的归纳偏好&quot; class=&quot;headerlink&quot; title=&quot;机器学习中的归纳偏好&quot;&gt;&lt;/a&gt;机器学习中的归纳偏好&lt;/h2&gt;&lt;p&gt;&lt;strong&gt;学习，摘录自周志华老师的西瓜书-机器学习&lt;/strong&gt;，
+      
+    
+    </summary>
+    
+    
+      <category term="Machine Learning" scheme="http://yoursite.com/categories/Machine-Learning/"/>
+    
+    
+      <category term="Machine Learning" scheme="http://yoursite.com/tags/Machine-Learning/"/>
     
   </entry>
   
@@ -498,21 +524,6 @@
     <id>http://yoursite.com/2021/04/14/Vim-Summary/</id>
     <published>2021-04-14T13:17:54.000Z</published>
     <updated>2021-04-14T13:17:54.769Z</updated>
-    
-    <summary type="html">
-    
-    </summary>
-    
-    
-    
-  </entry>
-  
-  <entry>
-    <title>Cambricon-Learning</title>
-    <link href="http://yoursite.com/2021/04/14/Cambricon-Learning/"/>
-    <id>http://yoursite.com/2021/04/14/Cambricon-Learning/</id>
-    <published>2021-04-14T13:17:36.000Z</published>
-    <updated>2021-04-14T13:17:36.085Z</updated>
     
     <summary type="html">
     

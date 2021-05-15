@@ -210,6 +210,63 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/04/14/Cambricon-Learning/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Qiang Chen">
+      <meta itemprop="description" content="记录是忘记的第一助手.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="编辑尼撑">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/04/14/Cambricon-Learning/" class="post-title-link" itemprop="url">Cambricon-Learning</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-04-14 21:17:36" itemprop="dateCreated datePublished" datetime="2021-04-14T21:17:36+08:00">2021-04-14</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/04/14/Tensorflow-Source-Code-Learning/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -860,112 +917,11 @@ f(P)\approx \frac{y_2-y}{y_2-y_1}f(R_{1}) + \frac{y-y_1}{y_2-y_1}f(R_{2})\quad �
   
   
 
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/12/28/GBDT/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Qiang Chen">
-      <meta itemprop="description" content="记录是忘记的第一助手.">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="编辑尼撑">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2019/12/28/GBDT/" class="post-title-link" itemprop="url">GBDT</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2019-12-28 19:36:41" itemprop="dateCreated datePublished" datetime="2019-12-28T19:36:41+08:00">2019-12-28</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-05-01 14:58:58" itemprop="dateModified" datetime="2021-05-01T14:58:58+08:00">2021-05-01</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Machine-Learning/" itemprop="url" rel="index">
-                    <span itemprop="name">Machine Learning</span>
-                  </a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h3 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h3><h4 id="GBDT-Gradient-Boosting-Decision-Tree-的优点"><a href="#GBDT-Gradient-Boosting-Decision-Tree-的优点" class="headerlink" title="GBDT(Gradient Boosting Decision Tree)的优点"></a>GBDT(Gradient Boosting Decision Tree)的优点</h4><ol>
-<li>既可以用于分类，也可以用于回归</li>
-<li>可以进行特征筛选（采用树结构）</li>
-<li>实验效果不错</li>
-</ol>
-<h4 id="GBDT训练过程"><a href="#GBDT训练过程" class="headerlink" title="GBDT训练过程"></a>GBDT训练过程</h4><p><img src="/2019/12/28/GBDT/GBDT.png" alt="GBDT"></p>
-<p>gbdt通过多轮迭代产生多个足够简单的弱分类器(低方差、高偏差)，将每轮训练得到的弱分类器加权求和得到最终的分类器，并且不断的减小每轮训练过程产生的残差以实现对目标的分类或回归。</p>
-<p><strong>上图是针对单个分类，如果多分类的话（K），同时训练k个CART树，k个树相互独立，单个树的训练过程一样</strong><br><strong>对于CART树生成的过程，重点关注那个特征最合适，这个特征对应的最优特征值切分点是多少</strong></p>
-<p>通过对每个特征的每个特征值，计算损失值，选取其中最小分量的特征作为树的节点，最小分量对应的特征值作为最佳切分点</p>
-<p>弱分类器一般选择<em>分类回归树</em>,必须符合CART模型；弱分类器的参数一般经过经验风险极小化来确定；损失函数(目标函数)有平方损失函数、0-1损失函数、对数损失函数等。</p>
-<h3 id="特征选择"><a href="#特征选择" class="headerlink" title="特征选择"></a>特征选择</h3><ol>
-<li>假设有M个特征，从中选择一个特征j作为二叉树的第一个节点</li>
-<li>对特征j选择一个切分点m，例如，小于m为一类，大于m为一类</li>
-<li>依次迭代，直到特征划分完为止<br><strong>这里面的关键是如何选取最优特征和该特征对应的最优切分点。这也是之后的改进算法出现的一个切入点</strong></li>
-</ol>
-<h3 id="如何使GBDT对数据具有非线性的拟合能力"><a href="#如何使GBDT对数据具有非线性的拟合能力" class="headerlink" title="如何使GBDT对数据具有非线性的拟合能力"></a>如何使GBDT对数据具有非线性的拟合能力</h3><ol>
-<li>CTR预估中，工业届一般使用逻辑回归，但其本身适合处理线性可分的数据</li>
-<li>为了让逻辑回归能够处理非线性数据，可以通过组合不同的特征</li>
-<li>传统的人工特征组合的方式，不仅耗费人力和时间，实验效果也不是很好。因此，希望通过算法自动、高效的寻找有效的特征组合，以提升模型的效果<br><strong>2014年，Facebook提出利用gbdt去产生有效的特征组合，使用GBDT生成两棵树，通过输入X得到最终的叶子节点作为新的特征与原始特征结合，然后输入逻辑回归进行训练，得到了显著的效果提升</strong></li>
-</ol>
-<hr>
-<blockquote>
-<p>Practical Lessons from Predicting Clicks on Ads at Facebook</p>
-</blockquote>
-<hr>
-<h4 id="细节请参考"><a href="#细节请参考" class="headerlink" title="细节请参考"></a>细节请参考</h4><p><a href="https://www.cnblogs.com/always-fight/p/9400346.html" target="_blank" rel="noopener">Blog-GBDT</a><br><a href="https://www.jianshu.com/p/405f233ed04b" target="_blank" rel="noopener">JianShu</a></p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
   </div>
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/2/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span>
+    <a class="extend prev" rel="prev" href="/page/2/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/4/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
 
 
@@ -1009,7 +965,7 @@ f(P)\approx \frac{y_2-y}{y_2-y_1}f(R_{1}) + \frac{y-y_1}{y_2-y_1}f(R_{2})\quad �
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">30</span>
+          <span class="site-state-item-count">31</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
