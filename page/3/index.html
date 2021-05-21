@@ -210,6 +210,249 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/04/24/Spring-Boot-Learn/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Qiang Chen">
+      <meta itemprop="description" content="记录是忘记的第一助手.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="编辑尼撑">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/04/24/Spring-Boot-Learn/" class="post-title-link" itemprop="url">Spring-Boot-Learn</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-04-24 16:44:19" itemprop="dateCreated datePublished" datetime="2021-04-24T16:44:19+08:00">2021-04-24</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-05-01 20:28:58" itemprop="dateModified" datetime="2021-05-01T20:28:58+08:00">2021-05-01</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Cloud-Compute/" itemprop="url" rel="index">
+                    <span itemprop="name">Cloud Compute</span>
+                  </a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="Spring-Boot学习"><a href="#Spring-Boot学习" class="headerlink" title="Spring Boot学习"></a>Spring Boot学习</h2><h3 id="一、创建Spring-Boot新项目"><a href="#一、创建Spring-Boot新项目" class="headerlink" title="一、创建Spring Boot新项目"></a>一、创建Spring Boot新项目</h3><p>创建工具IDEA</p>
+<ul>
+<li>File-&gt;New-&gt;project-&gt;Spring Initialize-&gt;Next</li>
+<li>填写Group、Artifact、Language、Java Version、Version、Name、Description</li>
+<li>Next-&gt;Web-&gt;Spring Web(随spring boot版本不同而不同)-&gt;Next-&gt;Finish</li>
+</ul>
+<p><img src="/2021/04/24/Spring-Boot-Learn/1.png" alt="new"></p>
+<ul>
+<li>配置环境File-&gt;Settings-&gt;Build,Execution,Deployment-&gt;Maven<ul>
+<li>Maven home directory #apache-maven-3.6.3的下载目录</li>
+<li>User settings file #apache-maven-3.6.3的配置文件，在其目录的conf下</li>
+<li>Local repository #一般在apache-maven-3的配置中已经指定，依赖的下载路径</li>
+</ul>
+</li>
+</ul>
+<p><img src="/2021/04/24/Spring-Boot-Learn/2.png" alt="new"></p>
+<p>运行程序Application.java<br>浏览器访问：http:localhost:8080<br>会发现如下的错误，前后端没有做映射，后端给出的默认界面</p>
+<p><img src="/2021/04/24/Spring-Boot-Learn/3.png" alt="new"></p>
+<p>前后端分离：前、后端通过RESTful API传递JSON数据进行交流。后端不涉及前端界面的内容，有别于JSP<br><strong>目前RESTful方式的前后端访问方式比较流行，如openstack提供了底层RESTful API接口给后端访问</strong></p>
+<p>前后端对接：前端调用前端的服务器Nginx,后端调用后端的服务器Tomcat<br>反向代理: 前端请求通过前端服务器转发给后端，只需知道后端开放的接口，无需知道如何实现<br>*为了保护服务器，不保留真实地址</p>
+<p>重点:<br>组件的依赖关系、版本的确认</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/04/24/Vue-Learn/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Qiang Chen">
+      <meta itemprop="description" content="记录是忘记的第一助手.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="编辑尼撑">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/04/24/Vue-Learn/" class="post-title-link" itemprop="url">Vue-Learn</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-04-24 10:23:43" itemprop="dateCreated datePublished" datetime="2021-04-24T10:23:43+08:00">2021-04-24</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-05-01 14:58:58" itemprop="dateModified" datetime="2021-05-01T14:58:58+08:00">2021-05-01</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Cloud-Compute/" itemprop="url" rel="index">
+                    <span itemprop="name">Cloud Compute</span>
+                  </a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="Vue学习"><a href="#Vue学习" class="headerlink" title="Vue学习"></a>Vue学习</h2><h3 id="一、Vue安装"><a href="#一、Vue安装" class="headerlink" title="一、Vue安装"></a>一、Vue安装</h3><p><strong>安装Vue CLI脚手架需要</strong><br>1、node, 安装前先查看是否已安装<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">&gt;node -v</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">&#96;&#96;&#96;  </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">2、npm</span></pre></td></tr></table></figure></p>
+<blockquote>
+<p>npm -v</p>
+<h1 id="如未安装"><a href="#如未安装" class="headerlink" title="如未安装"></a>如未安装</h1><p>npm -g install npm  </p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">安装vue-cli</span></pre></td></tr></table></figure>
+<blockquote>
+<p>npm install -g vue-cli #这是2.x版本，3.x版本安装命令会不一样<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">可能遇到的错误</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">![vue](Vue-Learn&#x2F;1.png)  </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">---</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">**构建项目**</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">如果前面安装时执行了npm install则直接执行：</span></pre></td></tr></table></figure><br>cd xxx_project_name<br>npm run dev<br>```  </p>
+</blockquote>
+<p><img src="/2021/04/24/Vue-Learn/2.png" alt="exec">  </p>
+<p><img src="/2021/04/24/Vue-Learn/3.png" alt="exec">  </p>
+<p>项目的构建也可以使用IDEA-&gt;IntelliJ IDEA<br>目录说明, <a href="http://localhost:8080" target="_blank" rel="noopener">http://localhost:8080</a> 访问初始界面<br><img src="/2021/04/24/Vue-Learn/5.png" alt="prostr">  </p>
+<p><img src="/2021/04/24/Vue-Learn/6.png" alt="prostr">  </p>
+<p><a href="https://www.cnblogs.com/irenehanb/p/10967834.html" target="_blank" rel="noopener">参考</a></p>
+<p><strong>关键文件</strong><br>index.html, 定义单页面，编写的其他内容都在此处的div中展示<br>App.vue， 根目录，包括script脚本和路由容器<br>main.js，将App，html，和路由整合到一起<br><img src="/2021/04/24/Vue-Learn/4.png" alt="prostr">  </p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/04/14/Vim-Summary/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Qiang Chen">
+      <meta itemprop="description" content="记录是忘记的第一助手.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="编辑尼撑">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/04/14/Vim-Summary/" class="post-title-link" itemprop="url">Vim-Summary</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-04-14 21:17:54" itemprop="dateCreated datePublished" datetime="2021-04-14T21:17:54+08:00">2021-04-14</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/04/14/Cambricon-Learning/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -652,271 +895,6 @@
   
   
 
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/04/03/MySQL-Install-In-Windows10/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Qiang Chen">
-      <meta itemprop="description" content="记录是忘记的第一助手.">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="编辑尼撑">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/04/03/MySQL-Install-In-Windows10/" class="post-title-link" itemprop="url">MySQL-Install-In-Windows10</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2021-04-03 15:45:50" itemprop="dateCreated datePublished" datetime="2021-04-03T15:45:50+08:00">2021-04-03</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-04-24 16:54:19" itemprop="dateModified" datetime="2021-04-24T16:54:19+08:00">2021-04-24</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/SoftWare/" itemprop="url" rel="index">
-                    <span itemprop="name">SoftWare</span>
-                  </a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h3 id="MySQL8-Install-in-Windows10"><a href="#MySQL8-Install-in-Windows10" class="headerlink" title="MySQL8 Install in Windows10"></a>MySQL8 Install in Windows10</h3><p>1 Use mysql-installer-community-8.0.23.0.msi to install<br>download url: <a href="https://www.mysql.com/cn/downloads/" target="_blank" rel="noopener">https://www.mysql.com/cn/downloads/</a>  </p>
-<p>Step1: choise MySQL Community<br><img src="/2021/04/03/MySQL-Install-In-Windows10/mysql_0.png" alt="DOWNLOAD"><br>Step2: choise System<br><img src="/2021/04/03/MySQL-Install-In-Windows10/mysql_1.png" alt="DOWNLOAD"><br>Step3: choise Custom<br><img src="/2021/04/03/MySQL-Install-In-Windows10/mysql_2.png" alt="DOWNLOAD"><br>Step3: choise install product<br><img src="/2021/04/03/MySQL-Install-In-Windows10/mysql_3.png" alt="DOWNLOAD"><br>Step3: next.. next..<br><img src="/2021/04/03/MySQL-Install-In-Windows10/mysql_4.png" alt="DOWNLOAD"><br>Step4: input login in password<br><img src="/2021/04/03/MySQL-Install-In-Windows10/mysql_5.png" alt="DOWNLOAD"><br>Step5: drop Start the MySQL Server at System Startup<br><img src="/2021/04/03/MySQL-Install-In-Windows10/mysql_6.png" alt="DOWNLOAD"><br>Step6: Execute<br><img src="/2021/04/03/MySQL-Install-In-Windows10/mysql_7.png" alt="DOWNLOAD"><br>Step7: Finish!<br><img src="/2021/04/03/MySQL-Install-In-Windows10/mysql_8.png" alt="DOWNLOAD">  </p>
-<p>Verity:<br>2 Add environment:compute(right click)-&gt;property-&gt;advance property-&gt;env variable<br>2.1 MYSQL_HOME-&gt;C:\Program Files\MySQL\MySQL Server 8.0<br>2.2 Path: Add-&gt;%MYSQL_HOME%\bin  </p>
-<p>cmd(Administrator)-&gt;mysql —port=3306 -uroot -pxxxxxx  </p>
-<p>3 if step7 is unsuccessful!  Starting the server error!<br>The configuration for MySQL Server 8.0.23 has failed  </p>
-<p>3.1 remove mysql install<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">mysqld --remove mysql</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">mysqld --remove mysql80</span></pre></td></tr></table></figure></p>
-<p>3.2 init<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">mysqld --initialize-insecure --user&#x3D;mysql</span></pre></td></tr></table></figure></p>
-<p>3.3 create server<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">mysqld --install msyql</span></pre></td></tr></table></figure></p>
-<p>3.4 start server<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">net start mysql</span></pre></td></tr></table></figure></p>
-<p>3.5 login in<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">mysql -uroot -p (passward is empty, you kan search passward from $MSYQLPATH&#x2F;data&#x2F;***.err)</span></pre></td></tr></table></figure><br>eg. C:\\Program Files\\MySQL\\MySQL Server 8.0\\data\\DESKTOP-PGENXXX.err</p>
-<p>4 You can install Mysql with zip package, but you need configuration by yourself<br>download url: <a href="https://dev.mysql.com/downloads/mysql/" target="_blank" rel="noopener">https://dev.mysql.com/downloads/mysql/</a><br>4.1 unzip<br>4.2 touch my.ini file,<br>[mysqld]<br>port=3306<br>basedir=D:\\xxxx\\xxxx #(zip path, aim to load my.ini file)<br>datadir=D:\\xxxx\\xxxx\data #(storage mysql data)<br>max_connections=200<br>character-set-server=utf8<br>default-storage-engine=INNODB  #(default storage engine)</p>
-<p>[mysql]<br>default-character-set=utf8<br>[client]<br>port=3306<br>default-character-set=utf8</p>
-<p>4.3 install mysql<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">mysqld --initialize-insecure --user&#x3D;mysql --console #(console will show default login in passward)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">mysqld -install</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">net start mysql</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">mysql -uroot -pxxxx</span></pre></td></tr></table></figure></p>
-<p>5 reset mysql passward<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">net stop mysql</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">mysqld --console --skip-grant-tables --shared-memory</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">mysql -uroot -p</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">use mysql;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">update user set authentication_string&#x3D;&#39;&#39; where user&#x3D;&#39;root&#39;;  #(passward set null)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">net start mysql</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">mysql -u root -p</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line">alter user &#39;root&#39;@&#39;localhost&#39; identified with mysql_native_password BY &#39;xxxxxx&#39;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line">flush privileges;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">11</span></pre></td><td class="code"><pre><span class="line">exit;</span></pre></td></tr></table></figure></p>
-<p>如果执行mysqld install的时候，提示已有安装的版本，但是本地的目录已经删除了<br>可以使用如下的方法删除<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">1、mysqld -remove mysql</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">or</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">2、sc query mysql &amp;&amp; sc delete mysql</span></pre></td></tr></table></figure></p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/11/14/Ubuntu18-04-RabbitMQ-Install/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Qiang Chen">
-      <meta itemprop="description" content="记录是忘记的第一助手.">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="编辑尼撑">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/11/14/Ubuntu18-04-RabbitMQ-Install/" class="post-title-link" itemprop="url">Ubuntu18.04_RabbitMQ_Install</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2020-11-14 18:31:12" itemprop="dateCreated datePublished" datetime="2020-11-14T18:31:12+08:00">2020-11-14</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-04-14 22:02:31" itemprop="dateModified" datetime="2021-04-14T22:02:31+08:00">2021-04-14</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/SoftWare/" itemprop="url" rel="index">
-                    <span itemprop="name">SoftWare</span>
-                  </a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h3 id="RabbitMQ-Install-in-Ubuntu18-04"><a href="#RabbitMQ-Install-in-Ubuntu18-04" class="headerlink" title="RabbitMQ Install in Ubuntu18.04"></a>RabbitMQ Install in Ubuntu18.04</h3><ol>
-<li>set configuration</li>
-</ol>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">echo &quot;deb https:&#x2F;&#x2F;dl.bintray.com&#x2F;rabbitmq&#x2F;debian trusty main&quot; | sudo tee &#x2F;etc&#x2F;apt&#x2F;sources.list.d&#x2F;bintray.rabbitmq.list</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">echo &quot;deb http:&#x2F;&#x2F;packages.erlang-solutions.com&#x2F;ubuntu trusty contrib&quot; | sudo tee -a &#x2F;etc&#x2F;apt&#x2F;sources.list.d&#x2F;erlang_solutions.list</span></pre></td></tr></table></figure>
-<p>2.import key</p>
-<p>wget -c -O- <a href="http://packages.erlang-solutions.com/ubuntu/erlang_solutions.asc" target="_blank" rel="noopener">http://packages.erlang-solutions.com/ubuntu/erlang_solutions.asc</a> | sudo apt-key add -</p>
-<p>wget -O- <a href="https://dl.bintray.com/rabbitmq/Keys/rabbitmq-release-signing-key.asc" target="_blank" rel="noopener">https://dl.bintray.com/rabbitmq/Keys/rabbitmq-release-signing-key.asc</a> |sudo apt-key add -</p>
-<p>3.Install erlang and RabbitMQ  </p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">sudo apt-get update  </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">sudo apt-get install erlang-nox  </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">sudo apt-get install rabbitmq-server</span></pre></td></tr></table></figure>
-<p>4.After installed��RabbitMQ has been started��these are some command of RabbitMQ��<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">sudo service rabbitmq-server start # start  </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">sudo service rabbitmq-server stop # stop  </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">sudo service rabbitmq-server restart # restart  </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">sudo service rabbitmq-server status # show current status</span></pre></td></tr></table></figure></p>
-<p>5.RabbitMQ manager,it is a RabbitMQ;’s WEB tool</p>
-<h1 id="if-you-want-to-use-web-to-manage-RabbitMQ-you-must-to-active-follow-command"><a href="#if-you-want-to-use-web-to-manage-RabbitMQ-you-must-to-active-follow-command" class="headerlink" title="if you want to use web to manage RabbitMQ, you must to active follow command"></a>if you want to use web to manage RabbitMQ, you must to active follow command</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">sudo rabbitmq-plugins enable rabbitmq_management  </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">sudo systemctl restart rabbitmq-server #restart rabbitmq server </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">#browser input��http:&#x2F;&#x2F;localhost:15672 #vetify RabbitMQ manager</span></pre></td></tr></table></figure>
-<p>6.create user and autority<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">#RabbitMQ is interviewed by localhost using default user guest&#x2F;guest from 3.3.0</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">#grammer rabbitmqctl add_user &lt;username&gt; &lt;password&gt;  </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">sudo rabbitmqctl add_user admin admin  </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">#give user admin (administrator) roles  </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">#firewall-cmd --list-ports  rabbitmqctl set_user_tags &lt;username&gt; &lt;tag&gt; [...]  </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">rabbitmqctl set_user_tags admin administrator  </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">#set authority for user admin(start remote accession)  </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">#set authority </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line">rabbitmqctl set_permissions -p &quot;&#x2F;&quot; admin &quot;.*&quot; &quot;.*&quot; &quot;.*&quot;  </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line">#look for  authority </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">11</span></pre></td><td class="code"><pre><span class="line">rabbitmqctl list_permissions -p &#x2F;  </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">12</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">13</span></pre></td><td class="code"><pre><span class="line">7.start firewall authority</span></pre></td></tr></table></figure></p>
-<h1 id="view-open-ports-No-ports-are-open-by-default"><a href="#view-open-ports-No-ports-are-open-by-default" class="headerlink" title="view open ports(No ports are open by default)"></a>view open ports(No ports are open by default)</h1><p>firewall-cmd —list-ports #may be you shoule to install firewalld use sudo install firewalld  </p>
-<h1 id="start-15672-port"><a href="#start-15672-port" class="headerlink" title="start 15672 port"></a>start 15672 port</h1><p>firewall-cmd —zone=public —add-port=15672/tcp —permanent  </p>
-<h1 id="restart-firewall"><a href="#restart-firewall" class="headerlink" title="restart firewall"></a>restart firewall</h1><p>firewall-cmd —reload  </p>
-<h1 id="Then-check-whether-the-port-is-open-the-following-shows-that-the-port-is-open"><a href="#Then-check-whether-the-port-is-open-the-following-shows-that-the-port-is-open" class="headerlink" title="Then check whether the port is open, the following shows that the port is open"></a>Then check whether the port is open, the following shows that the port is open</h1><p>firewall-cmd —list-ports #15672/tcp<br>```</p>
-<h4 id="if-use-Google-broswer-at-windows-to-access-ubuntu-server’s-RabbitMQ-web-manager-you-need-to-modified-hosts-file-in-windows"><a href="#if-use-Google-broswer-at-windows-to-access-ubuntu-server’s-RabbitMQ-web-manager-you-need-to-modified-hosts-file-in-windows" class="headerlink" title="*if use Google broswer at windows to access ubuntu server’s RabbitMQ web manager you need to modified hosts file in windows"></a>*if use Google broswer at windows to access ubuntu server’s RabbitMQ web manager you need to modified hosts file in windows</h4>
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/12/28/BilinerInterpolation/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Qiang Chen">
-      <meta itemprop="description" content="记录是忘记的第一助手.">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="编辑尼撑">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2019/12/28/BilinerInterpolation/" class="post-title-link" itemprop="url">Bilinear Interpolation</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2019-12-28 19:41:53 / 修改时间：20:00:06" itemprop="dateCreated datePublished" datetime="2019-12-28T19:41:53+08:00">2019-12-28</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86/" itemprop="url" rel="index">
-                    <span itemprop="name">图像处理</span>
-                  </a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h3 id="线性插值"><a href="#线性插值" class="headerlink" title="线性插值"></a><strong>线性插值</strong></h3><p>已知两点(x0, y0), (x1, y1)求x0和x1之间某一个位置x对应的y：</p>
-<script type="math/tex; mode=display">
-\frac{y-y_0}{x-x_0} = \frac{y_1-y_0}{x_1-x_0}\quad =>\quad y = \frac{x_1-x}{x_1-x_0}y_0 + \frac{x-x_0}{x_1-x_0}y_1</script><h3 id="双线性插值"><a href="#双线性插值" class="headerlink" title="双线性插值"></a>双线性插值</h3><p><img src="/2019/12/28/BilinerInterpolation/BilinerInterpolation.png" alt="BI"></p>
-<p>核心思想是在两个方向分别进行一次线性插值。</p>
-<p>求未知函数 f 在点 P = (x, y) 的值，假设我们已知函数 f 在 Q11 = (x1, y1)、Q12 = (x1, y2), Q21 = (x2, y1) 以及 Q22 = (x2, y2) 四个点的值。f可以是一个像素点的像素值。首先在 x 方向进行线性插值：</p>
-<script type="math/tex; mode=display">
-f(R_1)\approx \frac{x_2-x}{x_2-x_1}f(Q_{11}) + \frac{x-x_1}{x_2-x_1}f(Q_{21})\quad where R_1 = (x, y_1)</script><script type="math/tex; mode=display">
-f(R_2)\approx \frac{x_2-x}{x_2-x_1}f(Q_{12}) + \frac{x-x_1}{x_2-x_1}f(Q_{22})\quad where R_2 = (x, y_2)</script><p>然后在y方向进行线性插值：</p>
-<script type="math/tex; mode=display">
-f(P)\approx \frac{y_2-y}{y_2-y_1}f(R_{1}) + \frac{y-y_1}{y_2-y_1}f(R_{2})\quad 将f(R_1)和f(R_2)带进来</script><p>两个技巧：</p>
-<p>一、提高插值时对像素的充分利用</p>
-<p>二、加快计算速度(以整数代替，使用位移&gt;&gt;实现)</p>
-<p>下面的code参考自<a href="https://blog.csdn.net/random_repick/article/details/76165851" target="_blank" rel="noopener">C++双线性插值</a></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">void bilinear(cv::Mat src, cv::Mat dst)&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">    double scale_x &#x3D; (double)(src.cols &#x2F; dst.cols)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">    double scale_y &#x3D; (double)(src.rows &#x2F; dst.rows)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">    for(int i &#x3D; 0; i &lt; row; ++i) &#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">        &#x2F;&#x2F;以ptr的方式访问dst的数据 修改p极为修改dst（指针）</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">        uchar *p &#x3D; dst.ptr&lt;uchar&gt;(i);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">        &#x2F;&#x2F;使两个图像的几何中心重合，采样更合理</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">        &#x2F;&#x2F;将dst的坐标点映射会src</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line">        float y &#x3D; (i + 0.5) * scale_y - 0.5;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line">        &#x2F;&#x2F;int下取整，相当于y值左上角的整数坐标</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">11</span></pre></td><td class="code"><pre><span class="line">        int fy &#x3D; (int)y;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">12</span></pre></td><td class="code"><pre><span class="line">        &#x2F;&#x2F;y为坐标的小数部分</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">13</span></pre></td><td class="code"><pre><span class="line">        y -&#x3D; fy;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">14</span></pre></td><td class="code"><pre><span class="line">        fy &#x3D; std::min(fy, src.rows - 2);  </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">15</span></pre></td><td class="code"><pre><span class="line">    	fy &#x3D; std::max(0, fy); </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">16</span></pre></td><td class="code"><pre><span class="line">        &#x2F;&#x2F;以整数计算速度更快</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">17</span></pre></td><td class="code"><pre><span class="line">        short y1 &#x3D; (1.f - y)*2048;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">18</span></pre></td><td class="code"><pre><span class="line">        short y2 &#x3D; 2048 - y1;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">19</span></pre></td><td class="code"><pre><span class="line">        for(int j &#x3D; 0; j &lt; col; ++j) &#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">20</span></pre></td><td class="code"><pre><span class="line">            &#x2F;&#x2F;trick</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">21</span></pre></td><td class="code"><pre><span class="line">            float x &#x3D; (j + 0.5) * scale_x - 0.5;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">22</span></pre></td><td class="code"><pre><span class="line">            int fx &#x3D; (int)x;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">23</span></pre></td><td class="code"><pre><span class="line">            x -&#x3D; fx;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">24</span></pre></td><td class="code"><pre><span class="line">            if (fx &lt; 0)&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">25</span></pre></td><td class="code"><pre><span class="line">            	x &#x3D; 0, fx &#x3D; 0;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">26</span></pre></td><td class="code"><pre><span class="line">            &#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">27</span></pre></td><td class="code"><pre><span class="line">            if (fx &gt;&#x3D; src.cols -1) &#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">28</span></pre></td><td class="code"><pre><span class="line">            	x &#x3D; 0, fx &#x3D; src.cols -2;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">29</span></pre></td><td class="code"><pre><span class="line">            &#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">30</span></pre></td><td class="code"><pre><span class="line">            &#x2F;&#x2F;trick</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">31</span></pre></td><td class="code"><pre><span class="line">            short x1 &#x3D; (1.f - x) * 2048;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">32</span></pre></td><td class="code"><pre><span class="line">            short x2 &#x3D; 2048 - x1;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">33</span></pre></td><td class="code"><pre><span class="line">            &#x2F;&#x2F;结果右移22位抵消2048的平方</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">34</span></pre></td><td class="code"><pre><span class="line">            int pos &#x3D; i * dst.rows + j</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">35</span></pre></td><td class="code"><pre><span class="line">            p[pos] &#x3D; (src.at&lt;uchar&gt;(fx,fy)*x1*y1 + src.at&lt;uchar&gt;		                                        (fx+1,fy)*x2*y1+src.at&lt;uchar&gt;(fx,fy+1)*x1*y2 +                                            src.at&lt;uchar&gt;(fx+1,fy+1)*x2*y2) &gt;&gt; 22;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">36</span></pre></td><td class="code"><pre><span class="line">        &#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">37</span></pre></td><td class="code"><pre><span class="line">    &#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">38</span></pre></td><td class="code"><pre><span class="line">&#125;</span></pre></td></tr></table></figure>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
   </div>
 
   
@@ -965,7 +943,7 @@ f(P)\approx \frac{y_2-y}{y_2-y_1}f(R_{1}) + \frac{y-y_1}{y_2-y_1}f(R_{2})\quad �
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">31</span>
+          <span class="site-state-item-count">34</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -1054,7 +1032,7 @@ f(P)\approx \frac{y_2-y}{y_2-y_1}f(R_{1}) + \frac{y-y_1}{y_2-y_1}f(R_{2})\quad �
 
 
 
-  <script src="/js/local-search.js"></script>
+  <script src="/js/local-search.js"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
 
 
 
@@ -1071,54 +1049,6 @@ f(P)\approx \frac{y_2-y}{y_2-y_1}f(R_{1}) + \frac{y-y_1}{y_2-y_1}f(R_{2})\quad �
   
 
   
-      
-<script type="text/x-mathjax-config">
-
-  MathJax.Hub.Config({
-    tex2jax: {
-      inlineMath: [ ['$', '$'], ['\\(', '\\)'] ],
-      processEscapes: true,
-      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
-    },
-    TeX: {
-      equationNumbers: {
-        autoNumber: 'AMS'
-      }
-    }
-  });
-
-  MathJax.Hub.Register.StartupHook('TeX Jax Ready', function() {
-    MathJax.InputJax.TeX.prefilterHooks.Add(function(data) {
-      if (data.display) {
-        var next = data.script.nextSibling;
-        while (next && next.nodeName.toLowerCase() === '#text') {
-          next = next.nextSibling;
-        }
-        if (next && next.nodeName.toLowerCase() === 'br') {
-          next.parentNode.removeChild(next);
-        }
-      }
-    });
-  });
-
-  MathJax.Hub.Queue(function() {
-    var all = MathJax.Hub.getAllJax(), i;
-    for (i = 0; i < all.length; i += 1) {
-      element = document.getElementById(all[i].inputID + '-Frame').parentNode;
-      if (element.nodeName.toLowerCase() == 'li') {
-        element = element.parentNode;
-      }
-      element.classList.add('has-jax');
-    }
-  });
-</script>
-<script>
-  NexT.utils.getScript('//cdn.jsdelivr.net/npm/mathjax@2/MathJax.js?config=TeX-AMS-MML_HTMLorMML', () => {
-    MathJax.Hub.Typeset();
-  }, window.MathJax);
-</script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
-
-    
 
   
 
