@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    hostname: new URL('http://yoursite.com').hostname,
+    root: '/',
+    scheme: 'Mist',
+    version: '7.5.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    sidebarPadding: 40
+  };
+</script>
+
+  <meta name="description" content="图像处理学习参考的网上链接：Image Processing第一部分一、图像通道的处理1#cv2.imread()读取的是图像是按照BGR的顺序排列的2#所以BGR转RGB，需要读取每个通道，在按照R、G、B的顺序赋值进去3&amp;gt;&amp;gt;&amp;gt;import cv24&amp;gt;&amp;gt;&amp;gt;img &#x3D; cv2.imread(&quot;imori.jpg&quot;)5&amp;gt;&amp;gt;&amp;gt;red &#x3D; img[:">
+<meta name="keywords" content="Image Processing">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Image-Process-Zero">
+<meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2021&#x2F;06&#x2F;11&#x2F;Image-Process-Zero&#x2F;index.html">
+<meta property="og:site_name" content="编辑尼撑">
+<meta property="og:description" content="图像处理学习参考的网上链接：Image Processing第一部分一、图像通道的处理1#cv2.imread()读取的是图像是按照BGR的顺序排列的2#所以BGR转RGB，需要读取每个通道，在按照R、G、B的顺序赋值进去3&amp;gt;&amp;gt;&amp;gt;import cv24&amp;gt;&amp;gt;&amp;gt;img &#x3D; cv2.imread(&quot;imori.jpg&quot;)5&amp;gt;&amp;gt;&amp;gt;red &#x3D; img[:">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2021-06-11T13:29:21.523Z">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://yoursite.com/2021/06/11/Image-Process-Zero/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>Image-Process-Zero | 编辑尼撑</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="编辑尼撑" type="application/atom+xml"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">编辑尼撑</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">学无止境</p>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-schedule">
+
+    <a href="/schedule/" rel="section"><i class="fa fa-fw fa-calendar"></i>日程表</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="搜索..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/06/11/Image-Process-Zero/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Qiang Chen">
+      <meta itemprop="description" content="记录是忘记的第一助手.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="编辑尼撑">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Image-Process-Zero
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2021-06-11 21:26:20 / 修改时间：21:29:21" itemprop="dateCreated datePublished" datetime="2021-06-11T21:26:20+08:00">2021-06-11</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Image-Processing/" itemprop="url" rel="index">
+                    <span itemprop="name">Image Processing</span>
+                  </a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="图像处理学习"><a href="#图像处理学习" class="headerlink" title="图像处理学习"></a>图像处理学习</h2><h4 id="参考的网上链接：Image-Processing"><a href="#参考的网上链接：Image-Processing" class="headerlink" title="参考的网上链接：Image Processing"></a>参考的网上链接：<a href="https://github.com/gzr2017/ImageProcessing100Wen/tree/master" target="_blank" rel="noopener">Image Processing</a></h4><h4 id="第一部分"><a href="#第一部分" class="headerlink" title="第一部分"></a>第一部分</h4><h5 id="一、图像通道的处理"><a href="#一、图像通道的处理" class="headerlink" title="一、图像通道的处理"></a>一、图像通道的处理</h5><figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line"><span class="comment">#cv2.imread()读取的是图像是按照BGR的顺序排列的</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line"><span class="comment">#所以BGR转RGB，需要读取每个通道，在按照R、G、B的顺序赋值进去</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt;<span class="keyword">import</span> cv2</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt;img = cv2.imread(<span class="string">"imori.jpg"</span>)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt;red = img[:,:,<span class="number">2</span>].copy() <span class="comment">#列表拷贝赋值函数，进行备份复制列表</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line"><span class="comment">#通过print(id(red))和print(id(img[:,:,2]))可以看到id是不一样的，说明存储位置发生了变化，起到了保护原始数据的作用</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt;print(img)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">[[[ <span class="number">65</span> <span class="number">134</span> <span class="number">107</span>]   <span class="comment">#[ 65 134 107]这是一个像素的BGR值</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line">  [ <span class="number">65</span> <span class="number">134</span> <span class="number">107</span>]   <span class="comment">#第二个像素</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line">  [ <span class="number">65</span> <span class="number">134</span> <span class="number">107</span>]</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">11</span></pre></td><td class="code"><pre><span class="line">  ..., </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">12</span></pre></td><td class="code"><pre><span class="line">  [ <span class="number">33</span>  <span class="number">90</span>  <span class="number">69</span>]</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">13</span></pre></td><td class="code"><pre><span class="line">  [ <span class="number">33</span>  <span class="number">90</span>  <span class="number">69</span>]</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">14</span></pre></td><td class="code"><pre><span class="line">  [ <span class="number">31</span>  <span class="number">90</span>  <span class="number">69</span>]]   <span class="comment">#图像中第一行的最后一个像素</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">15</span></pre></td><td class="code"><pre><span class="line"> </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">16</span></pre></td><td class="code"><pre><span class="line"> [[ <span class="number">64</span> <span class="number">133</span> <span class="number">106</span>]    <span class="comment">#图像中第二行的第一个像素</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">17</span></pre></td><td class="code"><pre><span class="line">  [ <span class="number">64</span> <span class="number">133</span> <span class="number">106</span>]    <span class="comment">#以此类推</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">18</span></pre></td><td class="code"><pre><span class="line">  [ <span class="number">64</span> <span class="number">133</span> <span class="number">106</span>]</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">19</span></pre></td><td class="code"><pre><span class="line">  ...,             <span class="comment">#这里的...,并不表示说什么，不是分层的意思</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">20</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">21</span></pre></td><td class="code"><pre><span class="line">  [ <span class="number">17</span>  <span class="number">55</span>  <span class="number">59</span>]</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">22</span></pre></td><td class="code"><pre><span class="line">  [ <span class="number">19</span>  <span class="number">57</span>  <span class="number">61</span>]</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">23</span></pre></td><td class="code"><pre><span class="line">  [ <span class="number">20</span>  <span class="number">58</span>  <span class="number">62</span>]]]</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">24</span></pre></td><td class="code"><pre><span class="line"> </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">25</span></pre></td><td class="code"><pre><span class="line"><span class="comment"># Save result</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">26</span></pre></td><td class="code"><pre><span class="line">cv2.imwrite(<span class="string">"out.jpg"</span>, img)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">27</span></pre></td><td class="code"><pre><span class="line">cv2.imshow(<span class="string">"result"</span>, img)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">28</span></pre></td><td class="code"><pre><span class="line">cv2.waitKey(<span class="number">0</span>)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">29</span></pre></td><td class="code"><pre><span class="line">cv2.destroyAllWindows()</span></pre></td></tr></table></figure>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;opencv2/core.hpp&gt;</span></span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;opencv2/highgui.hpp&gt;</span></span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line"><span class="comment">// Channel swap</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">cv::<span class="function">Mat <span class="title">channel_swap</span><span class="params">(cv::Mat img)</span></span>&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">  <span class="comment">// get height and width</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">  <span class="keyword">int</span> <span class="built_in">width</span> = img.cols;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">  <span class="keyword">int</span> <span class="built_in">height</span> = img.rows;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line">  <span class="comment">// prepare output, 注意height和width的顺序</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">11</span></pre></td><td class="code"><pre><span class="line">  cv::Mat out = cv::Mat::zeros(<span class="built_in">height</span>, <span class="built_in">width</span>, CV_8UC3); </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">12</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">13</span></pre></td><td class="code"><pre><span class="line">  <span class="comment">// each y, x</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">14</span></pre></td><td class="code"><pre><span class="line">  <span class="keyword">for</span> (<span class="keyword">int</span> y = <span class="number">0</span>; y &lt; <span class="built_in">height</span>; y++)&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">15</span></pre></td><td class="code"><pre><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> x = <span class="number">0</span>; x &lt; <span class="built_in">width</span>; x++)&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">16</span></pre></td><td class="code"><pre><span class="line">      <span class="comment">// R -&gt; B</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">17</span></pre></td><td class="code"><pre><span class="line">      out.at&lt;cv::Vec3b&gt;(y, x)[<span class="number">0</span>] = img.at&lt;cv::Vec3b&gt;(y, x)[<span class="number">2</span>];</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">18</span></pre></td><td class="code"><pre><span class="line">      <span class="comment">// B -&gt; R</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">19</span></pre></td><td class="code"><pre><span class="line">      out.at&lt;cv::Vec3b&gt;(y, x)[<span class="number">2</span>] = img.at&lt;cv::Vec3b&gt;(y, x)[<span class="number">0</span>];</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">20</span></pre></td><td class="code"><pre><span class="line">      <span class="comment">// G -&gt; G</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">21</span></pre></td><td class="code"><pre><span class="line">      out.at&lt;cv::Vec3b&gt;(y, x)[<span class="number">1</span>] = img.at&lt;cv::Vec3b&gt;(y, x)[<span class="number">1</span>];</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">22</span></pre></td><td class="code"><pre><span class="line">    &#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">23</span></pre></td><td class="code"><pre><span class="line">  &#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">24</span></pre></td><td class="code"><pre><span class="line">  </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">25</span></pre></td><td class="code"><pre><span class="line">  <span class="keyword">return</span> out;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">26</span></pre></td><td class="code"><pre><span class="line">&#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">27</span></pre></td><td class="code"><pre><span class="line"><span class="comment">//&lt;Vec3f&gt; 浮点</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">28</span></pre></td><td class="code"><pre><span class="line"><span class="comment">//&lt;Vec3d&gt; double</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">29</span></pre></td><td class="code"><pre><span class="line"><span class="comment">//&lt;Vec3b&gt; 8U类型的RGB彩色图像(0-255),可以看作是vector&lt;uchar,3&gt;</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">30</span></pre></td><td class="code"><pre><span class="line"><span class="comment">//由于在OpenCV中，使用imread读取到的Mat图像数据，都是用uchar类型的数据存储，对于RGB三通道的图像，每个点的数据都是一个Vec3b类型的数据。可以使用at定位到每一个像素</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">31</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">32</span></pre></td><td class="code"><pre><span class="line"><span class="comment">//单通道：</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">33</span></pre></td><td class="code"><pre><span class="line"><span class="comment">//img.at&lt;uchar&gt;(x,y) = 25;</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">34</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">35</span></pre></td><td class="code"><pre><span class="line"><span class="comment">//多通道：</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">36</span></pre></td><td class="code"><pre><span class="line"><span class="comment">//img.at&lt;cv::Vec3b&gt;(x,y)[0] = 25; //B</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">37</span></pre></td><td class="code"><pre><span class="line"><span class="comment">//img.at&lt;cv::Vec3b&gt;(x,y)[1] = 25; //G</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">38</span></pre></td><td class="code"><pre><span class="line"><span class="comment">//img.at&lt;cv::Vec3b&gt;(x,y)[2] = 25; //R</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">39</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">40</span></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">const</span> <span class="keyword">char</span>* argv[])</span></span>&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">41</span></pre></td><td class="code"><pre><span class="line">  <span class="comment">// read image</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">42</span></pre></td><td class="code"><pre><span class="line">  cv::Mat img = cv::imread(<span class="string">"imori.jpg"</span>, cv::IMREAD_COLOR);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">43</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">44</span></pre></td><td class="code"><pre><span class="line">  <span class="comment">// channel swap</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">45</span></pre></td><td class="code"><pre><span class="line">  cv::Mat out = channel_swap(img);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">46</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">47</span></pre></td><td class="code"><pre><span class="line">  cv::imwrite(<span class="string">"out.jpg"</span>, out);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">48</span></pre></td><td class="code"><pre><span class="line">  cv::imshow(<span class="string">"sample"</span>, out);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">49</span></pre></td><td class="code"><pre><span class="line">  cv::waitKey(<span class="number">0</span>);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">50</span></pre></td><td class="code"><pre><span class="line">  cv::destroyAllWindows();</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">51</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">52</span></pre></td><td class="code"><pre><span class="line">  <span class="keyword">return</span> <span class="number">0</span>;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">53</span></pre></td><td class="code"><pre><span class="line">&#125;</span></pre></td></tr></table></figure>
+<h5 id="二、图像的灰度化"><a href="#二、图像的灰度化" class="headerlink" title="二、图像的灰度化"></a>二、图像的灰度化</h5><p>灰度是一种图像亮度的表示方法，是单通道的图像，通过下式计算：</p>
+<script type="math/tex; mode=display">
+Y = 0.2126\cdot R+0.7152\cdot G + 0.0722\cdot B</script><figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> cv2</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">BGR2GRAY</span><span class="params">(img)</span>:</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">	r = img[:,:,<span class="number">2</span>].copy()</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">	g = img[:,:,<span class="number">0</span>].copy()</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">	b = img[:,:,<span class="number">1</span>].copy()</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">	</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line">	gray = <span class="number">0.2126</span> * r + <span class="number">0.7152</span> * g + <span class="number">0.0722</span> * b</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line">	<span class="keyword">return</span> gray.astype(np.uint8)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">11</span></pre></td><td class="code"><pre><span class="line">	</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">12</span></pre></td><td class="code"><pre><span class="line"><span class="comment"># Read image</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">13</span></pre></td><td class="code"><pre><span class="line">img = cv2.imread(<span class="string">"imori.jpg"</span>).astype(np.float) </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">14</span></pre></td><td class="code"><pre><span class="line"><span class="comment"># astype 转换数组的数据类型，dtype 用于说明一个数组数据类型的对象</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">15</span></pre></td><td class="code"><pre><span class="line"><span class="comment"># Grayscale</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">16</span></pre></td><td class="code"><pre><span class="line">out = BGR2GRAY(img)</span></pre></td></tr></table></figure>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;opencv2/core.hpp&gt;</span></span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;opencv2/highgui.hpp&gt;</span></span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">cv::<span class="function">Mat <span class="title">BRG2GRAY</span><span class="params">(cv::Mat img)</span> </span>&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">    <span class="keyword">int</span> <span class="built_in">width</span> = img.cols;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">    <span class="keyword">int</span> <span class="built_in">height</span> = img.rows;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">    </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line">    cv::Mat output = cv::Mat::zeros(<span class="built_in">height</span>, <span class="built_in">width</span>, CV_8UC1);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line">    <span class="comment">// each y, x</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">11</span></pre></td><td class="code"><pre><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> y = <span class="number">0</span>; y &lt; <span class="built_in">height</span>; y++)&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">12</span></pre></td><td class="code"><pre><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> x = <span class="number">0</span>; x &lt; <span class="built_in">width</span>; x++)&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">13</span></pre></td><td class="code"><pre><span class="line">        <span class="comment">// BGR -&gt; Gray</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">14</span></pre></td><td class="code"><pre><span class="line">        output.at&lt;uchar&gt;(y, x) = <span class="number">0.2126</span> * (<span class="keyword">float</span>)img.at&lt;cv::Vec3b&gt;(y, x)[<span class="number">2</span>] \</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">15</span></pre></td><td class="code"><pre><span class="line">          + <span class="number">0.7152</span> * (<span class="keyword">float</span>)img.at&lt;cv::Vec3b&gt;(y, x)[<span class="number">1</span>] \</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">16</span></pre></td><td class="code"><pre><span class="line">          + <span class="number">0.0722</span> * (<span class="keyword">float</span>)img.at&lt;cv::Vec3b&gt;(y, x)[<span class="number">0</span>];</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">17</span></pre></td><td class="code"><pre><span class="line">        &#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">18</span></pre></td><td class="code"><pre><span class="line">    &#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">19</span></pre></td><td class="code"><pre><span class="line">    </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">20</span></pre></td><td class="code"><pre><span class="line">    <span class="keyword">return</span> out;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">21</span></pre></td><td class="code"><pre><span class="line">&#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">22</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">23</span></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">const</span> <span class="keyword">char</span>* argv[])</span></span>&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">24</span></pre></td><td class="code"><pre><span class="line">  <span class="comment">// read image</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">25</span></pre></td><td class="code"><pre><span class="line">  cv::Mat img = cv::imread(<span class="string">"imori.jpg"</span>, cv::IMREAD_COLOR);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">26</span></pre></td><td class="code"><pre><span class="line">  <span class="comment">//IMREAD_UNCHANGED-&gt;指定用图片的原来格式打开，即以不改变图片的方式打开，图片是彩色就是彩色，图片是灰度图像就是灰度图像</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">27</span></pre></td><td class="code"><pre><span class="line">  <span class="comment">//IMREAD_GRAYSCALE-&gt;指定用灰度图像的方式打开图片，即将原始图像转化为灰度图像再打开</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">28</span></pre></td><td class="code"><pre><span class="line">  <span class="comment">//IMREAD_COLOR-&gt;指定用彩色图像打开图片</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">29</span></pre></td><td class="code"><pre><span class="line">  <span class="comment">// BGR -&gt; Gray</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">30</span></pre></td><td class="code"><pre><span class="line">  cv::Mat out = BGR2GRAY(img);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">31</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">32</span></pre></td><td class="code"><pre><span class="line">  <span class="comment">//cv::imwrite("out.jpg", out);</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">33</span></pre></td><td class="code"><pre><span class="line">  cv::imshow(<span class="string">"sample"</span>, out);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">34</span></pre></td><td class="code"><pre><span class="line">  cv::waitKey(<span class="number">0</span>);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">35</span></pre></td><td class="code"><pre><span class="line">  cv::destroyAllWindows();</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">36</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">37</span></pre></td><td class="code"><pre><span class="line">  <span class="keyword">return</span> <span class="number">0</span>;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">38</span></pre></td><td class="code"><pre><span class="line">&#125;</span></pre></td></tr></table></figure>
+<h5 id="三、图像的二值化"><a href="#三、图像的二值化" class="headerlink" title="三、图像的二值化"></a>三、图像的二值化</h5><p>二值化：将图像使用黑和白两种颜色表示的方法。</p>
+<script type="math/tex; mode=display">
+y=\begin{cases}
+0,\quad (if \quad y <128) \\
+255, \quad else
+\end{cases}</script><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">def binarization(img, th&#x3D;128):</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">    img[img &lt; th] &#x3D; 0</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">    img[img &gt;&#x3D; th] &#x3D; 255</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">    return img</span></pre></td></tr></table></figure>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line"><span class="comment">// Gray -&gt; Binary</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">cv::<span class="function">Mat <span class="title">Binarize</span><span class="params">(cv::Mat gray, <span class="keyword">int</span> th)</span></span>&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">  <span class="keyword">int</span> <span class="built_in">width</span> = gray.cols;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">  <span class="keyword">int</span> <span class="built_in">height</span> = gray.rows;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">  <span class="comment">// prepare output</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">  cv::Mat out = cv::Mat::zeros(<span class="built_in">height</span>, <span class="built_in">width</span>, CV_8UC1);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line">  <span class="comment">// each y, x</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line">  <span class="keyword">for</span> (<span class="keyword">int</span> y = <span class="number">0</span>; y &lt; <span class="built_in">height</span>; y++)&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">11</span></pre></td><td class="code"><pre><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> x = <span class="number">0</span>; x &lt; <span class="built_in">width</span>; x++)&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">12</span></pre></td><td class="code"><pre><span class="line">      <span class="comment">// Binarize</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">13</span></pre></td><td class="code"><pre><span class="line">      <span class="keyword">if</span> (gray.at&lt;uchar&gt;(y, x) &gt; th)&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">14</span></pre></td><td class="code"><pre><span class="line">        out.at&lt;uchar&gt;(y, x) = <span class="number">255</span>;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">15</span></pre></td><td class="code"><pre><span class="line">      &#125; <span class="keyword">else</span> &#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">16</span></pre></td><td class="code"><pre><span class="line">        out.at&lt;uchar&gt;(y, x) = <span class="number">0</span>;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">17</span></pre></td><td class="code"><pre><span class="line">      &#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">18</span></pre></td><td class="code"><pre><span class="line">    &#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">19</span></pre></td><td class="code"><pre><span class="line">  &#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">20</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">21</span></pre></td><td class="code"><pre><span class="line">  <span class="keyword">return</span> out;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">22</span></pre></td><td class="code"><pre><span class="line">&#125;</span></pre></td></tr></table></figure>
+<h5 id="四、大津二值化算法-Otsu"><a href="#四、大津二值化算法-Otsu" class="headerlink" title="四、大津二值化算法(Otsu)"></a>四、大津二值化算法(Otsu)</h5><p>最大类间方差法，是一种可以自动确定二值化中阈值的算法。</p>
+<p>令{0,1,2,…,L-1}表示一副大小为<em>M x N</em>像素的数字图像中的<em>L</em>个不同的灰度级，<em>ni</em> 表示灰度级为<em>i</em>的像素数。</p>
+<p>图像中的像素总数为：</p>
+<script type="math/tex; mode=display">
+N=n_0+n_1+...+n_L-1</script><p>像素的灰度级为 <em>i</em> 的概率为：</p>
+<script type="math/tex; mode=display">
+p_i = n_i / N, \quad p_i\geq 0, \quad \displaystyle \sum^{L}_{i = 1}{p_i = 1}.\quad \quad (1)</script><p>现在假设通过一个灰度级为k的阈值将这些像素点划分为两类C<sub>0</sub>(目标)和C<sub>1</sub>(背景)，C<sub>0</sub>表示灰度级为[1,…,k]的像素点，C<sub>1</sub>表示灰度级为[k+1,…,L]的像素点。</p>
+<p>像素被分类到C<sub>0</sub>和C<sub>1</sub>中的概率为：</p>
+<script type="math/tex; mode=display">
+w_0=P_r(C_0)=\sum^{k}_{i=1}{p_i}=w(k) \quad \quad (2)</script><script type="math/tex; mode=display">
+w_1=P_r(C_1)=\sum^{L}_{i=k+1}{p_i}=1-w(k) \quad \quad (3)</script><p>各类的平均灰度级为：</p>
+<script type="math/tex; mode=display">
+\mu_0 = \sum^{k}_{i=1}{iP_r(i|C_0)} = \sum^{k}_{i=1}{\frac{iPr(C_0|i)p(i)}{P_r(C_0)}}= \sum^{k}_{i=1}{ip_i/w_0}=\mu(k)/w(k), \quad P_r(C_0|i)=1 \quad (i=i...k)\quad \quad (4)</script><script type="math/tex; mode=display">
+\mu_1 = \sum^{L}_{i=k+1}{iP_r(i|C_1)} = \sum^{L}_{i=k+1}{\frac{iPr(C_1|i)p(i)}{P_r(C_1)}}= \sum^{L}_{i=k+1}{ip_i/w_1}=\frac{\mu_T-\mu(k)}{1-w(k)} \quad \quad (5)</script><p>其中，</p>
+<script type="math/tex; mode=display">
+w(k)=\sum^{k}_{i=1}{p_i}\quad \quad (6) ,\quad \mu(k)=\sum^{k}_{i=1}{ip_i}\quad \quad (7)</script><p>上面分别为灰度级从1到k的累积出现的概率和平均灰度级(一阶累计距)。</p>
+<script type="math/tex; mode=display">
+\mu_T=\mu(L)=\sum^{L}_{i=1}{ip_i}\quad \quad (8)</script><p>上式是整幅图像的平均灰度级。可以看出，对于任意选定的k, 都有：</p>
+<script type="math/tex; mode=display">
+w_0\mu_0+w_1\mu_1=\mu_T,\quad w_0+w_1=1.\quad \quad (9)</script><p>这两类的类内方差由下面的公式给出：(二阶累积距)</p>
+<script type="math/tex; mode=display">
+\sigma_0^2=\sum^{k}_{i=1}{(i-\mu_0)^2P_r(i|C_0)}=\sum^{k}_{i=1}{(i-\mu_0)^2p_i/w_0}.\quad \quad (10)</script><script type="math/tex; mode=display">
+\sigma_1^2=\sum^{L}_{i=k+1}{(i-\mu_1)^2P_r(i|C_1)}=\sum^{L}_{i=k+1}{(i-\mu_1)^2p_i/w_1}.\quad \quad (11)</script><p>为了评价灰度级k这个阈值或门限的”好坏”的程度，我们需要引入判别式分析中使用的判别式标准来测量：</p>
+<script type="math/tex; mode=display">
+\lambda=\sigma_B^2/\sigma_W^2, \quad K=\sigma_T^2/\sigma_W^2, \quad \eta=\sigma_B^2/\sigma_T^2\quad \quad (12)</script><p>其中：</p>
+<script type="math/tex; mode=display">
+\sigma_W^2=w_0\sigma_0^2+w_1\sigma_1^2\quad \quad (13)</script><script type="math/tex; mode=display">
+\sigma_B^2=w_0(\mu_o-\mu_T)^2+w_1(\mu_1-\mu_T)^2=w_0w_1(\mu_1-\mu_0)^2\quad \quad (14)</script><p>根据式(9)，可以得出：</p>
+<script type="math/tex; mode=display">
+\sigma_T^2=\sum^{L}_{i=1}{(i-\mu_T)^2p_i} ，是一个常数\quad \quad (15)</script><p>式13是类内方差，式14是类间方差，式15是灰度级的总方差。此时的目标即便为一个优化问题，即寻找一个门限k使(12)式中给出的一个目标函数取最大值。</p>
+<p>上面给出的判别式标准是分别求取λ、κ和η的最大值。</p>
+<script type="math/tex; mode=display">
+\sigma_W^2+\sigma_B^2=\sigma_T^2. \quad \sigma_W^2和\sigma_B^2是门限k的函数</script><script type="math/tex; mode=display">
+\eta(k)=\sigma_B^2(k)/\sigma_T^2.\quad \sigma_B^2基于一阶统计(类均值)，比\sigma_W^2基于二阶统计(类方差)简单。</script><script type="math/tex; mode=display">
+\sigma_B^2(k)=\frac{[\mu_Tw(k)-\mu(k)]^2}{w(k)[1-w(k)]}</script><p>最佳门限k<sup>*</sup> 为：</p>
+<script type="math/tex; mode=display">
+\sigma_B^2(k^*)=arg\,\max_{1\leq k\leq L} \sigma_B^2(k)</script><p>根据公式6和7，依次选择不同的k值顺序搜索，寻找最佳门限k<sup>*</sup> 使得n取最大值。</p>
+<p>证明类间方差：</p>
+<script type="math/tex; mode=display">
+\sigma^2=w_1(\mu_1-\mu)^2+w_2(\mu_2-\mu), \quad \quad 
+\begin{cases}
+w_1+w_2=1 \\
+w_1\mu_1+w_2\mu_2=\mu
+\end{cases}</script><script type="math/tex; mode=display">
+\sigma^2=w_1(\mu_1^2-2\mu_1\mu+\mu^2)+w_2(\mu_2^2-2\mu_2\mu+\mu^2)</script><script type="math/tex; mode=display">
+\sigma^2=w_1\mu_1^2-2w_1\mu_1\mu+w_1\mu^2+w_2\mu_2^2-2w_2\mu_2\mu+w_2\mu^2</script><script type="math/tex; mode=display">
+\sigma^2=w_1\mu_1^2+w_2\mu_2^2-2(w_1\mu_1+w_2\mu_2)\mu+(w_1+w_2)\mu^2</script><script type="math/tex; mode=display">
+\sigma^2=w_1\mu_1^2+w_2\mu_2^2-2(w_1\mu_1+w_2\mu_2)\mu+\mu^2=w_1\mu_1^2+w_2\mu_2^2-\mu^2</script><script type="math/tex; mode=display">
+\sigma^2=w_1\mu_1^2+w_2\mu_2^2-(w_1\mu_1+w_2\mu_2)^2</script><script type="math/tex; mode=display">
+\sigma^2=w_1\mu_1^2+w_2\mu_2^2-(w_1\mu_1)^2-2w_1\mu_1w_2\mu_2-(w_2\mu_2)^2</script><script type="math/tex; mode=display">
+\sigma^2=w_1w_2(\frac{1}{w_2}\mu_1^2+\frac{1}{w_1}\mu_2^2-\frac{w_1}{w_2}\mu_1^2-2\mu_1\mu_2-\frac{w_2}{w_1}\mu_2^2)</script><script type="math/tex; mode=display">
+\sigma^2=(\mu_1^2-w\mu_1\mu_2+\mu_2^2)=w_1w_2(\mu_1-\mu_2)^2</script><p> 大津算法的步骤：</p>
+<ol>
+<li><p>先转化为灰度图，计算输入图像的归一化直方图</p>
+</li>
+<li><p>计算像素被分配到各个类别的概率</p>
+</li>
+<li><p>计算各类的平均灰度值</p>
+</li>
+<li><p>计算全局灰度均值</p>
+</li>
+<li><p>计算类间方差</p>
+</li>
+<li><p>遍历各个灰度级，得到类间方差最大的k值。如果最大值不唯一，则取平均值</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">import cv2</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">import numpy as np</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line"># Gray scale</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">def BGR2GRAY(img):</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">	b &#x3D; img[:,:,0].copy() </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">	g &#x3D; img[:,:,1].copy()</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">	r &#x3D; img[:,:,2].copy()</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line">	</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line">	out &#x3D; 0.2126 * r + 0.7152 * g + 0.0722 * b</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">11</span></pre></td><td class="code"><pre><span class="line">	out &#x3D; out.astype(np.uint8)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">12</span></pre></td><td class="code"><pre><span class="line">	</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">13</span></pre></td><td class="code"><pre><span class="line">	return out</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">14</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">15</span></pre></td><td class="code"><pre><span class="line"># Otsu Binarization</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">16</span></pre></td><td class="code"><pre><span class="line">def otus_binarization(img, th&#x3D;128):</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">17</span></pre></td><td class="code"><pre><span class="line"> 	max_sigma &#x3D; 0 </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">18</span></pre></td><td class="code"><pre><span class="line"> 	max_th &#x3D; 0</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">19</span></pre></td><td class="code"><pre><span class="line"> 	</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">20</span></pre></td><td class="code"><pre><span class="line"> 	for _t in range(1, 255):</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">21</span></pre></td><td class="code"><pre><span class="line"> 		pix0 &#x3D; img[np.where(img &lt; _t)]</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">22</span></pre></td><td class="code"><pre><span class="line"> 		m0 &#x3D; np.mean(pix0) if len(pixs) &gt; 0 else 0.</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">23</span></pre></td><td class="code"><pre><span class="line"> 		w0 &#x3D; len(pix0) &#x2F; (H * W)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">24</span></pre></td><td class="code"><pre><span class="line"> 		pix1 &#x3D; img[np.where(img &lt; _t)]</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">25</span></pre></td><td class="code"><pre><span class="line"> 		m1 &#x3D; np.mean(pix1) if len(pix1) &gt; 0 else 0.</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">26</span></pre></td><td class="code"><pre><span class="line"> 		w1 &#x3D; len(pix1) &#x2F; (H * W)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">27</span></pre></td><td class="code"><pre><span class="line"> 		sigma &#x3D; w0 * w1 * ((m0 - m1) ** 2)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">28</span></pre></td><td class="code"><pre><span class="line"> 		if sigma &gt; max_sigma:</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">29</span></pre></td><td class="code"><pre><span class="line"> 			max_sigma &#x3D; sigma</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">30</span></pre></td><td class="code"><pre><span class="line"> 			max_th &#x3D; _t</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">31</span></pre></td><td class="code"><pre><span class="line"> 	th &#x3D; max_th</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">32</span></pre></td><td class="code"><pre><span class="line"> 	img[img &lt; th] &#x3D; 0</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">33</span></pre></td><td class="code"><pre><span class="line"> 	img[out &gt;&#x3D; th] &#x3D; 255</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">34</span></pre></td><td class="code"><pre><span class="line"> 	</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">35</span></pre></td><td class="code"><pre><span class="line"> 	return img</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">36</span></pre></td><td class="code"><pre><span class="line"> 	</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">37</span></pre></td><td class="code"><pre><span class="line"># Read image</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">38</span></pre></td><td class="code"><pre><span class="line">img &#x3D; cv2.imread(&quot;imori.jpg&quot;).astype(np.float32)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">39</span></pre></td><td class="code"><pre><span class="line">H, W, C &#x3D;img.shape</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">40</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">41</span></pre></td><td class="code"><pre><span class="line"># Grayscale</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">42</span></pre></td><td class="code"><pre><span class="line">out &#x3D; BGR2GRAY(img)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">43</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">44</span></pre></td><td class="code"><pre><span class="line"># Otsu&#39;s binarization</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">45</span></pre></td><td class="code"><pre><span class="line">out &#x3D; otsu_binarization(out)</span></pre></td></tr></table></figure>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;opencv2/core.hpp&gt;</span></span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;opencv2/highgui.hpp&gt;</span></span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;math.h&gt;</span></span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line"><span class="comment">// BGR -&gt; Gray</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">cv::<span class="function">Mat <span class="title">BGR2GRAY</span><span class="params">(cv::Mat img)</span></span>&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">  <span class="comment">// get height and width</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line">  <span class="keyword">int</span> <span class="built_in">width</span> = img.cols;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line">  <span class="keyword">int</span> <span class="built_in">height</span> = img.rows;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">11</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">12</span></pre></td><td class="code"><pre><span class="line">  <span class="comment">// prepare output</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">13</span></pre></td><td class="code"><pre><span class="line">  cv::Mat out = cv::Mat::zeros(<span class="built_in">height</span>, <span class="built_in">width</span>, CV_8UC1);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">14</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">15</span></pre></td><td class="code"><pre><span class="line">  <span class="comment">// each y, x</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">16</span></pre></td><td class="code"><pre><span class="line">  <span class="keyword">for</span> (<span class="keyword">int</span> y = <span class="number">0</span>; y &lt; <span class="built_in">height</span>; y++)&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">17</span></pre></td><td class="code"><pre><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> x = <span class="number">0</span>; x &lt; <span class="built_in">width</span>; x++)&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">18</span></pre></td><td class="code"><pre><span class="line">      <span class="comment">// BGR -&gt; Gray</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">19</span></pre></td><td class="code"><pre><span class="line">      out.at&lt;uchar&gt;(y, x) = <span class="number">0.2126</span> * (<span class="keyword">float</span>)img.at&lt;cv::Vec3b&gt;(y, x)[<span class="number">2</span>] \</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">20</span></pre></td><td class="code"><pre><span class="line">        + <span class="number">0.7152</span> * (<span class="keyword">float</span>)img.at&lt;cv::Vec3b&gt;(y, x)[<span class="number">1</span>] \</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">21</span></pre></td><td class="code"><pre><span class="line">        + <span class="number">0.0722</span> * (<span class="keyword">float</span>)img.at&lt;cv::Vec3b&gt;(y, x)[<span class="number">0</span>];</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">22</span></pre></td><td class="code"><pre><span class="line">    &#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">23</span></pre></td><td class="code"><pre><span class="line">  &#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">24</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">25</span></pre></td><td class="code"><pre><span class="line">  <span class="keyword">return</span> out;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">26</span></pre></td><td class="code"><pre><span class="line">&#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">27</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">28</span></pre></td><td class="code"><pre><span class="line"><span class="comment">// Gray -&gt; Binary</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">29</span></pre></td><td class="code"><pre><span class="line">cv::<span class="function">Mat <span class="title">Binarize_Otsu</span><span class="params">(cv::Mat gray)</span></span>&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">30</span></pre></td><td class="code"><pre><span class="line">  <span class="keyword">int</span> <span class="built_in">width</span> = gray.cols;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">31</span></pre></td><td class="code"><pre><span class="line">  <span class="keyword">int</span> <span class="built_in">height</span> = gray.rows;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">32</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">33</span></pre></td><td class="code"><pre><span class="line">  <span class="comment">// determine threshold</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">34</span></pre></td><td class="code"><pre><span class="line">  <span class="keyword">double</span> w0 = <span class="number">0</span>, w1 = <span class="number">0</span>;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">35</span></pre></td><td class="code"><pre><span class="line">  <span class="keyword">double</span> m0 = <span class="number">0</span>, m1 = <span class="number">0</span>;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">36</span></pre></td><td class="code"><pre><span class="line">  <span class="keyword">double</span> max_sb = <span class="number">0</span>, sb = <span class="number">0</span>;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">37</span></pre></td><td class="code"><pre><span class="line">  <span class="keyword">int</span> th = <span class="number">0</span>;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">38</span></pre></td><td class="code"><pre><span class="line">  <span class="keyword">int</span> val;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">39</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">40</span></pre></td><td class="code"><pre><span class="line">  <span class="comment">// Get threshold</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">41</span></pre></td><td class="code"><pre><span class="line">  <span class="keyword">for</span> (<span class="keyword">int</span> t = <span class="number">0</span>; t &lt; <span class="number">255</span>; t++)&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">42</span></pre></td><td class="code"><pre><span class="line">    w0 = <span class="number">0</span>;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">43</span></pre></td><td class="code"><pre><span class="line">    w1 = <span class="number">0</span>;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">44</span></pre></td><td class="code"><pre><span class="line">    m0 = <span class="number">0</span>;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">45</span></pre></td><td class="code"><pre><span class="line">    m1 = <span class="number">0</span>;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">46</span></pre></td><td class="code"><pre><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> y = <span class="number">0</span>; y &lt; <span class="built_in">height</span>; y++)&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">47</span></pre></td><td class="code"><pre><span class="line">      	<span class="keyword">for</span> (<span class="keyword">int</span> x = <span class="number">0</span>; x &lt; <span class="built_in">width</span>; x++)&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">48</span></pre></td><td class="code"><pre><span class="line">        	val = (<span class="keyword">int</span>)(gray.at&lt;uchar&gt;(y, x));</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">49</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">50</span></pre></td><td class="code"><pre><span class="line">            <span class="keyword">if</span> (val &lt; t)&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">51</span></pre></td><td class="code"><pre><span class="line">                w0++;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">52</span></pre></td><td class="code"><pre><span class="line">                m0 += val;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">53</span></pre></td><td class="code"><pre><span class="line">            &#125; <span class="keyword">else</span> &#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">54</span></pre></td><td class="code"><pre><span class="line">                w1++;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">55</span></pre></td><td class="code"><pre><span class="line">                m1 += val;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">56</span></pre></td><td class="code"><pre><span class="line">            &#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">57</span></pre></td><td class="code"><pre><span class="line">      	&#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">58</span></pre></td><td class="code"><pre><span class="line">    &#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">59</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">60</span></pre></td><td class="code"><pre><span class="line">    m0 /= w0;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">61</span></pre></td><td class="code"><pre><span class="line">    m1 /= w1;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">62</span></pre></td><td class="code"><pre><span class="line">    w0 /= (<span class="built_in">height</span> * <span class="built_in">width</span>);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">63</span></pre></td><td class="code"><pre><span class="line">    w1 /= (<span class="built_in">height</span> * <span class="built_in">width</span>);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">64</span></pre></td><td class="code"><pre><span class="line">    sb = w0 * w1 * <span class="built_in">pow</span>((m0 - m1), <span class="number">2</span>);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">65</span></pre></td><td class="code"><pre><span class="line">    </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">66</span></pre></td><td class="code"><pre><span class="line">    <span class="keyword">if</span>(sb &gt; max_sb)&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">67</span></pre></td><td class="code"><pre><span class="line">      	max_sb = sb;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">68</span></pre></td><td class="code"><pre><span class="line">      	th = t;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">69</span></pre></td><td class="code"><pre><span class="line">    &#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">70</span></pre></td><td class="code"><pre><span class="line">  &#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">71</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">72</span></pre></td><td class="code"><pre><span class="line">  <span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; <span class="string">"threshold:"</span> &lt;&lt; th &lt;&lt; <span class="built_in">std</span>::<span class="built_in">endl</span>;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">73</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">74</span></pre></td><td class="code"><pre><span class="line">  <span class="comment">// prepare output</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">75</span></pre></td><td class="code"><pre><span class="line">  cv::Mat out = cv::Mat::zeros(<span class="built_in">height</span>, <span class="built_in">width</span>, CV_8UC1);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">76</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">77</span></pre></td><td class="code"><pre><span class="line">  <span class="comment">// each y, x</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">78</span></pre></td><td class="code"><pre><span class="line">  <span class="keyword">for</span> (<span class="keyword">int</span> y = <span class="number">0</span>; y &lt; <span class="built_in">height</span>; y++)&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">79</span></pre></td><td class="code"><pre><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> x = <span class="number">0</span>; x &lt; <span class="built_in">width</span>; x++)&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">80</span></pre></td><td class="code"><pre><span class="line">      <span class="comment">// Binarize</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">81</span></pre></td><td class="code"><pre><span class="line">      <span class="keyword">if</span> (gray.at&lt;uchar&gt;(y, x) &gt; th)&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">82</span></pre></td><td class="code"><pre><span class="line">        out.at&lt;uchar&gt;(y, x) = <span class="number">255</span>;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">83</span></pre></td><td class="code"><pre><span class="line">      &#125; <span class="keyword">else</span> &#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">84</span></pre></td><td class="code"><pre><span class="line">        out.at&lt;uchar&gt;(y, x) = <span class="number">0</span>;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">85</span></pre></td><td class="code"><pre><span class="line">      &#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">86</span></pre></td><td class="code"><pre><span class="line">    </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">87</span></pre></td><td class="code"><pre><span class="line">    &#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">88</span></pre></td><td class="code"><pre><span class="line">  &#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">89</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">90</span></pre></td><td class="code"><pre><span class="line">  <span class="keyword">return</span> out;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">91</span></pre></td><td class="code"><pre><span class="line">&#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">92</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">93</span></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">const</span> <span class="keyword">char</span>* argv[])</span></span>&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">94</span></pre></td><td class="code"><pre><span class="line">  <span class="comment">// read image</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">95</span></pre></td><td class="code"><pre><span class="line">  cv::Mat img = cv::imread(<span class="string">"imori.jpg"</span>, cv::IMREAD_COLOR);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">96</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">97</span></pre></td><td class="code"><pre><span class="line">  <span class="comment">// BGR -&gt; Gray</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">98</span></pre></td><td class="code"><pre><span class="line">  cv::Mat gray = BGR2GRAY(img);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">99</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">100</span></pre></td><td class="code"><pre><span class="line">  <span class="comment">// Gray -&gt; Binary</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">101</span></pre></td><td class="code"><pre><span class="line">  cv::Mat out = Binarize_Otsu(gray);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">102</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">103</span></pre></td><td class="code"><pre><span class="line">  <span class="comment">//cv::imwrite("out.jpg", out);</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">104</span></pre></td><td class="code"><pre><span class="line">  cv::imshow(<span class="string">"sample"</span>, out);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">105</span></pre></td><td class="code"><pre><span class="line">  cv::waitKey(<span class="number">0</span>);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">106</span></pre></td><td class="code"><pre><span class="line">  cv::destroyAllWindows();</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">107</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">108</span></pre></td><td class="code"><pre><span class="line">  <span class="keyword">return</span> <span class="number">0</span>;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">109</span></pre></td><td class="code"><pre><span class="line">&#125;</span></pre></td></tr></table></figure>
+<h5 id="五、HSV变换"><a href="#五、HSV变换" class="headerlink" title="五、HSV变换"></a>五、HSV变换</h5><p>HSV即使用色相(Hue)、饱和度(Saturation)、明度(Value)来表示色彩的一种方式。</p>
+<p>色相：将颜色使用0&deg;到360&deg;表示，就是平常所说的颜色名称，如红色、蓝色。色相与数值按下表</p>
+<p>对应。</p>
+<p>|   红   |   黄    |    绿    |    青    |    蓝    |   品红   |    红    |<br>| :——: | :——-: | :———: | :———: | :———: | :———: | :———: |<br>| 0&deg; | 60&deg; | 120&deg; | 180&deg; | 240&deg; | 300&deg; | 360&deg; |</p>
+<p>饱和度：是指色彩的纯度，饱和度越低则颜色越暗淡(0 &lt;=S &lt; 1)</p>
+<p>明度：即颜色的明暗程度。数值越高越接近白色，数值越低越接近黑色(0&lt;=V&lt;1)</p>
+</li>
+</ol>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Image-Processing/" rel="tag"># Image Processing</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/06/11/Spring-Cloud-MicroService/" rel="prev" title="Spring-Cloud-MicroService">
+      <i class="fa fa-chevron-left"></i> Spring-Cloud-MicroService
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2021/06/11/hello-world/" rel="next" title="Hello World">
+      Hello World <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+    <div class="comments" id="gitalk-container"></div>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#图像处理学习"><span class="nav-number">1.</span> <span class="nav-text">图像处理学习</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#参考的网上链接：Image-Processing"><span class="nav-number">1.0.1.</span> <span class="nav-text">参考的网上链接：Image Processing</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#第一部分"><span class="nav-number">1.0.2.</span> <span class="nav-text">第一部分</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#一、图像通道的处理"><span class="nav-number">1.0.2.1.</span> <span class="nav-text">一、图像通道的处理</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#二、图像的灰度化"><span class="nav-number">1.0.2.2.</span> <span class="nav-text">二、图像的灰度化</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#三、图像的二值化"><span class="nav-number">1.0.2.3.</span> <span class="nav-text">三、图像的二值化</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#四、大津二值化算法-Otsu"><span class="nav-number">1.0.2.4.</span> <span class="nav-text">四、大津二值化算法(Otsu)</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#五、HSV变换"><span class="nav-number">1.0.2.5.</span> <span class="nav-text">五、HSV变换</span></a></li></ol></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Qiang Chen</p>
+  <div class="site-description" itemprop="description">记录是忘记的第一助手.</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">40</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">17</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/chenaing19" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;chenaing19" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/765206494@qq.com" title="E-Mail → 765206494@qq.com"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Qiang Chen</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v4.0.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 – <a href="https://mist.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> v7.5.0
+  </div>
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+  
+  <script color='0,0,255' opacity='0.5' zIndex='-1' count='99' src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/muse.js"></script>
+<script src="/js/next-boot.js"></script>
+
+
+
+  
+
+
+
+
+  <script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID: '9c00bb4a73071d490d0b',
+      clientSecret: '0466125432b53cefbd6002b7ea866f7e15bbd9c8',
+      repo: 'chenqiang19.github.io',
+      owner: 'chenqiang19',
+      admin: ['chenqiang19'],
+      id: 'f5ba86ed487e0c1dbd87866b1479f8b8',
+        language: '',
+      distractionFreeMode: 'true'
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+</script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+</body>
+</html>

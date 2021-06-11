@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    hostname: new URL('http://yoursite.com').hostname,
+    root: '/',
+    scheme: 'Mist',
+    version: '7.5.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    sidebarPadding: 40
+  };
+</script>
+
+  <meta name="description" content="Spring-Boot-Problem-Two问题1�?* 自定义exception异常:{} org.apache.ibatis.binding.BindingException: Invalid bound statement (not found): com.ict.cloud.openstack.resource.mapper.OpenstackResourceMapper.insert">
+<meta name="keywords" content="Cloud Compute">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Spring-Boot-Problem-Two">
+<meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2021&#x2F;06&#x2F;11&#x2F;Spring-Boot-Problem-Two&#x2F;index.html">
+<meta property="og:site_name" content="编辑尼撑">
+<meta property="og:description" content="Spring-Boot-Problem-Two问题1�?* 自定义exception异常:{} org.apache.ibatis.binding.BindingException: Invalid bound statement (not found): com.ict.cloud.openstack.resource.mapper.OpenstackResourceMapper.insert">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2021&#x2F;06&#x2F;11&#x2F;Spring-Boot-Problem-Two&#x2F;1.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2021&#x2F;06&#x2F;11&#x2F;Spring-Boot-Problem-Two&#x2F;2.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2021&#x2F;06&#x2F;11&#x2F;Spring-Boot-Problem-Two&#x2F;3.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2021&#x2F;06&#x2F;11&#x2F;Spring-Boot-Problem-Two&#x2F;4.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2021&#x2F;06&#x2F;11&#x2F;Spring-Boot-Problem-Two&#x2F;5.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2021&#x2F;06&#x2F;11&#x2F;Spring-Boot-Problem-Two&#x2F;6.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2021&#x2F;06&#x2F;11&#x2F;Spring-Boot-Problem-Two&#x2F;7.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2021&#x2F;06&#x2F;11&#x2F;Spring-Boot-Problem-Two&#x2F;8.png">
+<meta property="og:updated_time" content="2021-06-11T12:53:51.406Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2021&#x2F;06&#x2F;11&#x2F;Spring-Boot-Problem-Two&#x2F;1.png">
+
+<link rel="canonical" href="http://yoursite.com/2021/06/11/Spring-Boot-Problem-Two/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>Spring-Boot-Problem-Two | 编辑尼撑</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="编辑尼撑" type="application/atom+xml"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">编辑尼撑</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">学无止境</p>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-schedule">
+
+    <a href="/schedule/" rel="section"><i class="fa fa-fw fa-calendar"></i>日程表</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="搜索..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/06/11/Spring-Boot-Problem-Two/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Qiang Chen">
+      <meta itemprop="description" content="记录是忘记的第一助手.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="编辑尼撑">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Spring-Boot-Problem-Two
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2021-06-11 20:39:29 / 修改时间：20:53:51" itemprop="dateCreated datePublished" datetime="2021-06-11T20:39:29+08:00">2021-06-11</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Cloud-Compute/" itemprop="url" rel="index">
+                    <span itemprop="name">Cloud Compute</span>
+                  </a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="Spring-Boot-Problem-Two"><a href="#Spring-Boot-Problem-Two" class="headerlink" title="Spring-Boot-Problem-Two"></a>Spring-Boot-Problem-Two</h2><p><strong>问题1�?* 自定义exception异常:{} org.apache.ibatis.binding.BindingException: Invalid bound statement (not found): com.ict.cloud.openstack.resource.mapper.OpenstackResourceMapper.insert<br><img src="/2021/06/11/Spring-Boot-Problem-Two/1.png" alt="Spring-Boot-Problem-Two">
+</strong>解决�?<em> 修改配置文件<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F;�?</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">mybatis-plus:</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">  mapper-locations: classpath:&#x2F;mapper&#x2F;*Mapper.xml</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">  type-aliases-package: com.chuancey.common.entity</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F;�?</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">mybatis-plus:</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">  mapper-locations: classpath*:&#x2F;mapper&#x2F;*Mapper.xml</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">  type-aliases-package: com.chuancey.common.entity</span></pre></td></tr></table></figure><br>**问题2�?</em>mapper找不到报错：Field xxxMapper in xxx required a bean of type ‘xxxMapper’ that could not be found<br>微服务中在别的模块中定义有service和mapper模块，但是要在别的模块中加载，所以提示找不到Mapper对应的目�?<br><strong>原因�?*因为启动类扫描不到对应的Mapper文件，因此需要将Mapper文件对应的路径加载到启动类中<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">@MapperScan(basePackages &#x3D; &#123;&quot;com.ict.cloud.quartz&quot;,&quot;com.ict.cloud.openstack.resource.mapper&quot;&#125;)</span></pre></td></tr></table></figure><br>注意：这里别的文件尽量指定到mapper这一层目录下面；另外检查pom中设置的依赖选项，一般在mybatis依赖中已经添加了下面两个依赖类，不需要在单独添加<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">org.mybatis:mybatis</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">org.mybatis:mybatis-spring</span></pre></td></tr></table></figure>
+</strong>问题3�?<em>在Application.getBean()的时候，代码跟进去一个类注册了两个Bean，导致编译报下图的错<br><img src="/2021/06/11/Spring-Boot-Problem-Two/2.png" alt="Spring-Boot-Problem-Two"><br>**原因�?</em>由于上面问题2在加载别的mapper的时候，使用了@MapperScan,需要将本地的报也一起扫描进去。但是扫描的时候没有定位到mapper目录，导致将service目录中的包也一起扫描了进去<br><strong>解决�?*方法如下�?<br><img src="/2021/06/11/Spring-Boot-Problem-Two/3.png" alt="Spring-Boot-Problem-Two">
+</strong>问题4�?<em>Caused by: org.apache.ibatis.binding.BindingException: Invalid bound statement (not found):这个问题�?问题1</em>有关�?<br><img src="/2021/06/11/Spring-Boot-Problem-Two/4.png" alt="Spring-Boot-Problem-Two"><br>这里mapper.xml中的namespace对应的是mapper文件接口对应的位置，而不是xml所在的package位置<br>注意：mapper-locations指定的xml的位置可以写多个，type-aliases-package是数据接口所对应的位�?<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">mybatis:</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">  mapper-locations: classpath:mybatis&#x2F;*,classpath*:&#x2F;mybatis&#x2F;*.xml</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">  type-aliases-package: com.ict.cloud.quartz.domain</span></pre></td></tr></table></figure><br><strong>问题5�?* openfeign提示找不到Api<br><img src="/2021/06/11/Spring-Boot-Problem-Two/5.png" alt="Spring-Boot-Problem-Two">
+</strong>原因�?<em>因为目前使用的是微服务，所以一个模块为了使用另一个模块，就需要在启动类中能够扫描到别的类的一些Bean，然后注入到容器中。一般问题有两个，一个是启动类的位置不对，另一个是扫描路径不对<br>**解决�?</em> 1、添加@ComponentScan、@MapperScan�?、将启动类往前移一�?个人推荐这种方式)<br><img src="/2021/06/11/Spring-Boot-Problem-Two/6.png" alt="Spring-Boot-Problem-Two"><br>如上图，之前启动类是放在了quartz目录的里面，这样的话，配置之类的很麻烦，直接将启动类放到com.ict.cloud目录则直接可以扫描到其他服务的@service和@mapper，这样更加方�?<br><strong>关于找不到OpenFeign接口的问题：</strong>是因为@EnableFeignClients//(basePackageClasses = PhysicalServerInstanceApi.class)在@EnableFeignClients开启OpenFeign的时候，指定了一个服务的名称，这样别的服务是找不到的，注释掉这个路径就可以了<br><strong>问题6�?* Cause: java.lang.IllegalArgumentException: Result Maps collection already contains value for com.ict.cloud.quartz.BaseResultMap<br><img src="/2021/06/11/Spring-Boot-Problem-Two/7.png" alt="Spring-Boot-Problem-Two">
+</strong>原因�?<em>下面所示，mapper-locations定位的模块mapper路径被导入了两次<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">mybatis:</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">  mapper-locations: classpath:mybatis&#x2F;*,classpath*:&#x2F;mybatis&#x2F;*.xml</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">  type-aliases-package: com.ict.cloud.quartz.domain</span></pre></td></tr></table></figure><br>**解决�?</em><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">mybatis:</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">  mapper-locations: classpath*:&#x2F;mybatis&#x2F;*.xml</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">  type-aliases-package: com.ict.cloud.quartz.domain</span></pre></td></tr></table></figure><br><strong>问题7�?<em>java.lang.RuntimeException: CronExpression ‘0 0/5 </em> <em> </em> �? is invalid<br>明明是对的，为什么会报cron is invalid,因为字符串后面多了一个空�?   —这个地�?
+</strong>解决�?*可以使用在线的cron生成�?<br><img src="/2021/06/11/Spring-Boot-Problem-Two/8.png" alt="Spring-Boot-Problem-Two"></p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Cloud-Compute/" rel="tag"># Cloud Compute</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/05/21/Spring-Cloud-Problem/" rel="prev" title="Spring-Cloud-Problem">
+      <i class="fa fa-chevron-left"></i> Spring-Cloud-Problem
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2021/06/11/Spring-Boot-Quartz/" rel="next" title="Spring-Boot-Quartz">
+      Spring-Boot-Quartz <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+    <div class="comments" id="gitalk-container"></div>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Spring-Boot-Problem-Two"><span class="nav-number">1.</span> <span class="nav-text">Spring-Boot-Problem-Two</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Qiang Chen</p>
+  <div class="site-description" itemprop="description">记录是忘记的第一助手.</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">40</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">17</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/chenaing19" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;chenaing19" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/765206494@qq.com" title="E-Mail → 765206494@qq.com"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Qiang Chen</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v4.0.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 – <a href="https://mist.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> v7.5.0
+  </div>
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+  
+  <script color='0,0,255' opacity='0.5' zIndex='-1' count='99' src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/muse.js"></script>
+<script src="/js/next-boot.js"></script>
+
+
+
+  
+
+
+
+
+  <script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID: '9c00bb4a73071d490d0b',
+      clientSecret: '0466125432b53cefbd6002b7ea866f7e15bbd9c8',
+      repo: 'chenqiang19.github.io',
+      owner: 'chenqiang19',
+      admin: ['chenqiang19'],
+      id: 'f2c28d5a2a77c6a7542f75f82e0e3264',
+        language: '',
+      distractionFreeMode: 'true'
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+</script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+</body>
+</html>
