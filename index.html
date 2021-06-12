@@ -313,10 +313,16 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2021-06-11 21:58:13 / 修改时间：21:59:26" itemprop="dateCreated datePublished" datetime="2021-06-11T21:58:13+08:00">2021-06-11</time>
+              <time title="创建时间：2021-06-11 21:58:13" itemprop="dateCreated datePublished" datetime="2021-06-11T21:58:13+08:00">2021-06-11</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-06-12 08:49:10" itemprop="dateModified" datetime="2021-06-12T08:49:10+08:00">2021-06-12</time>
+              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="fa fa-folder-o"></i>
@@ -354,7 +360,7 @@ y=\begin{cases}
 \end{cases}</script><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">def binarization(img, th&#x3D;128):</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">    img[img &lt; th] &#x3D; 0</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">    img[img &gt;&#x3D; th] &#x3D; 255</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">    return img</span></pre></td></tr></table></figure>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line"><span class="comment">// Gray -&gt; Binary</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line"><span class="function">cv::Mat <span class="title">Binarize</span><span class="params">(cv::Mat gray, <span class="keyword">int</span> th)</span></span>&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">  <span class="keyword">int</span> <span class="built_in">width</span> = gray.cols;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">  <span class="keyword">int</span> <span class="built_in">height</span> = gray.rows;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">  <span class="comment">// prepare output</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">  cv::Mat out = cv::Mat::zeros(<span class="built_in">height</span>, <span class="built_in">width</span>, CV_8UC1);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line">  <span class="comment">// each y, x</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line">  <span class="keyword">for</span> (<span class="keyword">int</span> y = <span class="number">0</span>; y &lt; <span class="built_in">height</span>; y++)&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">11</span></pre></td><td class="code"><pre><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> x = <span class="number">0</span>; x &lt; <span class="built_in">width</span>; x++)&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">12</span></pre></td><td class="code"><pre><span class="line">      <span class="comment">// Binarize</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">13</span></pre></td><td class="code"><pre><span class="line">      <span class="keyword">if</span> (gray.at&lt;uchar&gt;(y, x) &gt; th)&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">14</span></pre></td><td class="code"><pre><span class="line">        out.at&lt;uchar&gt;(y, x) = <span class="number">255</span>;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">15</span></pre></td><td class="code"><pre><span class="line">      &#125; <span class="keyword">else</span> &#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">16</span></pre></td><td class="code"><pre><span class="line">        out.at&lt;uchar&gt;(y, x) = <span class="number">0</span>;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">17</span></pre></td><td class="code"><pre><span class="line">      &#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">18</span></pre></td><td class="code"><pre><span class="line">    &#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">19</span></pre></td><td class="code"><pre><span class="line">  &#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">20</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">21</span></pre></td><td class="code"><pre><span class="line">  <span class="keyword">return</span> out;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">22</span></pre></td><td class="code"><pre><span class="line">&#125;</span></pre></td></tr></table></figure>
 <h5 id="四、大津二值化算法-Otsu"><a href="#四、大津二值化算法-Otsu" class="headerlink" title="四、大津二值化算法(Otsu)"></a>四、大津二值化算法(Otsu)</h5><p>最大类间方差法，是一种可以自动确定二值化中阈值的算法。</p>
-<p>令{0,1,2,…,L-1}表示一副大小为<em>M x N</em>像素的数字图像中的<em>L</em>个不同的灰度级，<em>ni</em> 表示灰度级为<em>i</em>的像素数。</p>
+<p>令{0,1,2,…,L-1}表示一副大小为<em>M x N</em>像素的数字图像中的<em>L</em>个不同的灰度级，n<sub>i</sub> 表示灰度级为<em>i</em>的像素数。</p>
 <p>图像中的像素总数为：</p>
 <script type="math/tex; mode=display">
 N=n_0+n_1+...+n_L-1</script><p>像素的灰度级为 <em>i</em> 的概率为：</p>
@@ -422,7 +428,7 @@ w_1\mu_1+w_2\mu_2=\mu
 <h5 id="五、HSV变换"><a href="#五、HSV变换" class="headerlink" title="五、HSV变换"></a>五、HSV变换</h5><p>HSV即使用色相(Hue)、饱和度(Saturation)、明度(Value)来表示色彩的一种方式。</p>
 <p>色相：将颜色使用0&deg;到360&deg;表示，就是平常所说的颜色名称，如红色、蓝色。色相与数值按下表</p>
 <p>对应。</p>
-<p>|   红   |   黄    |    绿    |    青    |    蓝    |   品红   |    红    |<br>| :——: | :——-: | :———: | :———: | :———: | :———: | :———: |<br>| 0&deg; | 60&deg; | 120&deg; | 180&deg; | 240&deg; | 300&deg; | 360&deg; |</p>
+<p>| 红 | 黄 | 绿 | 青 | 蓝 | 品红 | 红 |<br>| :——: | :——-: | :———: | :———: | :———: | :———: | :———: |<br>| 0&deg; | 60&deg; | 120&deg; | 180&deg; | 240&deg; | 300&deg; | 360&deg; |</p>
 <p>饱和度：是指色彩的纯度，饱和度越低则颜色越暗淡(0 &lt;=S &lt; 1)</p>
 <p>明度：即颜色的明暗程度。数值越高越接近白色，数值越低越接近黑色(0&lt;=V&lt;1)</p>
 </li>
