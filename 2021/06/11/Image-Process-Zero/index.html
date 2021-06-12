@@ -54,7 +54,7 @@
 <meta property="og:site_name" content="编辑尼撑">
 <meta property="og:description" content="图像处理学习参考的网上链接：Image Processing第一部分一、图像通道的处理1#cv2.imread()读取的是图像是按照BGR的顺序排列的2#所以BGR转RGB，需要读取每个通道，在按照R、G、B的顺序赋值进去3&amp;gt;&amp;gt;&amp;gt;import cv24&amp;gt;&amp;gt;&amp;gt;img &#x3D; cv2.imread(&quot;imori.jpg&quot;)5&amp;gt;&amp;gt;&amp;gt;red &#x3D; img[:">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2021-06-12T15:58:24.341Z">
+<meta property="og:updated_time" content="2021-06-12T16:01:49.023Z">
 <meta name="twitter:card" content="summary">
 
 <link rel="canonical" href="http://yoursite.com/2021/06/11/Image-Process-Zero/">
@@ -242,7 +242,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-06-12 23:58:24" itemprop="dateModified" datetime="2021-06-12T23:58:24+08:00">2021-06-12</time>
+                <time title="修改时间：2021-06-13 00:01:49" itemprop="dateModified" datetime="2021-06-13T00:01:49+08:00">2021-06-13</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -349,11 +349,36 @@ w_1\mu_1+w_2\mu_2=\mu
 <h5 id="五、HSV变换"><a href="#五、HSV变换" class="headerlink" title="五、HSV变换"></a>五、HSV变换</h5><p>HSV即使用色相(Hue)、饱和度(Saturation)、明度(Value)来表示色彩的一种方式。</p>
 <p>色相：将颜色使用0&deg;到360&deg;表示，就是平常所说的颜色名称，如红色、蓝色。色相与数值按下表</p>
 <p>对应。</p>
-<p>| 红 | 黄 | 绿 | 青 | 蓝 | 品红 | 红 |<br>| :——: | :——-: | :———: | :———: | :———: | :———: | :———: |<br>| 0&deg; | 60&deg; | 120&deg; | 180&deg; | 240&deg; | 300&deg; | 360&deg; |</p>
-<p>饱和度：是指色彩的纯度，饱和度越低则颜色越暗淡(0 &lt;=S &lt; 1)</p>
-<p>明度：即颜色的明暗程度。数值越高越接近白色，数值越低越接近黑色(0&lt;=V&lt;1)</p>
 </li>
 </ol>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">红</th>
+<th style="text-align:center">黄</th>
+<th style="text-align:center">绿</th>
+<th style="text-align:center">青</th>
+<th style="text-align:center">蓝</th>
+<th style="text-align:center">品红</th>
+<th style="text-align:center">红</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">0&deg;</td>
+<td style="text-align:center">60&deg;</td>
+<td style="text-align:center">120&deg;</td>
+<td style="text-align:center">180&deg;</td>
+<td style="text-align:center">240&deg;</td>
+<td style="text-align:center">300&deg;</td>
+<td style="text-align:center">360&deg;</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>   饱和度：是指色彩的纯度，饱和度越低则颜色越暗淡(0 &lt;=S &lt; 1)</p>
+<p>   明度：即颜色的明暗程度。数值越高越接近白色，数值越低越接近黑色(0&lt;=V&lt;1)</p>
 
     </div>
 
