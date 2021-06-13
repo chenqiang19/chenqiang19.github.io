@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://yoursite.com/2021/06/13/Image-Process-One/</loc>
+    
+    <lastmod>2021-06-13T09:15:29.570Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://yoursite.com/2021/06/12/Image-Process-Zero-Plus/</loc>
     
     <lastmod>2021-06-13T02:31:12.206Z</lastmod>
@@ -282,7 +289,7 @@
   </url>
   
   <url>
-    <loc>http://yoursite.com/2021/06/12/hello-world/</loc>
+    <loc>http://yoursite.com/2021/06/13/hello-world/</loc>
     
     <lastmod>2021-04-03T12:51:40.438Z</lastmod>
     
