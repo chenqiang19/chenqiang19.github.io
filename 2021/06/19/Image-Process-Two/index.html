@@ -1,0 +1,688 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    hostname: new URL('http://yoursite.com').hostname,
+    root: '/',
+    scheme: 'Mist',
+    version: '7.5.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    sidebarPadding: 40
+  };
+</script>
+
+  <meta name="description" content="图像处理学习一、直方图图像直方图主要用来分析图像灰度的分布情况，从直方图的统计中可以看出图像是整体偏暗还是整体偏亮。一幅图像由不同灰度值的像素组成，图像中灰度的分布情况是该图像的一个重要特征。图像的灰度直方图就描述了图像中灰度分布情况，能够很直观的展示出图像中各个灰度级所占的多少。 灰度级范围[0, L-1]的数字直方图是离散函数h(rk)&#x3D;nk,其中rk是第k极灰度级，nk是图像中灰度为rk的像">
+<meta name="keywords" content="Image Processing">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Image-Process-Two">
+<meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2021&#x2F;06&#x2F;19&#x2F;Image-Process-Two&#x2F;index.html">
+<meta property="og:site_name" content="编辑尼撑">
+<meta property="og:description" content="图像处理学习一、直方图图像直方图主要用来分析图像灰度的分布情况，从直方图的统计中可以看出图像是整体偏暗还是整体偏亮。一幅图像由不同灰度值的像素组成，图像中灰度的分布情况是该图像的一个重要特征。图像的灰度直方图就描述了图像中灰度分布情况，能够很直观的展示出图像中各个灰度级所占的多少。 灰度级范围[0, L-1]的数字直方图是离散函数h(rk)&#x3D;nk,其中rk是第k极灰度级，nk是图像中灰度为rk的像">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2021-06-19T13:20:38.620Z">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://yoursite.com/2021/06/19/Image-Process-Two/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>Image-Process-Two | 编辑尼撑</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="编辑尼撑" type="application/atom+xml"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">编辑尼撑</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">学无止境</p>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-schedule">
+
+    <a href="/schedule/" rel="section"><i class="fa fa-fw fa-calendar"></i>日程表</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="搜索..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/06/19/Image-Process-Two/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Qiang Chen">
+      <meta itemprop="description" content="记录是忘记的第一助手.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="编辑尼撑">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Image-Process-Two
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2021-06-19 21:19:57 / 修改时间：21:20:38" itemprop="dateCreated datePublished" datetime="2021-06-19T21:19:57+08:00">2021-06-19</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Image-Processing/" itemprop="url" rel="index">
+                    <span itemprop="name">Image Processing</span>
+                  </a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="图像处理学习"><a href="#图像处理学习" class="headerlink" title="图像处理学习"></a>图像处理学习</h2><h4 id="一、直方图"><a href="#一、直方图" class="headerlink" title="一、直方图"></a>一、直方图</h4><p>图像直方图主要用来分析图像灰度的分布情况，从直方图的统计中可以看出图像是整体偏暗还是整体偏亮。一幅图像由不同灰度值的像素组成，图像中灰度的分布情况是该图像的一个重要特征。图像的灰度直方图就描述了图像中灰度分布情况，能够很直观的展示出图像中各个灰度级所占的多少。</p>
+<p>灰度级范围[0, L-1]的数字直方图是离散函数h(r<sub>k</sub>)=n<sub>k</sub>,其中r<sub>k</sub>是第k极灰度级，n<sub>k</sub>是图像中灰度为r<sub>k</sub>的像素个数。在实践中，经常用MN表示的图像像素的总数除以每个分量的个数来归一化直方图(M和N代表一张图的行和列)。因此，归一化的直方图由p(r<sub>k</sub>)=n<sub>k</sub>/MN给出，其中，k=0, 1, … , L-1。所以归一化后的直方图所有分量和应该为1。</p>
+<p>直方图可以给出表示特定灰度值的像素个数，归一化后的直方图表示特定灰度值在一张图中出现的概率。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line"><span class="comment">//gray image histogram</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">calHistogram</span><span class="params">(cv::Mat img, Map&lt;<span class="keyword">int</span>, <span class="keyword">int</span>&gt; &amp;histogram)</span> </span>&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">    <span class="keyword">int</span> h = img.rows;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">    <span class="keyword">int</span> w = img.cols;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">    <span class="keyword">int</span> channel = img.channels();</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">    </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> y=<span class="number">0</span>; c&lt;h; y++)&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> x=<span class="number">0</span>; r&lt;w; x++)&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line">            <span class="keyword">int</span> grayValue = img.at&lt;uchar&gt;(y,x);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line">            <span class="keyword">auto</span> iter = histogram.<span class="built_in">find</span>(grayValue);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">11</span></pre></td><td class="code"><pre><span class="line">            <span class="keyword">if</span>(iter == histogram.<span class="built_in">end</span>())&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">12</span></pre></td><td class="code"><pre><span class="line">                histogram[grayValue]=<span class="number">1</span>;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">13</span></pre></td><td class="code"><pre><span class="line">            &#125;<span class="keyword">else</span> &#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">14</span></pre></td><td class="code"><pre><span class="line">                iter-&gt;second += <span class="number">1</span>;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">15</span></pre></td><td class="code"><pre><span class="line">            &#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">16</span></pre></td><td class="code"><pre><span class="line">        &#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">17</span></pre></td><td class="code"><pre><span class="line">    &#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">18</span></pre></td><td class="code"><pre><span class="line">    <span class="keyword">return</span> <span class="literal">true</span>;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">19</span></pre></td><td class="code"><pre><span class="line">&#125;</span></pre></td></tr></table></figure>
+<h4 id="二、直方图归一化-Histogram-Normalization"><a href="#二、直方图归一化-Histogram-Normalization" class="headerlink" title="二、直方图归一化(Histogram Normalization)"></a>二、直方图归一化(Histogram Normalization)</h4><p>h[i] (i=0, 1, … , 255)是任意灰度级为i处像素的概率。H[i]是累积密度分布函数，H[255]=1</p>
+<script type="math/tex; mode=display">
+h[i]=\frac{Number\quad of\quad pixels\quad of\quad gray\quad level\quad i}{Total \quad number \quad of \quad pixels},\quad\quad  H[i]=\sum^{j}_{i=0}h[i],\quad (j=0,1,...,255)</script><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line"><span class="comment">//Here is the code for finding the histogram of a given image img of glevel=256 gray levels(an 8-bit image) and of size M x N:</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span>(<span class="keyword">int</span> k=<span class="number">0</span>; k&lt;glevel; k++)&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">    H[k]=h[k]=<span class="number">0</span>;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">&#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>; i&lt;M; i++)&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">0</span>; j&lt;N; j++)&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">        g=img[i][j];</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">        h[g]=h[g]+<span class="number">1</span>;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line">    &#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line">&#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">11</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">12</span></pre></td><td class="code"><pre><span class="line">H[<span class="number">0</span>]=h[<span class="number">0</span>]/M/N;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">13</span></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span>(<span class="keyword">int</span> k=<span class="number">1</span>; k&lt;glevel; k++)&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">14</span></pre></td><td class="code"><pre><span class="line">    h[k]=h[k]/M/N;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">15</span></pre></td><td class="code"><pre><span class="line">    H[k]=H[k<span class="number">-1</span>]=h[k];</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">16</span></pre></td><td class="code"><pre><span class="line">&#125;</span></pre></td></tr></table></figure>
+<p>为了正确显示灰度图像，它的取值范围必须在[0, 255]内(2^8=256)。然而在经过某种处理操作后，图像的灰度级可能发生了变化，所以需要进行归一化(normalized or rescaled)。</p>
+<script type="math/tex; mode=display">
+y=f(x)=255\cdot\frac{x-x_{min}}{x_{max}-x_{min}}</script><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line"><span class="built_in">min</span>=LARGE;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line"><span class="built_in">max</span>=-<span class="built_in">min</span>;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>; i&lt;M; i++)&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">0</span>; j&lt;N; j++)&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">        <span class="keyword">if</span>(img[i][j] &lt; <span class="built_in">min</span>) <span class="built_in">min</span>=img[i][j];</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">        <span class="keyword">if</span>(img[i][j] &gt; <span class="built_in">max</span>) <span class="built_in">max</span>=img[i][j];</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">    &#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">&#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line">scale = <span class="number">255.0</span> / (<span class="built_in">max</span>-<span class="built_in">min</span>);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">11</span></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>; i&lt;M; i++)&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">12</span></pre></td><td class="code"><pre><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">0</span>; j&lt;N; j++)&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">13</span></pre></td><td class="code"><pre><span class="line">        img[i][j]=scale*(img[i][j]-<span class="built_in">min</span>);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">14</span></pre></td><td class="code"><pre><span class="line">    &#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">15</span></pre></td><td class="code"><pre><span class="line">&#125;</span></pre></td></tr></table></figure>
+<p><a href="http://fourier.eng.hmc.edu/e161/lectures/digital_image/node9.html" target="_blank" rel="noopener">参考</a></p>
+<h4 id="三、High-Dynamic-Range-HDR-imaging"><a href="#三、High-Dynamic-Range-HDR-imaging" class="headerlink" title="三、High Dynamic Range (HDR) imaging"></a>三、High Dynamic Range (HDR) imaging</h4><p>大多数数码相机和显示器以 24 位矩阵的形式捕获或显示彩色图像。 每个颜色通道有 8 位，因此每个通道的像素值在 0 – 255 的范围内。 换句话说，普通相机或显示器的动态范围有限。 </p>
+<p>然而，我们周围的世界具有非常大的动态范围。 当灯光关闭时，车库内可能会变得漆黑一片，如果您直视太阳，它会变得非常亮。 即使不考虑这些极端情况，在日常情况下，8 位也几乎不足以捕捉场景。 因此，相机会尝试估计照明并自动设置曝光，以便图像最有趣的方面具有良好的动态范围，而太暗和太亮的部分分别被剪裁为 0 和 255。</p>
+<p><strong>如何生成高动态范围的图像？</strong></p>
+<ul>
+<li><h3 id="Step-1-Capture-multiple-images-with-different-exposures"><a href="#Step-1-Capture-multiple-images-with-different-exposures" class="headerlink" title="Step 1: Capture multiple images with different exposures"></a>Step 1: Capture multiple images with different exposures</h3><p>当我们使用相机拍照时，我们每个通道只有 8 位来表示场景的动态范围（亮度范围）。 但是我们可以通过改变快门速度以不同的曝光拍摄场景的多张图像。 大多数单反相机都有一项称为自动包围曝光 (AEB) 的功能，只需按一下按钮，我们就可以以不同的曝光度拍摄多张照片。 如果您使用的是 iPhone，您可以使用这个 AutoBracket HDR 应用程序，如果您是安卓用户，您可以尝试 A Better Camera 应用程序。 </p>
+<ol>
+<li>曝光不足的图像：此图像比正确曝光的图像更暗。 目标是捕获图像中非常明亮的部分。 </li>
+<li>正确曝光的图像：这是相机根据其估计的照明度拍摄的常规图像。 </li>
+<li>过度曝光的图像：该图像比正确曝光的图像更亮。 目标是捕获图像中非常暗的部分。 </li>
+</ol>
+</li>
+<li><h3 id="Step-2-Align-Images"><a href="#Step-2-Align-Images" class="headerlink" title="Step 2: Align Images"></a>Step 2: Align Images</h3><p>用于合成 HDR 图像的图像未对齐会导致严重的伪影。</p>
+</li>
+<li><h3 id="Step-3-Recover-the-Camera-Response-Function"><a href="#Step-3-Recover-the-Camera-Response-Function" class="headerlink" title="Step 3: Recover the Camera Response Function"></a>Step 3: Recover the Camera Response Function</h3><p>典型相机的响应与场景亮度不是线性的。 这意味着什么？ 假设用相机拍摄了两个物体，其中一个物体的亮度是现实世界中另一个物体的两倍。 当你测量照片中两个物体的像素强度时，较亮物体的像素值不会是较暗物体的两倍！ 如果不估计相机响应函数 (CRF)，我们将无法将图像合并为一张 HDR 图像。 </p>
+<p>如果我们知道每张图像的曝光时间，就可以从图像中估计 CRF。 与计算机视觉中的许多问题一样，找到 CRF 的问题被设置为优化问题，其目标是最小化由数据项和平滑项组成的目标函数。 这些问题通常归结为线性最小二乘问题，这些问题使用奇异值分解 (SVD) 解决，这是所有线性代数包的一部分。</p>
+</li>
+<li><h3 id="Step-4-Merge-Images"><a href="#Step-4-Merge-Images" class="headerlink" title="Step 4: Merge Images"></a>Step 4: Merge Images</h3><p>一旦估计了CRF，就可以使用 MergeDebevec 将曝光图像合并为一张 HDR 图像。</p>
+</li>
+<li><h3 id="Step-5-Tone-mapping"><a href="#Step-5-Tone-mapping" class="headerlink" title="Step 5: Tone mapping"></a>Step 5: Tone mapping</h3><p>尽管我们已经使用多张图像恢复了相对亮度信息，但我们现在面临着将这些信息保存为 24 位图像以供显示的挑战。 有几种色调映射算法。 OpenCV 实现了其中的四个。</p>
+</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">readImagesAndTimes</span><span class="params">(<span class="built_in">vector</span>&lt;Mat&gt; &amp;images, <span class="built_in">vector</span>&lt;<span class="keyword">float</span>&gt; &amp;times)</span></span>&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">	  <span class="keyword">int</span> numImages = <span class="number">4</span>;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">	  <span class="comment">// List of exposure times</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">	  <span class="keyword">static</span> <span class="keyword">const</span> <span class="keyword">float</span> timesArray[] = &#123;<span class="number">1</span>/<span class="number">30.0f</span>,<span class="number">0.25</span>,<span class="number">2.5</span>,<span class="number">15.0</span>&#125;;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">	  times.assign(timesArray, timesArray + numImages);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">	  <span class="comment">// List of image filenames</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">	  <span class="keyword">static</span> <span class="keyword">const</span> <span class="keyword">char</span>* filenames[] = &#123;<span class="string">"img_0.033.jpg"</span>, <span class="string">"img_0.25.jpg"</span>, <span class="string">"img_2.5.jpg"</span>, <span class="string">"img_15.jpg"</span>&#125;;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">	  <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>; i &lt; numImages; i++)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line">	  &#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line">	    Mat im = imread(filenames[i]);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">11</span></pre></td><td class="code"><pre><span class="line">	    images.push_back(im);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">12</span></pre></td><td class="code"><pre><span class="line">	  &#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">13</span></pre></td><td class="code"><pre><span class="line">    Ptr&lt;AlignMTB&gt; alignMTB = createAlignMTB();</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">14</span></pre></td><td class="code"><pre><span class="line">    </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">15</span></pre></td><td class="code"><pre><span class="line">    alignMTB-&gt;<span class="built_in">process</span>(images, images);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">16</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">17</span></pre></td><td class="code"><pre><span class="line">    <span class="comment">// Obtain Camera Response Function (CRF)</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">18</span></pre></td><td class="code"><pre><span class="line">    Mat responseDebevec;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">19</span></pre></td><td class="code"><pre><span class="line">    Ptr&lt;CalibrateDebevec&gt; calibrateDebevec = createCalibrateDebevec();</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">20</span></pre></td><td class="code"><pre><span class="line">    calibrateDebevec-&gt;<span class="built_in">process</span>(images, responseDebevec, times);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">21</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">22</span></pre></td><td class="code"><pre><span class="line">    <span class="comment">// Merge images into an HDR linear image</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">23</span></pre></td><td class="code"><pre><span class="line">    Mat hdrDebevec;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">24</span></pre></td><td class="code"><pre><span class="line">    Ptr&lt;MergeDebevec&gt; mergeDebevec = createMergeDebevec();</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">25</span></pre></td><td class="code"><pre><span class="line">    mergeDebevec-&gt;<span class="built_in">process</span>(images, hdrDebevec, times, responseDebevec);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">26</span></pre></td><td class="code"><pre><span class="line">    <span class="comment">// Save HDR image.</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">27</span></pre></td><td class="code"><pre><span class="line">    imwrite(<span class="string">"hdrDebevec.hdr"</span>, hdrDebevec);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">28</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">29</span></pre></td><td class="code"><pre><span class="line">    <span class="comment">//createTonemapDrago(</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">30</span></pre></td><td class="code"><pre><span class="line">    <span class="comment">//	float gamma = 1.0f,</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">31</span></pre></td><td class="code"><pre><span class="line">    <span class="comment">//	float saturation = 1.0f, </span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">32</span></pre></td><td class="code"><pre><span class="line">    <span class="comment">//	float bias = 0.85f)</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">33</span></pre></td><td class="code"><pre><span class="line">    </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">34</span></pre></td><td class="code"><pre><span class="line">    <span class="comment">// Tonemap using Drago's method to obtain 24-bit color image</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">35</span></pre></td><td class="code"><pre><span class="line">    Mat ldrDrago;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">36</span></pre></td><td class="code"><pre><span class="line">    Ptr&lt;TonemapDrago&gt; tonemapDrago = createTonemapDrago(<span class="number">1.0</span>, <span class="number">0.7</span>);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">37</span></pre></td><td class="code"><pre><span class="line">    tonemapDrago-&gt;<span class="built_in">process</span>(hdrDebevec, ldrDrago);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">38</span></pre></td><td class="code"><pre><span class="line">    ldrDrago = <span class="number">3</span> * ldrDrago;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">39</span></pre></td><td class="code"><pre><span class="line">    imwrite(<span class="string">"ldr-Drago.jpg"</span>, ldrDrago * <span class="number">255</span>);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">40</span></pre></td><td class="code"><pre><span class="line">&#125;</span></pre></td></tr></table></figure>
+<p><a href="https://learnopencv.com/high-dynamic-range-hdr-imaging-using-opencv-cpp-python/" target="_blank" rel="noopener">参考</a></p>
+<h4 id="四、直方图操作"><a href="#四、直方图操作" class="headerlink" title="四、直方图操作"></a>四、直方图操作</h4><h5 id="4-1-分段线性变换函数（分为线性和非线性）"><a href="#4-1-分段线性变换函数（分为线性和非线性）" class="headerlink" title="4.1 分段线性变换函数（分为线性和非线性）"></a><strong>4.1 分段线性变换函数</strong>（分为线性和非线性）</h5><p>一种情况，像素点取值范围从[c,d]转换到[a,b]的过程由下式定义:</p>
+<script type="math/tex; mode=display">
+x_{out}=\begin{cases} a \quad \quad \quad \quad \quad \quad \quad  \quad(if\quad x_{in}<c) \\ \frac{b-a}{d-c}\cdot(x_{in}-c)+a\quad (else\quad if\quad c\leq x_{in}<d) \\
+b\quad \quad \quad \quad \quad \quad \quad \quad(else)
+\end{cases}</script><p>下面以直方图归一化为例，参照第二部分</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line"><span class="comment"># histogram normalization</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">hist_normalization</span><span class="params">(img, a=<span class="number">0</span>, b=<span class="number">255</span>)</span>:</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">	<span class="comment"># get max and min</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">	c = img.min()</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">	d = img.max()</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">	out = img.copy()</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line">	<span class="comment"># normalization</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line">	out = (b-a) / (d - c) * (out - c) + a</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">11</span></pre></td><td class="code"><pre><span class="line">	out[out &lt; a] = a</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">12</span></pre></td><td class="code"><pre><span class="line">	out[out &gt; b] = b</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">13</span></pre></td><td class="code"><pre><span class="line">	out = out.astype(np.uint8)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">14</span></pre></td><td class="code"><pre><span class="line">	</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">15</span></pre></td><td class="code"><pre><span class="line">	<span class="keyword">return</span> out</span></pre></td></tr></table></figure>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line"><span class="comment">// histogram normalization</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line"><span class="function">cv::Mat <span class="title">histogram_normalization</span><span class="params">(cv::Mat img, <span class="keyword">int</span> a, <span class="keyword">int</span> b)</span></span>&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">  <span class="comment">// get height and width</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">  <span class="keyword">int</span> <span class="built_in">width</span> = img.cols;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">  <span class="keyword">int</span> <span class="built_in">height</span> = img.rows;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">  <span class="keyword">int</span> channel = img.channels();</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">  <span class="keyword">int</span> c, d;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line">  <span class="keyword">int</span> val;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">11</span></pre></td><td class="code"><pre><span class="line">  <span class="comment">// prepare output</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">12</span></pre></td><td class="code"><pre><span class="line">  cv::Mat out = cv::Mat::zeros(<span class="built_in">height</span>, <span class="built_in">width</span>, CV_8UC3);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">13</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">14</span></pre></td><td class="code"><pre><span class="line">  <span class="comment">// get [c, d]</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">15</span></pre></td><td class="code"><pre><span class="line">  <span class="keyword">for</span> (<span class="keyword">int</span> y = <span class="number">0</span>; y &lt; <span class="built_in">height</span>; y++)&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">16</span></pre></td><td class="code"><pre><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> x = <span class="number">0</span>; x &lt; <span class="built_in">width</span>; x++)&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">17</span></pre></td><td class="code"><pre><span class="line">      <span class="keyword">for</span> (<span class="keyword">int</span> _c = <span class="number">0</span>; _c &lt; channel; _c++)&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">18</span></pre></td><td class="code"><pre><span class="line">        val = (<span class="keyword">float</span>)img.at&lt;cv::Vec3b&gt;(y, x)[_c];</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">19</span></pre></td><td class="code"><pre><span class="line">        c = fmin(c, val);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">20</span></pre></td><td class="code"><pre><span class="line">        d = fmax(d, val);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">21</span></pre></td><td class="code"><pre><span class="line">      &#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">22</span></pre></td><td class="code"><pre><span class="line">    &#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">23</span></pre></td><td class="code"><pre><span class="line">  &#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">24</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">25</span></pre></td><td class="code"><pre><span class="line">  <span class="comment">// histogram transformation</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">26</span></pre></td><td class="code"><pre><span class="line">  <span class="keyword">for</span> (<span class="keyword">int</span> y = <span class="number">0</span>; y &lt; <span class="built_in">height</span>; y++)&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">27</span></pre></td><td class="code"><pre><span class="line">    <span class="keyword">for</span> ( <span class="keyword">int</span> x = <span class="number">0</span>; x &lt; <span class="built_in">width</span>; x++)&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">28</span></pre></td><td class="code"><pre><span class="line">      <span class="keyword">for</span> ( <span class="keyword">int</span> _c = <span class="number">0</span>; _c &lt; <span class="number">3</span>; _c++)&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">29</span></pre></td><td class="code"><pre><span class="line">        val = img.at&lt;cv::Vec3b&gt;(y, x)[_c];</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">30</span></pre></td><td class="code"><pre><span class="line">        </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">31</span></pre></td><td class="code"><pre><span class="line">        <span class="keyword">if</span> (val &lt; a)&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">32</span></pre></td><td class="code"><pre><span class="line">          out.at&lt;cv::Vec3b&gt;(y, x)[_c] = (uchar)a;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">33</span></pre></td><td class="code"><pre><span class="line">        &#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">34</span></pre></td><td class="code"><pre><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span> (val &lt;= b)&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">35</span></pre></td><td class="code"><pre><span class="line">          out.at&lt;cv::Vec3b&gt;(y, x)[_c] = (uchar)((b - a) / (d - c) * (val - c) + a);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">36</span></pre></td><td class="code"><pre><span class="line">        &#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">37</span></pre></td><td class="code"><pre><span class="line">        <span class="keyword">else</span> &#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">38</span></pre></td><td class="code"><pre><span class="line">          out.at&lt;cv::Vec3b&gt;(y, x)[_c] = (uchar)b;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">39</span></pre></td><td class="code"><pre><span class="line">        &#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">40</span></pre></td><td class="code"><pre><span class="line">      &#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">41</span></pre></td><td class="code"><pre><span class="line">    &#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">42</span></pre></td><td class="code"><pre><span class="line">  &#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">43</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">44</span></pre></td><td class="code"><pre><span class="line">  <span class="keyword">return</span> out;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">45</span></pre></td><td class="code"><pre><span class="line">&#125;</span></pre></td></tr></table></figure>
+<p>最简单的分段线性函数之一是<strong>对比度拉伸变换</strong>。低对比度图像可由照明不足、成像传感器动态范围大小，甚至在图像获取过程中镜头光圈设置错误引起。对比度拉伸时扩展图像灰度级动态范围的处理，因此，它可以跨越记录介质和显示装置的全部灰度范围。</p>
+<h4 id="五、直方图均衡化"><a href="#五、直方图均衡化" class="headerlink" title="五、直方图均衡化"></a>五、直方图均衡化</h4><p>假设图像具有连续的灰度值，变量r表示待处理图像的灰度，假设r的取值范围为[0, L-1]，r=0表示黑色，r=L-1表示白色。要让一幅图像的像素倾向于占据整个灰度级并且分布均匀。那么考虑下面的变换函数：</p>
+<script type="math/tex; mode=display">
+s=T(r),\quad 0\leq r \leq L-1\quad (灰度映射)</script><p>对于输入图像中的每个具有r值的像素值，产生一个输出灰度值s。假设：</p>
+<ol>
+<li>T(r)在区间0 &leq; r &leq; L-1上为单调递增函数</li>
+<li>当0 &leq; r &leq; L-1时，0 &leq; T(r) &leq; L-1</li>
+</ol>
+<script type="math/tex; mode=display">
+r=T^{-1}(s), 0\leq s \leq L-1</script><p>上式需要条件1为严格单调递增函数。<strong>两个方向的映射都是一对一的</strong></p>
+<p>一副图像的灰度级可看作是区间[0, L-1]内的随机变量。而随机变量的基本描述子是其概率密度函数(PDF)。令p<sub>r</sub>和p<sub>s</sub>分别为随机变量r和随机变量s的概率密度函数。</p>
+<p>由于随机变量r, s为随机变量，且s=T(r), r的随机概率密度函数为p<sub>r</sub>,T(r)连续，可微。则可以推导出变换(映射)后随机变量s的概率密度函数为：</p>
+<script type="math/tex; mode=display">
+p_S(s)=p_r(r)\left\lvert\frac{dr}{ds}\right\rvert, \quad \frac{dr}{ds}\geq0（非负性）</script><p>推导，由概率论中随机变量函数的分布(这里是一维)的知识可知：</p>
+<p>设X的概率密度函数为f<sub>X</sub>(x)，y=g(x)，Y=g(X)，求f<sub>Y</sub>(x) </p>
+<script type="math/tex; mode=display">
+1、用F_X(x)表示F_Y(x); 2、两边对x求导。其中，F_X(x)=P\{X\leq x\},F_Y(x)=p\{Y\leq x\}</script><p>则：（S和R表示随机变量，集体到表达式用s，r表示）</p>
+<script type="math/tex; mode=display">
+F_S(s)=P\{S\leq s\}=P\{T(R)\leq s\}(解不等式)\quad \\=P\{R\leq T^{-1}(s)\}=F_R\{T^{-1}(s)\}</script><p>两边同时对s求导，得：</p>
+<script type="math/tex; mode=display">
+\frac{\partial F_S(s)}{\partial s}=\frac{\partial F_R(T^{-1}(s))}{\partial s} (复合函数求导)  \quad \quad \quad \quad \quad \quad \quad \quad</script><script type="math/tex; mode=display">
+p_S(s)=F_R^\prime(T^{-1}(s))\cdot\frac{\partial(T^{-1}(s))}{\partial s}=p_R[T^{-1}(s)]\cdot[T^{-1}(s)]^\prime</script><script type="math/tex; mode=display">
+\because s=T(r),r=T^{-1}(s), \quad \therefore p_S(s)=p_R(r)\cdot\left \lvert\frac{dr}{ds}\right\rvert</script><p>同时，由于灰度值s满足的1和2的条件，可以得出<strong>变换函数</strong>的形式为：(均衡化的关键)</p>
+<script type="math/tex; mode=display">
+s=T(r)=(L-1)\int_0^rp_r(w)dw, (w为积分变量)\\r\in[0,L-1],\int_0^rp_r(w)dw=p\in[0,1]</script><p>由基本积分学中莱布尼茨准则，关于上限的定积分的导数是被积函数在该上线上的值，即</p>
+<script type="math/tex; mode=display">
+\frac{ds}{dr}=\frac{dT(r)}{dr}=(L-1)\cdot \frac{d}{dr}\left[\int_0^rp_r(w)dw\right]=(L-1)\cdot p_r(r)</script><p>则：</p>
+<script type="math/tex; mode=display">
+p_s(s)=p_r(r)\left|\frac{dr}{ds}\right|=p_r(r)\cdot \left|\frac{1}{(L-1)}\right|=\frac{1}{L-1}, 0\leq s\leq L-1</script><p>得出，p<sub>s</sub>是一个均匀概率密度函数，且与p<sub>r</sub>的形式无关。尽管s的取值与p<sub>r</sub>有关。</p>
+<p>对于离散的情况，使用概率(直方图纵坐标值)和求和来代替概率密度函数和积分，一副图像中灰度级为r<sub>k</sub>出现的概率为：</p>
+<script type="math/tex; mode=display">
+p_r(k_r)=\frac{n_k}{MN},K=0,1,2,...,L-1</script><p>则上述s的离散形式为：</p>
+<script type="math/tex; mode=display">
+s_k=T(r_k)=(L-1)\sum^{k}_{j=0}p_r(r_j)=\frac{(L-1)}{MN}\sum^{k}_{j=0}n_j,j=0,1,2,...,L-1</script><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line"><span class="comment"># histogram equalization</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">hist_equal</span><span class="params">(img, z_max=<span class="number">255</span>)</span>:</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">	H, W, C = img.shape</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">	S = H * W * C * <span class="number">1.</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">	out = img.copy()</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">	sum_h = <span class="number">0.</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line">	<span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">1</span>, <span class="number">255</span>):</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">11</span></pre></td><td class="code"><pre><span class="line">		ind = np.where(img == i)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">12</span></pre></td><td class="code"><pre><span class="line">		sum_h += len(img[ind])</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">13</span></pre></td><td class="code"><pre><span class="line">		z_prime = z_max / S * sum_h</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">14</span></pre></td><td class="code"><pre><span class="line">		out[ind] = z_prime</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">15</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">16</span></pre></td><td class="code"><pre><span class="line">	out = out.astype(np.uint8)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">17</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">18</span></pre></td><td class="code"><pre><span class="line">	<span class="keyword">return</span> out</span></pre></td></tr></table></figure>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line"><span class="comment">// histogram equalization</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line"><span class="function">cv::Mat <span class="title">histogram_equalization</span><span class="params">(cv::Mat img)</span></span>&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">  <span class="comment">// get height and width</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">  <span class="keyword">int</span> <span class="built_in">width</span> = img.cols;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">  <span class="keyword">int</span> <span class="built_in">height</span> = img.rows;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">  <span class="keyword">int</span> channel = img.channels();</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">  <span class="comment">// output image</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line">  cv::Mat out = cv::Mat::zeros(<span class="built_in">height</span>, <span class="built_in">width</span>, CV_8UC3);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">11</span></pre></td><td class="code"><pre><span class="line">  <span class="comment">// histogram equalization hyper-parameters</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">12</span></pre></td><td class="code"><pre><span class="line">  <span class="keyword">double</span> Zmax = <span class="number">255</span>;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">13</span></pre></td><td class="code"><pre><span class="line">  <span class="keyword">double</span> hist[<span class="number">255</span>];</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">14</span></pre></td><td class="code"><pre><span class="line">  <span class="keyword">double</span> S = <span class="built_in">height</span> * <span class="built_in">width</span> * channel;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">15</span></pre></td><td class="code"><pre><span class="line">  <span class="keyword">int</span> val;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">16</span></pre></td><td class="code"><pre><span class="line">  <span class="keyword">double</span> hist_sum = <span class="number">0</span>;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">17</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">18</span></pre></td><td class="code"><pre><span class="line">  <span class="comment">// histogram initialization</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">19</span></pre></td><td class="code"><pre><span class="line">  <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">255</span>; i++)&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">20</span></pre></td><td class="code"><pre><span class="line">     hist[i] = <span class="number">0</span>;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">21</span></pre></td><td class="code"><pre><span class="line">  &#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">22</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">23</span></pre></td><td class="code"><pre><span class="line">  <span class="comment">// get histogram sum</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">24</span></pre></td><td class="code"><pre><span class="line">  <span class="keyword">for</span> (<span class="keyword">int</span> y = <span class="number">0</span>; y &lt; <span class="built_in">height</span>; y++)&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">25</span></pre></td><td class="code"><pre><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> x = <span class="number">0</span>; x &lt; <span class="built_in">width</span>; x++)&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">26</span></pre></td><td class="code"><pre><span class="line">      <span class="keyword">for</span> (<span class="keyword">int</span> c = <span class="number">0</span>; c &lt; channel; c++)&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">27</span></pre></td><td class="code"><pre><span class="line">        val = (<span class="keyword">int</span>)img.at&lt;cv::Vec3b&gt;(y, x)[c];</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">28</span></pre></td><td class="code"><pre><span class="line">        hist[val] ++;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">29</span></pre></td><td class="code"><pre><span class="line">      &#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">30</span></pre></td><td class="code"><pre><span class="line">    &#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">31</span></pre></td><td class="code"><pre><span class="line">  &#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">32</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">33</span></pre></td><td class="code"><pre><span class="line">  <span class="comment">// histogram equalization</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">34</span></pre></td><td class="code"><pre><span class="line">  <span class="keyword">for</span> (<span class="keyword">int</span> y = <span class="number">0</span>; y &lt; <span class="built_in">height</span>; y++)&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">35</span></pre></td><td class="code"><pre><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> x = <span class="number">0</span>; x &lt; <span class="built_in">width</span>; x++)&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">36</span></pre></td><td class="code"><pre><span class="line">      <span class="keyword">for</span> (<span class="keyword">int</span> c = <span class="number">0</span>; c &lt; channel; c++)&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">37</span></pre></td><td class="code"><pre><span class="line">        val = (<span class="keyword">int</span>)img.at&lt;cv::Vec3b&gt;(y, x)[c];</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">38</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">39</span></pre></td><td class="code"><pre><span class="line">        <span class="comment">// get histogram sum &lt;= current pixel value</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">40</span></pre></td><td class="code"><pre><span class="line">        hist_sum = <span class="number">0</span>;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">41</span></pre></td><td class="code"><pre><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> l = <span class="number">0</span>; l &lt; val; l++)&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">42</span></pre></td><td class="code"><pre><span class="line">          hist_sum += hist[l];</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">43</span></pre></td><td class="code"><pre><span class="line">        &#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">44</span></pre></td><td class="code"><pre><span class="line">        <span class="comment">// assign equalized value</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">45</span></pre></td><td class="code"><pre><span class="line">        out.at&lt;cv::Vec3b&gt;(y, x)[c] = (uchar)(Zmax / S * hist_sum);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">46</span></pre></td><td class="code"><pre><span class="line">      &#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">47</span></pre></td><td class="code"><pre><span class="line">    &#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">48</span></pre></td><td class="code"><pre><span class="line">  &#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">49</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">50</span></pre></td><td class="code"><pre><span class="line">  <span class="keyword">return</span> out;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">51</span></pre></td><td class="code"><pre><span class="line">&#125;</span></pre></td></tr></table></figure>
+<h4 id="六、直方图匹配（直方图规定化）"><a href="#六、直方图匹配（直方图规定化）" class="headerlink" title="六、直方图匹配（直方图规定化）"></a>六、直方图匹配（直方图规定化）</h4><p>对于某些应用，采用均匀直方图的基本增强并不是最好的方法，有时希望处理后的图像具有规定的直方图形状可能更有用。这种用于产生处理后有特殊直方图的方法称为直方图匹配或直方图规定化。</p>
+<p>假设存在连续随机变量r和z，并令p<sub>r</sub>(r)和p<sub>z</sub>(z)表示他们所对应的连续概率密度函数。r和z分别表示输入图像和输出图像的灰度级。要求z=G(y)，y=T(r)，使得z具有规定的直方图。如何将z和r进行映射？通过直方图均衡化，假设r和z图像均衡化后的直方图一致。</p>
+<p>令s为一个有如下特性的随机变量：(什么特性？s的概率密度函数是一个均匀分布，也就是经过了直方图均衡化图像后的灰度图像)</p>
+<script type="math/tex; mode=display">
+s=T(r)=(L-1)\int_0^rp_r(w)dw, (w为积分假变量)\quad （1）</script><p>假设规定直方图的随机变量为z，z具有如下的特性(s<sup>*</sup>和s没有直接关系):</p>
+<script type="math/tex; mode=display">
+s^* =G(z)=(L-1)\int_0^zp_z(t)dt,(t为积分假变量)\quad （2）</script><p>假设两者均衡化后的结果相同，即：</p>
+<script type="math/tex; mode=display">
+p_S(s)=\frac{1}{L-1},0\leq s\leq L-1</script><p>那么，</p>
+<script type="math/tex; mode=display">
+G(z)=s=T(r)</script><p>因此，</p>
+<script type="math/tex; mode=display">
+z=G^{-1}[T(r)]=G^{-1}(s)</script><p>可以看出，z的取值由s给出，而s的取值由输入图像中的灰度r给出。</p>
+<p>那么如何由一副给定图像得到一副其灰度级具有指定概率密度函数的图像？</p>
+<ol>
+<li>由输入图像得到p<sub>r</sub>，并由(1)求得s的值。</li>
+<li>由(2)中指定的概率密度函数求得变换函数G(z)。</li>
+<li>求得反变换函数z=G<sup>-1</sup>(s)；因为z由s映射得到，所以该处理是s到z的映射。</li>
+<li>利用第1步得到的均衡后的输出图像(像素值为s)中的每个像素执行第3步中的反映射，从而获得输出图像。</li>
+</ol>
+<p>在输入函数的概率密度函数和规定化图像的概率密度函数已知的情况下，可以直接根据r到s的映射和s到z的映射，直接获得r到z的映射。</p>
+<p>上述给出了直方图规定化的原理，但在具体的实践中，困难在于寻找满足规定化的直方图和原始图像的概率密度函数需要在直方图均衡化后的概率密度函数相同。在处理离散量时，该问题被大大简化。仅希望得到一个近似的直方图。</p>
+<p>由于直方图均衡化变换的离散形式如下：</p>
+<script type="math/tex; mode=display">
+s_k=T(r_k)=(L-1)\sum^{k}_{j=0}p_r(r_j)=\frac{(L-1)}{MN}\sum^{k}_{j=0}n_j,j=0,1,2,...,L-1</script><p>给定一个规定的s<sub>k</sub>值，式2的离散形式涉及计算变换函数：</p>
+<script type="math/tex; mode=display">
+G(z_q)=(L-1)\sum_{i=0}^{q}p_z(z_i),对于一个q值，有G(z_q)=s_k</script><p>其中，p<sub>z</sub>(z<sub>i</sub>)是规定的直方图的第i个值的概率。与前面一样，用反变换找到期望的值z<sub>q</sub></p>
+<script type="math/tex; mode=display">
+z_q=G^{-1}(s_k)</script><p>该操作对每一个s值给出一个z值。</p>
+<p>具体离散的例子可以看数字图像处理(第三版)例(3-8)</p>
+<p><strong>给出一个正太分布的例子</strong>：将平均值为m标准差为s的直方图变成平均值为m<sub>0</sub>标准差为s<sub>0</sub>的直方图。可以使用下式计算：</p>
+<script type="math/tex; mode=display">
+x_{out}=\frac{s_0}{s_1}\cdot(x_{in}-m)+m_0</script><p>用直方图规定化进行推导：</p>
+<p>正态分布的概率密度函数为：</p>
+<script type="math/tex; mode=display">
+\phi(x)=\frac{1}{\sqrt{2\pi}\cdot\sigma}\cdot e^{-\frac{(x-\mu)^2}{2\cdot\sigma^2}},-\infty\leq x\leq\infty\quad 记为X\sim N(\mu,\sigma^2)</script><p>对应的分布函数为：</p>
+<script type="math/tex; mode=display">
+\Phi(X)=\frac{1}{\sqrt{2\pi}}\cdot\int_{-\infty}^xe^{-\frac{(t-\mu)^2}{2\cdot \sigma^2}}dt</script><p>标准的正态分布的概率密度函数：</p>
+<script type="math/tex; mode=display">
+\phi_0(x)=\frac{1}{\sqrt{2\pi}}\cdot e^{-\frac{x^2}{2}},-\infty\leq x\leq\infty\quad 记为X\sim N(0,1)</script><p>对应的分布函数为：</p>
+<script type="math/tex; mode=display">
+\Phi_0(X)=\frac{1}{\sqrt{2\pi}}\cdot\int_{-\infty}^xe^{-\frac{t^2}{2}}dt</script><p>计算的时候要将一般的正态分布转换为标准的正态分布</p>
+<p>概率密度函数的转换：</p>
+<script type="math/tex; mode=display">
+\phi(x)=\frac{1}{\sqrt{2\pi}\cdot\sigma}\cdot e^{-\frac{(x-\mu)^2}{2\cdot\sigma^2}}=\frac{1}{\sigma}\cdot\left[\frac{1}{\sqrt{2\pi}}\cdot e^{-\frac{(\frac{x-u}{\sigma})^2}{2}}\right]=\frac{1}{\sigma}\phi_0\left(\frac{x-u}{\sigma}\right)</script><p>分布函数的转换：</p>
+<script type="math/tex; mode=display">
+\Phi(X)=\frac{1}{\sqrt{2\pi}}\cdot\int_{-\infty}^xe^{-\frac{(t-\mu)^2}{2\cdot \sigma^2}}dt=\frac{1}{\sqrt{2\pi}}\int_{-\infty}^xe^{-\frac{(\frac{t-\mu}{\sigma})^2}{2}}d(\frac{t-\mu}{\sigma})=\Phi_0\left(\frac{x-u}{\sigma}\right)</script><p>在这里，利用直方图规定化中的特定概率密度函数的公式1和公式2：</p>
+<script type="math/tex; mode=display">
+s=T(r)=(L-1)\int_0^r\Phi_R(x)dx=(L-1)\int_0^r\frac{1}{\sqrt{2\pi}\cdot\sigma}\cdot e^{-\frac{(x-\mu)^2}{2\cdot\sigma^2}}dx=(L-1)\Phi_0\left(\frac{r-\mu_0}{\sigma_0}\right)</script><p>同理：</p>
+<script type="math/tex; mode=display">
+G(z)=\int_0^z\Phi_Z(t)dt=(L-1)\int_0^z\frac{1}{\sqrt{2\pi}\cdot\sigma}\cdot e^{-\frac{(t-\mu)^2}{2\cdot\sigma^2}}dt=(L-1)\Phi_0\left(\frac{z-\mu_1}{\sigma_1}\right)=s</script><p>所以：</p>
+<script type="math/tex; mode=display">
+(L-1)\Phi_0\left(\frac{r-\mu_0}{\sigma_0}\right)=(L-1)\Phi_0\left(\frac{z-\mu_1}{\sigma_1}\right)</script><p>因为标准正态分布的概率密度函数一致，所以要想两者一致，需要满足下式：</p>
+<script type="math/tex; mode=display">
+\frac{r-\mu_0}{\sigma_0}=\frac{z-\mu_1}{\sigma_1}\Rightarrow z=\frac{\sigma_1}{\sigma_0}(r-\mu_0)+\mu_1</script><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">hist_mani</span><span class="params">(img, m0=<span class="number">128</span>, s0=<span class="number">52</span>)</span>:</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">	m = np.mean(img)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">	s = np.std(img)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">	out = img.copy()</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">	<span class="comment"># normalize</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">	out = s0 / s * (out - m) + m0</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line">	out[out &lt; <span class="number">0</span>] = <span class="number">0</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line">	out[out &gt; <span class="number">255</span>] = <span class="number">255</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">11</span></pre></td><td class="code"><pre><span class="line">	out = out.astype(np.uint8)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">12</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">13</span></pre></td><td class="code"><pre><span class="line">	<span class="keyword">return</span> out</span></pre></td></tr></table></figure>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line"><span class="comment">// histogram transform</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line"><span class="function">cv::Mat <span class="title">histogram_transform</span><span class="params">(cv::Mat img, <span class="keyword">int</span> m0, <span class="keyword">int</span> s0)</span></span>&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">  <span class="comment">// get height and width</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">  <span class="keyword">int</span> <span class="built_in">width</span> = img.cols;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">  <span class="keyword">int</span> <span class="built_in">height</span> = img.rows;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">  <span class="keyword">int</span> channel = img.channels();</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">  <span class="comment">// histogram transformation hyper-parameters</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line">  <span class="keyword">double</span> m, s;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line">  <span class="keyword">double</span> sum = <span class="number">0.</span>, squared_sum = <span class="number">0.</span>;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">11</span></pre></td><td class="code"><pre><span class="line">  <span class="keyword">double</span> val;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">12</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">13</span></pre></td><td class="code"><pre><span class="line">  <span class="comment">// output image</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">14</span></pre></td><td class="code"><pre><span class="line">  cv::Mat out = cv::Mat::zeros(<span class="built_in">height</span>, <span class="built_in">width</span>, CV_8UC3);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">15</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">16</span></pre></td><td class="code"><pre><span class="line">  <span class="comment">// get sum</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">17</span></pre></td><td class="code"><pre><span class="line">  <span class="keyword">for</span> (<span class="keyword">int</span> y = <span class="number">0</span>; y &lt; <span class="built_in">height</span>; y++)&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">18</span></pre></td><td class="code"><pre><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> x = <span class="number">0</span>; x &lt; <span class="built_in">width</span>; x++)&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">19</span></pre></td><td class="code"><pre><span class="line">      <span class="keyword">for</span> (<span class="keyword">int</span> c = <span class="number">0</span>; c &lt; <span class="number">3</span>; c++)&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">20</span></pre></td><td class="code"><pre><span class="line">        val = (<span class="keyword">float</span>)img.at&lt;cv::Vec3b&gt;(y, x)[c];</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">21</span></pre></td><td class="code"><pre><span class="line">        sum += val;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">22</span></pre></td><td class="code"><pre><span class="line">        squared_sum += (val * val);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">23</span></pre></td><td class="code"><pre><span class="line">      &#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">24</span></pre></td><td class="code"><pre><span class="line">    &#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">25</span></pre></td><td class="code"><pre><span class="line">  &#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">26</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">27</span></pre></td><td class="code"><pre><span class="line">  <span class="comment">// get standard deviation</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">28</span></pre></td><td class="code"><pre><span class="line">  m = sum / (<span class="built_in">height</span> * <span class="built_in">width</span> * channel);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">29</span></pre></td><td class="code"><pre><span class="line">  s = <span class="built_in">sqrt</span>(squared_sum / (<span class="built_in">height</span> * <span class="built_in">width</span> * channel) - m * m);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">30</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">31</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">32</span></pre></td><td class="code"><pre><span class="line">  <span class="comment">// histogram transformation</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">33</span></pre></td><td class="code"><pre><span class="line">  <span class="keyword">for</span> (<span class="keyword">int</span> y = <span class="number">0</span>; y &lt; <span class="built_in">height</span>; y++)&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">34</span></pre></td><td class="code"><pre><span class="line">    <span class="keyword">for</span> ( <span class="keyword">int</span> x = <span class="number">0</span>; x &lt; <span class="built_in">width</span>; x++)&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">35</span></pre></td><td class="code"><pre><span class="line">      <span class="keyword">for</span> ( <span class="keyword">int</span> c = <span class="number">0</span>; c &lt; <span class="number">3</span>; c++)&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">36</span></pre></td><td class="code"><pre><span class="line">        val = img.at&lt;cv::Vec3b&gt;(y, x)[c];</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">37</span></pre></td><td class="code"><pre><span class="line">        </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">38</span></pre></td><td class="code"><pre><span class="line">        out.at&lt;cv::Vec3b&gt;(y, x)[c] = (uchar)(s0 / s * (val - m) + m0);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">39</span></pre></td><td class="code"><pre><span class="line">      &#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">40</span></pre></td><td class="code"><pre><span class="line">    &#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">41</span></pre></td><td class="code"><pre><span class="line">  &#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">42</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">43</span></pre></td><td class="code"><pre><span class="line">  <span class="keyword">return</span> out;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">44</span></pre></td><td class="code"><pre><span class="line">&#125;</span></pre></td></tr></table></figure>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Image-Processing/" rel="tag"># Image Processing</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/06/19/Image-Process-One-Plus/" rel="prev" title="Image-Process-One-Plus">
+      <i class="fa fa-chevron-left"></i> Image-Process-One-Plus
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2021/06/19/hello-world/" rel="next" title="Hello World">
+      Hello World <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+    <div class="comments" id="gitalk-container"></div>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#图像处理学习"><span class="nav-number">1.</span> <span class="nav-text">图像处理学习</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#一、直方图"><span class="nav-number">1.0.1.</span> <span class="nav-text">一、直方图</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#二、直方图归一化-Histogram-Normalization"><span class="nav-number">1.0.2.</span> <span class="nav-text">二、直方图归一化(Histogram Normalization)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#三、High-Dynamic-Range-HDR-imaging"><span class="nav-number">1.0.3.</span> <span class="nav-text">三、High Dynamic Range (HDR) imaging</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Step-1-Capture-multiple-images-with-different-exposures"><span class="nav-number">1.1.</span> <span class="nav-text">Step 1: Capture multiple images with different exposures</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Step-2-Align-Images"><span class="nav-number">1.2.</span> <span class="nav-text">Step 2: Align Images</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Step-3-Recover-the-Camera-Response-Function"><span class="nav-number">1.3.</span> <span class="nav-text">Step 3: Recover the Camera Response Function</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Step-4-Merge-Images"><span class="nav-number">1.4.</span> <span class="nav-text">Step 4: Merge Images</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Step-5-Tone-mapping"><span class="nav-number">1.5.</span> <span class="nav-text">Step 5: Tone mapping</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#四、直方图操作"><span class="nav-number">1.5.1.</span> <span class="nav-text">四、直方图操作</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#4-1-分段线性变换函数（分为线性和非线性）"><span class="nav-number">1.5.1.1.</span> <span class="nav-text">4.1 分段线性变换函数（分为线性和非线性）</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#五、直方图均衡化"><span class="nav-number">1.5.2.</span> <span class="nav-text">五、直方图均衡化</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#六、直方图匹配（直方图规定化）"><span class="nav-number">1.5.3.</span> <span class="nav-text">六、直方图匹配（直方图规定化）</span></a></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Qiang Chen</p>
+  <div class="site-description" itemprop="description">记录是忘记的第一助手.</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">44</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">17</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/chenaing19" title="GitHub → https://github.com/chenaing19" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/765206494@qq.com" title="E-Mail → 765206494@qq.com"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Qiang Chen</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v4.0.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 �?<a href="https://mist.theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> v7.5.0
+  </div>
+    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+  
+  <script color='0,0,255' opacity='0.5' zIndex='-1' count='99' src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/muse.js"></script>
+<script src="/js/next-boot.js"></script>
+
+
+
+  
+
+
+
+
+  <script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+      
+<script type="text/x-mathjax-config">
+
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$', '$'], ['\\(', '\\)'] ],
+      processEscapes: true,
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {
+      equationNumbers: {
+        autoNumber: 'AMS'
+      }
+    }
+  });
+
+  MathJax.Hub.Register.StartupHook('TeX Jax Ready', function() {
+    MathJax.InputJax.TeX.prefilterHooks.Add(function(data) {
+      if (data.display) {
+        var next = data.script.nextSibling;
+        while (next && next.nodeName.toLowerCase() === '#text') {
+          next = next.nextSibling;
+        }
+        if (next && next.nodeName.toLowerCase() === 'br') {
+          next.parentNode.removeChild(next);
+        }
+      }
+    });
+  });
+
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for (i = 0; i < all.length; i += 1) {
+      element = document.getElementById(all[i].inputID + '-Frame').parentNode;
+      if (element.nodeName.toLowerCase() == 'li') {
+        element = element.parentNode;
+      }
+      element.classList.add('has-jax');
+    }
+  });
+</script>
+<script>
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/mathjax@2/MathJax.js?config=TeX-AMS-MML_HTMLorMML', () => {
+    MathJax.Hub.Typeset();
+  }, window.MathJax);
+</script>
+
+    
+
+  
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID: '9c00bb4a73071d490d0b',
+      clientSecret: '0466125432b53cefbd6002b7ea866f7e15bbd9c8',
+      repo: 'chenqiang19.github.io',
+      owner: 'chenqiang19',
+      admin: ['chenqiang19'],
+      id: '1cf1d393d83aa5b959c9471199b2471f',
+        language: '',
+      distractionFreeMode: 'true'
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+</script>
+
+  
+  <!-- ҳ����С���� -->
+  
+  
+    <script src="/js/cursor/love.min.js"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  
+
+
+
+</body>
+</html>

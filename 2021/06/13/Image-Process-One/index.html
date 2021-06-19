@@ -46,13 +46,13 @@
   };
 </script>
 
-  <meta name="description" content="图像处理学习 一、均值滤波器1、部分概念的记录均值滤波器可以归为低通滤波器，是一种线性滤波器，其输出为邻域模板内的像素的简单平均值，主要用于图像的模糊和降噪。均值滤波器的概念非常的直观，使用滤波器窗口内的像素的平均灰度值代替图像中的像素值，这样的结果就是降低图像中的“尖锐”变化。 频率：分为高、中、低频。高频是目标像素跟周围像素相差比较大。低频是目标像素跟周边像素相差不大。低通滤波&#x3D;模糊，高通滤波">
+  <meta name="description" content="图像处理学习一、均值滤波器1、部分概念的记录均值滤波器可以归为低通滤波器，是一种线性滤波器，其输出为邻域模板内的像素的简单平均值，主要用于图像的模糊和降噪。均值滤波器的概念非常的直观，使用滤波器窗口内的像素的平均灰度值代替图像中的像素值，这样的结果就是降低图像中的“尖锐”变化。 频率：分为高、中、低频。高频是目标像素跟周围像素相差比较大。低频是目标像素跟周边像素相差不大。低通滤波&#x3D;模糊，高通滤波&#x3D;">
 <meta name="keywords" content="Image Processing">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Image-Process-One">
 <meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2021&#x2F;06&#x2F;13&#x2F;Image-Process-One&#x2F;index.html">
 <meta property="og:site_name" content="编辑尼撑">
-<meta property="og:description" content="图像处理学习 一、均值滤波器1、部分概念的记录均值滤波器可以归为低通滤波器，是一种线性滤波器，其输出为邻域模板内的像素的简单平均值，主要用于图像的模糊和降噪。均值滤波器的概念非常的直观，使用滤波器窗口内的像素的平均灰度值代替图像中的像素值，这样的结果就是降低图像中的“尖锐”变化。 频率：分为高、中、低频。高频是目标像素跟周围像素相差比较大。低频是目标像素跟周边像素相差不大。低通滤波&#x3D;模糊，高通滤波">
+<meta property="og:description" content="图像处理学习一、均值滤波器1、部分概念的记录均值滤波器可以归为低通滤波器，是一种线性滤波器，其输出为邻域模板内的像素的简单平均值，主要用于图像的模糊和降噪。均值滤波器的概念非常的直观，使用滤波器窗口内的像素的平均灰度值代替图像中的像素值，这样的结果就是降低图像中的“尖锐”变化。 频率：分为高、中、低频。高频是目标像素跟周围像素相差比较大。低频是目标像素跟周边像素相差不大。低通滤波&#x3D;模糊，高通滤波&#x3D;">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2021&#x2F;06&#x2F;13&#x2F;Image-Process-One&#x2F;1.png">
 <meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2021&#x2F;06&#x2F;13&#x2F;Image-Process-One&#x2F;2.png">
@@ -66,7 +66,7 @@
 <meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2021&#x2F;06&#x2F;13&#x2F;Image-Process-One&#x2F;10.jpg">
 <meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2021&#x2F;06&#x2F;13&#x2F;Image-Process-One&#x2F;11.jpg">
 <meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2021&#x2F;06&#x2F;13&#x2F;Image-Process-One&#x2F;12.jpg">
-<meta property="og:updated_time" content="2021-06-13T09:15:29.570Z">
+<meta property="og:updated_time" content="2021-06-13T12:08:58.941Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2021&#x2F;06&#x2F;13&#x2F;Image-Process-One&#x2F;1.png">
 
@@ -249,7 +249,7 @@
               <span class="post-meta-item-text">发表于</span>
               
 
-              <time title="创建时间：2021-06-13 17:13:13 / 修改时间：17:15:29" itemprop="dateCreated datePublished" datetime="2021-06-13T17:13:13+08:00">2021-06-13</time>
+              <time title="创建时间：2021-06-13 17:13:13 / 修改时间：20:08:58" itemprop="dateCreated datePublished" datetime="2021-06-13T17:13:13+08:00">2021-06-13</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -281,8 +281,7 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <p>图像处理学习</p>
-<h4 id="一、均值滤波器"><a href="#一、均值滤波器" class="headerlink" title="一、均值滤波器"></a>一、均值滤波器</h4><h5 id="1、部分概念的记录"><a href="#1、部分概念的记录" class="headerlink" title="1、部分概念的记录"></a>1、部分概念的记录</h5><p>均值滤波器可以归为低通滤波器，是一种线性滤波器，其输出为邻域模板内的像素的简单平均值，主要用于图像的模糊和降噪。均值滤波器的概念非常的直观，使用滤波器窗口内的像素的平均灰度值代替图像中的像素值，这样的结果就是降低图像中的“尖锐”变化。</p>
+        <h2 id="图像处理学习"><a href="#图像处理学习" class="headerlink" title="图像处理学习"></a>图像处理学习</h2><h4 id="一、均值滤波器"><a href="#一、均值滤波器" class="headerlink" title="一、均值滤波器"></a>一、均值滤波器</h4><h5 id="1、部分概念的记录"><a href="#1、部分概念的记录" class="headerlink" title="1、部分概念的记录"></a>1、部分概念的记录</h5><p>均值滤波器可以归为低通滤波器，是一种线性滤波器，其输出为邻域模板内的像素的简单平均值，主要用于图像的模糊和降噪。均值滤波器的概念非常的直观，使用滤波器窗口内的像素的平均灰度值代替图像中的像素值，这样的结果就是降低图像中的“尖锐”变化。</p>
 <p>频率：分为高、中、低频。高频是目标像素跟周围像素相差比较大。低频是目标像素跟周边像素相差不大。低通滤波=模糊，高通滤波=锐化。方法：线性和非线性滤波器。</p>
 <h5 id="2、存在的问题或缺点"><a href="#2、存在的问题或缺点" class="headerlink" title="2、存在的问题或缺点"></a>2、存在的问题或缺点</h5><ul>
 <li><p>某个突变像素回影响到周围像素的值</p>
@@ -327,8 +326,7 @@ P_5=Max(P_1,P_2,\cdots,P_9)-Min(P_1,P_2,\cdots,P_9)</script><p>图像的细节�
 <h4 id="四、差分滤波器"><a href="#四、差分滤波器" class="headerlink" title="四、差分滤波器"></a>四、差分滤波器</h4><p>差分滤波器对图像亮度急剧变化的边缘有提取效果，可以获得邻接像素的差值。</p>
 <h5 id="4-1-简单介绍一下数字滤波器"><a href="#4-1-简单介绍一下数字滤波器" class="headerlink" title="4.1 简单介绍一下数字滤波器"></a>4.1 简单介绍一下数字滤波器</h5><ul>
 <li><p>Analog Filter: 模拟滤波器。滤波器从模拟时代产生的一个器件。如下是一个阻容滤波器（由一个电阻、电容构成，对输入的连续信号进行频域上的修正），比如输入一个正弦信号（他有一些直流分量在上面），通过阻容滤波器将正弦信号压制下去，变成直流分量输出。</p>
-</li>
-<li><p><img src="/2021/06/13/Image-Process-One/1.png" alt="Image-Process-One"></p>
+<p><img src="/2021/06/13/Image-Process-One/1.png" alt="Image-Process-One"></p>
 </li>
 <li><p>Digtial Filter: 数字滤波器。连续的模拟信号输入，经过A/D Converter(模数转换器，经过采样、量化、编码)，输出数字信号，然后经过Digital filer处理输出，信号的频率特性发生改变。</p>
 <p><img src="/2021/06/13/Image-Process-One/2.png" alt="Image-Process-On"></p>
@@ -379,7 +377,6 @@ G=\sqrt{G_x^2+G_y^2}</script><p>梯度方向为：</p>
     <img src="/2021/06/13/Image-Process-One/12.jpg" width="30%">
 </center>
 
-
     </div>
 
     
@@ -401,8 +398,8 @@ G=\sqrt{G_x^2+G_y^2}</script><p>梯度方向为：</p>
       <i class="fa fa-chevron-left"></i> Image-Process-Zero-Plus
     </a></div>
       <div class="post-nav-item">
-    <a href="/2021/06/13/hello-world/" rel="next" title="Hello World">
-      Hello World <i class="fa fa-chevron-right"></i>
+    <a href="/2021/06/19/Image-Process-One-Plus/" rel="next" title="Image-Process-One-Plus">
+      Image-Process-One-Plus <i class="fa fa-chevron-right"></i>
     </a></div>
     </div>
       </footer>
@@ -442,7 +439,7 @@ G=\sqrt{G_x^2+G_y^2}</script><p>梯度方向为：</p>
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#一、均值滤波器"><span class="nav-number">1.</span> <span class="nav-text">一、均值滤波器</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1、部分概念的记录"><span class="nav-number">1.1.</span> <span class="nav-text">1、部分概念的记录</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2、存在的问题或缺点"><span class="nav-number">1.2.</span> <span class="nav-text">2、存在的问题或缺点</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3、实现"><span class="nav-number">1.3.</span> <span class="nav-text">3、实现</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#二、Motion-Filter"><span class="nav-number">2.</span> <span class="nav-text">二、Motion Filter</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#2-1-使用的场景"><span class="nav-number">2.1.</span> <span class="nav-text">2.1 使用的场景</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-2-为什么需要Motion-Filter"><span class="nav-number">2.2.</span> <span class="nav-text">2.2 为什么需要Motion Filter</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-3-简单的运动滤波器"><span class="nav-number">2.3.</span> <span class="nav-text">2.3 简单的运动滤波器</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-4-实现"><span class="nav-number">2.4.</span> <span class="nav-text">2.4 实现</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-5-更复杂的运动滤波知识"><span class="nav-number">2.5.</span> <span class="nav-text">2.5 更复杂的运动滤波知识</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#三、MAX-MIN滤波器"><span class="nav-number">3.</span> <span class="nav-text">三、MAX-MIN滤波器</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#四、差分滤波器"><span class="nav-number">4.</span> <span class="nav-text">四、差分滤波器</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#4-1-简单介绍一下数字滤波器"><span class="nav-number">4.1.</span> <span class="nav-text">4.1 简单介绍一下数字滤波器</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#4-2-时域、频域、采样定理"><span class="nav-number">4.2.</span> <span class="nav-text">4.2 时域、频域、采样定理</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#4-3-对图像信号而言，什么叫高频，中频，低频信号？"><span class="nav-number">4.3.</span> <span class="nav-text">4.3 对图像信号而言，什么叫高频，中频，低频信号？</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#4-4-Differentiator-差分器"><span class="nav-number">4.4.</span> <span class="nav-text">4.4 Differentiator 差分器</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#五、Sobel滤波器"><span class="nav-number">5.</span> <span class="nav-text">五、Sobel滤波器</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#图像处理学习"><span class="nav-number">1.</span> <span class="nav-text">图像处理学习</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#一、均值滤波器"><span class="nav-number">1.0.1.</span> <span class="nav-text">一、均值滤波器</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1、部分概念的记录"><span class="nav-number">1.0.1.1.</span> <span class="nav-text">1、部分概念的记录</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2、存在的问题或缺点"><span class="nav-number">1.0.1.2.</span> <span class="nav-text">2、存在的问题或缺点</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3、实现"><span class="nav-number">1.0.1.3.</span> <span class="nav-text">3、实现</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#二、Motion-Filter"><span class="nav-number">1.0.2.</span> <span class="nav-text">二、Motion Filter</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#2-1-使用的场景"><span class="nav-number">1.0.2.1.</span> <span class="nav-text">2.1 使用的场景</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-2-为什么需要Motion-Filter"><span class="nav-number">1.0.2.2.</span> <span class="nav-text">2.2 为什么需要Motion Filter</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-3-简单的运动滤波器"><span class="nav-number">1.0.2.3.</span> <span class="nav-text">2.3 简单的运动滤波器</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-4-实现"><span class="nav-number">1.0.2.4.</span> <span class="nav-text">2.4 实现</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-5-更复杂的运动滤波知识"><span class="nav-number">1.0.2.5.</span> <span class="nav-text">2.5 更复杂的运动滤波知识</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#三、MAX-MIN滤波器"><span class="nav-number">1.0.3.</span> <span class="nav-text">三、MAX-MIN滤波器</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#四、差分滤波器"><span class="nav-number">1.0.4.</span> <span class="nav-text">四、差分滤波器</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#4-1-简单介绍一下数字滤波器"><span class="nav-number">1.0.4.1.</span> <span class="nav-text">4.1 简单介绍一下数字滤波器</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#4-2-时域、频域、采样定理"><span class="nav-number">1.0.4.2.</span> <span class="nav-text">4.2 时域、频域、采样定理</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#4-3-对图像信号而言，什么叫高频，中频，低频信号？"><span class="nav-number">1.0.4.3.</span> <span class="nav-text">4.3 对图像信号而言，什么叫高频，中频，低频信号？</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#4-4-Differentiator-差分器"><span class="nav-number">1.0.4.4.</span> <span class="nav-text">4.4 Differentiator 差分器</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#五、Sobel滤波器"><span class="nav-number">1.0.5.</span> <span class="nav-text">五、Sobel滤波器</span></a></li></ol></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -456,7 +453,7 @@ G=\sqrt{G_x^2+G_y^2}</script><p>梯度方向为：</p>
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">42</span>
+          <span class="site-state-item-count">44</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
