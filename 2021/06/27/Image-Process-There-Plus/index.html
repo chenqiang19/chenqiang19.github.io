@@ -56,7 +56,7 @@
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2021&#x2F;06&#x2F;27&#x2F;Image-Process-There-Plus&#x2F;1.png">
 <meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2021&#x2F;06&#x2F;27&#x2F;Image-Process-There-Plus&#x2F;2.png">
-<meta property="og:updated_time" content="2021-06-27T02:08:46.550Z">
+<meta property="og:updated_time" content="2021-06-27T02:29:29.673Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2021&#x2F;06&#x2F;27&#x2F;Image-Process-There-Plus&#x2F;1.png">
 
@@ -103,9 +103,9 @@
   .use-motion .logo-line-before i { left: initial; }
   .use-motion .logo-line-after i { right: initial; }
   </style>
-</noscript><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+</noscript>
 
-<link rel="alternate" href="/atom.xml" title="编辑尼撑" type="application/atom+xml">
+<link rel="alternate" href="/atom.xml" title="编辑尼撑" type="application/atom+xml"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage">
@@ -239,7 +239,7 @@
               <span class="post-meta-item-text">发表于</span>
               
 
-              <time title="创建时间：2021-06-27 10:06:52 / 修改时间：10:08:46" itemprop="dateCreated datePublished" datetime="2021-06-27T10:06:52+08:00">2021-06-27</time>
+              <time title="创建时间：2021-06-27 10:06:52 / 修改时间：10:29:29" itemprop="dateCreated datePublished" datetime="2021-06-27T10:06:52+08:00">2021-06-27</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -426,11 +426,11 @@ G(\omega)=\int^\infty_{-\infty}f(t)e^{-i\omega t}dt=F[f(x)],f(x)的傅里叶变�
 f(x)=\frac{1}{2\pi}\int^\infty_{-\infty}G(\omega)e^{i\omega x}d\omega=F^{-1}[G(\omega)],显然，F^{-1}F[f(x)]=f(x)</script><p>对f(t)进行积分得到变量为&omega;的傅里叶变换后的频谱图(分离出来的正弦波的振幅图)对应频域，在对G(&omega;)进行积分得到变量为x的时间域f(x),相当通过傅里叶逆变换得到f(x)。</p>
 <p>举例：</p>
 <script type="math/tex; mode=display">
-F[e^{-ax^2}]=?,函数e^{-ax^2}的傅里叶变换是什么? \\
-由(71)得：\int^\infty_{-\infty}e^{-ax^2}e^{-i\omega x}dx=2\int^\infty_0e^{-ax^2}\cdot \cos\omega  xdx,\quad e^{-i\omega t}叫做积分变换核 \\
-上式中e^{-ax^2}是偶函数，e^{-i\omega x}由欧拉公式可以化为cos和sin的形式，sin为奇函数，奇函数乘偶函数为奇函数，所以可以舍弃，只保留cos。\\
-在热传导中有，\int^\infty_0e^{-ax^2}cosbxdx=\frac{1}{2}e^{-\frac{\omega^2}{4a}}\cdot\sqrt\frac{\pi}{a},\quad \therefore F[e^{-ax^2}]=e^{-\frac{\omega^2}{4a}}\cdot\sqrt\frac{\pi}{a}\quad (-\infty<\omega<+\infty)\quad \quad \quad \quad \quad \quad \quad \quad \quad\\
-利用傅里叶逆变换求f(x):\frac{1}{2\pi}\int^\infty_{-\infty}G(\omega)e^{iwx}d\omega; \frac{1}{2\pi}\sqrt\frac{\pi}{a}\int^\infty_{-\infty}e^{-\frac{\omega^2}{4a}}e^{i\omega x}d\omega=\frac{1}{2\pi}\sqrt\frac{\pi}{a}\int^\infty_{-\infty}e^{-\frac{1}{4a}\omega^2}\cos x\omega d\omega=\frac{1}{2\pi}\sqrt\frac{\pi}{a}e^{-ax^2}2\sqrt{\pi a}=e^{-ax^2}=f(x)</script>
+\begin{aligned}& F[e^{-ax^2}]=?,函数e^{-ax^2}的傅里叶变换是什么? \\
+& 由(71)得：\int^\infty_{-\infty}e^{-ax^2}e^{-i\omega x}dx=2\int^\infty_0e^{-ax^2}\cdot \cos\omega  xdx,\quad e^{-i\omega t}叫做积分变换核 \\
+& 上式中e^{-ax^2}是偶函数，e^{-i\omega x}由欧拉公式可以化为cos和sin的形式，sin为奇函数，奇函数乘偶函数为奇函数，所以可以舍弃，只保留cos。\\
+& 在热传导中有，\int^\infty_0e^{-ax^2}cosbxdx=\frac{1}{2}e^{-\frac{\omega^2}{4a}}\cdot\sqrt\frac{\pi}{a},\quad \therefore F[e^{-ax^2}]=e^{-\frac{\omega^2}{4a}}\cdot\sqrt\frac{\pi}{a}\quad (-\infty<\omega<+\infty)\quad \quad \quad \quad \quad \quad \quad \quad \quad\\
+& 利用傅里叶逆变换求f(x):\frac{1}{2\pi}\int^\infty_{-\infty}G(\omega)e^{iwx}d\omega; \frac{1}{2\pi}\sqrt\frac{\pi}{a}\int^\infty_{-\infty}e^{-\frac{\omega^2}{4a}}e^{i\omega x}d\omega=\frac{1}{2\pi}\sqrt\frac{\pi}{a}\int^\infty_{-\infty}e^{-\frac{1}{4a}\omega^2}\cos x\omega d\omega=\frac{1}{2\pi}\sqrt\frac{\pi}{a}e^{-ax^2}2\sqrt{\pi a}=e^{-ax^2}=f(x)\end{aligned}</script>
     </div>
 
     
