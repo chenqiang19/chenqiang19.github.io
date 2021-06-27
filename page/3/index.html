@@ -98,9 +98,9 @@
   .use-motion .logo-line-before i { left: initial; }
   .use-motion .logo-line-after i { right: initial; }
   </style>
-</noscript>
+</noscript><!-- hexo-inject:begin --><!-- hexo-inject:end -->
 
-<link rel="alternate" href="/atom.xml" title="编辑尼撑" type="application/atom+xml"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+<link rel="alternate" href="/atom.xml" title="编辑尼撑" type="application/atom+xml">
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage">
@@ -206,6 +206,390 @@
             
 
   <div class="posts-expand">
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/05/14/Spring-Boot-Config/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Qiang Chen">
+      <meta itemprop="description" content="记录是忘记的第一助手.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="编辑尼撑">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/05/14/Spring-Boot-Config/" class="post-title-link" itemprop="url">Spring-Boot-Config</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2021-05-14 21:46:03 / 修改时间：21:52:23" itemprop="dateCreated datePublished" datetime="2021-05-14T21:46:03+08:00">2021-05-14</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Cloud-Compute/" itemprop="url" rel="index">
+                    <span itemprop="name">Cloud Compute</span>
+                  </a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="SpringBoot中的一些总结内容"><a href="#SpringBoot中的一些总结内容" class="headerlink" title="SpringBoot中的一些总结内容"></a>SpringBoot中的一些总结内容</h2><h3 id="1、Spring中的-Transactional-rollbackFor-Exception-class-属性详解"><a href="#1、Spring中的-Transactional-rollbackFor-Exception-class-属性详解" class="headerlink" title="1、Spring中的@Transactional(rollbackFor=Exception.class)属性详解"></a>1、Spring中的@Transactional(rollbackFor=Exception.class)属性详解</h3><p>解释：@Transactional这是一个注解。<br>异常Exception分为运行时异常RuntimeException和非运行时异常(IOException、SQLException等)<br><strong>异常会产生的问题</strong>：线程中止，主程序终止。<br>解决方法：使用try{}catch(){} 捕获异常。程序如果出现了异常数据，正常的处理应该是把异常数据舍弃，然后记录日志。不应该由于异常数据而影响对正常数据的影响。<br>为了不让程序退出或产生编译问题，那么就需要写一大堆catch块。如何能够减少这种方式呢？<br><strong>事物管理方式</strong>: 即使出现异常情况，它也可以保证数据的一致性。<br>Spring支持编程式事物管理和声明式事物管理</p>
+<ul>
+<li>编程式事务管理使用TransactionTemplate或者直接使用底层的PlatformTransactionManager。对于编程式事务管理，spring推荐使用TransactionTemplate。</li>
+<li>声明式事务管理建立在AOP之上的。其本质是对方法前后进行拦截，然后在目标方法开始之前创建或者加入一个事务，在执行完目标方法之后<em>根据执行情况</em>提交或者回滚事务。<br>声明式事务管理<ul>
+<li>基于tx和aop名字空间的xml配置文件</li>
+<li>基于@Transactional注解</li>
+</ul>
+</li>
+</ul>
+<p><strong>声明式事物管理的使用说明</strong><br>当作用于类上时，该类的所有 public 方法将都具有该类型的事务属性，同时，我们也可以在方法级别使用该标注来覆盖类级别的定义。<br>在项目中，@Transactional(rollbackFor=Exception.class)，如果类加了这个注解，那么这个类里面的方法抛出异常，就会回滚，数据库里面的数据也会回滚。<br>在@Transactional注解中如果不配置rollbackFor属性,那么事物只会在遇到RuntimeException的时候才会回滚,加上rollbackFor=Exception.class,可以让事物在遇到非运行时异常时也回滚</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>属性</th>
+<th>类型</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>value</td>
+<td>String</td>
+<td>可选的限定描述符，指定使用的事务管理器</td>
+</tr>
+<tr>
+<td>propagation</td>
+<td>enum: Propagation</td>
+<td>可选的事务传播行为设置</td>
+</tr>
+<tr>
+<td>isolation</td>
+<td>enum: Isolation</td>
+<td>可选的事务隔离级别设置</td>
+</tr>
+<tr>
+<td>readOnly</td>
+<td>boolean</td>
+<td>读写或只读事务，默认读写</td>
+</tr>
+<tr>
+<td>timeout</td>
+<td>int (in seconds granularity)</td>
+<td>事务超时时间设置</td>
+</tr>
+<tr>
+<td>rollbackFor</td>
+<td>Class对象数组，必须继承自Throwable</td>
+<td>导致事务回滚的异常类数组</td>
+</tr>
+<tr>
+<td>rollbackForClassName</td>
+<td>类名数组，必须继承自Throwable</td>
+<td>导致事务回滚的异常类名字数组</td>
+</tr>
+<tr>
+<td>noRollbackFor</td>
+<td>Class对象数组，必须继承自Throwable</td>
+<td>不会导致事务回滚的异常类数组</td>
+</tr>
+<tr>
+<td>noRollbackForClassName</td>
+<td>类名数组，必须继承自Throwable</td>
+<td>不会导致事务回滚的异常类名字数组</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h3 id="2、Spring-Boot中pom-xml中的内容详解"><a href="#2、Spring-Boot中pom-xml中的内容详解" class="headerlink" title="2、Spring Boot中pom.xml中的内容详解"></a>2、Spring Boot中pom.xml中的内容详解</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">&lt;project xmlns&#x3D;&quot;http:&#x2F;&#x2F;maven.apache.org&#x2F;POM&#x2F;4.0.0&quot; xmlns:xsi&#x3D;&quot;http:&#x2F;&#x2F;www.w3.org&#x2F;2001&#x2F;XMLSchema-instance&quot;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">	xsi:schemaLocation&#x3D;&quot;http:&#x2F;&#x2F;maven.apache.org&#x2F;POM&#x2F;4.0.0 http:&#x2F;&#x2F;maven.apache.org&#x2F;xsd&#x2F;maven-4.0.0.xsd&quot;&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">	&lt;!-- 模型版本。maven2.0必须是这样写，现在是maven2唯一支持的版本 --&gt; </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">	&lt;modelVersion&gt;4.0.0&lt;&#x2F;modelVersion&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">	&lt;!-- 项目组织的唯一标识符 ：对应JAVA的包的结构，是main目录里java的目录结构--&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">	&lt;groupId&gt;cn.mg&lt;&#x2F;groupId&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">	&lt;!-- 项目的唯一标志：项目名--&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">	&lt;artifactId&gt;FileManagement&lt;&#x2F;artifactId&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line">	&lt;!-- 项目的版本号（简明）--&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line">	&lt;version&gt;1.0&lt;&#x2F;version&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">11</span></pre></td><td class="code"><pre><span class="line">	&lt;!-- 打包的机制  默认为jar --&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">12</span></pre></td><td class="code"><pre><span class="line">	&lt;packaging&gt;jar&lt;&#x2F;packaging&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">13</span></pre></td><td class="code"><pre><span class="line">	</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">14</span></pre></td><td class="code"><pre><span class="line">	&lt;!-- 让用户更加能够接受的项目名 --&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">15</span></pre></td><td class="code"><pre><span class="line">	&lt;name&gt;FileManagement&lt;&#x2F;name&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">16</span></pre></td><td class="code"><pre><span class="line">	&lt;url&gt;http:&#x2F;&#x2F;maven.apache.org&lt;&#x2F;url&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">17</span></pre></td><td class="code"><pre><span class="line">	&lt;!-- 此项目继承的项目 --&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">18</span></pre></td><td class="code"><pre><span class="line">	&lt;parent&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">19</span></pre></td><td class="code"><pre><span class="line">		&lt;groupId&gt;org.springframework.boot&lt;&#x2F;groupId&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">20</span></pre></td><td class="code"><pre><span class="line">		&lt;artifactId&gt;spring-boot-starter-parent&lt;&#x2F;artifactId&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">21</span></pre></td><td class="code"><pre><span class="line">		&lt;version&gt;1.4.2.RELEASE&lt;&#x2F;version&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">22</span></pre></td><td class="code"><pre><span class="line">		&lt;relativePath &#x2F;&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">23</span></pre></td><td class="code"><pre><span class="line">	&lt;&#x2F;parent&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">24</span></pre></td><td class="code"><pre><span class="line"> </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">25</span></pre></td><td class="code"><pre><span class="line">	&lt;!-- 项目的基本属性配置 --&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">26</span></pre></td><td class="code"><pre><span class="line">	&lt;properties&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">27</span></pre></td><td class="code"><pre><span class="line">		&lt;!-- 编码格式 --&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">28</span></pre></td><td class="code"><pre><span class="line">		&lt;project.build.sourceEncoding&gt;UTF-8&lt;&#x2F;project.build.sourceEncoding&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">29</span></pre></td><td class="code"><pre><span class="line">		&lt;project.reporting.outputEncoding&gt;UTF-8&lt;&#x2F;project.reporting.outputEncoding&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">30</span></pre></td><td class="code"><pre><span class="line">		&lt;!-- Java版本  查看方法见下方备注1--&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">31</span></pre></td><td class="code"><pre><span class="line">		&lt;java.version&gt;1.8&lt;&#x2F;java.version&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">32</span></pre></td><td class="code"><pre><span class="line">		&lt;!--Hibernate版本号--&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">33</span></pre></td><td class="code"><pre><span class="line">		&lt;hibernate.version&gt;5.1.12.Final&lt;&#x2F;hibernate.version&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">34</span></pre></td><td class="code"><pre><span class="line">				&lt;!--启动类--&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">35</span></pre></td><td class="code"><pre><span class="line">		&lt;start-class&gt;cn.mg.file.FileManageApp&lt;&#x2F;start-class&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">36</span></pre></td><td class="code"><pre><span class="line">	&lt;&#x2F;properties&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">37</span></pre></td><td class="code"><pre><span class="line"> </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">38</span></pre></td><td class="code"><pre><span class="line">	&lt;!-- 项目的依赖结构 --&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">39</span></pre></td><td class="code"><pre><span class="line">	&lt;dependencies&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">40</span></pre></td><td class="code"><pre><span class="line">		&lt;!--原有配置 --&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">41</span></pre></td><td class="code"><pre><span class="line">		&lt;dependency&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">42</span></pre></td><td class="code"><pre><span class="line">			&lt;groupId&gt;junit&lt;&#x2F;groupId&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">43</span></pre></td><td class="code"><pre><span class="line">			&lt;artifactId&gt;junit&lt;&#x2F;artifactId&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">44</span></pre></td><td class="code"><pre><span class="line">			&lt;version&gt;3.8.1&lt;&#x2F;version&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">45</span></pre></td><td class="code"><pre><span class="line">			&lt;scope&gt;test&lt;&#x2F;scope&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">46</span></pre></td><td class="code"><pre><span class="line">		&lt;&#x2F;dependency&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">47</span></pre></td><td class="code"><pre><span class="line">		&lt;!--新增：web应用基本环境配置 --&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">48</span></pre></td><td class="code"><pre><span class="line">		&lt;dependency&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">49</span></pre></td><td class="code"><pre><span class="line">			&lt;groupId&gt;org.springframework.boot&lt;&#x2F;groupId&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">50</span></pre></td><td class="code"><pre><span class="line">			&lt;artifactId&gt;spring-boot-starter-web&lt;&#x2F;artifactId&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">51</span></pre></td><td class="code"><pre><span class="line">		&lt;&#x2F;dependency&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">52</span></pre></td><td class="code"><pre><span class="line">		&lt;!--新增：常用配置 --&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">53</span></pre></td><td class="code"><pre><span class="line">		&lt;!--Tomcat支持--&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">54</span></pre></td><td class="code"><pre><span class="line">		&lt;dependency&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">55</span></pre></td><td class="code"><pre><span class="line">			&lt;groupId&gt;org.springframework.boot&lt;&#x2F;groupId&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">56</span></pre></td><td class="code"><pre><span class="line">			&lt;artifactId&gt;spring-boot-starter-tomcat&lt;&#x2F;artifactId&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">57</span></pre></td><td class="code"><pre><span class="line">			&lt;!--scope的值：详细见下方备注2--&gt;  </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">58</span></pre></td><td class="code"><pre><span class="line">			&lt;scope&gt;provided&lt;&#x2F;scope&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">59</span></pre></td><td class="code"><pre><span class="line">		&lt;&#x2F;dependency&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">60</span></pre></td><td class="code"><pre><span class="line">		&lt;dependency&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">61</span></pre></td><td class="code"><pre><span class="line">			&lt;groupId&gt;org.springframework.boot&lt;&#x2F;groupId&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">62</span></pre></td><td class="code"><pre><span class="line">			&lt;artifactId&gt;spring-boot-starter-test&lt;&#x2F;artifactId&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">63</span></pre></td><td class="code"><pre><span class="line">			&lt;scope&gt;test&lt;&#x2F;scope&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">64</span></pre></td><td class="code"><pre><span class="line">		&lt;&#x2F;dependency&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">65</span></pre></td><td class="code"><pre><span class="line">		&lt;!--使用JSP必要依赖-&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">66</span></pre></td><td class="code"><pre><span class="line">		&lt;dependency&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">67</span></pre></td><td class="code"><pre><span class="line">			&lt;groupId&gt;org.apache.tomcat.embed&lt;&#x2F;groupId&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">68</span></pre></td><td class="code"><pre><span class="line">			&lt;artifactId&gt;tomcat-embed-jasper&lt;&#x2F;artifactId&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">69</span></pre></td><td class="code"><pre><span class="line">		&lt;&#x2F;dependency&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">70</span></pre></td><td class="code"><pre><span class="line">		&lt;!--JSP标签库-&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">71</span></pre></td><td class="code"><pre><span class="line">		&lt;dependency&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">72</span></pre></td><td class="code"><pre><span class="line">			&lt;groupId&gt;javax.servlet&lt;&#x2F;groupId&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">73</span></pre></td><td class="code"><pre><span class="line">			&lt;artifactId&gt;jstl&lt;&#x2F;artifactId&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">74</span></pre></td><td class="code"><pre><span class="line">		&lt;&#x2F;dependency&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">75</span></pre></td><td class="code"><pre><span class="line">		&lt;!--Spring aop支持:面向切面编程--&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">76</span></pre></td><td class="code"><pre><span class="line">		&lt;dependency&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">77</span></pre></td><td class="code"><pre><span class="line">			&lt;groupId&gt;org.springframework&lt;&#x2F;groupId&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">78</span></pre></td><td class="code"><pre><span class="line">			&lt;artifactId&gt;spring-aop&lt;&#x2F;artifactId&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">79</span></pre></td><td class="code"><pre><span class="line">		&lt;&#x2F;dependency&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">80</span></pre></td><td class="code"><pre><span class="line">		&lt;!--事务控制Trancactions--&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">81</span></pre></td><td class="code"><pre><span class="line">		&lt;dependency&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">82</span></pre></td><td class="code"><pre><span class="line">			&lt;groupId&gt;org.springframework&lt;&#x2F;groupId&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">83</span></pre></td><td class="code"><pre><span class="line">			&lt;artifactId&gt;spring-tx&lt;&#x2F;artifactId&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">84</span></pre></td><td class="code"><pre><span class="line">		&lt;&#x2F;dependency&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">85</span></pre></td><td class="code"><pre><span class="line">		&lt;!--对象关系映射 形成orm框架--&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">86</span></pre></td><td class="code"><pre><span class="line">		&lt;dependency&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">87</span></pre></td><td class="code"><pre><span class="line">			&lt;groupId&gt;org.springframework&lt;&#x2F;groupId&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">88</span></pre></td><td class="code"><pre><span class="line">			&lt;artifactId&gt;spring-orm&lt;&#x2F;artifactId&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">89</span></pre></td><td class="code"><pre><span class="line">		&lt;&#x2F;dependency&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">90</span></pre></td><td class="code"><pre><span class="line">		&lt;!--jdbc支持--&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">91</span></pre></td><td class="code"><pre><span class="line">		&lt;dependency&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">92</span></pre></td><td class="code"><pre><span class="line">			&lt;groupId&gt;org.springframework&lt;&#x2F;groupId&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">93</span></pre></td><td class="code"><pre><span class="line">			&lt;artifactId&gt;spring-jdbc&lt;&#x2F;artifactId&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">94</span></pre></td><td class="code"><pre><span class="line">		&lt;&#x2F;dependency&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">95</span></pre></td><td class="code"><pre><span class="line">		&lt;!--json支持--&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">96</span></pre></td><td class="code"><pre><span class="line">		&lt;dependency&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">97</span></pre></td><td class="code"><pre><span class="line">			&lt;groupId&gt;com.alibaba&lt;&#x2F;groupId&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">98</span></pre></td><td class="code"><pre><span class="line">			&lt;artifactId&gt;fastjson&lt;&#x2F;artifactId&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">99</span></pre></td><td class="code"><pre><span class="line">			&lt;version&gt;1.2.3&lt;&#x2F;version&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">100</span></pre></td><td class="code"><pre><span class="line">		&lt;&#x2F;dependency&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">101</span></pre></td><td class="code"><pre><span class="line">	&lt;&#x2F;dependencies&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">102</span></pre></td><td class="code"><pre><span class="line"> </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">103</span></pre></td><td class="code"><pre><span class="line">	 &lt;!--构建设置，主要包含两个部分：plugins设置构建的插件和resources排除或者删除资源文件--&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">104</span></pre></td><td class="code"><pre><span class="line">	&lt;build&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">105</span></pre></td><td class="code"><pre><span class="line">		&lt;!--&lt;!--使用的插件列表  此处直接用父项目的plugins--&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">106</span></pre></td><td class="code"><pre><span class="line">		&lt;plugins&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">107</span></pre></td><td class="code"><pre><span class="line">			&lt;plugin&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">108</span></pre></td><td class="code"><pre><span class="line">				&lt;groupId&gt;org.springframework.boot&lt;&#x2F;groupId&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">109</span></pre></td><td class="code"><pre><span class="line">				&lt;artifactId&gt;spring-boot-maven-plugin&lt;&#x2F;artifactId&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">110</span></pre></td><td class="code"><pre><span class="line">			&lt;&#x2F;plugin&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">111</span></pre></td><td class="code"><pre><span class="line">		&lt;&#x2F;plugins&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">112</span></pre></td><td class="code"><pre><span class="line">		&lt;!--项目相关的所有资源路径列表，例如和项目相关的配置文件、属性文件，这些资源被包含在最终的打包文件里。 --&gt; </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">113</span></pre></td><td class="code"><pre><span class="line">		&lt;resources&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">114</span></pre></td><td class="code"><pre><span class="line">			&lt;resource&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">115</span></pre></td><td class="code"><pre><span class="line">				&lt;directory&gt;src&#x2F;main&#x2F;webapp&lt;&#x2F;directory&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">116</span></pre></td><td class="code"><pre><span class="line">				&lt;!--将directory文件打包到targetPath--&gt; </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">117</span></pre></td><td class="code"><pre><span class="line">				&lt;targetPath&gt;META-INF&#x2F;resources&lt;&#x2F;targetPath&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">118</span></pre></td><td class="code"><pre><span class="line">				&lt;!--包含的模式列表--&gt; </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">119</span></pre></td><td class="code"><pre><span class="line">				&lt;includes&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">120</span></pre></td><td class="code"><pre><span class="line">					&lt;include&gt;**&#x2F;**&lt;&#x2F;include&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">121</span></pre></td><td class="code"><pre><span class="line">				&lt;&#x2F;includes&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">122</span></pre></td><td class="code"><pre><span class="line">			&lt;&#x2F;resource&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">123</span></pre></td><td class="code"><pre><span class="line">			&lt;resource&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">124</span></pre></td><td class="code"><pre><span class="line">				&lt;directory&gt;src&#x2F;main&#x2F;resources&lt;&#x2F;directory&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">125</span></pre></td><td class="code"><pre><span class="line">				&lt;targetPath&gt;BOOT-INF&#x2F;classes&lt;&#x2F;targetPath&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">126</span></pre></td><td class="code"><pre><span class="line">				&lt;includes&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">127</span></pre></td><td class="code"><pre><span class="line">					&lt;include&gt;**&#x2F;**&lt;&#x2F;include&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">128</span></pre></td><td class="code"><pre><span class="line">				&lt;&#x2F;includes&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">129</span></pre></td><td class="code"><pre><span class="line">				&lt;!--是否将资源文件中的占位符替换成对应的值  详细见下方备注3--&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">130</span></pre></td><td class="code"><pre><span class="line">				&lt;filtering&gt;false&lt;&#x2F;filtering&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">131</span></pre></td><td class="code"><pre><span class="line">			&lt;&#x2F;resource&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">132</span></pre></td><td class="code"><pre><span class="line">		&lt;&#x2F;resources&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">133</span></pre></td><td class="code"><pre><span class="line">	&lt;&#x2F;build&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">134</span></pre></td><td class="code"><pre><span class="line">&lt;&#x2F;project&gt;</span></pre></td></tr></table></figure>
+<p>scope的取值：compile(编译范围)，provided(已提供范围)，runtime(运行时范围)，test(测试范围)，system(系统范围)</p>
+<h3 id="三、查看包：-按住Ctrl-鼠标左键点进去"><a href="#三、查看包：-按住Ctrl-鼠标左键点进去" class="headerlink" title="三、查看包： 按住Ctrl+鼠标左键点进去"></a>三、查看包： 按住Ctrl+鼠标左键点进去</h3><p>查看spring-boot-dependencies-2.1.3.RELEASE.pom<br><strong>dependencyManagement</strong></p>
+<ul>
+<li>定义了子项目中可能出现的各种依赖及其版本号</li>
+<li>子项目在需要的时候引入即可使用，不在需要定义版本号了</li>
+</ul>
+<p><strong>spring-boot-starter-parent</strong></p>
+<ul>
+<li>定义了Java编译版本为1.8</li>
+<li>使用UTF-8格式编码</li>
+<li>继承自 spring-boot-dependencies，这个里边定义了依赖的版本</li>
+<li>执行打包操作的配置</li>
+<li>自动化的资源过滤</li>
+<li>自动化的插件配置</li>
+<li>针对application.properties 和 application.yml 的资源过滤，包括通过 profile 定义的不同环境的配置文件<br><strong>不使用parent</strong>：可以自定义parent,继承内部的parent<br>解决方法：自行定义dependencyManagement节点，然后在里面定义好版本号<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">&lt;dependencyManagement&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">	&lt;dependencies&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">		&lt;dependency&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">			&lt;groupId&gt;org.springframework.boot&lt;&#x2F;groupId&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">			&lt;artifactId&gt;spring-boot-dependencies&lt;&#x2F;artifactId&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">			&lt;version&gt;2.1.4.RELEASE&lt;&#x2F;version&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">			&lt;type&gt;pom&lt;&#x2F;type&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">			&lt;scope&gt;import&lt;&#x2F;scope&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line">		&lt;&#x2F;dependency&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line">	&lt;&#x2F;dependencies&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">11</span></pre></td><td class="code"><pre><span class="line">&lt;&#x2F;dependencyManagement&gt;</span></pre></td></tr></table></figure>
+<strong>注</strong>：同样关于打包的插件、编译的JDK版本、文件的编码格式都需要自己配置</li>
+</ul>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/05/14/Spring-Boot-Mybatis/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Qiang Chen">
+      <meta itemprop="description" content="记录是忘记的第一助手.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="编辑尼撑">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/05/14/Spring-Boot-Mybatis/" class="post-title-link" itemprop="url">Spring-Boot-Mybatis</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2021-05-14 21:44:34 / 修改时间：21:45:53" itemprop="dateCreated datePublished" datetime="2021-05-14T21:44:34+08:00">2021-05-14</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Cloud-Compute/" itemprop="url" rel="index">
+                    <span itemprop="name">Cloud Compute</span>
+                  </a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="Spring-Mabtis逆向工程"><a href="#Spring-Mabtis逆向工程" class="headerlink" title="Spring-Mabtis逆向工程"></a>Spring-Mabtis逆向工程</h2><p><strong>问题1</strong>: Could not create connection to database server<br>MySQL的版本号与pom配置中mysql-connector版本号不同<br>解决: SQL语句，select version() from dual;<br>修改版本号使两个版本号一致<br>将mysql的驱动改成: com.mysql.cj.jdbc.Driver</p>
+<p><strong>问题2</strong>: The server time zone value ‘�й���׼ʱ��‘ is unrecognized<br>时区不一致，UTC是统一标准世界时间<br>解决: generatorConfig.xml中的jdbcConnect-&gt;connectionURL添加?serverTimezone=UTC<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">&lt;jdbcConnection driverClass&#x3D;&quot;com.mysql.cj.jdbc.Driver&quot;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">				connectionURL&#x3D;&quot;jdbc:mysql:&#x2F;&#x2F;localhost:3306&#x2F;mydata?serverTimezone&#x3D;UTC&quot;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">				userId&#x3D;&quot;root&quot;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">				password&#x3D;&quot;123456&quot;&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">&lt;&#x2F;jdbcConnection&gt;</span></pre></td></tr></table></figure><br>同时，application.properties中的spring.datasource.url改成如下内容：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">#配置数据源</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">spring.datasource.driverClassName&#x3D;com.mysql.cj.jdbc.Driver</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">spring.datasource.url&#x3D;jdbc:mysql:&#x2F;&#x2F;localhost:3306&#x2F;mydata?serverTimezone&#x3D;UTC</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">spring.datasource.username&#x3D;root</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">spring.datasource.password&#x3D;123456</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">#mybatis</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">#配置mybatis的mapper.xml文件所在位置</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">mybatis.mapper-locations&#x3D;classpath:com&#x2F;example&#x2F;springboot_mybaits01&#x2F;mapper&#x2F;*.xmls</span></pre></td></tr></table></figure></p>
+<h3 id="一、逆向工程的步骤"><a href="#一、逆向工程的步骤" class="headerlink" title="一、逆向工程的步骤"></a>一、逆向工程的步骤</h3><p>1、创建generatorConfig.xml的生成器配置文件<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">&lt;?xml version&#x3D;&quot;1.0&quot; encoding&#x3D;&quot;UTF-8&quot;?&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">&lt;!DOCTYPE generatorConfiguration</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">        PUBLIC &quot;-&#x2F;&#x2F;mybatis.org&#x2F;&#x2F;DTD MyBatis Generator Configuration 1.0&#x2F;&#x2F;EN&quot;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">        &quot;http:&#x2F;&#x2F;mybatis.org&#x2F;dtd&#x2F;mybatis-generator-config_1_0.dtd&quot;&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">&lt;generatorConfiguration&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">    &lt;context id&#x3D;&quot;Tables&quot; targetRuntime&#x3D;&quot;MyBatis3&quot;&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line">        &lt;!-- 批量插入插件 start 按需启用--&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">11</span></pre></td><td class="code"><pre><span class="line">        &lt;plugin type&#x3D;&quot;com.itfsw.mybatis.generator.plugins.BatchInsertPlugin&quot;&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">12</span></pre></td><td class="code"><pre><span class="line">            &lt;property name&#x3D;&quot;allowMultiQueries&quot; value&#x3D;&quot;false&quot;&#x2F;&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">13</span></pre></td><td class="code"><pre><span class="line">        &lt;&#x2F;plugin&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">14</span></pre></td><td class="code"><pre><span class="line">        &lt;!-- 批量插入插件 end --&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">15</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">16</span></pre></td><td class="code"><pre><span class="line">        &lt;!--重命名查询class名称--&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">17</span></pre></td><td class="code"><pre><span class="line">        &lt;plugin type&#x3D;&quot;org.mybatis.generator.plugins.RenameExampleClassPlugin&quot; &gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">18</span></pre></td><td class="code"><pre><span class="line">            &lt;property name&#x3D;&quot;searchString&quot; value&#x3D;&quot;Example$&quot;&#x2F;&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">19</span></pre></td><td class="code"><pre><span class="line">            &lt;property name&#x3D;&quot;replaceString&quot; value&#x3D;&quot;Criteria&quot;&#x2F;&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">20</span></pre></td><td class="code"><pre><span class="line">        &lt;&#x2F;plugin&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">21</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">22</span></pre></td><td class="code"><pre><span class="line">        &lt;!-- 查询单条数据插件 --&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">23</span></pre></td><td class="code"><pre><span class="line">        &lt;plugin type&#x3D;&quot;com.itfsw.mybatis.generator.plugins.SelectOneByExamplePlugin&quot;&#x2F;&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">24</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">25</span></pre></td><td class="code"><pre><span class="line">        &lt;!-- MySQL分页插件 --&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">26</span></pre></td><td class="code"><pre><span class="line">        &lt;plugin type&#x3D;&quot;com.itfsw.mybatis.generator.plugins.LimitPlugin&quot;&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">27</span></pre></td><td class="code"><pre><span class="line">            &lt;!-- 通过配置startPage影响Example中的page方法开始分页的页码，默认分页从0开始 --&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">28</span></pre></td><td class="code"><pre><span class="line">            &lt;property name&#x3D;&quot;startPage&quot; value&#x3D;&quot;1&quot;&#x2F;&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">29</span></pre></td><td class="code"><pre><span class="line">        &lt;&#x2F;plugin&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">30</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">31</span></pre></td><td class="code"><pre><span class="line">        &lt;!-- 自定义注释插件 --&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">32</span></pre></td><td class="code"><pre><span class="line">        &lt;plugin type&#x3D;&quot;com.itfsw.mybatis.generator.plugins.CommentPlugin&quot;&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">33</span></pre></td><td class="code"><pre><span class="line">            &lt;!-- 自定义模板路径 --&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">34</span></pre></td><td class="code"><pre><span class="line">            &lt;property name&#x3D;&quot;template&quot; value&#x3D;&quot;src&#x2F;main&#x2F;resources&#x2F;mybatis-generator-comment.ftl&quot; &#x2F;&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">35</span></pre></td><td class="code"><pre><span class="line">        &lt;&#x2F;plugin&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">36</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">37</span></pre></td><td class="code"><pre><span class="line">        &lt;!-- Lombok插件 --&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">38</span></pre></td><td class="code"><pre><span class="line">        &lt;plugin type&#x3D;&quot;com.itfsw.mybatis.generator.plugins.LombokPlugin&quot;&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">39</span></pre></td><td class="code"><pre><span class="line">            &lt;!-- @Builder 必须在 Lombok 版本 &gt;&#x3D; 1.18.2 的情况下 --&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">40</span></pre></td><td class="code"><pre><span class="line">            &lt;property name&#x3D;&quot;@Builder&quot; value&#x3D;&quot;false&quot;&#x2F;&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">41</span></pre></td><td class="code"><pre><span class="line">            &lt;!-- @NoArgsConstructor 和 @AllArgsConstructor 使用规则和Lombok一致 --&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">42</span></pre></td><td class="code"><pre><span class="line">            &lt;property name&#x3D;&quot;@AllArgsConstructor&quot; value&#x3D;&quot;false&quot;&#x2F;&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">43</span></pre></td><td class="code"><pre><span class="line">            &lt;property name&#x3D;&quot;@NoArgsConstructor&quot; value&#x3D;&quot;false&quot;&#x2F;&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">44</span></pre></td><td class="code"><pre><span class="line">        &lt;&#x2F;plugin&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">45</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">46</span></pre></td><td class="code"><pre><span class="line">        &lt;!-- xml重新生成时覆盖 --&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">47</span></pre></td><td class="code"><pre><span class="line">        &lt;plugin type&#x3D;&quot;org.mybatis.generator.plugins.UnmergeableXmlMappersPlugin&quot;&#x2F;&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">48</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">49</span></pre></td><td class="code"><pre><span class="line">        &lt;!-- 注释 --&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">50</span></pre></td><td class="code"><pre><span class="line">        &lt;commentGenerator&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">51</span></pre></td><td class="code"><pre><span class="line">            &lt;property name&#x3D;&quot;javaFileEncoding&quot; value&#x3D;&quot;UTF-8&quot;&#x2F;&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">52</span></pre></td><td class="code"><pre><span class="line">        &lt;&#x2F;commentGenerator&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">53</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">54</span></pre></td><td class="code"><pre><span class="line">        &lt;!-- JDBC连接 --&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">55</span></pre></td><td class="code"><pre><span class="line">        &lt;jdbcConnection</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">56</span></pre></td><td class="code"><pre><span class="line">                driverClass&#x3D;&quot;com.mysql.cj.jdbc.Driver&quot;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">57</span></pre></td><td class="code"><pre><span class="line">                connectionURL&#x3D;&quot;jdbc:mysql:&#x2F;&#x2F;localhost:3306&#x2F;mybatis_generator_demo?serverTimezone&#x3D;UTC&quot;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">58</span></pre></td><td class="code"><pre><span class="line">                userId&#x3D;&quot;root&quot;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">59</span></pre></td><td class="code"><pre><span class="line">                password&#x3D;&quot;123456&quot;&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">60</span></pre></td><td class="code"><pre><span class="line">            &lt;!-- 针对mysql数据库 --&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">61</span></pre></td><td class="code"><pre><span class="line">            &lt;property name&#x3D;&quot;useInformationSchema&quot; value&#x3D;&quot;true&quot;&#x2F;&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">62</span></pre></td><td class="code"><pre><span class="line">        &lt;&#x2F;jdbcConnection&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">63</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">64</span></pre></td><td class="code"><pre><span class="line">        &lt;!-- 非必需，类型处理器，在数据库类型和java类型之间的转换控制--&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">65</span></pre></td><td class="code"><pre><span class="line">        &lt;!-- 默认false，把JDBC DECIMAL 和 NUMERIC 类型解析为 Integer，为 true时把JDBC DECIMAL 和</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">66</span></pre></td><td class="code"><pre><span class="line">         NUMERIC 类型解析为java.math.BigDecimal --&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">67</span></pre></td><td class="code"><pre><span class="line">        &lt;javaTypeResolver&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">68</span></pre></td><td class="code"><pre><span class="line">            &lt;!-- 是否使用bigDecimal， false可自动转化以下类型（Long, Integer, Short, etc.） --&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">69</span></pre></td><td class="code"><pre><span class="line">            &lt;property name&#x3D;&quot;forceBigDecimals&quot; value&#x3D;&quot;false&quot; &#x2F;&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">70</span></pre></td><td class="code"><pre><span class="line">        &lt;&#x2F;javaTypeResolver&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">71</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">72</span></pre></td><td class="code"><pre><span class="line">        &lt;!-- domain领域模型  其中targetPackage需要根据你自己创建的目录进行改动 --&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">73</span></pre></td><td class="code"><pre><span class="line">        &lt;javaModelGenerator targetPackage&#x3D;&quot;com.chiaki.mybatisgeneratordemo.domain&quot; targetProject&#x3D;&quot;src&#x2F;main&#x2F;java&quot;&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">74</span></pre></td><td class="code"><pre><span class="line">            &lt;!-- 从数据库返回的值被清理前后的空格 --&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">75</span></pre></td><td class="code"><pre><span class="line">            &lt;property name&#x3D;&quot;trimStrings&quot; value&#x3D;&quot;true&quot; &#x2F;&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">76</span></pre></td><td class="code"><pre><span class="line">            &lt;!-- enableSubPackages:是否让schema作为包的后缀 --&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">77</span></pre></td><td class="code"><pre><span class="line">            &lt;property name&#x3D;&quot;enableSubPackages&quot; value&#x3D;&quot;true&quot; &#x2F;&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">78</span></pre></td><td class="code"><pre><span class="line">        &lt;&#x2F;javaModelGenerator&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">79</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">80</span></pre></td><td class="code"><pre><span class="line">        &lt;!-- mapper xml文件 --&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">81</span></pre></td><td class="code"><pre><span class="line">        &lt;sqlMapGenerator targetPackage&#x3D;&quot;mapper&quot;  targetProject&#x3D;&quot;src&#x2F;main&#x2F;resources&quot;&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">82</span></pre></td><td class="code"><pre><span class="line">            &lt;!-- enableSubPackages:是否让schema作为包的后缀 --&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">83</span></pre></td><td class="code"><pre><span class="line">            &lt;property name&#x3D;&quot;enableSubPackages&quot; value&#x3D;&quot;true&quot; &#x2F;&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">84</span></pre></td><td class="code"><pre><span class="line">        &lt;&#x2F;sqlMapGenerator&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">85</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">86</span></pre></td><td class="code"><pre><span class="line">        &lt;!-- Mapper接口 --&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">87</span></pre></td><td class="code"><pre><span class="line">        &lt;javaClientGenerator targetPackage&#x3D;&quot;com.chiaki.mybatisgeneratordemo.mapper&quot; targetProject&#x3D;&quot;src&#x2F;main&#x2F;java&quot; type&#x3D;&quot;XMLMAPPER&quot;&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">88</span></pre></td><td class="code"><pre><span class="line">            &lt;property name&#x3D;&quot;enableSubPackages&quot; value&#x3D;&quot;true&quot; &#x2F;&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">89</span></pre></td><td class="code"><pre><span class="line">        &lt;&#x2F;javaClientGenerator&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">90</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">91</span></pre></td><td class="code"><pre><span class="line">        &lt;!-- 配置表信息 --&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">92</span></pre></td><td class="code"><pre><span class="line">        &lt;!-- tableName为对应的数据库表 --&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">93</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">94</span></pre></td><td class="code"><pre><span class="line">        &lt;table tableName&#x3D;&quot;student_info&quot;&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">95</span></pre></td><td class="code"><pre><span class="line">            &lt;property name&#x3D;&quot;useActualColumnNames&quot; value&#x3D;&quot;false&quot;&#x2F;&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">96</span></pre></td><td class="code"><pre><span class="line">            &lt;generatedKey column&#x3D;&quot;id&quot; sqlStatement&#x3D;&quot;Mysql&quot; identity&#x3D;&quot;true&quot; &#x2F;&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">97</span></pre></td><td class="code"><pre><span class="line">        &lt;&#x2F;table&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">98</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">99</span></pre></td><td class="code"><pre><span class="line">        &lt;table tableName&#x3D;&quot;class_info&quot;&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">100</span></pre></td><td class="code"><pre><span class="line">            &lt;property name&#x3D;&quot;useActualColumnNames&quot; value&#x3D;&quot;false&quot;&#x2F;&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">101</span></pre></td><td class="code"><pre><span class="line">            &lt;generatedKey column&#x3D;&quot;id&quot; sqlStatement&#x3D;&quot;Mysql&quot; identity&#x3D;&quot;true&quot; &#x2F;&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">102</span></pre></td><td class="code"><pre><span class="line">        &lt;&#x2F;table&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">103</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">104</span></pre></td><td class="code"><pre><span class="line">    &lt;&#x2F;context&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">105</span></pre></td><td class="code"><pre><span class="line">&lt;&#x2F;generatorConfiguration&gt;</span></pre></td></tr></table></figure><br>2、创建启动类配置文件<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line"># spring配置</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">spring:</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">  # 数据库配置</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">  datasource:</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">    driver-class-name: com.mysql.cj.jdbc.Driver</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">    url: jdbc:mysql:&#x2F;&#x2F;localhost:3306&#x2F;mybatis_generator_demo?serverTimezone&#x3D;UTC</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">    username: root</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">    password: 123456</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line">mybatis:</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">11</span></pre></td><td class="code"><pre><span class="line">  # 指定xml文件的位置</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">12</span></pre></td><td class="code"><pre><span class="line">  mapper-locations: classpath:mapper&#x2F;*.xml</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">13</span></pre></td><td class="code"><pre><span class="line">  # 指定domain文件的位置</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">14</span></pre></td><td class="code"><pre><span class="line">  type-aliases-package: com.chiaki.domain</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">15</span></pre></td><td class="code"><pre><span class="line">  # 添加日志实现类以打印日志</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">16</span></pre></td><td class="code"><pre><span class="line">  configuration:</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">17</span></pre></td><td class="code"><pre><span class="line">    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">18</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">19</span></pre></td><td class="code"><pre><span class="line"># 服务器配置</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">20</span></pre></td><td class="code"><pre><span class="line">server:</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">21</span></pre></td><td class="code"><pre><span class="line">  # 指定端口</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">22</span></pre></td><td class="code"><pre><span class="line">  port: 8079</span></pre></td></tr></table></figure><br>3、创建数据库和表，并导入<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">-- ----------------------------</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">-- Table structure for sys_quartz_job</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">-- ----------------------------</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">DROP TABLE IF EXISTS &#96;sys_quartz_job&#96;;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">CREATE TABLE &#96;sys_quartz_job&#96; (</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">  &#96;job_id&#96; bigint(20) NOT NULL AUTO_INCREMENT COMMENT &#39;ID&#39;,</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">  &#96;bean_name&#96; varchar(255) DEFAULT NULL COMMENT &#39;Spring Bean名称&#39;,</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">  &#96;cron_expression&#96; varchar(255) DEFAULT NULL COMMENT &#39;cron 表达式&#39;,</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line">  &#96;is_pause&#96; bit(1) DEFAULT NULL COMMENT &#39;状态：1暂停、0启用&#39;,</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line">  &#96;job_name&#96; varchar(255) DEFAULT NULL COMMENT &#39;任务名称&#39;,</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">11</span></pre></td><td class="code"><pre><span class="line">  &#96;method_name&#96; varchar(255) DEFAULT NULL COMMENT &#39;方法名称&#39;,</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">12</span></pre></td><td class="code"><pre><span class="line">  &#96;params&#96; varchar(255) DEFAULT NULL COMMENT &#39;参数&#39;,</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">13</span></pre></td><td class="code"><pre><span class="line">  &#96;description&#96; varchar(255) DEFAULT NULL COMMENT &#39;备注&#39;,</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">14</span></pre></td><td class="code"><pre><span class="line">  &#96;person_in_charge&#96; varchar(100) DEFAULT NULL COMMENT &#39;负责人&#39;,</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">15</span></pre></td><td class="code"><pre><span class="line">  &#96;sub_task&#96; varchar(100) DEFAULT NULL COMMENT &#39;子任务ID&#39;,</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">16</span></pre></td><td class="code"><pre><span class="line">  &#96;pause_after_failure&#96; bit(1) DEFAULT NULL COMMENT &#39;任务失败后是否暂停&#39;,</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">17</span></pre></td><td class="code"><pre><span class="line">  &#96;create_by&#96; varchar(255) DEFAULT NULL COMMENT &#39;创建者&#39;,</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">18</span></pre></td><td class="code"><pre><span class="line">  &#96;update_by&#96; varchar(255) DEFAULT NULL COMMENT &#39;更新者&#39;,</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">19</span></pre></td><td class="code"><pre><span class="line">  &#96;create_time&#96; datetime DEFAULT NULL COMMENT &#39;创建日期&#39;,</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">20</span></pre></td><td class="code"><pre><span class="line">  &#96;update_time&#96; datetime DEFAULT NULL COMMENT &#39;更新时间&#39;,</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">21</span></pre></td><td class="code"><pre><span class="line">  PRIMARY KEY (&#96;job_id&#96;) USING BTREE,</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">22</span></pre></td><td class="code"><pre><span class="line">  KEY &#96;inx_is_pause&#96; (&#96;is_pause&#96;)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">23</span></pre></td><td class="code"><pre><span class="line">) ENGINE&#x3D;InnoDB AUTO_INCREMENT&#x3D;7 DEFAULT CHARSET&#x3D;utf8 ROW_FORMAT&#x3D;COMPACT COMMENT&#x3D;&#39;定时任务&#39;;</span></pre></td></tr></table></figure><br>4、添加依赖文件<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">&lt;dependency&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">	&lt;groupId&gt;mysql&lt;&#x2F;groupId&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">	&lt;artifactId&gt;mysql-connector-java&lt;&#x2F;artifactId&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">	&lt;version&gt;8.0.17&lt;&#x2F;version&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">&lt;&#x2F;dependency&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">        &lt;dependency&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">           &lt;groupId&gt;org.mybatis.spring.boot&lt;&#x2F;groupId&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">           &lt;artifactId&gt;mybatis-spring-boot-starter&lt;&#x2F;artifactId&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line">           &lt;version&gt;2.0.0&lt;&#x2F;version&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line">       &lt;&#x2F;dependency&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">11</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">12</span></pre></td><td class="code"><pre><span class="line">&lt;build&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">13</span></pre></td><td class="code"><pre><span class="line">       &lt;plugins&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">14</span></pre></td><td class="code"><pre><span class="line">           &lt;plugin&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">15</span></pre></td><td class="code"><pre><span class="line">               &lt;groupId&gt;org.springframework.boot&lt;&#x2F;groupId&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">16</span></pre></td><td class="code"><pre><span class="line">               &lt;artifactId&gt;spring-boot-maven-plugin&lt;&#x2F;artifactId&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">17</span></pre></td><td class="code"><pre><span class="line">               &lt;configuration&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">18</span></pre></td><td class="code"><pre><span class="line">                   &lt;excludes&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">19</span></pre></td><td class="code"><pre><span class="line">                       &lt;exclude&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">20</span></pre></td><td class="code"><pre><span class="line">                           &lt;groupId&gt;org.projectlombok&lt;&#x2F;groupId&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">21</span></pre></td><td class="code"><pre><span class="line">                           &lt;artifactId&gt;lombok&lt;&#x2F;artifactId&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">22</span></pre></td><td class="code"><pre><span class="line">                       &lt;&#x2F;exclude&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">23</span></pre></td><td class="code"><pre><span class="line">                   &lt;&#x2F;excludes&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">24</span></pre></td><td class="code"><pre><span class="line">               &lt;&#x2F;configuration&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">25</span></pre></td><td class="code"><pre><span class="line">           &lt;&#x2F;plugin&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">26</span></pre></td><td class="code"><pre><span class="line">           &lt;plugin&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">27</span></pre></td><td class="code"><pre><span class="line">               &lt;groupId&gt;org.mybatis.generator&lt;&#x2F;groupId&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">28</span></pre></td><td class="code"><pre><span class="line">               &lt;artifactId&gt;mybatis-generator-maven-plugin&lt;&#x2F;artifactId&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">29</span></pre></td><td class="code"><pre><span class="line">               &lt;version&gt;1.3.7&lt;&#x2F;version&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">30</span></pre></td><td class="code"><pre><span class="line">               &lt;configuration&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">31</span></pre></td><td class="code"><pre><span class="line">                   &lt;!-- 是否覆盖，true表示会替换生成的Java文件，false则不覆盖 --&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">32</span></pre></td><td class="code"><pre><span class="line">                   &lt;overwrite&gt;true&lt;&#x2F;overwrite&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">33</span></pre></td><td class="code"><pre><span class="line">                   &lt;verbose&gt;true&lt;&#x2F;verbose&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">34</span></pre></td><td class="code"><pre><span class="line">               &lt;&#x2F;configuration&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">35</span></pre></td><td class="code"><pre><span class="line">               &lt;dependencies&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">36</span></pre></td><td class="code"><pre><span class="line">                   &lt;!--mysql驱动包--&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">37</span></pre></td><td class="code"><pre><span class="line">                   &lt;dependency&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">38</span></pre></td><td class="code"><pre><span class="line">                       &lt;groupId&gt;mysql&lt;&#x2F;groupId&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">39</span></pre></td><td class="code"><pre><span class="line">                       &lt;artifactId&gt;mysql-connector-java&lt;&#x2F;artifactId&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">40</span></pre></td><td class="code"><pre><span class="line">                       &lt;version&gt;8.0.17&lt;&#x2F;version&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">41</span></pre></td><td class="code"><pre><span class="line">                   &lt;&#x2F;dependency&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">42</span></pre></td><td class="code"><pre><span class="line">                   &lt;!-- mybatis 生成扩展包 --&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">43</span></pre></td><td class="code"><pre><span class="line">                   &lt;dependency&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">44</span></pre></td><td class="code"><pre><span class="line">                       &lt;groupId&gt;com.itfsw&lt;&#x2F;groupId&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">45</span></pre></td><td class="code"><pre><span class="line">                       &lt;artifactId&gt;mybatis-generator-plugin&lt;&#x2F;artifactId&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">46</span></pre></td><td class="code"><pre><span class="line">                       &lt;version&gt;1.3.2&lt;&#x2F;version&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">47</span></pre></td><td class="code"><pre><span class="line">                   &lt;&#x2F;dependency&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">48</span></pre></td><td class="code"><pre><span class="line">               &lt;&#x2F;dependencies&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">49</span></pre></td><td class="code"><pre><span class="line">           &lt;&#x2F;plugin&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">50</span></pre></td><td class="code"><pre><span class="line">       &lt;&#x2F;plugins&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">51</span></pre></td><td class="code"><pre><span class="line">   &lt;&#x2F;build&gt;</span></pre></td></tr></table></figure><br>双击: View-&gt;Tool Windows-&gt;Maven-&gt;Plugins-&gt;mybatis-generator-&gt;mybatis-generator:generate<br>产生: java目录下domain和mapper文件夹，resource下产生mapper文件夹</p>
+<h3 id="二、逆向工程生成的方法的使用"><a href="#二、逆向工程生成的方法的使用" class="headerlink" title="二、逆向工程生成的方法的使用"></a>二、逆向工程生成的方法的使用</h3><p>如: selectByExample(example)这个example是什么，如何使用？<br><strong>说明：</strong> example用于添加条件，相当于where后面的部分<br>逆向工程生成的文件XxxExample.java中包含一个static的内部类Criteria，Criteria中的方法是定义SQL 语句where后的查询条件。<br>1、查询：selectByPrimaryKey()<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">User user &#x3D; XxxMapper.selectByPrimaryKey(100); &#x2F;&#x2F;相当于select * from user where id &#x3D; 100。</span></pre></td></tr></table></figure><br>2、查询：selectByExample()<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">UserExample example &#x3D; new UserExample();</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">Criteria criteria &#x3D; example.createCriteria();</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">criteria.andUsernameEqualTo(&quot;wyw&quot;);    &#x2F;&#x2F;where条件</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">criteria.andUsernameIsNull();					&#x2F;&#x2F;where条件</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">example.setOrderByClause(&quot;username asc,email desc&quot;);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">List&lt;?&gt;list &#x3D; XxxMapper.selectByExample(example);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F;相当于：select * from user where username &#x3D; &#39;wyw&#39; and  username is null order by username asc,email desc</span></pre></td></tr></table></figure><br>3、更新数据：updateByExample()<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">UserExample example &#x3D; new UserExample();</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">Criteria criteria &#x3D; example.createCriteria();</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">criteria.andUsernameEqualTo(&quot;admin&quot;);   &#x2F;&#x2F;where条件</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">User user &#x3D; new User();</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">user.setPassword(&quot;wyw&quot;);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">XxxMapper.updateByPrimaryKeySelective(user,example);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F;相当于：update user set password&#x3D;&#39;wyw&#39; where username&#x3D;&#39;admin&#39;</span></pre></td></tr></table></figure><br>4、删除数据：deleteByExample()<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">UserExample example &#x3D; new UserExample();</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">Criteria criteria &#x3D; example.createCriteria();</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">criteria.andUsernameEqualTo(&quot;admin&quot;);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">XxxMapper.deleteByExample(example);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F;相当于：delete from user where username&#x3D;&#39;admin&#39;</span></pre></td></tr></table></figure></p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>方法</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>example.setOrderByClause(“字段名ASC”)</td>
+<td>添加升序排列条件，DESC为降序</td>
+</tr>
+<tr>
+<td>example.setDistinct(false)</td>
+<td>去除重复，boolean型，true为选择不重复的记录</td>
+</tr>
+<tr>
+<td>criteria.andXxxIsNull</td>
+<td>添加字段xxx为null的条件</td>
+</tr>
+<tr>
+<td>criteria.andXxxIsNotNull</td>
+<td>添加字段xxx不为null的条件</td>
+</tr>
+<tr>
+<td>criteria.andXxxEqualTo(value)</td>
+<td>添加xxx字段等于value条件</td>
+</tr>
+<tr>
+<td>criteria.andXxxNotEqualTo(value)</td>
+<td>添加xxx字段不等于value条件</td>
+</tr>
+<tr>
+<td>criteria.andXxxGreaterThan(value)</td>
+<td>添加xxx字段大于value条件</td>
+</tr>
+<tr>
+<td>criteria.andXxxGreaterThanOrEqualTo(value)</td>
+<td>添加xxx字段大于等于value条件</td>
+</tr>
+<tr>
+<td>criteria.andXxxLessThan(value)</td>
+<td>添加xxx字段小于value条件</td>
+</tr>
+<tr>
+<td>criteria.andXxxLessThanOrEqualTo(value)</td>
+<td>添加xxx字段小于等于value条件</td>
+</tr>
+<tr>
+<td>criteria.andXxxIn(List&lt;?&gt;)</td>
+<td>添加xxx字段值在List&lt;?&gt;条件</td>
+</tr>
+<tr>
+<td>criteria.andXxxNotIn(List&lt;?&gt;)</td>
+<td>添加xxx字段值不在List&lt;?&gt;条件</td>
+</tr>
+<tr>
+<td>criteria.andXxxLike(“%”+value+”%”)</td>
+<td>添加xxx字段值为value的模糊查询条件</td>
+</tr>
+<tr>
+<td>criteria.andXxxNotLike(“%”+value+”%”)</td>
+<td>添加xxx字段值不为value的模糊查询条件</td>
+</tr>
+<tr>
+<td>criteria.andXxxBetween(value1,value2)</td>
+<td>添加xxx字段值在value1和value2之间条件</td>
+</tr>
+<tr>
+<td>criteria.andXxxNotBetween(value1,value2)</td>
+<td>添加xxx字段值不在value1和value2之间条件</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/05/14/Spring-Boot-Maven-Plugin/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Qiang Chen">
+      <meta itemprop="description" content="记录是忘记的第一助手.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="编辑尼撑">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/05/14/Spring-Boot-Maven-Plugin/" class="post-title-link" itemprop="url">Spring-Boot-Maven-Plugin</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2021-05-14 21:38:28 / 修改时间：21:43:32" itemprop="dateCreated datePublished" datetime="2021-05-14T21:38:28+08:00">2021-05-14</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Cloud-Compute/" itemprop="url" rel="index">
+                    <span itemprop="name">Cloud Compute</span>
+                  </a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="spring-boot-maven-plugin"><a href="#spring-boot-maven-plugin" class="headerlink" title="spring-boot-maven-plugin"></a>spring-boot-maven-plugin</h2><p>springboot框架提供了一套自己的打包机制，是通过spring-boot-maven-plugin插件来实现的。</p>
+<h3 id="1、spring-boot-maven-plugin引入pom"><a href="#1、spring-boot-maven-plugin引入pom" class="headerlink" title="1、spring-boot-maven-plugin引入pom"></a>1、spring-boot-maven-plugin引入pom</h3><p>对于新建的一个springboot项目来说，pom中会加入插件：<br><img src="/2021/05/14/Spring-Boot-Maven-Plugin/1.png" alt="maven"><br>通过idea可以看到maven中包含了spring-boot-maven-plugin插件：<br><img src="/2021/05/14/Spring-Boot-Maven-Plugin/2.png" alt="maven"></p>
+<ul>
+<li>build-info：生成项目的构建信息文件 build-info.properties</li>
+<li>repackage：这个是默认 goal，在 mvn package 执行之后，这个命令再次打包生成可执行的 jar，同时将 mvn package 生成的 jar 重命名为 *.origin</li>
+<li>run：这个可以用来运行 Spring Boot 应用</li>
+<li>start：这个在 mvn integration-test 阶段，进行 Spring Boot 应用生命周期的管理</li>
+<li>stop：这个在 mvn integration-test 阶段，进行 Spring Boot 应用生命周期的管理<h3 id="2、执行打包命令"><a href="#2、执行打包命令" class="headerlink" title="2、执行打包命令"></a>2、执行打包命令</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">mvn clean package</span></pre></td></tr></table></figure>
+或通过开发工具，如idea执行clean和package命令，View-&gt;Tool Windows-&gt;Maven<br><img src="/2021/05/14/Spring-Boot-Maven-Plugin/3.png" alt="maven"><br>可以生成jar包，使用java -jar xxxxx.jar启动<h3 id="3、jar内部结构"><a href="#3、jar内部结构" class="headerlink" title="3、jar内部结构"></a>3、jar内部结构</h3>解压jar文件，可以获取到如下结构：<br><img src="/2021/05/14/Spring-Boot-Maven-Plugin/4.png" alt="maven"><br>其中BOOT-INF主要是一些启动信息，包含classes和lib文件，classes文件放的是项目里生成的字节文件class和配置文件，lib文件是项目所需要的jar依赖。<br><strong>下面的POM代码段显示了如何控制在uber JAR中应该包含/排除哪些项目依赖关系：</strong><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">&lt;project&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">  ...</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">  &lt;build&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">    &lt;plugins&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">      &lt;plugin&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">        &lt;groupId&gt;org.apache.maven.plugins&lt;&#x2F;groupId&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">        &lt;artifactId&gt;maven-shade-plugin&lt;&#x2F;artifactId&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">        &lt;version&gt;3.0.0&lt;&#x2F;version&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line">        &lt;executions&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line">          &lt;execution&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">11</span></pre></td><td class="code"><pre><span class="line">            &lt;phase&gt;package&lt;&#x2F;phase&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">12</span></pre></td><td class="code"><pre><span class="line">            &lt;goals&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">13</span></pre></td><td class="code"><pre><span class="line">              &lt;goal&gt;shade&lt;&#x2F;goal&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">14</span></pre></td><td class="code"><pre><span class="line">            &lt;&#x2F;goals&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">15</span></pre></td><td class="code"><pre><span class="line">            &lt;configuration&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">16</span></pre></td><td class="code"><pre><span class="line">              &lt;artifactSet&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">17</span></pre></td><td class="code"><pre><span class="line">                &lt;excludes&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">18</span></pre></td><td class="code"><pre><span class="line">                  &lt;exclude&gt;classworlds:classworlds&lt;&#x2F;exclude&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">19</span></pre></td><td class="code"><pre><span class="line">                  &lt;exclude&gt;junit:junit&lt;&#x2F;exclude&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">20</span></pre></td><td class="code"><pre><span class="line">                  &lt;exclude&gt;jmock:*&lt;&#x2F;exclude&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">21</span></pre></td><td class="code"><pre><span class="line">                  &lt;exclude&gt;*:xml-apis&lt;&#x2F;exclude&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">22</span></pre></td><td class="code"><pre><span class="line">                  &lt;exclude&gt;org.apache.maven:lib:tests&lt;&#x2F;exclude&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">23</span></pre></td><td class="code"><pre><span class="line">                  &lt;exclude&gt;log4j:log4j:jar:&lt;&#x2F;exclude&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">24</span></pre></td><td class="code"><pre><span class="line">                &lt;&#x2F;excludes&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">25</span></pre></td><td class="code"><pre><span class="line">              &lt;&#x2F;artifactSet&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">26</span></pre></td><td class="code"><pre><span class="line">            &lt;&#x2F;configuration&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">27</span></pre></td><td class="code"><pre><span class="line">          &lt;&#x2F;execution&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">28</span></pre></td><td class="code"><pre><span class="line">        &lt;&#x2F;executions&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">29</span></pre></td><td class="code"><pre><span class="line">      &lt;&#x2F;plugin&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">30</span></pre></td><td class="code"><pre><span class="line">    &lt;&#x2F;plugins&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">31</span></pre></td><td class="code"><pre><span class="line">  &lt;&#x2F;build&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">32</span></pre></td><td class="code"><pre><span class="line">  ...</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">33</span></pre></td><td class="code"><pre><span class="line">&lt;&#x2F;project&gt;</span></pre></td></tr></table></figure>
+<a href="https://developer.aliyun.com/article/632130" target="_blank" rel="noopener">参考资料</a></li>
+</ul>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
         
   
   
@@ -1020,263 +1404,6 @@ Spring MVC 通过 ModelAndView 对象把模型和视图结合在一起<figure cl
   
   
 
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/05/02/Programming-Language/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Qiang Chen">
-      <meta itemprop="description" content="记录是忘记的第一助手.">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="编辑尼撑">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/05/02/Programming-Language/" class="post-title-link" itemprop="url">Programming-Language</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2021-05-02 21:19:36 / 修改时间：21:22:35" itemprop="dateCreated datePublished" datetime="2021-05-02T21:19:36+08:00">2021-05-02</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Programming-Language/" itemprop="url" rel="index">
-                    <span itemprop="name">Programming-Language</span>
-                  </a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="编程语言及其类型的归纳"><a href="#编程语言及其类型的归纳" class="headerlink" title="编程语言及其类型的归纳"></a>编程语言及其类型的归纳</h2><h3 id="一、脚本语言"><a href="#一、脚本语言" class="headerlink" title="一、脚本语言"></a>一、脚本语言</h3><ul>
-<li>介于HTML和C/C++,Java等编程语言之间。HTML通常用于格式化和链接文本，编程语言向及其发出一系列复杂的指令。</li>
-<li>和编程语言一样都有变量，但是没有编程语言严格和复杂的语法和规则。</li>
-<li>需要有相应的脚本引擎来解释执行，需要解释器,是一种解释性语言。不用像C/C++等语言一样需要编译成二进制文件，最后生成可执行文件。</li>
-<li>如JavaScript,ASP,PHP,PERL等</li>
-</ul>
-<h3 id="二、编程范式：命令式编程-Imperative-、声明式编程-Declarative-和函数式编程-Functional"><a href="#二、编程范式：命令式编程-Imperative-、声明式编程-Declarative-和函数式编程-Functional" class="headerlink" title="二、编程范式：命令式编程(Imperative)、声明式编程(Declarative)和函数式编程(Functional)"></a>二、编程范式：命令式编程(Imperative)、声明式编程(Declarative)和函数式编程(Functional)</h3><p>计算机的最下层是CPU指令，其本质就是用“变量定义+顺序执行+分支判断+循环”所表达的逻辑过程。计算机应用的最上层是实现人类社会的某种功能。所以所有计算机编码的过程，就是用逻辑表达现实的过程。层与层之间定义的借口，越接近现实的表达就叫越“声明式”（declarative），越接近计算机的执行过程就叫越“命令式”（imperative）。注意这不是绝对的概念，而是相对的概念。<br>越是声明式，意味着下层要做更多的东西，或者说能力越强。也意味着效率的损失。越是命令式，意味着上层对下层有更多的操作空间，可以按照自己特定的需求要求下层按照某种方式来处理。</p>
-<p><img src="/2021/05/02/Programming-Language/1.png" alt="Language"><br>命令式编程：命令式编程的主要思想是关注计算机执行的步骤，即一步一步告诉计算机先做什么再做什么。<br>声明式编程：声明式编程是以数据结构的形式来表达程序执行的逻辑。它的主要思想是告诉计算机应该做什么，但不指定具体要怎么做。如：SQL<br>函数式编程：和声明式编程的思想是一致的，即只关注做什么而不是怎么做。但函数式编程不仅仅局限于声明式编程。函数式编程最重要的特点是“函数第一位”，即函数可以出现在任何地方，比如你可以把函数作为参数传递给另一个函数，不仅如此你还可以将函数作为返回值。</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/05/01/Spring-Cloud-OpenFeign/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Qiang Chen">
-      <meta itemprop="description" content="记录是忘记的第一助手.">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="编辑尼撑">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/05/01/Spring-Cloud-OpenFeign/" class="post-title-link" itemprop="url">Spring-Cloud-OpenFeign</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2021-05-01 20:10:50 / 修改时间：20:22:34" itemprop="dateCreated datePublished" datetime="2021-05-01T20:10:50+08:00">2021-05-01</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Cloud-Compute/" itemprop="url" rel="index">
-                    <span itemprop="name">Cloud Compute</span>
-                  </a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="OpenFeign实现微服务之间的调用"><a href="#OpenFeign实现微服务之间的调用" class="headerlink" title="OpenFeign实现微服务之间的调用"></a>OpenFeign实现微服务之间的调用</h2><h3 id="带着问题来学习"><a href="#带着问题来学习" class="headerlink" title="带着问题来学习"></a>带着问题来学习</h3><p><strong>什么是Feign,OpenFeign与Feign有啥区别，如何使用</strong></p>
-<h3 id="一、Feign介绍"><a href="#一、Feign介绍" class="headerlink" title="一、Feign介绍"></a>一、Feign介绍</h3><p><strong>Feign</strong>是SpringCloud组件中一个轻量级RESTFul的HTTP客户端。其内置了Ribbon实现客户端请求的负载均衡。但是Feign<strong>不支持Spring MVC注解</strong>。</p>
-<h3 id="二、OpenFeign介绍"><a href="#二、OpenFeign介绍" class="headerlink" title="二、OpenFeign介绍"></a>二、OpenFeign介绍</h3><p><strong>OpenFeign</strong>在Feign的基础上支持Spring MVC注解，比如@RequestMapping等。OpenFeign的@FeignClient可以解析Spring MVC的@RequestMapping注解下的接口。并通过动态代理生成实现类，实现类做负载均衡并调用其他服务。</p>
-<h3 id="三、微服务间调用，该怎么办？"><a href="#三、微服务间调用，该怎么办？" class="headerlink" title="三、微服务间调用，该怎么办？"></a>三、微服务间调用，该怎么办？</h3><p>引入了HTTP客户端，及提供RESTFul API供别的服务调用。此处，引入OpenFeign。<br>如果有多个服务A,B,C,D。如果A要调用B中的接口怎么办，之前Feign是这样做的。如果A要调用B，那么需要在A中写被调用者B的FeignClient。而OpenFeign是，A调用B的话，需要在B服务根目录下单独创建一个B-api目录，里面放一个Feign目录存放被别的服务调用的API接口。这样A服务调用B服务时，直接引入B的api即可。<br><strong>好处</strong>：将被调用服务(如服务B)的FeignClient的编写交给负责被调用模块(如服务B)的开发人员，让更熟悉此模块的人去编写对外开发的FeignClient会更加合理，有效。</p>
-<h3 id="四、如何使用"><a href="#四、如何使用" class="headerlink" title="四、如何使用"></a>四、如何使用</h3><p>如有微服务项目中有auth，admin两个服务，auth要调用amdin的load函数，如何实现呢？<br>1、创建admin-api子模块，添加maven依赖(被调用模块)<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">&lt;!-- OpenFeign --&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">&lt;dependency&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">    &lt;groupId&gt;org.springframework.cloud&lt;&#x2F;groupId&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">    &lt;artifactId&gt;spring-cloud-starter-openfeign&lt;&#x2F;artifactId&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">&lt;&#x2F;dependency&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">&lt;!-- OkHttp --&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">&lt;dependency&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">    &lt;groupId&gt;io.github.openfeign&lt;&#x2F;groupId&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line">    &lt;artifactId&gt;feign-okhttp&lt;&#x2F;artifactId&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line">&lt;&#x2F;dependency&gt;</span></pre></td></tr></table></figure><br>2、定义FeignClient接口<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">@FeignClient(&quot;admin&quot;) #这里的admin是服务注册时的服务名，如用nacos</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">public interface UmsAdminService &#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">    @GetMapping(&quot;&#x2F;users&#x2F;loadUserByName&quot;)  #服务调用地址</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">    UserDTO loadUserByName(@RequestParam String username);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">&#125;</span></pre></td></tr></table></figure><br>3、auth添加依赖(调用模块)<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">&lt;dependency&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">    &lt;groupId&gt;com.projectname&lt;&#x2F;groupId&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">    &lt;artifactId&gt;projectname-admin-api&lt;&#x2F;artifactId&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">    &lt;version&gt;1.0.0-SNAPSHOT&lt;&#x2F;version&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">&lt;&#x2F;dependency&gt;</span></pre></td></tr></table></figure><br>4、配置文件开启OpenFeign使用OkHttp作为底层的client,也可以用其他的client，如HttpURLConnection(JDK默认)，feign-httpclient<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">feign:</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">  okhttp:</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">    enabled: true</span></pre></td></tr></table></figure><br>5、auth调用端的调用代码<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">@Autowired</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">private UmsAdminService umsAdminService;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">@GetMapping(&quot;&#x2F;loadUserByName&quot;)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">public Result loadUserByName()&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">    UserDTO userDTO &#x3D; umsAdminService.loadUserByName(&quot;admin&quot;);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">    return Result.success(userDTO);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">&#125;</span></pre></td></tr></table></figure><br>6、在启动类上添加@EnableFeignClients注解<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">@SpringBootApplication</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">@EnableFeignClients</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">public class TestOpenFeignApplication &#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">    public static void main(String[] args) &#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">        SpringApplication.run(TestOpenFeignApplication.class,args);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">    &#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">&#125;</span></pre></td></tr></table></figure></p>
-<p>依次启动项目auth、admin即可<br><strong>注意：@RequestMapping不能在类名上与@FeignClient同时使用</strong></p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/05/01/Spring-Cloud-Nacos/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Qiang Chen">
-      <meta itemprop="description" content="记录是忘记的第一助手.">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="编辑尼撑">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/05/01/Spring-Cloud-Nacos/" class="post-title-link" itemprop="url">Spring-Cloud-Nacos</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2021-05-01 13:39:57 / 修改时间：14:58:58" itemprop="dateCreated datePublished" datetime="2021-05-01T13:39:57+08:00">2021-05-01</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Cloud-Compute/" itemprop="url" rel="index">
-                    <span itemprop="name">Cloud Compute</span>
-                  </a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="Nacos"><a href="#Nacos" class="headerlink" title="Nacos"></a>Nacos</h2><h3 id="一、安装nacos-server"><a href="#一、安装nacos-server" class="headerlink" title="一、安装nacos-server"></a>一、安装nacos-server</h3><p>1、下载地址: <a href="https://github.com/alibaba/nacos/releases" target="_blank" rel="noopener">https://github.com/alibaba/nacos/releases</a><br>选择nacos-server-x.x.x.zip下载并解压<br>2、本地创建数据库nacos, 导入nacos解压路径下nacos\conf\nacos-mysql.sql完成数据表的创建和数据初始化<br>编辑配置文件nacos\conf\application.properties,修改后的图图下：<br><img src="/2021/05/01/Spring-Cloud-Nacos/1.png" alt="nacos">  </p>
-<p>3、启动nacos-server服务，确保本机安装并配置了java环境变量<br>进入nacos\bin，执行startup.cmd -m standalone(采用单机模式)<br>4、进入nacos管理控制台<br>查看地址：<a href="http://localhost:8848/nacos" target="_blank" rel="noopener">http://localhost:8848/nacos</a><br>账号/密码: nacos/nacas<br><strong>对比eureka和nacos:&amp;</strong> <strong>eureka</strong>将注册中心和配置中心分离，分别使用SpringCloud Eureka和SpringCloud Config两个组件，配置更新时需要重启服务或者使用SpringCloud Bus消息总线发出通知到各个服务，进而完成配置。此外，eureka已经停止了更新。<strong>nacos</strong>可以同时实现注册和配置中心，以及配置的动态更新。<br><strong>Nacos两个核心功能:</strong> 服务注册与发现，动态配置管理。致力于发现、配置和管理微服务Nacos支持几乎所有主流类型”服务”的发现、配置和管理，如：Kubernetes Service|gRPC &amp; Dubbo RPC Service|Spring Cloud RESTful Service</p>
-<h3 id="Nacos的关键特性包括："><a href="#Nacos的关键特性包括：" class="headerlink" title="Nacos的关键特性包括："></a>Nacos的关键特性包括：</h3><p><strong>1、服务发现和服务健康检测</strong><br><strong>Nacos</strong>支持基于DNS和基于RPC的服务发现。服务提供者使用<em>原生SDK</em>、<em>OpenApi</em>或一个<em>独立的Agent TODO</em>注册Service后。服务消费者可以使用<em>DNS TODO</em>或<em>HTTP&amp;API</em>查找和发现服务。<br><strong>Nacos</strong>提供对服务的实时的<strong>健康检查，阻止向不健康的主机或服务实例发送请求</strong>。Nacos支持传输层(PING或TCP)和应用层(如 HTTP、MySQL、用户自定义)的健康检查。对于复杂的云环境和网络拓扑环境中（如 VPC、边缘网络等）服务的健康检查，Nacos 提供了<strong>agent上报模式</strong>和<strong>服务端主动检测</strong>2种健康检查模式。<br><strong>Nacos</strong>还提供了统一的<strong>健康检查仪表盘</strong>，帮助您根据健康状态管理服务的可用性及流量。<br><strong>2、动态配置服务</strong><br>动态配置服务可以让您以中心化、外部化和动态化的方式管理所有环境的应用配置和服务配置。动态配置消除了配置变更时重新部署应用和服务的需要，让配置管理变得更加高效和敏捷。配置中心化管理让实现无状态服务变得更简单，让服务按需弹性扩展变得更容易。<br><strong>3、动态DNS服务</strong><br>动态 DNS 服务支持权重路由，让您更容易地实现中间层负载均衡、更灵活的路由策略、流量控制以及数据中心内网的简单DNS解析服务。  动态DNS服务还能让您更容易地实现以DNS协议为基础的服务发现，以帮助您消除耦合到厂商私有服务发现 API 上的风险。  </p>
-<h3 id="NACOS服务发现"><a href="#NACOS服务发现" class="headerlink" title="NACOS服务发现"></a>NACOS服务发现</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">&lt;!-- nacos 依赖--&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">&lt;dependency&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">    &lt;groupId&gt;com.alibaba.cloud&lt;&#x2F;groupId&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">    &lt;artifactId&gt;spring-cloud-starter-alibaba-nacos-discovery&lt;&#x2F;artifactId&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">&lt;&#x2F;dependency&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">#启动类入口添加注解开启服务注册和发现</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">@EnableDiscoveryClient</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line">@SpringBootApplication</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line">public class AuthApplication &#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">11</span></pre></td><td class="code"><pre><span class="line">    public static void main(String[] args) &#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">12</span></pre></td><td class="code"><pre><span class="line">        SpringApplication.run(AuthApplication.class);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">13</span></pre></td><td class="code"><pre><span class="line">    &#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">14</span></pre></td><td class="code"><pre><span class="line">&#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">15</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">16</span></pre></td><td class="code"><pre><span class="line">#服务注册中心配置</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">17</span></pre></td><td class="code"><pre><span class="line">spring:</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">18</span></pre></td><td class="code"><pre><span class="line">  application:</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">19</span></pre></td><td class="code"><pre><span class="line">    name: project-name</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">20</span></pre></td><td class="code"><pre><span class="line">  cloud:</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">21</span></pre></td><td class="code"><pre><span class="line">    nacos:</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">22</span></pre></td><td class="code"><pre><span class="line">      discovery:</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">23</span></pre></td><td class="code"><pre><span class="line">        server-addr: http:&#x2F;&#x2F;localhost:8848</span></pre></td></tr></table></figure>
-<p>打开nacos控制台进入服务列表查看  </p>
-<h3 id="NACOS服务配置"><a href="#NACOS服务配置" class="headerlink" title="NACOS服务配置"></a>NACOS服务配置</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">&lt;!-- nacos-config 依赖--&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">&lt;dependency&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">    &lt;groupId&gt;com.alibaba.cloud&lt;&#x2F;groupId&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">    &lt;artifactId&gt;spring-cloud-starter-alibaba-nacos-config&lt;&#x2F;artifactId&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">&lt;&#x2F;dependency&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">#bootstrap.yml指定nacos配置文件名</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">spring:</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line">  application:</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line">    name: project-name</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">11</span></pre></td><td class="code"><pre><span class="line">  cloud:</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">12</span></pre></td><td class="code"><pre><span class="line">    nacos:</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">13</span></pre></td><td class="code"><pre><span class="line">      discovery:</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">14</span></pre></td><td class="code"><pre><span class="line">        server-addr: http:&#x2F;&#x2F;localhost:8848</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">15</span></pre></td><td class="code"><pre><span class="line">      config:</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">16</span></pre></td><td class="code"><pre><span class="line">        file-extension: yaml  # 必须修改成yaml</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">17</span></pre></td><td class="code"><pre><span class="line">        group: DEFAULT_GROUP  # 缺省即可</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">18</span></pre></td><td class="code"><pre><span class="line">        prefix: $&#123;spring.application.name&#125; # 缺省即可</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">19</span></pre></td><td class="code"><pre><span class="line">rsa:</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">20</span></pre></td><td class="code"><pre><span class="line">  publicKey: 123456</span></pre></td></tr></table></figure>
-<p><strong>注意:这里必须使用bootstrap.yml不能是application.yml，避免被nacos自带的配置文件被覆盖</strong><br>SpringBoot读取配置文件的顺序：<br>bootstrap.yml&gt;bootstrap.yaml&gt;bootstrap.properties&gt;nacos settings&gt;application.yml&gt;application.yaml&gt;application.properties</p>
-<pre><code>#添加接口读取配置信息并添加动态刷新配置的注解@RefreshScope
-@RefreshScope
-@RestController
-@RequestMapping(&quot;/oauth&quot;)
-public class AuthController {
-
-    @Value(&quot;${rsa.publicKey}&quot;)
-    public String publicKey;
-
-    @GetMapping(&quot;/publicKey&quot;)
-    public Result getPublicKey(){
-        return Result.success(this.publicKey);
-    }
-}
-</code></pre><p>可以在nacos管理控制台添加和修改配置，从而保持动态更新<br><strong>简单介绍一下数据库CAP理论</strong><br>CAP理论是说对于分布式数据存储，最多只能同时满足一致性（C，Consistency）、可用性（A， Availability）、分区容错性（P，Partition Tolerance）中的两者。  </p>
-<ul>
-<li>一致性，是指对于每一次读操作，要么都能够读到最新写入的数据，要么错误。</li>
-<li>可用性，是指对于每一次请求，都能够得到一个及时的、非错的响应，但是不保证请求的结果是基于最新写入的数据。</li>
-<li>分区容错性，是指由于节点之间的网络问题，即使一些消息对包或者延迟，整个系统能继续提供服务(提供一致性或者可用性)。  </li>
-</ul>
-<h3 id="服务的订阅和发现"><a href="#服务的订阅和发现" class="headerlink" title="服务的订阅和发现"></a>服务的订阅和发现</h3><p><strong>整个服务注册与发现的过程和大致的设计原理和思路</strong><br>一、服务如何注册<br><img src="/2021/05/01/Spring-Cloud-Nacos/2.jpg" alt="nacos">  </p>
-<p><img src="/2021/05/01/Spring-Cloud-Nacos/3.jpg" alt="nacos">  </p>
-<p><img src="/2021/05/01/Spring-Cloud-Nacos/4.jpg" alt="nacos">  </p>
-<p><img src="/2021/05/01/Spring-Cloud-Nacos/5.jpg" alt="nacos">  </p>
-<p>二、服务如何发现<br>服务注册到注册中心后，服务的消费者就可以进行服务发现的流程了，消费者可以直接向注册中心发送获取某个服务实例的请求，这种情况下注册中心将返回所有可用的服务实例给消费者，但是一般不推荐这种情况。另一种方法就是服务的消费者向注册中心订阅某个服务，并提交一个监听器，当注册中心中服务发生变更时，监听器会收到通知，这时消费者更新本地的服务实例列表，以保证所有的服务均是可用的。<br><img src="/2021/05/01/Spring-Cloud-Nacos/6.jpg" alt="nacos">  </p>
-<p><img src="/2021/05/01/Spring-Cloud-Nacos/7.jpg" alt="nacos">  </p>
-<p>三、Nacos服务注册与订阅的完整流程<br><img src="/2021/05/01/Spring-Cloud-Nacos/8.png" alt="nacos">  </p>
-<p>例：服务注册与发现，Dubbo架构为例<br><img src="/2021/05/01/Spring-Cloud-Nacos/9.jpg" alt="nacos">  </p>
-<p>0、服务容器负责启动，加载，运行服务提供者。<br>1、服务提供者在启动时，向注册中心注册自己提供的服务。<br>2、服务消费者在启动时，向注册中心订阅自己所需的服务。<br>3、注册中心返回服务提供者地址列表给消费者，如果有变更，注册中心将基于长连接推送变更数据给消费者。<br>4、服务消费者，从提供者地址列表中，基于软负载均衡算法，选一台提供者进行调用，如果调用失败，再选另一台调用。<br>5、服务消费者和提供者，在内存中累计调用次数和调用时间，定时每分钟发送一次统计数据到监控中心<br><em>其中图中最上方的 Registry 就是注册中心，负责服务的注册与发现。Dubbo 有自己的 Registry 实现，而 Nacos 则是另一种 Registry 的实现。</em></p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
   </div>
 
   
@@ -1325,7 +1452,7 @@ public class AuthController {
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">46</span>
+          <span class="site-state-item-count">49</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
