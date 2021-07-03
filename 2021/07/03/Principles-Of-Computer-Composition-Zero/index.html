@@ -1,0 +1,707 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    hostname: new URL('http://yoursite.com').hostname,
+    root: '/',
+    scheme: 'Mist',
+    version: '7.5.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    sidebarPadding: 40
+  };
+</script>
+
+  <meta name="description" content="计算机组成原理部分知识学习笔记一、线程绑定CPU核心的意义在多核CPU中合理的调度线程在各个核上运行可以获得更高的性能。在多线程编程中，每个线程处理的任务优先级是不一样的，对于要求实时性比较高的线程或者是主线程，对于这种线程可以在创建线程时指定其绑定到某个CPU核上，以后这个核就专门处理该线程。这样可以使得该线程的任务可以得到较快的处理(因为减少了线程上下文在多核间切换时候的开销)，特别是和用户直">
+<meta name="keywords" content="Principles-Of-Computer-Composition">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Principles-Of-Computer-Composition-Zero">
+<meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2021&#x2F;07&#x2F;03&#x2F;Principles-Of-Computer-Composition-Zero&#x2F;index.html">
+<meta property="og:site_name" content="编辑尼撑">
+<meta property="og:description" content="计算机组成原理部分知识学习笔记一、线程绑定CPU核心的意义在多核CPU中合理的调度线程在各个核上运行可以获得更高的性能。在多线程编程中，每个线程处理的任务优先级是不一样的，对于要求实时性比较高的线程或者是主线程，对于这种线程可以在创建线程时指定其绑定到某个CPU核上，以后这个核就专门处理该线程。这样可以使得该线程的任务可以得到较快的处理(因为减少了线程上下文在多核间切换时候的开销)，特别是和用户直">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2021&#x2F;07&#x2F;03&#x2F;Principles-Of-Computer-Composition-Zero&#x2F;1.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2021&#x2F;07&#x2F;03&#x2F;Principles-Of-Computer-Composition-Zero&#x2F;2.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2021&#x2F;07&#x2F;03&#x2F;Principles-Of-Computer-Composition-Zero&#x2F;3.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2021&#x2F;07&#x2F;03&#x2F;Principles-Of-Computer-Composition-Zero&#x2F;4.png">
+<meta property="og:updated_time" content="2021-07-03T15:13:35.500Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2021&#x2F;07&#x2F;03&#x2F;Principles-Of-Computer-Composition-Zero&#x2F;1.png">
+
+<link rel="canonical" href="http://yoursite.com/2021/07/03/Principles-Of-Computer-Composition-Zero/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>Principles-Of-Computer-Composition-Zero | 编辑尼撑</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="编辑尼撑" type="application/atom+xml"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">编辑尼撑</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">学无止境</p>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-schedule">
+
+    <a href="/schedule/" rel="section"><i class="fa fa-fw fa-calendar"></i>日程表</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="搜索..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/07/03/Principles-Of-Computer-Composition-Zero/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Qiang Chen">
+      <meta itemprop="description" content="记录是忘记的第一助手.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="编辑尼撑">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Principles-Of-Computer-Composition-Zero
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2021-07-03 23:06:30 / 修改时间：23:13:35" itemprop="dateCreated datePublished" datetime="2021-07-03T23:06:30+08:00">2021-07-03</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Principles-Of-Computer-Composition/" itemprop="url" rel="index">
+                    <span itemprop="name">Principles-Of-Computer-Composition</span>
+                  </a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="计算机组成原理部分知识学习笔记"><a href="#计算机组成原理部分知识学习笔记" class="headerlink" title="计算机组成原理部分知识学习笔记"></a>计算机组成原理部分知识学习笔记</h2><h4 id="一、线程绑定CPU核心的意义"><a href="#一、线程绑定CPU核心的意义" class="headerlink" title="一、线程绑定CPU核心的意义"></a>一、线程绑定CPU核心的意义</h4><p>在多核CPU中合理的调度线程在各个核上运行可以获得更高的性能。在多线程编程中，<strong>每个线程处理的任务优先级是不一样</strong>的，对于<strong>要求实时性比较高</strong>的线程或者是<strong>主线程</strong>，对于这种线程可以<strong>在创建线程时指定其绑定到某个CPU核</strong>上，以后这个核就专门处理该线程。这样可以使得该线程的任务可以得到较快的处理(<strong>因为减少了线程上下文在多核间切换时候的开销)</strong>，特别是和用户直接交互的任务，较短的响应时间可以提升用户的体验感。<br>原文链接：<a href="https://blog.csdn.net/weixin_42031299/article/details/114376419" target="_blank" rel="noopener">https://blog.csdn.net/weixin_42031299/article/details/114376419</a></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">define</span> _GNU_SOURCE             <span class="comment">/* See feature_test_macros(7) */</span></span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;pthread.h&gt;</span></span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line"> </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">pthread_setaffinity_np</span><span class="params">(<span class="keyword">pthread_t</span> thread, <span class="keyword">size_t</span> cpusetsize, <span class="keyword">const</span> <span class="keyword">cpu_set_t</span> *cpuset)</span></span>;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">pthread_getaffinity_np</span><span class="params">(<span class="keyword">pthread_t</span> thread, <span class="keyword">size_t</span> cpusetssoize, <span class="keyword">cpu_set_t</span> *cpuset)</span></span>;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line"><span class="comment">//编译和链接的时候需要在Makefile中添加 -pthread动态so库</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">原文链接：https:<span class="comment">//blog.csdn.net/bandaoyu/article/details/113700713</span></span></pre></td></tr></table></figure>
+<h4 id="二、进程绑定CPU核心"><a href="#二、进程绑定CPU核心" class="headerlink" title="二、进程绑定CPU核心"></a>二、进程绑定CPU核心</h4><p>在Linux系统中，进程的调度切换是由内核自动完成的，在多核CPU上，进程有可能在不同的CPU核上来回切换执行，这对CPU的缓存不是很有利。</p>
+<p><img src="/2021/07/03/Principles-Of-Computer-Composition-Zero/1.png" alt="CPU"></p>
+<p>在多核CPU结构中，每个核心有各自的L1、L2缓存，而L3缓存是共用的。如果一个进程在核心间来回切换，各个<strong>核心的缓存命中率</strong>就会受到影响。相反如果进程不管如何调度，都始终可以在一个核心上执行，那么其数据的L1、L2 缓存的命中率可以显著提高。如下为绑定CPU的具体实现：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line"><span class="comment">//1、使用 **CPU_**系列函数，必须定义 _GNU_SOURCE 宏，告诉编译器启用这些函数。</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">define</span> _GNU_SOURCE</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line"><span class="comment">//2、首先声明一个 cpu_set_t，然后用 CPU_ZERO()初始化bit数据：</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line"><span class="comment">//The cpu_set_t data type is implemented as a bitset. </span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line"><span class="keyword">cpu_set_t</span> mask;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line"><span class="comment">//将cpu_set_t结构体清零，Clears set, so that it contains no CPUs. </span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">CPU_ZERO(&amp;mask);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line"><span class="comment">//接下来把进程绑定到某几个CPU核心，这要用CPU_SET()来设置cpu_set_t中相应的bit位，比如想让进程只在核心1或核心5上执行：</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line">CPU_SET(<span class="number">1</span>, &amp;mask); <span class="comment">//Add CPU cpu to set. </span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line"><span class="comment">//最后用sched_setaffinity完成实际的绑定：</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">11</span></pre></td><td class="code"><pre><span class="line"><span class="comment">//sched_setaffinity(pid_t pid, unsigned int cpusetsize, cpu_set_t *mask) </span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">12</span></pre></td><td class="code"><pre><span class="line"><span class="comment">//该函数设置进程为pid的这个进程,让它运行在mask所设定的CPU上.如果pid的值为0,则表示指定的是当前进程,使当前进程运行在mask所设定的那些CPU上.第二个参数cpusetsize是mask所指定的数的长度.通常设定为sizeof(cpu_set_t).如果当前pid所指定的进程此时没有运行在mask所指定的任意一个CPU上,则该指定的进程会从其它CPU上迁移到mask的指定的一个CPU上运行. </span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">13</span></pre></td><td class="code"><pre><span class="line">sched_setaffinity(<span class="number">0</span>, <span class="keyword">sizeof</span>(<span class="keyword">cpu_set_t</span>), &amp;mask);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">14</span></pre></td><td class="code"><pre><span class="line"><span class="comment">//sched_getaffinity获取绑定关系</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">15</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">16</span></pre></td><td class="code"><pre><span class="line"><span class="comment">//Remove CPU cpu from set. </span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">17</span></pre></td><td class="code"><pre><span class="line">CPU_CLR()</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">18</span></pre></td><td class="code"><pre><span class="line"><span class="comment">//Test to see if CPU cpu is a member of set.  </span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">19</span></pre></td><td class="code"><pre><span class="line">CPU_ISSET()</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">20</span></pre></td><td class="code"><pre><span class="line"><span class="comment">//Return the number of CPUs in set.</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">21</span></pre></td><td class="code"><pre><span class="line">CPU_COUNT()</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">22</span></pre></td><td class="code"><pre><span class="line">    </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">23</span></pre></td><td class="code"><pre><span class="line"><span class="comment">//The constant CPU_SETSIZE (currently 1024) specifies a value one greater than the maximum CPU number that can be stored in cpu_set_t. </span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">24</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">25</span></pre></td><td class="code"><pre><span class="line">num = sysconf(_SC_NPROCESSORS_CONF);  <span class="comment">//获取核数</span></span></pre></td></tr></table></figure>
+<p>举例：假定有一台双核机器，这段程序我们起了20个进程，从0开始每个进程分配一个进程号（注意是这里值我们自己起的进程号，不是进程pid），奇数进程号绑定绑定在 Core 0上执行，偶数号的进程绑定在 Core 1上执行。<br>链接：<a href="https://www.jianshu.com/p/f59d7df06432" target="_blank" rel="noopener">https://www.jianshu.com/p/f59d7df06432</a></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">ifndef</span> _GNU_SOURCE</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">define</span> _GNU_SOURCE</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;unistd.h&gt;</span></span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;sched.h&gt;</span></span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;sys/time.h&gt;</span></span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">define</span> N 100000</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">11</span></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">run</span><span class="params">(<span class="keyword">int</span> pid, <span class="keyword">int</span> core)</span></span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">12</span></pre></td><td class="code"><pre><span class="line"><span class="function"></span>&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">13</span></pre></td><td class="code"><pre><span class="line">	<span class="keyword">cpu_set_t</span> mask;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">14</span></pre></td><td class="code"><pre><span class="line">	CPU_ZERO(&amp;mask);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">15</span></pre></td><td class="code"><pre><span class="line">	CPU_SET(core, &amp;mask);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">16</span></pre></td><td class="code"><pre><span class="line">    设置亲和性</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">17</span></pre></td><td class="code"><pre><span class="line">	sched_setaffinity(<span class="number">0</span>, <span class="keyword">sizeof</span>(<span class="keyword">cpu_set_t</span>), &amp;mask);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">18</span></pre></td><td class="code"><pre><span class="line">	</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">19</span></pre></td><td class="code"><pre><span class="line">	<span class="class"><span class="keyword">struct</span> <span class="title">timeval</span> <span class="title">tv</span>;</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">20</span></pre></td><td class="code"><pre><span class="line">	gettimeofday(&amp;tv, <span class="literal">NULL</span>);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">21</span></pre></td><td class="code"><pre><span class="line">	<span class="keyword">long</span> <span class="built_in">begin</span>=tv.tv_sec * <span class="number">1000</span> * <span class="number">1000</span> + tv.tv_usec;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">22</span></pre></td><td class="code"><pre><span class="line">	</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">23</span></pre></td><td class="code"><pre><span class="line">	<span class="keyword">int</span> i;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">24</span></pre></td><td class="code"><pre><span class="line">    <span class="keyword">int</span> arr[N];</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">25</span></pre></td><td class="code"><pre><span class="line">    <span class="keyword">for</span> (i = <span class="number">0</span>; i != N; i++) &#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">26</span></pre></td><td class="code"><pre><span class="line">        arr[i] = i;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">27</span></pre></td><td class="code"><pre><span class="line">    &#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">28</span></pre></td><td class="code"><pre><span class="line">    <span class="keyword">long</span> sum = <span class="number">0</span>;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">29</span></pre></td><td class="code"><pre><span class="line">    <span class="keyword">for</span> (i = <span class="number">0</span>; i != N; i++) &#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">30</span></pre></td><td class="code"><pre><span class="line">        sum += arr[i];</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">31</span></pre></td><td class="code"><pre><span class="line">    &#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">32</span></pre></td><td class="code"><pre><span class="line">    gettimeofday(&amp;tv, <span class="literal">NULL</span>);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">33</span></pre></td><td class="code"><pre><span class="line">    <span class="keyword">long</span> <span class="built_in">end</span> = tv.tv_sec * <span class="number">1000</span> * <span class="number">1000</span>+ tv.tv_usec;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">34</span></pre></td><td class="code"><pre><span class="line">    <span class="built_in">printf</span>(<span class="string">"%ld\n"</span>, <span class="built_in">end</span> - <span class="built_in">begin</span>);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">35</span></pre></td><td class="code"><pre><span class="line">	<span class="comment">//for(int i=0; i&lt;2; i++)&#123;</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">36</span></pre></td><td class="code"><pre><span class="line">	<span class="comment">//	printf("%d, %d\n",pid,sched_getcpu());</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">37</span></pre></td><td class="code"><pre><span class="line">	<span class="comment">//&#125;</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">38</span></pre></td><td class="code"><pre><span class="line">&#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">39</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">40</span></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">41</span></pre></td><td class="code"><pre><span class="line"><span class="function"></span>&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">42</span></pre></td><td class="code"><pre><span class="line">	<span class="keyword">int</span> i;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">43</span></pre></td><td class="code"><pre><span class="line">	<span class="keyword">for</span>(i=<span class="number">0</span>; i&lt;<span class="number">20</span>; ++i)&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">44</span></pre></td><td class="code"><pre><span class="line">		<span class="keyword">pid_t</span> pid = fork(); <span class="comment">//fork函数</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">45</span></pre></td><td class="code"><pre><span class="line">		<span class="keyword">if</span>(pid==<span class="number">0</span>)&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">46</span></pre></td><td class="code"><pre><span class="line">			<span class="built_in">run</span>(i, i%<span class="number">2</span>);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">47</span></pre></td><td class="code"><pre><span class="line">			<span class="built_in">exit</span>(<span class="number">0</span>);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">48</span></pre></td><td class="code"><pre><span class="line">		&#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">49</span></pre></td><td class="code"><pre><span class="line">	&#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">50</span></pre></td><td class="code"><pre><span class="line">&#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">51</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">52</span></pre></td><td class="code"><pre><span class="line"><span class="comment">//Makefile编译和链接</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">53</span></pre></td><td class="code"><pre><span class="line">g++ thread_bind_cpu.cpp -o thread_bind_cpu</span></pre></td></tr></table></figure>
+<p>测试的部分结果，得出绑定对应的CPU对计算性能有一定的提升。</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>次数</th>
+<th>1</th>
+<th>2</th>
+<th>3</th>
+<th>4</th>
+<th>5</th>
+<th>6</th>
+<th>7</th>
+<th>8</th>
+<th>9</th>
+<th>10</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>绑CPU核</td>
+<td>849/us</td>
+<td>838/us</td>
+<td>835/us</td>
+<td>818/us</td>
+<td>834/us</td>
+<td>819/us</td>
+<td>838/us</td>
+<td>819/us</td>
+<td>841/us</td>
+<td>823/us</td>
+</tr>
+<tr>
+<td>不绑定核</td>
+<td>868/us</td>
+<td>903/us</td>
+<td>943/us</td>
+<td>918/us</td>
+<td>954/us</td>
+<td>981/us</td>
+<td>985/us</td>
+<td>987/us</td>
+<td>1025/us</td>
+<td>960/us</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><a href="https://linux.die.net/man/3/cpu_set" target="_blank" rel="noopener">cpu_set_t的参考链接</a>  | <a href="https://linux.die.net/man/2/sched_setaffinity" target="_blank" rel="noopener">sched_setaffinity的参考链接</a>  </p>
+<p><strong>Linux中的fork()函数</strong></p>
+<p><strong>一个进程</strong>，<strong>包括代码、数据和分配给进程的资源</strong>。fork（）函数通过系统调用创建一个与原来进程几乎完全相同的进程，也就是两个进程可以做完全相同的事。一个进程调用fork（）函数后，系统先给新的进程分配资源，例如存储数据和代码的空间。然后把原来的进程的所有值都复制到新的新进程中，只有少数值与原来的进程的值不同。相当于克隆了一个自己。在<strong>fork函数执行完毕后</strong>，<strong>如果创建新进程成功</strong>，<strong>则出现两个进程，一个是子进程，一个是父进程</strong>。<strong>在子进程中，fork函数返回0，在父进程中，fork返回新创建子进程的进程ID</strong>。我们可以通过fork返回的值来判断当前进程是子进程还是父进程。用大神的话说“其实就相当于链表，进程形成了链表，父进程的fpid(p 意味point)指向子进程的进程id, 因为子进程没有子进程，所以其fpid为0。</p>
+<p>fork出错可能有两种原因：1、当前的进程数已经达到了系统规定的上限，这时errno的值被设置为EAGAIN。2、系统内存不足，这时errno的值被设置为ENOMEM。</p>
+<p>创建新进程成功后，系统中出现两个基本完全相同的进程，这两个进程<strong>执行没有固定的先后顺序</strong>，哪个进程先执行要看系统的进程调度策略。 <strong>每个进程都有一个独特（互不相同）的进程标识符（process ID），可以通过getpid（）函数获得</strong>，还有一个记录父进程pid的变量，可以通过getppid（）函数获得变量的值。</p>
+<p><strong>注意：</strong> <strong>fork()不是从#include处开始复制代码的</strong>，这是因为fork是把进程当前的情况拷贝一份，执行fork时，进程已经执行完了int count=0;fork只拷贝下一个要执行的代码到新的进程。</p>
+<p><a href="https://www.cnblogs.com/dongguolei/p/8086346.html" target="_blank" rel="noopener">原文链接</a></p>
+<h4 id="三、对上面一、二的补充"><a href="#三、对上面一、二的补充" class="headerlink" title="三、对上面一、二的补充"></a>三、对上面一、二的补充</h4><p>1、查看绑定情况</p>
+<p>查看进程的绑定核情况：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">taskset -p pid</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;</span><span class="bash">&gt;&gt; pid xxx<span class="string">'s current affinity mask: 6 //6的二进制表示为110,则表示该pid在cpu1和cpu2上运行，从0开始计数</span></span></span></pre></td></tr></table></figure>
+<p>2、程序启动时绑定</p>
+<p>3、程序启动后绑定</p>
+<p>4、查看cpu的核数</p>
+<p>使用<code>cat /proc/cpuinfo</code>查看cpu信息: processor指明第几个cpu处理器，cpu cores指明每个处理器的核数。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;unistd.h&gt;</span></span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line"> </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">sysconf</span><span class="params">(_SC_NPROCESSORS_CONF)</span></span>;<span class="comment">/* 返回系统可以使用的核数，但是其值会包括系统中禁用的核的数目，因 此该值并不代表当前系统中可用的核数 */</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">sysconf</span><span class="params">(_SC_NPROCESSORS_ONLN)</span></span>;<span class="comment">/* 返回值真正的代表了系统当前可用的核数 */</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line"> </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line"><span class="comment">/* 以下两个函数与上述类似 */</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;sys/sysinfo.h&gt;</span></span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line"> </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">get_nprocs_conf</span> <span class="params">(<span class="keyword">void</span>)</span></span>;<span class="comment">/* 可用核数 */</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">get_nprocs</span> <span class="params">(<span class="keyword">void</span>)</span></span>;<span class="comment">/* 真正的反映了当前可用核数 */</span></span></pre></td></tr></table></figure>
+<p>原文链接：<a href="https://blog.csdn.net/bandaoyu/article/details/113700713" target="_blank" rel="noopener">https://blog.csdn.net/bandaoyu/article/details/113700713</a></p>
+<h4 id="四、简述Opaque-不透明类型"><a href="#四、简述Opaque-不透明类型" class="headerlink" title="四、简述Opaque(不透明类型)"></a>四、简述Opaque(不透明类型)</h4><p>在计算机科学中，<strong>不透明数据类型</strong>(opaque is a data type)是其具体<strong>数据结构未在接口中定义</strong>的数据类型。 这会<strong>强制隐藏信息</strong>，因为<strong>它的值</strong>只能<strong>通过调用有权访问</strong>缺失信息<strong>的子例程</strong>来操作。 类型的<strong>具体表示对其用户是隐藏的</strong>，<strong>可见的实现是不完整的</strong>。 <strong>如果</strong>表示可见的数据类型称为透明，<strong>否则</strong>称为不透明类型。 不透明数据类型经常用于实现抽象数据类型。 </p>
+<p>不透明数据类型的<strong>典型示例</strong>包括操作系统向应用软件提供的资源句柄。 例如，线程的 POSIX 标准定义了一个基于许多不透明类型的应用程序编程接口，这些类型代表线程或同步原语，如<strong>互斥锁或条件变量</strong>。</p>
+<p><a href="https://en.wikipedia.org/wiki/Opaque_data_type" target="_blank" rel="noopener">参考Wiki</a></p>
+<h4 id="五、缓存相关学习笔记"><a href="#五、缓存相关学习笔记" class="headerlink" title="五、缓存相关学习笔记"></a>五、缓存相关学习笔记</h4><p>主要参考来自于<a href="https://www.cnblogs.com/ricks/p/12400900.html" target="_blank" rel="noopener">此</a></p>
+<h5 id="1、基础知识："><a href="#1、基础知识：" class="headerlink" title="1、基础知识："></a>1、基础知识：</h5><p>现在的CPU多核技术，都会有几级缓存，老的CPU会有两级内存（L1和L2），新的CPU会有三级内存（L1，L2，L3 ），如下图所示：</p>
+<p><img src="/2021/07/03/Principles-Of-Computer-Composition-Zero/2.png" alt="cache-architecture"></p>
+<p>其中：</p>
+<ul>
+<li>L1缓分成两种，一种是指令缓存，一种是数据缓存。L2缓存和L3缓存不分指令和数据。</li>
+<li>L1和L2缓存在每一个CPU核中，L3则是所有CPU核心共享的内存。</li>
+<li>L1、L2、L3的越离CPU近就越小，速度也越快，越离CPU远，速度也越慢。</li>
+</ul>
+<p>再往后面就是内存，内存的后面就是硬盘，如下为各级的存取速度：</p>
+<ul>
+<li>L1 的存取速度：<strong>4 个CPU时钟周期</strong></li>
+<li>L2 的存取速度： <strong>11 个CPU时钟周期</strong></li>
+<li>L3 的存取速度：<strong>39 个CPU时钟周期</strong></li>
+<li>RAM内存的存取速度<strong>：107 个CPU时钟周期</strong></li>
+</ul>
+<p>数据就从内存向上，先到L3，再到L2，再到L1，最后到寄存器进行CPU计算。为什么会设计成三层？这里有下面几个方面的考虑：</p>
+<ul>
+<li>一个方面是物理速度，如果要更大的容量就需要更多的晶体管，除了芯片的体积会变大，更重要的是大量的晶体管会导致速度下降，因为访问速度和要访问的晶体管所在的位置成反比，也就是当信号路径变长时，通信速度会变慢。这部分是物理问题。</li>
+<li>另外一个问题是，多核技术中，数据的状态需要在多个CPU中进行同步，并且，我们可以看到，cache和RAM的速度差距太大，所以，多级不同尺寸的缓存有利于提高整体的性能。</li>
+</ul>
+<p>同时会产生两个比较重要的问题：</p>
+<ul>
+<li>一个是比较简单的缓存的命中率的问题。</li>
+<li>另一个是比较复杂的缓存更新的一致性问题。</li>
+</ul>
+<h5 id="2、缓存命中-计算机组成原理"><a href="#2、缓存命中-计算机组成原理" class="headerlink" title="2、缓存命中(计算机组成原理)"></a>2、缓存命中(计算机组成原理)</h5><p>缓存基本上来说就是把后面的数据加载到离自己近的地方，对于CPU来说，它是不会一个字节一个字节的加载的，因为这非常没有效率，<strong>一般来说都是要一块一块的加载的</strong>，对于这样的一块一块的数据单位，术语叫<strong>“Cache Line”</strong>，一般来说，一个主流的CPU的Cache Line 是 64  Bytes（也有的CPU用32Bytes和128Bytes），64Bytes也就是16个32位的整型，这就是CPU从内存中捞数据上来的最小数据单位。</p>
+<p><strong>比如：</strong>Cache Line是最小单位（64Bytes），所以先把Cache分成多个Cache Line，比如：L1有32KB，那么，32KB/64B = 512 个 Cache Line。</p>
+<p>一方面，缓存需要把内存里的数据放到放进来，英文叫 <strong>CPU  Associativity</strong>。Cache的数据<strong>放置的策略</strong>决定了内存中的数据块会拷贝到CPU  Cache中的哪个位置上，因为Cache的大小远远小于内存，所以，需要有一种<strong>地址关联</strong>的算法，能够让内存中的数据可以被映射到Cache中来。</p>
+<p>基本上来说，会有如下的一些方法：</p>
+<ul>
+<li>一种方法是，任何一个内存地址的数据可以被缓存在任何一个Cache Line里，这种方法是最灵活的，<strong>但是</strong>，如果我们要知道一个内存是否存在于Cache中，我们就需要进行O(n)复杂度的Cache遍历，这是很没有效率的。<strong>（全相联方式）</strong></li>
+<li>另一种方法，为了降低缓存搜索算法，我们需要使用像Hash Table这样的数据结构，最简单的hash table就是做“求模运算”，比如：我们的L1 Cache有512个Cache Line，那么，公式：<code>（内存地址 mod 512）* 64</code> 就可以直接找到所在的Cache地址的偏移了。<strong>但是</strong>，这样的方式需要我们的程序对内存地址的访问要非常地平均，不然<strong>冲突就会非常严重</strong>。<strong>（直接相联方式）</strong></li>
+<li>为了避免上述的两种方案的问题，于是就要容忍一定的hash冲突，也就出现了 <strong>N-Way 关联</strong>。也就是把连续的N个Cache Line绑成一组，然后，先把找到相关的组，然后再在这个组内找到相关的Cache Line。这叫 <strong>Set Associativity</strong>。<strong>但是</strong>，但是实现难度和造价要比直接映像方式高。<strong>（组相联映像方式）</strong></li>
+</ul>
+<p><img src="/2021/07/03/Principles-Of-Computer-Composition-Zero/3.png" alt="cache-associative-fill-both"></p>
+<p>N-ways  Set-Associative，这个n=1，就是直接映射；n=cache大小，就是全相关映射。我们从上面知道两者都不好，而n最好取中间某个值。那么n到底该选几呢？这比较复杂，和Cache的速度和大小、内存的速度、主频等等很多都相关，在很多情况下都是个经验值，也是大量pre-silicon实验的结果。</p>
+<p>TLB可以看作页表的Cache，<strong>CPU每次转换地址都会查看TLB</strong>，<strong>如果有了就不用去取内存页表了</strong>。<strong>那么TLB和Cache有什么关系呢？</strong>可以说TLB命中是Cache命中的基本条件。TLB不命中，会更新TLB项，这个代价非常大，Cache命中的好处基本都没有了。<strong>在TLB命中的情况下，物理地址才能够被选出，Cache的命中与否才能够达成。</strong>可以看出，只有在TLB命中的前提下，才有可能获得虚拟地址对应的物理地址，知道了物理地址才能得知Cache是否命中。<a href="https://zhuanlan.zhihu.com/p/31859105" target="_blank" rel="noopener">段落参考</a></p>
+<p>在知道物理地址的情况下，如何分析Cache是否命中？</p>
+<p>如下图：根据物理页地址的24位找到对应Cache中的组，也即Directory。然后根据6bits(2<sup>6</sup>=64)的Set Index查找一路中的Cache Line索引(因为一路中包含多个Cache Line)，6bits(2<sup>6</sup>=64)的Offset Into cache line表示在Cache Line 里的偏移量。</p>
+<p><img src="/2021/07/03/Principles-Of-Computer-Composition-Zero/4.png" alt="cache-associative-fill-both"></p>
+<p>（图片来自《<a href="https://manybutfinite.com/post/intel-cpu-caches/" target="_blank" rel="noopener">Cache: a place for concealment and safekeeping</a>》）</p>
+<p>上面的图说明L1Cache可以映射到36bits的内存地址，一共2<sup>36</sup>=64GB的内存。当CPU要访问一个内存的时候，通过这个内存的前24bits 和中间的6bits可以直接定位相应的Cache Line。这里的64GB是处理器可以寻址 64GB 的物理 RAM。同时由于页面一般为4KB。所以需要寻址的位为 64GB / 4KB =2<sup>24</sup>，因此我们的标签需要 24 位 。</p>
+<p>此外，当有数据没有命中缓存的时候，CPU就会以最小为Cache  Line的单元向内存更新数据。当然，CPU并不一定只是更新64Bytes，因为访问主存实在是太慢了，所以，一般都会多更新一些。好的CPU会有一些预测的技术，如果找到一种pattern的话，就会预先加载更多的内存，包括指令也可以预加载。这叫 Prefetching 技术 （参看，Wikipedia 的 <a href="https://en.wikipedia.org/wiki/Cache_prefetching" target="_blank" rel="noopener">Cache Prefetching</a> 和 <a href="http://compas.cs.stonybrook.edu/~nhonarmand/courses/sp16/cse502/slides/13-prefetch.pdf" target="_blank" rel="noopener">纽约州立大学的 Memory Prefetching</a>）。比如，你在for-loop访问一个连续的数组，你的步长是一个固定的数，内存就可以做到prefetching。<a href="https://www.cnblogs.com/ricks/p/12400900.html" target="_blank" rel="noopener">段落参考</a></p>
+<h4 id="六、缓存的一致性"><a href="#六、缓存的一致性" class="headerlink" title="六、缓存的一致性"></a>六、缓存的一致性</h4><p>对于主流的CPU来说，缓存的写操作基本上是两种策略：</p>
+<ul>
+<li>一种是Write Back，写操作只要在cache上，然后再flush到内存上。</li>
+<li>一种是Write Through，写操作同时写到cache和内存上。</li>
+</ul>
+<p>为了提高写的性能，一般来说，主流的CPU（如：Intel Core i7/i9）采用的是Write Back的策略，因为直接写内存实在是太慢了。<strong>现在问题来了</strong>，如果有一个<strong>数据 x 在 CPU 第0核的缓存上被更新了</strong>，那么<strong>其它CPU核上对于这个数据 x 的值也要被更新</strong>，这就是缓存一致性的问题。（当然，对于我们上层的程序我们不用关心CPU多个核的缓存是怎么同步的，这对上层的代码来说都是透明的）。</p>
+<p>一般来说，在CPU硬件上的解决方法有两种方法：</p>
+<ul>
+<li><strong>Directory 协议：</strong>这种方法的典型实现是要设计一个集中式控制器，它是主存储器控制器的一部分。其中有一个目录存储在主存储器中，其中包含有关各种本地缓存内容的全局状态信息。当单个CPU Cache 发出读写请求时，这个集中式控制器会检查并发出必要的命令，以在主存和CPU Cache之间或在CPU  Cache自身之间进行数据同步和传输。</li>
+<li><strong>Snoopy 协议：</strong>这种协议更像是一种数据通知的总线型的技术。CPU Cache通过这个协议可以识别其它Cache上的数据状态。如果有数据共享的话，可以通过广播机制将共享数据的状态通知给其它CPU Cache。这个协议要求每个CPU Cache 都可以<strong>窥探</strong>数据事件的通知并做出相应的反应。<a href="https://www.cnblogs.com/ricks/p/12400900.html" target="_blank" rel="noopener">段落参考</a></li>
+</ul>
+<h4 id="七、程序虚拟地址和实际物理地址的映射"><a href="#七、程序虚拟地址和实际物理地址的映射" class="headerlink" title="七、程序虚拟地址和实际物理地址的映射"></a>七、程序虚拟地址和实际物理地址的映射</h4><p>指令里面的地址是程序空间（虚拟空间）的虚拟地址（程序地址）。所以当 程序真正运行起来的时候，每个虚拟地址必然要对应着一个物理地址（实际存在）。</p>
+<p>分页内存管理机制将虚拟内存和物理内存都分成大小一样大的部分，我们称为页，然后按页进行内存分配。一般页的大小有4KB、8KB、16KB。在该管理机制下内存分配单位化而且不需要空闲连续在一起即可使用。<strong>虚拟地址的页号表示和物理地址页号表示是从0开始的</strong>。</p>
+<p><strong>内存的两种视角</strong></p>
+<ul>
+<li>虚拟地址(线性地址)，进程看到的内存地址称为虚拟地址，他们不对应任何物理实体，每个进程有自己的地址空间。</li>
+<li>物理地址，内存系统看到的地址称为物理地址，他们用实际的地址去查找和存储内容。</li>
+</ul>
+<p><strong>为什么？</strong>如果运行多个进程，直接将内容映射到物理地址的话可能会存在访问冲突。所以需要相对地址，进而保护进行。因此，在早期的时候设置了地址空间，利用<strong>动态重定位技术</strong>用两个寄存器分别为<strong>基址寄存器</strong>和<strong>界限寄存器</strong>，将进程的起始地址放到基址寄存器中，进程占据内存的长度存到界限寄存器中，这样就相当于为进程划清了界限。<strong>(要求为内存空间连续)。</strong>但是会遇到什么问题？当进程很多的时候，内存中放不下，那么只能利用<strong>内存的交换技术(swapping)</strong>将一部分<strong>进程</strong>暂时放到磁盘中，但是在交换的过程中会出现大量的<strong>内存空洞</strong>，所以需要将内存中的<strong>进程向低地址移动</strong>，以便留出更大的空间，称为<strong>内存紧缩</strong>。但是会耗费大量的CPU时间。<strong>一个更好的方法</strong>，将进程所需的内存切成一个个小块，比如4KB大小，称为一页，其中只有一部分的页在内存中，当cpu需要方位的地址不在内存中时，可以从磁盘加载对应的部分，同时内存不够时也可以把长期不访问的页面保存到磁盘中，然后删除内存中的部分。这种做法称为虚拟内存。</p>
+<p>内存如何管理？查看是否有足够大的内存能够满足进程的要求</p>
+<ol>
+<li>位图：将内存划分为单位小区域，每个区域由0/1表示状态（空闲/占用）。当一个进程需要加载内存是，需要扫描连续为0的空闲区域，作为进程的内存区域。缺点查找比较耗时。</li>
+<li>链表：为了规避位图耗时的问题，每一块连续的区域分别由一个节点表示，节点有4个值，第一个若为P，则表示这块区域是有进程的，H则代表空闲区。第二个值指向对应区域的起始位置，第三个值对应的是区域的长度，第四个值是个指针指向下一个节点。进程加载内存是扫描第一个值，称为首次适配算法。此外，还是有最佳适配算法等。</li>
+</ol>
+<p>介绍一下整个地址映射的关系：</p>
+<p>首先程序对应的是逻辑地址，其中包括代码、数据、堆(从低地址往高地址寻址)、栈(从高地址往低地址寻址)。例如：栈地址需要根据逻辑地址(虚拟地址)selector:offset，根据selector从GDT(Global Descriptor Table)中获取段描述符其中包含Base Address，结合逻辑地址中的offset能够计算出线性地址。最后，根据线性地址(22-31位)，从CR3寄存器中获取到页目录的地址(Base Address)，线性地址中记载了页目录的offset，加上offset得到页表的Base Address，加上线性地址中(12-22位)的offset，得到物理地址中的基地址，加上偏移量(线性地址)中的(0-12位)得到物理地址中的第几页。</p>
+<p>程序虚拟空间中的虚拟地址<strong>通过分段机制</strong>得到虚拟地址/线性地址，线性地址<strong>通过分页机制</strong>（需要用到页表(page table)，每次地址转换都要查看内存页表太浪费时间了。现代计算机为了加速这一过程，转译后备缓冲区TLB）得到真实的物理地址。</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Principles-Of-Computer-Composition/" rel="tag"># Principles-Of-Computer-Composition</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/06/27/Image-Process-There-Plus/" rel="prev" title="Image-Process-There-Plus">
+      <i class="fa fa-chevron-left"></i> Image-Process-There-Plus
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2021/07/03/CUDA-Programmer-Learn-Zero/" rel="next" title="CUDA-Programmer-Learn-Zero">
+      CUDA-Programmer-Learn-Zero <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+    <div class="comments" id="gitalk-container"></div>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#计算机组成原理部分知识学习笔记"><span class="nav-number">1.</span> <span class="nav-text">计算机组成原理部分知识学习笔记</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#一、线程绑定CPU核心的意义"><span class="nav-number">1.0.1.</span> <span class="nav-text">一、线程绑定CPU核心的意义</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#二、进程绑定CPU核心"><span class="nav-number">1.0.2.</span> <span class="nav-text">二、进程绑定CPU核心</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#三、对上面一、二的补充"><span class="nav-number">1.0.3.</span> <span class="nav-text">三、对上面一、二的补充</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#四、简述Opaque-不透明类型"><span class="nav-number">1.0.4.</span> <span class="nav-text">四、简述Opaque(不透明类型)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#五、缓存相关学习笔记"><span class="nav-number">1.0.5.</span> <span class="nav-text">五、缓存相关学习笔记</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1、基础知识："><span class="nav-number">1.0.5.1.</span> <span class="nav-text">1、基础知识：</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2、缓存命中-计算机组成原理"><span class="nav-number">1.0.5.2.</span> <span class="nav-text">2、缓存命中(计算机组成原理)</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#六、缓存的一致性"><span class="nav-number">1.0.6.</span> <span class="nav-text">六、缓存的一致性</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#七、程序虚拟地址和实际物理地址的映射"><span class="nav-number">1.0.7.</span> <span class="nav-text">七、程序虚拟地址和实际物理地址的映射</span></a></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Qiang Chen</p>
+  <div class="site-description" itemprop="description">记录是忘记的第一助手.</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">54</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">11</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">20</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/chenaing19" title="GitHub → https://github.com/chenaing19" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/765206494@qq.com" title="E-Mail → 765206494@qq.com"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Qiang Chen</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v4.0.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 �?<a href="https://mist.theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> v7.5.0
+  </div>
+    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+  
+  <script color='0,0,255' opacity='0.5' zIndex='-1' count='99' src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/muse.js"></script>
+<script src="/js/next-boot.js"></script>
+
+
+
+  
+
+
+
+
+  <script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+      
+<script type="text/x-mathjax-config">
+
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$', '$'], ['\\(', '\\)'] ],
+      processEscapes: true,
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {
+      equationNumbers: {
+        autoNumber: 'AMS'
+      }
+    }
+  });
+
+  MathJax.Hub.Register.StartupHook('TeX Jax Ready', function() {
+    MathJax.InputJax.TeX.prefilterHooks.Add(function(data) {
+      if (data.display) {
+        var next = data.script.nextSibling;
+        while (next && next.nodeName.toLowerCase() === '#text') {
+          next = next.nextSibling;
+        }
+        if (next && next.nodeName.toLowerCase() === 'br') {
+          next.parentNode.removeChild(next);
+        }
+      }
+    });
+  });
+
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for (i = 0; i < all.length; i += 1) {
+      element = document.getElementById(all[i].inputID + '-Frame').parentNode;
+      if (element.nodeName.toLowerCase() == 'li') {
+        element = element.parentNode;
+      }
+      element.classList.add('has-jax');
+    }
+  });
+</script>
+<script>
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/mathjax@2/MathJax.js?config=TeX-AMS-MML_HTMLorMML', () => {
+    MathJax.Hub.Typeset();
+  }, window.MathJax);
+</script>
+
+    
+
+  
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID: '9c00bb4a73071d490d0b',
+      clientSecret: '0466125432b53cefbd6002b7ea866f7e15bbd9c8',
+      repo: 'chenqiang19.github.io',
+      owner: 'chenqiang19',
+      admin: ['chenqiang19'],
+      id: 'a5d3c55c3488899b6a1f6fcb77d25487',
+        language: '',
+      distractionFreeMode: 'true'
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+</script>
+
+  
+  <!-- ҳ����С���� -->
+  
+  
+    <script src="/js/cursor/love.min.js"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  
+
+
+
+</body>
+</html>

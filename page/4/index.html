@@ -210,6 +210,445 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/05/09/Spring-MVC/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Qiang Chen">
+      <meta itemprop="description" content="记录是忘记的第一助手.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="编辑尼撑">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/05/09/Spring-MVC/" class="post-title-link" itemprop="url">Spring-MVC</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2021-05-09 19:13:23 / 修改时间：19:44:40" itemprop="dateCreated datePublished" datetime="2021-05-09T19:13:23+08:00">2021-05-09</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Cloud-Compute/" itemprop="url" rel="index">
+                    <span itemprop="name">Cloud Compute</span>
+                  </a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="MVC设计概述"><a href="#MVC设计概述" class="headerlink" title="MVC设计概述"></a>MVC设计概述</h2><p>在早期 Java Web 的开发中，统一把显示层、控制层、数据层的操作全部交给 JSP 或者 JavaBean 来进行处理，我们称之为 Model1：<br><img src="/2021/05/09/Spring-MVC/m1.png" alt="mvc"></p>
+<ul>
+<li><strong>出现的弊端：</strong></li>
+<li>SP 和 Java Bean 之间严重耦合，Java 代码和 HTML 代码也耦合在了一起</li>
+<li>要求开发者不仅要掌握 Java ，还要有高超的前端水平</li>
+<li>前端和后端相互依赖，前端需要等待后端完成，后端也依赖前端完成，才能进行有效的测试</li>
+<li>代码难以复用<br>正因为上面的种种弊端，所以很快这种方式就被 Servlet + JSP + Java Bean 所替代了，早期的 MVC 模型（Model2）如下图：<br><img src="/2021/05/09/Spring-MVC/2.png" alt="mvc"><br>首先用户的请求会到达 Servlet，然后根据请求调用相应的 Java Bean，并把所有的显示结果交给 JSP 去完成，这样的模式我们就称为 MVC 模式<br><strong>M 代表 模型（Model）</strong><br>  模型是什么呢？ 模型就是数据，就是 dao,bean<br><strong>V 代表 视图（View）</strong><br>  视图是什么呢？ 就是网页, JSP，用来展示模型中的数据<br><strong>C 代表 控制器（controller)</strong><br>  控制器是什么？ 控制器的作用就是把不同的数据(Model)，显示在不同的视图(View)上，Servlet 扮演的就是这样的角色<h3 id="Spring-MVC-的架构"><a href="#Spring-MVC-的架构" class="headerlink" title="Spring MVC 的架构"></a>Spring MVC 的架构</h3>为解决持久层中一直未处理好的数据库事务的编程，又为了迎合 NoSQL 的强势崛起，Spring MVC 给出了方案：<br><img src="/2021/05/09/Spring-MVC/3.png" alt="mvc"><br><strong>传统的模型层被拆分为了业务层(Service)和数据访问层（DAO,Data Access Object）</strong>。 在 Service 下可以通过 Spring 的声明式事务操作数据访问层，而在service上还允许我们访问 NoSQL，这样就能够满足异军突起的 NoSQL 的使用了，它可以大大提高互联网系统的性能。<br><strong>优点：</strong>1、结构松散，几乎可以在 Spring MVC 中使用各类视图；2、松耦合，各个模块分离；3、与 Spring 无缝集成<h3 id="创建一个Spring-MVC-demo"><a href="#创建一个Spring-MVC-demo" class="headerlink" title="创建一个Spring MVC demo"></a>创建一个Spring MVC demo</h3><h4 id="第一步：在-IDEA-中新建-Spring-MVC-项目"><a href="#第一步：在-IDEA-中新建-Spring-MVC-项目" class="headerlink" title="第一步：在 IDEA 中新建 Spring MVC 项目"></a>第一步：在 IDEA 中新建 Spring MVC 项目</h4><strong>根据IDEA的不同版本会有不同的创建方式</strong><br>1、IDEA2020的创建方式：File-&gt;New-&gt;Project-&gt;Java-&gt;Next-&gt;Next-&gt;Project name-&gt;Finish<br>2、添加Spring MVC,右击工程名-&gt;Add Framework Support-&gt;Spring-&gt;Spring MVC-&gt;Download-&gt;OK<br><img src="/2021/05/09/Spring-MVC/4-0.png" alt="mvc"><br><img src="/2021/05/09/Spring-MVC/4-1.png" alt="mvc"><br>3、会多出一个lib文件夹(存放Spring MVC的依赖包)和web文件夹<br><img src="/2021/05/09/Spring-MVC/4-2.png" alt="mvc"><br>4、点击idea的File=&gt;选择项目结构（Project Structure）-&gt;点击Artifacts=&gt;Fix(在右下角)-&gt;add以下两个依赖<br><img src="/2021/05/09/Spring-MVC/5-1.png" alt="mvc"><br>5、都添加完之后：Fix会消失，最后一定要点击Apply然后点击ok即可<br>6、添加成功后：项目目录会多出两个配置文件<br><img src="/2021/05/09/Spring-MVC/5-2.png" alt="mvc"><br>目录结构为：<br><img src="/2021/05/09/Spring-MVC/6.png" alt="mvc"><h4 id="第二步：修改-web-xml"><a href="#第二步：修改-web-xml" class="headerlink" title="第二步：修改 web.xml"></a>第二步：修改 web.xml</h4><img src="/2021/05/09/Spring-MVC/7.png" alt="mvc"><br>把<url-pattern>元素的值改为 / ，表示要拦截所有的请求，并交由Spring MVC的后台控制器来处理<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">&lt;servlet-mapping&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">	&lt;servlet-name&gt;dispatcher&lt;&#x2F;servlet-name&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">	&lt;url-pattern&gt;&#x2F;&lt;&#x2F;url-pattern&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">&lt;&#x2F;servlet-mapping&gt;</span></pre></td></tr></table></figure>
+<h4 id="第三步：编辑-dispatcher-servlet-xml"><a href="#第三步：编辑-dispatcher-servlet-xml" class="headerlink" title="第三步：编辑 dispatcher-servlet.xml"></a>第三步：编辑 dispatcher-servlet.xml</h4>这个文件名的开头dispatcher 与上面web.xml中的<servlet-name>元素配置的dispatcher对应，这是Spring MVC的映射配置文件（xxx-servlet.xml），我们编辑如下：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">&lt;?xml version&#x3D;&quot;1.0&quot; encoding&#x3D;&quot;UTF-8&quot;?&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">&lt;beans xmlns&#x3D;&quot;http:&#x2F;&#x2F;www.springframework.org&#x2F;schema&#x2F;beans&quot;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">       xmlns:xsi&#x3D;&quot;http:&#x2F;&#x2F;www.w3.org&#x2F;2001&#x2F;XMLSchema-instance&quot;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">       xsi:schemaLocation&#x3D;&quot;http:&#x2F;&#x2F;www.springframework.org&#x2F;schema&#x2F;beans http:&#x2F;&#x2F;www.springframework.org&#x2F;schema&#x2F;beans&#x2F;spring-beans.xsd&quot;&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">    &lt;bean id&#x3D;&quot;simpleUrlHandlerMapping&quot;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">          class&#x3D;&quot;org.springframework.web.servlet.handler.SimpleUrlHandlerMapping&quot;&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">        &lt;property name&#x3D;&quot;mappings&quot;&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line">            &lt;props&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line">                &lt;!-- &#x2F;hello 路径的请求交给 id 为 helloController 的控制器处理--&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">11</span></pre></td><td class="code"><pre><span class="line">                &lt;prop key&#x3D;&quot;&#x2F;hello&quot;&gt;helloController&lt;&#x2F;prop&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">12</span></pre></td><td class="code"><pre><span class="line">            &lt;&#x2F;props&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">13</span></pre></td><td class="code"><pre><span class="line">        &lt;&#x2F;property&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">14</span></pre></td><td class="code"><pre><span class="line">    &lt;&#x2F;bean&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">15</span></pre></td><td class="code"><pre><span class="line">    &lt;bean id&#x3D;&quot;helloController&quot; class&#x3D;&quot;controller.HelloController&quot;&gt;&lt;&#x2F;bean&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">16</span></pre></td><td class="code"><pre><span class="line">&lt;&#x2F;beans&gt;</span></pre></td></tr></table></figure>
+<h4 id="第四步：编写-HelloController"><a href="#第四步：编写-HelloController" class="headerlink" title="第四步：编写 HelloController"></a>第四步：编写 HelloController</h4>在 Package【controller】下创建 【HelloController】类，并实现 org.springframework.web.servlet.mvc.Controller 接口：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">package controller;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">import org.springframework.web.servlet.ModelAndView;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">import org.springframework.web.servlet.mvc.Controller;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">public class HelloController implements Controller&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">    @Override</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">    public ModelAndView handleRequest(javax.servlet.http.HttpServletRequest httpServletRequest, javax.servlet.http.HttpServletResponse httpServletResponse) throws Exception &#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line">        return null;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line">    &#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">11</span></pre></td><td class="code"><pre><span class="line">&#125;</span></pre></td></tr></table></figure>
+Spring MVC 通过 ModelAndView 对象把模型和视图结合在一起<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">package controller;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">import org.springframework.web.servlet.ModelAndView;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">import org.springframework.web.servlet.mvc.Controller;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">public class HelloController implements Controller &#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">    public ModelAndView handleRequest(javax.servlet.http.HttpServletRequest httpServletRequest, javax.servlet.http.HttpServletResponse httpServletResponse) throws Exception &#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line">        ModelAndView mav &#x3D; new ModelAndView(&quot;index.jsp&quot;);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line">        mav.addObject(&quot;message&quot;, &quot;Hello Spring MVC&quot;);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">11</span></pre></td><td class="code"><pre><span class="line">        return mav;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">12</span></pre></td><td class="code"><pre><span class="line">    &#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">13</span></pre></td><td class="code"><pre><span class="line">&#125;</span></pre></td></tr></table></figure>
+这里表示视图的是index.jsp，模型数据的是 message，内容是 “Hello Spring MVC”<h4 id="第五步：准备-index-jsp"><a href="#第五步：准备-index-jsp" class="headerlink" title="第五步：准备 index.jsp"></a>第五步：准备 index.jsp</h4>将 index.jsp 的内容修改为：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">&lt;%@ page language&#x3D;&quot;java&quot; contentType&#x3D;&quot;text&#x2F;html; charset&#x3D;UTF-8&quot;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">    pageEncoding&#x3D;&quot;UTF-8&quot; isELIgnored&#x3D;&quot;false&quot;%&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line"> </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">&lt;h1&gt;$&#123;message&#125;&lt;&#x2F;h1&gt;</span></pre></td></tr></table></figure>
+<h4 id="第六步：部署-Tomcat-及相关环境"><a href="#第六步：部署-Tomcat-及相关环境" class="headerlink" title="第六步：部署 Tomcat 及相关环境"></a>第六步：部署 Tomcat 及相关环境</h4>在【Run】菜单项下找到【Edit Configurations】<br><img src="/2021/05/09/Spring-MVC/8.png" alt="mvc"><br>配置 Tomcat 环境：<br><img src="/2021/05/09/Spring-MVC/9.png" alt="mvc"><br>选择好本地的 Tomcat 服务器，并改好名字：<br><img src="/2021/05/09/Spring-MVC/10.png" alt="mvc"><br>在 Deployment 标签页下完成如下操作：<br><img src="/2021/05/09/Spring-MVC/11.png" alt="mvc"><h4 id="第七步：重启服务器"><a href="#第七步：重启服务器" class="headerlink" title="第七步：重启服务器"></a>第七步：重启服务器</h4>重启服务器，输入地址：localhost/hello<br><img src="/2021/05/09/Spring-MVC/12.png" alt="mvc"><h3 id="跟踪-Spring-MVC-的请求"><a href="#跟踪-Spring-MVC-的请求" class="headerlink" title="跟踪 Spring MVC 的请求"></a>跟踪 Spring MVC 的请求</h3>每当用户在 Web 浏览器中点击链接或者提交表单的时候，请求就开始工作了，像是邮递员一样，从离开浏览器开始到获取响应返回，它会经历很多站点，在每一个站点都会留下一些信息同时也会带上其他信息，下图为 Spring MVC 的请求流程<br><img src="/2021/05/09/Spring-MVC/13.png" alt="mvc"><br><img src="/2021/05/09/Spring-MVC/00.png" alt="mvc"><h4 id="第一站：DispatcherServlet"><a href="#第一站：DispatcherServlet" class="headerlink" title="第一站：DispatcherServlet"></a>第一站：DispatcherServlet</h4>从请求离开浏览器以后，第一站到达的就是 DispatcherServlet，看名字这是一个 Servlet，通过 J2EE 的学习，我们知道 Servlet 可以拦截并处理 HTTP 请求，DispatcherServlet 会拦截所有的请求，并且将这些请求发送给 Spring MVC 控制器。<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">&lt;servlet&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">    &lt;servlet-name&gt;dispatcher&lt;&#x2F;servlet-name&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">    &lt;servlet-class&gt;org.springframework.web.servlet.DispatcherServlet&lt;&#x2F;servlet-class&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">    &lt;load-on-startup&gt;1&lt;&#x2F;load-on-startup&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">&lt;&#x2F;servlet&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">&lt;servlet-mapping&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">    &lt;servlet-name&gt;dispatcher&lt;&#x2F;servlet-name&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">    &lt;!-- 拦截所有的请求 --&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line">    &lt;url-pattern&gt;&#x2F;&lt;&#x2F;url-pattern&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line">&lt;&#x2F;servlet-mapping&gt;</span></pre></td></tr></table></figure>
+<strong>DispatcherServlet 的任务就是拦截请求发送给 Spring MVC 控制器。</strong><h4 id="第二站：处理器映射（HandlerMapping）"><a href="#第二站：处理器映射（HandlerMapping）" class="headerlink" title="第二站：处理器映射（HandlerMapping）"></a>第二站：处理器映射（HandlerMapping）</h4><strong>问题：</strong>典型的应用程序中可能会有多个控制器，这些请求到底应该发给哪一个控制器呢？<br>所以 DispatcherServlet 会查询一个或多个处理器映射来确定请求的下一站在哪里，处理器映射会根据请求所携带的 URL 信息来进行决策，例如上面的例子中，我们通过配置 simpleUrlHandlerMapping 来将 /hello 地址交给 helloController 处理：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">&lt;bean id&#x3D;&quot;simpleUrlHandlerMapping&quot;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">      class&#x3D;&quot;org.springframework.web.servlet.handler.SimpleUrlHandlerMapping&quot;&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">    &lt;property name&#x3D;&quot;mappings&quot;&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">        &lt;props&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">            &lt;!-- &#x2F;hello 路径的请求交给 id 为 helloController 的控制器处理--&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">            &lt;prop key&#x3D;&quot;&#x2F;hello&quot;&gt;helloController&lt;&#x2F;prop&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">        &lt;&#x2F;props&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">    &lt;&#x2F;property&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line">&lt;&#x2F;bean&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line">&lt;bean id&#x3D;&quot;helloController&quot; class&#x3D;&quot;controller.HelloController&quot;&gt;&lt;&#x2F;bean&gt;</span></pre></td></tr></table></figure>
+<h4 id="第三站：控制器"><a href="#第三站：控制器" class="headerlink" title="第三站：控制器"></a>第三站：控制器</h4>一旦选择了合适的控制器， DispatcherServlet 会将请求发送给选中的控制器，到了控制器，请求会卸下其负载（用户提交的请求）等待控制器处理完这些信息：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">public ModelAndView handleRequest(javax.servlet.http.HttpServletRequest httpServletRequest, javax.servlet.http.HttpServletResponse httpServletResponse) throws Exception &#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">    &#x2F;&#x2F; 处理逻辑</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">    ....</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">&#125;</span></pre></td></tr></table></figure>
+<h4 id="第四站：返回-DispatcherServlet"><a href="#第四站：返回-DispatcherServlet" class="headerlink" title="第四站：返回 DispatcherServlet"></a>第四站：返回 DispatcherServlet</h4>当控制器在完成逻辑处理后，通常会产生一些信息，这些信息就是需要返回给用户并在浏览器上显示的信息，它们被称为模型（Model）。仅仅返回原始的信息时不够的——这些信息需要以用户友好的方式进行格式化，一般会是 HTML，所以，信息需要发送给一个视图（view），通常会是 JSP。<br>控制器所做的最后一件事就是将模型数据打包，并且表示出用于渲染输出的视图名（逻辑视图名）。它接下来会将请求连同模型和视图名发送回 DispatcherServlet。<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">public ModelAndView handleRequest(javax.servlet.http.HttpServletRequest httpServletRequest, javax.servlet.http.HttpServletResponse httpServletResponse) throws Exception &#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">    &#x2F;&#x2F; 处理逻辑</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">    ....</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">    &#x2F;&#x2F; 返回给 DispatcherServlet</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">    return mav;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">&#125;</span></pre></td></tr></table></figure>
+<h4 id="第五站：视图解析器"><a href="#第五站：视图解析器" class="headerlink" title="第五站：视图解析器"></a>第五站：视图解析器</h4>这样以来，控制器就不会和特定的视图相耦合，传递给 DispatcherServlet 的视图名并不直接表示某个特定的 JSP。（实际上，它甚至不能确定视图就是 JSP）相反，它传递的仅仅是一个逻辑名称，这个名称将会用来查找产生结果的真正视图。<br>DispatcherServlet 将会使用视图解析器（view resolver）来将逻辑视图名匹配为一个特定的视图实现，它可能是也可能不是 JSP<blockquote>
+<p>上面的例子是直接绑定到了 index.jsp 视图</p>
+<h4 id="第六站：视图"><a href="#第六站：视图" class="headerlink" title="第六站：视图"></a>第六站：视图</h4><p>它的最后一站是视图的实现，在这里它交付模型数据，请求的任务也就完成了。视图使用模型数据渲染出结果，这个输出结果会通过响应对象传递给客户端。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">&lt;%@ page language&#x3D;&quot;java&quot; contentType&#x3D;&quot;text&#x2F;html; charset&#x3D;UTF-8&quot;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">         pageEncoding&#x3D;&quot;UTF-8&quot; isELIgnored&#x3D;&quot;false&quot;%&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">&lt;h1&gt;$&#123;message&#125;&lt;&#x2F;h1&gt;</span></pre></td></tr></table></figure>
+<h3 id="使用注解配置-Spring-MVC"><a href="#使用注解配置-Spring-MVC" class="headerlink" title="使用注解配置 Spring MVC"></a>使用注解配置 Spring MVC</h3><p>上面我们已经对 Spring MVC 有了一定的了解，并且通过 XML 配置的方式创建了第一个 Spring MVC 程序，我们来看看基于注解应该怎么完成上述程序的配置：</p>
+<h4 id="第一步：为-HelloController-添加注解"><a href="#第一步：为-HelloController-添加注解" class="headerlink" title="第一步：为 HelloController 添加注解"></a>第一步：为 HelloController 添加注解</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">package controller;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">import org.springframework.web.bind.annotation.RequestMapping;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">import org.springframework.web.servlet.ModelAndView;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">@Controller</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">public class HelloController&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line">    @RequestMapping(&quot;&#x2F;hello&quot;)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line">    public ModelAndView handleRequest(javax.servlet.http.HttpServletRequest httpServletRequest, javax.servlet.http.HttpServletResponse httpServletResponse) throws Exception &#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">11</span></pre></td><td class="code"><pre><span class="line">        ModelAndView mav &#x3D; new ModelAndView(&quot;index.jsp&quot;);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">12</span></pre></td><td class="code"><pre><span class="line">        mav.addObject(&quot;message&quot;, &quot;Hello Spring MVC&quot;);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">13</span></pre></td><td class="code"><pre><span class="line">        return mav;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">14</span></pre></td><td class="code"><pre><span class="line">    &#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">15</span></pre></td><td class="code"><pre><span class="line">&#125;</span></pre></td></tr></table></figure></blockquote>
+</servlet-name></url-pattern></li>
+<li>@Controller 注解：用来声明控制器</li>
+<li>@RequestMapping 注解：表示路径 /hello 会映射到该方法上<h4 id="第二步：取消之前的-XML-注释"><a href="#第二步：取消之前的-XML-注释" class="headerlink" title="第二步：取消之前的 XML 注释"></a>第二步：取消之前的 XML 注释</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">&lt;?xml version&#x3D;&quot;1.0&quot; encoding&#x3D;&quot;UTF-8&quot;?&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">&lt;beans xmlns&#x3D;&quot;http:&#x2F;&#x2F;www.springframework.org&#x2F;schema&#x2F;beans&quot;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">       xmlns:xsi&#x3D;&quot;http:&#x2F;&#x2F;www.w3.org&#x2F;2001&#x2F;XMLSchema-instance&quot;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">       xmlns:context&#x3D;&quot;http:&#x2F;&#x2F;www.springframework.org&#x2F;schema&#x2F;context&quot;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">       xsi:schemaLocation&#x3D;&quot;http:&#x2F;&#x2F;www.springframework.org&#x2F;schema&#x2F;beans http:&#x2F;&#x2F;www.springframework.org&#x2F;schema&#x2F;beans&#x2F;spring-beans.xsd http:&#x2F;&#x2F;www.springframework.org&#x2F;schema&#x2F;context http:&#x2F;&#x2F;www.springframework.org&#x2F;schema&#x2F;context&#x2F;spring-context.xsd&quot;&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">    &lt;!--&lt;bean id&#x3D;&quot;simpleUrlHandlerMapping&quot;--&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">                                        &lt;!--class&#x3D;&quot;org.springframework.web.servlet.handler.SimpleUrlHandlerMapping&quot;&gt;--&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line">    &lt;!--&lt;property name&#x3D;&quot;mappings&quot;&gt;--&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line">            &lt;!--&lt;props&gt;--&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">11</span></pre></td><td class="code"><pre><span class="line">                &lt;!--&lt;!&amp;ndash; &#x2F;hello 路径的请求交给 id 为 helloController 的控制器处理&amp;ndash;&gt;--&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">12</span></pre></td><td class="code"><pre><span class="line">                &lt;!--&lt;prop key&#x3D;&quot;&#x2F;hello&quot;&gt;helloController&lt;&#x2F;prop&gt;--&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">13</span></pre></td><td class="code"><pre><span class="line">            &lt;!--&lt;&#x2F;props&gt;--&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">14</span></pre></td><td class="code"><pre><span class="line">        &lt;!--&lt;&#x2F;property&gt;--&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">15</span></pre></td><td class="code"><pre><span class="line">    &lt;!--&lt;&#x2F;bean&gt;--&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">16</span></pre></td><td class="code"><pre><span class="line">    &lt;!--&lt;bean id&#x3D;&quot;helloController&quot; class&#x3D;&quot;controller.HelloController&quot;&gt;&lt;&#x2F;bean&gt;--&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">17</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">18</span></pre></td><td class="code"><pre><span class="line">    &lt;!-- 扫描controller下的组件 --&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">19</span></pre></td><td class="code"><pre><span class="line">    &lt;context:component-scan base-package&#x3D;&quot;controller&quot;&#x2F;&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">20</span></pre></td><td class="code"><pre><span class="line">&lt;&#x2F;beans&gt;</span></pre></td></tr></table></figure>
+在 dispatcher-servlet.xml 文件中，注释掉之前的配置，然后增加一句组件扫描。<h4 id="第三步：重启服务器"><a href="#第三步：重启服务器" class="headerlink" title="第三步：重启服务器"></a>第三步：重启服务器</h4>浏览器输入:localhost/hello<h3 id="简述Model-gt-View中的View"><a href="#简述Model-gt-View中的View" class="headerlink" title="简述Model-&gt;View中的View"></a>简述Model-&gt;View中的View</h3>对于不同的表示技术，Spring MVC 支持许多类型的视图。这些包括 JSP、HTML、PDF、Excel 工作表、XML、Velocity 模板、XSLT、JSON、Atom 和 RSS 提要、JasperReports 等等。但我们最常使用利用 JSTL 编写的 JSP 模板。一般存放在/WEB-INF/目录下<br>JSP全称Java Server Pages，是一种动态网页开发技术。它使用JSP标签在HTML网页中插入Java代码。标签通常以&lt;%开头以%&gt;结束。 JSP标签有多种功能，比如访问数据库、记录用户选择信息、访问JavaBeans组件等，还可以在不同的网页中传递控制信息和共享信息。<br><em>哎，学的不过瘾，待下篇记录前后端交互与jsp的关系吧</em><br><a href="https://www.jianshu.com/p/91a2d0a1e45a" target="_blank" rel="noopener">Spring MVC参考资料</a><br>(Spring MVC安装资料)[<a href="https://blog.csdn.net/qq_36890370/article/details/113815490" target="_blank" rel="noopener">https://blog.csdn.net/qq_36890370/article/details/113815490</a>]</li>
+</ul>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/05/09/Http-Html-Jsp/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Qiang Chen">
+      <meta itemprop="description" content="记录是忘记的第一助手.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="编辑尼撑">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/05/09/Http-Html-Jsp/" class="post-title-link" itemprop="url">Http-Html-Jsp</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2021-05-09 19:09:59 / 修改时间：19:52:36" itemprop="dateCreated datePublished" datetime="2021-05-09T19:09:59+08:00">2021-05-09</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Cloud-Compute/" itemprop="url" rel="index">
+                    <span itemprop="name">Cloud Compute</span>
+                  </a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="前后端交互中的一些宏观知识"><a href="#前后端交互中的一些宏观知识" class="headerlink" title="前后端交互中的一些宏观知识"></a>前后端交互中的一些宏观知识</h2><h3 id="一、浏览器中界面如何渲染"><a href="#一、浏览器中界面如何渲染" class="headerlink" title="一、浏览器中界面如何渲染"></a>一、浏览器中界面如何渲染</h3><p>浏览器能通过解析html语句渲染出页面<br><img src="/2021/05/09/Http-Html-Jsp/n1.jpg" alt="html"><br><strong>问题：</strong>浏览器解析所需的html语句怎么来的？<br>1、简述一下这个过程<br>浏览器通过http请求某个页面，服务器根据请求做响应的处理，将处理的结果包装成html返回给浏览器，浏览器解析。<br>问题：服务器响应一般是java写的，如何包装成html的形式呢？<br>答案：使用Servlet，如下所示为Servlet的默认模板<br><img src="/2021/05/09/Http-Html-Jsp/n2.jpg" alt="html"><br>在web开发早期，通常情况是美工写好html静态页面后，丢给Java程序员。Java开发人员在Servlet中调用Service拿到数据后，逐句复制html静态页面上的html语句到Servlet的中，根据情况将后端的数据与html片段拼接在一起。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">out.println(&quot;&lt;span&gt;用户名是：&quot;+user.age+&lt;&quot;&#x2F;span&gt;&quot;);</span></pre></td></tr></table></figure><br><img src="/2021/05/09/Http-Html-Jsp/n3.jpg" alt="html"><br><strong>为了提高效率</strong>，PHP和ASP.Net在html页面中嵌入相应语言来引入动态数据，避免了手动拷贝html片段输出的尴尬局面<br><img src="/2021/05/09/Http-Html-Jsp/n4.jpg" alt="html"><br><strong>主要目的就是希望在最终输出的html的代码中嵌入后台数据</strong>，除了把html语句拿出来在Servlet里拼接好再输出这种方式外，我们也可以直接在JSP之类的动态模板文件中的HTML语句中写入动态数据<br><strong>JSP是SUN公司为了和PHP一样，高校开发前端动态页面而生产的一门语言</strong></p>
+<h3 id="二、简述JSP"><a href="#二、简述JSP" class="headerlink" title="二、简述JSP"></a>二、简述JSP</h3><p>JSP全称Java Server Page，直译就是“运行在服务器端的页面”。上面已经介绍过，我们可以直接在JSP文件里写HTML代码，使用上把它当做HTML文件。而且JSP中HTML/CSS/JS等的写法和HTML文件中的写法是一模一样的。但它毕竟不是HTML，而且本质差了十万八千里。因为我们还可以把Java代码内嵌在JSP页面中，很方便地把动态数据渲染成静态页面。这一点，HTML打死都做不到。<br>当有人请求JSP时，服务器内部会经历一次动态资源（JSP）到静态资源（HTML）的转化，服务器会自动帮我们把JSP中的HTML片段和数据拼接成静态资源响应给浏览器<br>也就是说JSP是运行在服务器端，但最终发给客户端的都已经是转换好的HTML静态页面（在响应体里）。JSP本质是一个Java类（Servlet），是在服务器端运行的，只不过它输出结果是HTML。<br><img src="/2021/05/09/Http-Html-Jsp/n5.jpg" alt="html"></p>
+<h4 id="JSP执行过程"><a href="#JSP执行过程" class="headerlink" title="JSP执行过程"></a>JSP执行过程</h4><p><img src="/2021/05/09/Http-Html-Jsp/n6.jpg" alt="html"><br>Web浏览器发http请求到Web容器，WEB容器接收到以.jsp为扩展名的URL的访问请求时，它将把该请求交给JSP引擎去处理。Tomcat中的JSP引擎就是一个Servlet程序，它负责解释和执行JSP页面。<br>每个JSP 页面在第一次被访问时，JSP引擎将它翻译成一个Servlet源程序，接着再把这个Servlet源程序编译成Servlet的class类文件，然后再由WEB容器像调用普通Servlet程序一样的方式来装载和解释执行这个由JSP页面翻译成的Servlet程序。 </p>
+<h3 id="三、MVC模式与JAVAEE三层架构"><a href="#三、MVC模式与JAVAEE三层架构" class="headerlink" title="三、MVC模式与JAVAEE三层架构"></a>三、MVC模式与JAVAEE三层架构</h3><p><img src="/2021/05/09/Http-Html-Jsp/n7.jpg" alt="html"><br>参考资料：<br>[浅谈JSP]<a href="https://zhuanlan.zhihu.com/p/42343690" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/42343690</a><br>[JavaScript学习]<a href="https://www.w3school.com.cn/js/js_window.asp" target="_blank" rel="noopener">https://www.w3school.com.cn/js/js_window.asp</a></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/05/04/Tensorflow-Step-One/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Qiang Chen">
+      <meta itemprop="description" content="记录是忘记的第一助手.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="编辑尼撑">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/05/04/Tensorflow-Step-One/" class="post-title-link" itemprop="url">Tensorflow-Step-One</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2021-05-04 00:31:41 / 修改时间：00:43:40" itemprop="dateCreated datePublished" datetime="2021-05-04T00:31:41+08:00">2021-05-04</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Tensorflow/" itemprop="url" rel="index">
+                    <span itemprop="name">Tensorflow</span>
+                  </a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="TensorFlow源码学习-初探一"><a href="#TensorFlow源码学习-初探一" class="headerlink" title="TensorFlow源码学习-初探一"></a>TensorFlow源码学习-初探一</h2><h3 id="一、Debugging-Tensorflow’s-C-code-behind-the-SWIG-interface"><a href="#一、Debugging-Tensorflow’s-C-code-behind-the-SWIG-interface" class="headerlink" title="一、Debugging Tensorflow’s C++ code behind the SWIG interface"></a>一、Debugging Tensorflow’s C++ code behind the SWIG interface</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">#启动一个python程序</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">$ python</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; import tensorflow as tf</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; import os</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; os.getpid()</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">28671 #这里给出该python程序的进程号pid</span></pre></td></tr></table></figure>
+<p><strong>使用gdb设置断点，并调试程序</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">$ gdb -p 28671</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">(gdb) break TF_Session #设置断点，简化操作-&gt;b TF_Session</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">Breakpoint 1 at 0x7f15f450a4d0</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">(gdb) continue</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">Continuing.</span></pre></td></tr></table></figure><br><strong>在第一步python程序中创建一个Session</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">#tf.Session是tf.v1的版本，根据不同的tensorflow可以写不同的创建语句</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; sess&#x3D;tf.Session()</span></pre></td></tr></table></figure><br><strong>在gdb调试处获得如下输出</strong><br><img src="/2021/05/04/Tensorflow-Step-One/1.png" alt="Tensorflow"><br><strong>如果上面的gdb attach进程时出现，Could not attach to process</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">#解决方法</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">sudo vi &#x2F;etc&#x2F;sysctl.d&#x2F;10-ptrace.conf</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">将kernel.yama.ptrace_scope&#x3D;1</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">改为kernel.yama.ptrace_scope&#x3D;0</span></pre></td></tr></table></figure><br><strong>Tensorflow中python代码跟踪：</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt;sess &#x3D; tf.Session()</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt;Class Session(BaseSession)-&gt;super(Session, self).__init__(target, graph, config&#x3D;config)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt;Class BaseSession(SessionInterface),文件在&#x2F;anaconda3&#x2F;lib&#x2F;python3.7&#x2F;site-packages&#x2F;tensorflow_core&#x2F;python&#x2F;client&#x2F;session.python</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt;self._graph&#x3D;ops.get_default_graph() #ops来自于from tensorflow.python.framework import ops</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">#ops.py位于&#x2F;anaconda3&#x2F;lib&#x2F;python3.7&#x2F;site-packages&#x2F;tensorflow_core&#x2F;python&#x2F;framework&#x2F;ops.python</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt;class _DefaultGraphStack(_DefaultStack)-&gt;_GetGlobalDefaultGraph()-&gt;Graph()</span></pre></td></tr></table></figure><br>可以看出tf.Session就是为了去创建一个graph<br>在使用tensorflowd的操作的时候，例如变量和占位符的时候，都会在graph进行相应参数的设置<br>前端Session与C_API的交互是在pywrap_tensorflow.py中导入的，而pywrap_tensorflow.py中导入了swig生成的pywrap_tensorflow_internal.py文件<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt;from tensorflow.python import pywrap_tensorflow as c_api</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt;c_api.TFE_Py_UID()</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt;c_api.TF_GraphGetTensorShapeHelper()</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt;c_api.TF_OperationOutputType(tf_output) #等等</span></pre></td></tr></table></figure><br><strong>前端Session的阶段</strong>：<br>1、创建：tf.Session(),系统资源分配，graph引用计数加1;<br>2、运行：tf.Session.run()触发计算执行，client会将graph传递给master;<br>3、关闭：通过tf.Session.close()关闭,系统回收，graph引用计数减1;<br>4、销毁：python垃圾回收器GC调用tf.Session.<strong>del</strong>()回收;<br><strong>用于调试的Tensorflow代码</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">import tensorflow as tf</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">import numpy as np</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">def add_layer(inputs, in_size, out_size, activation_function&#x3D;None):  # inputs.shape&#x3D;[None,1],in_size.shape&#x3D;1,out_size&#x3D;10 |inputs.shape&#x3D;[None,10]，in_size.shape&#x3D;10,out_size&#x3D;1</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">    with tf.name_scope(&#39;layer&#39;):</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">        with tf.name_scope(&#39;weights&#39;):</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">            Weights &#x3D; tf.Variable(tf.random_normal([in_size, out_size]), name&#x3D;&#39;w&#39;)  # [1,10] | [10,1]</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">        with tf.name_scope(&#39;bias&#39;):</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">            biases &#x3D; tf.Variable(tf.zeros([1, out_size]) + 0.1, name&#x3D;&#39;b&#39;)  # [1,10]，这个1跟上面那个1貌似不是一个意思 | [1,1]</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line">        with tf.name_scope(&#39;wx_plus_b&#39;):</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line">            Wx_plus_b &#x3D; tf.matmul(inputs, Weights) + biases  # 注意这里顺序，inputs在前。[None,1]×[1,10]+[1,10]（python广播）&#x3D;[None,10] | [None,10]×[10,1]+[1,1]（python广播）&#x3D;[None,1]</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">11</span></pre></td><td class="code"><pre><span class="line">        if activation_function is None:</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">12</span></pre></td><td class="code"><pre><span class="line">            outputs &#x3D; Wx_plus_b</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">13</span></pre></td><td class="code"><pre><span class="line">        else:</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">14</span></pre></td><td class="code"><pre><span class="line">            outputs &#x3D; activation_function(Wx_plus_b)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">15</span></pre></td><td class="code"><pre><span class="line">        return outputs</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">16</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">17</span></pre></td><td class="code"><pre><span class="line"># 训练集数据和标签</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">18</span></pre></td><td class="code"><pre><span class="line">train_data_x &#x3D; np.linspace(-1,1,300, dtype&#x3D;np.float32)[:, np.newaxis]  # shape&#x3D;(300,1)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">19</span></pre></td><td class="code"><pre><span class="line">noise &#x3D; np.random.normal(0, 0.05, train_data_x.shape).astype(np.float32)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">20</span></pre></td><td class="code"><pre><span class="line">label_y &#x3D; np.square(train_data_x) - 0.5 + noise</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">21</span></pre></td><td class="code"><pre><span class="line">with tf.name_scope(&#39;inputs&#39;):</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">22</span></pre></td><td class="code"><pre><span class="line">    inputer_x &#x3D; tf.placeholder(tf.float32, [None, 1], name&#x3D;&#39;inputer_x&#39;)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">23</span></pre></td><td class="code"><pre><span class="line">    inputer_y &#x3D; tf.placeholder(tf.float32, [None, 1], name&#x3D;&#39;inputer_y&#39;)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">24</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">25</span></pre></td><td class="code"><pre><span class="line"># 设计的网络结构是1-10-1的</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">26</span></pre></td><td class="code"><pre><span class="line">l1 &#x3D; add_layer(inputer_x, 1, 10, activation_function&#x3D;tf.nn.relu)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">27</span></pre></td><td class="code"><pre><span class="line">prediction &#x3D; add_layer(l1, 10, 1, activation_function&#x3D;None)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">28</span></pre></td><td class="code"><pre><span class="line">with tf.name_scope(&#39;loss&#39;):</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">29</span></pre></td><td class="code"><pre><span class="line">    loss &#x3D; tf.reduce_mean(tf.reduce_sum(tf.square(inputer_y-prediction), reduction_indices&#x3D;[1]))</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">30</span></pre></td><td class="code"><pre><span class="line">with tf.name_scope(&#39;train_scope&#39;):</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">31</span></pre></td><td class="code"><pre><span class="line">    train_step &#x3D; tf.train.GradientDescentOptimizer(0.1).minimize(loss)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">32</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">33</span></pre></td><td class="code"><pre><span class="line">sess &#x3D; tf.Session()</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">34</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">35</span></pre></td><td class="code"><pre><span class="line">init &#x3D; tf.global_variables_initializer()</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">36</span></pre></td><td class="code"><pre><span class="line">sess.run(init)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">37</span></pre></td><td class="code"><pre><span class="line">writer &#x3D; tf.summary.FileWriter(&quot;logs&quot;, sess.graph)  # 文件写在该.py文件同级，在命令行中，用tensorboard --logdir&#x3D;.打开</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">38</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">39</span></pre></td><td class="code"><pre><span class="line">for i in range(1000):</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">40</span></pre></td><td class="code"><pre><span class="line">    # training</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">41</span></pre></td><td class="code"><pre><span class="line">    sess.run(train_step, feed_dict&#x3D;&#123;inputer_x: train_data_x, inputer_y: label_y&#125;)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">42</span></pre></td><td class="code"><pre><span class="line">    if i % 50 &#x3D;&#x3D; 0:</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">43</span></pre></td><td class="code"><pre><span class="line">        # to see the step improvement</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">44</span></pre></td><td class="code"><pre><span class="line">        print(sess.run(loss, feed_dict&#x3D;&#123;inputer_x: train_data_x, inputer_y: label_y&#125;))</span></pre></td></tr></table></figure><br><a href="https://www.cnblogs.com/yao62995/p/5773578.html" target="_blank" rel="noopener">参考</a><br><a href="https://blog.csdn.net/lllxxq141592654/article/details/85289812" target="_blank" rel="noopener">code</a></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/05/03/Docker-Volumes/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Qiang Chen">
+      <meta itemprop="description" content="记录是忘记的第一助手.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="编辑尼撑">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/05/03/Docker-Volumes/" class="post-title-link" itemprop="url">Docker-Volumes</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2021-05-03 00:44:33 / 修改时间：00:58:43" itemprop="dateCreated datePublished" datetime="2021-05-03T00:44:33+08:00">2021-05-03</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Docker/" itemprop="url" rel="index">
+                    <span itemprop="name">Docker</span>
+                  </a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="Docker目录挂载和映射以及一些常用的docker指令"><a href="#Docker目录挂载和映射以及一些常用的docker指令" class="headerlink" title="Docker目录挂载和映射以及一些常用的docker指令"></a>Docker目录挂载和映射以及一些常用的docker指令</h2><p><strong>docker和docker-compose可以通过-v参数指定</strong><br>一、启动一个centos容器，并映射主机到容器，/home/xxxx/test:/root/soft<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">$docker run --name test_volumes -it --privileged -v &#x2F;home&#x2F;xxxx&#x2F;test:&#x2F;root&#x2F;soft centos:6 &#x2F;bin&#x2F;bash</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">#--privileged&#x3D;true关闭安全权限，否者在容器内新建目录或文件及在文件中写内容会出现没有权限</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">#-v挂载目录，主机容:容器目录，在创建前容器是没有指定目录时，docker 容器会自己创建</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">#-p可以指定端口映射，格式为：主机(宿主)端口:容器端口</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">#容器内将自动创建soft目录</span></pre></td></tr></table></figure><br><strong>容器目录不能为相对路径</strong>否则会出现”invalid mount config for type bind:invalid mount path:’soft’ mount path must be absolute”。<br>重点:当设置了—privileged后，在容器的soft下面创建文件夹以及文件并在文件内输入信息，都可在宿主目录映射的目录下可以找到。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">$docker inspect [OPTIONS] NAME|ID [NAME|ID...] #提供了Docker控制容器的详细信息</span></pre></td></tr></table></figure>
+<p>通过Mounts可以查看目录的映射关系<br>如果宿主机目录的属主和属组发生了变化，容器销毁后，宿主机目录的属主和属组不会恢复到挂载之前的状态<br>二、docker常用命令<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">$docker ps &#x2F;&#x2F;查看所有正在运行的容器</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">$docker ps -a &#x2F;&#x2F;查看所有容器，包括已经停止的容器</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">$docker stop containerID|containerName &#x2F;&#x2F;暂停容器</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">$docker stop $(docker ps -a -q) &#x2F;&#x2F;停止所有容器</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">$docker rm $(docker ps -a -q) &#x2F;&#x2F;删除所有容器</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">$dockers restart containerID &#x2F;&#x2F;重启容器</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">$docker run -p 8080:80 --name test -it -d centos:6 &#x2F;bin&#x2F;bash &#x2F;&#x2F;创建一个新的docker实例 —&gt;&#x2F;bin&#x2F;bash打开一个bash会话</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">$docker exec [options] container command [arg...] &#x2F;&#x2F;在运行的容器内执行命令</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line">#设置环境变量 -e</span></pre></td></tr></table></figure><br>三、简单介绍一下镜像<br>镜像内部是一个精简的操作系统（OS），同时还包含应用运行所必须的文件和依赖包。镜像构建时通常裁剪掉了不必要的部分。镜像中不包括内核所有容器共享Docker宿主机的内核。<br>镜像可以启动一个或多个容器，通常使用docker container run和docker service create命令从某个镜像启动一个或多个容器。一旦容器从镜像启动后，二者之间就变成了互相依赖的关系。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">#拉取镜像</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">docker image pull xxx:xxx #命名:标签</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">#查看镜像</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">docker image ls</span></pre></td></tr></table></figure></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/05/02/SWIG/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Qiang Chen">
+      <meta itemprop="description" content="记录是忘记的第一助手.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="编辑尼撑">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/05/02/SWIG/" class="post-title-link" itemprop="url">SWIG</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2021-05-02 21:21:44 / 修改时间：21:37:22" itemprop="dateCreated datePublished" datetime="2021-05-02T21:21:44+08:00">2021-05-02</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Programming-Language/" itemprop="url" rel="index">
+                    <span itemprop="name">Programming-Language</span>
+                  </a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="SWIG学习"><a href="#SWIG学习" class="headerlink" title="SWIG学习"></a>SWIG学习</h2><h3 id="一、SWIG介绍"><a href="#一、SWIG介绍" class="headerlink" title="一、SWIG介绍"></a>一、SWIG介绍</h3><p>SWIG(Simplified Wrapper and Interface Generator)简化包装和接口生成器是一种软件开发工具，用于为C/C++程序构建脚本语言接口。<br>目的：简化了将不同语言连接到C和C ++程序的任务。SWIG是一个编译器，它接受C / C ++声明，并创建从其他语言（包括Perl，Python，Tcl，Ruby，Guile和Java）访问这些声明所需的包装器。SWIG通常不需要修改现有代码，并且通常可以在短短几分钟内用于构建可用的界面。<br>SWIG的应用范围：</p>
+<ul>
+<li>构建到现有C程序的解释接口。 </li>
+<li>快速原型开发和应用程序开发。</li>
+<li>交互式调试  </li>
+<li>将遗留软件重新设计或重构为脚本语言组件 </li>
+<li>制作图形用户界面（例如，使用Tk） </li>
+<li>测试C库和程序（使用脚本） </li>
+<li>构建用于脚本语言的高性能C模块</li>
+<li>使C编程更有趣</li>
+<li>等等</li>
+</ul>
+<h3 id="二、为什么需要使用SWIG-gt-为了需要将C-C-的接口提供给别的脚本语言"><a href="#二、为什么需要使用SWIG-gt-为了需要将C-C-的接口提供给别的脚本语言" class="headerlink" title="二、为什么需要使用SWIG-&gt;为了需要将C/C++的接口提供给别的脚本语言"></a>二、为什么需要使用SWIG-&gt;为了需要将C/C++的接口提供给别的脚本语言</h3><p><strong>C/C++的优点：</strong></p>
+<ul>
+<li>对编写程序库的出色支持。</li>
+<li>高性能（数字运算，数据处理，图形等）。</li>
+<li>系统编程和系统集成。</li>
+<li>大型用户社区和软件库。</li>
+</ul>
+<p><strong>C/C++的缺点：</strong></p>
+<ul>
+<li>编写用户界面非常痛苦（例如，考虑使用MFC，X11，GTK或任何其他库进行编程）。</li>
+<li>测试很耗时（编译/调试周期）。</li>
+<li>不经过重新编译就很难重新配置或自定义。</li>
+<li>模块化很棘手。</li>
+<li>安全问题（例如缓冲区溢出）。</li>
+</ul>
+<p><strong>原因：</strong></p>
+<ul>
+<li>为了解决这些限制，许多程序员得出的结论是，<em>针对不同的任务使用不同的编程语言要容易得多</em>。 例如，使用Python或Tcl这样的脚本语言编写图形用户界面可能要容易得多（如果需要更多证据，请考虑数百万程序员使用Visual Basic这样的语言的原因）。</li>
+<li><em>交互式解释器</em>也可以用作有用的调试和测试工具。其他语言（例如Java）可能会大大简化编写分布式计算软件的任务。</li>
+<li>关键是<em>不同的编程语言具有不同的优点和缺点</em>。</li>
+<li>此外，<em>任何编程都不可能完美无缺</em>，因此，通过<em>将语言组合在一起</em>，您可以利用每种语言的最佳功能并大大简化软件开发的某些方面。 </li>
+</ul>
+<p><strong>那么使用SWIG的好处：</strong></p>
+<ul>
+<li>将C / C ++集成到高级语言中通常会导致模块化的设计，更少的代码，更好的灵活性并提高程序员的生产率。</li>
+<li>SWIG试图使C / C ++集成的问题尽可能轻松。</li>
+<li>它提供了多种自定义功能，使您几乎可以更改语言绑定的每个方面。</li>
+</ul>
+<p><strong>SWIG的作用：</strong><br>本质上，SWIG是一种用于生成使C / C ++代码可用于其他各种编程语言的代码的工具。 这些高级编程语言是SWIG代码生成器的目标语言，而C或C ++是输入语言。 运行SWIG时，必须指定一种目标语言。 这导致生成C / C ++代码和指定的目标语言以相互接口。 SWIG可以被多次调用，但是每次调用都指定了不同的目标语言。 将C / C ++与许多不同的目标语言接口的能力是SWIG的核心优势和功能之一。<br><strong>SWIG的组成：</strong><br>SWIG大致上由两个部分组成。 核心组件根据输入的ISO C / C ++和SWIG指令（对C / C ++标准的扩展）创建解析树。 然后将解析树传递到第二组件，第二组件是目标语言模块之一，用于生成特定于高级语言的代码。 SWIG支持许多不同的目标语言，这些目标语言的状态为<code>支持&#39;&#39;或</code>实验’’。 提供此状态是为了指示在使用特定目标语言时预期的成熟程度，因为并非所有目标语言都得到了充分开发。 </p>
+<h3 id="三、SWIG示例"><a href="#三、SWIG示例" class="headerlink" title="三、SWIG示例"></a>三、SWIG示例</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">&#x2F;* File : example.c *&#x2F;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">double My_variable &#x3D; 3.0;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">&#x2F;* Compute factorial of n *&#x2F;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">int fact(int n) &#123;  </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">	if (n &lt;&#x3D; 1)    </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">		return 1;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">	else    </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">		return n*fact(n-1);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line">&#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line">&#x2F;* Compute n mod m *&#x2F;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">11</span></pre></td><td class="code"><pre><span class="line">int my_mod(int n, int m) &#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">12</span></pre></td><td class="code"><pre><span class="line">	return(n % m);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">13</span></pre></td><td class="code"><pre><span class="line">&#125;</span></pre></td></tr></table></figure>
+<p>假设您要访问这些函数以及Tcl中的全局变量My_variable。首先制作如下所示的SWIG接口文件（按照惯例，这些文件带有.i后缀）<br>1、SWIG interface file<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">&#x2F;* File : example.i *&#x2F;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">%module example</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">%&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">&#x2F;* Put headers and other declarations here *&#x2F;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">extern double My_variable;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">extern int    fact(int);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">extern int    my_mod(int n, int m);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">%&#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line">extern double My_variable;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">11</span></pre></td><td class="code"><pre><span class="line">extern int    fact(int);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">12</span></pre></td><td class="code"><pre><span class="line">extern int    my_mod(int n, int m);</span></pre></td></tr></table></figure><br><em>%module提供了SWIG创建模块的名称</em>，%{ %}提供了将其他代码(C头文件/其他C声明)插入c包装器中的位置。<br>2、The swig command<br>SWIG使用swig命令唤醒，下面的命令被用于构建一个Tcl模块<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">unix &gt; swig -tcl example.i</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">unix &gt; gcc -c -fpic example.c example_wrap.c -I&#x2F;usr&#x2F;local&#x2F;include</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">unix &gt; gcc -shared example.o example_wrap.o -o example.so</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">#验证</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">unix &gt; tclsh% </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">load .&#x2F;example.so</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">% fact 424</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">% my_mod 23 7</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line">2</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line">% expr $My_variable + 4.5</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">11</span></pre></td><td class="code"><pre><span class="line">7.5</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">12</span></pre></td><td class="code"><pre><span class="line">%</span></pre></td></tr></table></figure><br>swig命令生成了一个名为example_wrap.c的新文件，该文件应与example.c文件一起编译。现在，大多数操作系统和脚本语言都支持<em>动态加载模块</em>。在我们的示例中，我们的Tcl模块已被编译到一个共享库中，该库可以加载到Tcl中。加载后，Tcl现在可以访问SWIG接口中声明的函数和变量。查看文件example_wrap.c会发现一个令人毛骨悚然的混乱局面。但是，您几乎不需要担心它。<br>3、构建一个python模块<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">unix &gt; swig -python example.i</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">unix &gt; gcc -c -fpic example.c example_wrap.c -I&#x2F;usr&#x2F;local&#x2F;include&#x2F;python2.0</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">unix &gt; gcc -shared example.o example_wrap.o -o _example.so</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">unix &gt; python</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">Python 2.0 (#6, Feb 21 2001, 13:29:45)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">[GCC egcs-2.91.66 19990314&#x2F;Linux (egcs-1.1.2 release)] on linux2</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">Type &quot;copyright&quot;, &quot;credits&quot; or &quot;license&quot; for more information.</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; import example</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; example.fact(4)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line">24</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">11</span></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; example.my_mod(23, 7)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">12</span></pre></td><td class="code"><pre><span class="line">2</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">13</span></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; example.cvar.My_variable + 4.5</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">14</span></pre></td><td class="code"><pre><span class="line">7.5</span></pre></td></tr></table></figure><br>4、Shortcuts，不需要额外的接口文件xxx.i，构建一个Perl5模块<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">unix &gt; swig -perl5 -module example example.h            #指定模块名和c头文件</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">unix &gt; gcc -c example.c example_wrap.c \                #gcc编译 </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">		-I&#x2F;usr&#x2F;local&#x2F;lib&#x2F;perl5&#x2F;sun4-solaris&#x2F;5.003&#x2F;CORE</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">unix &gt; ld -G example.o example_wrap.o -o example.so     #ld链接器进行链接</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">unix &gt; perl5.003</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">use example;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">print example::fact(4), &quot;\n&quot;;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">print example::my_mod(23, 7), &quot;\n&quot;;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line">print $example::My_variable + 4.5, &quot;\n&quot;;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line">&lt;ctrl-d&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">11</span></pre></td><td class="code"><pre><span class="line">24</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">12</span></pre></td><td class="code"><pre><span class="line">27.5</span></pre></td></tr></table></figure></p>
+<h3 id="四、SIWG支持的C-特性"><a href="#四、SIWG支持的C-特性" class="headerlink" title="四、SIWG支持的C++特性"></a>四、SIWG支持的C++特性</h3><ul>
+<li>完整的C99预处理。</li>
+<li>所有ISO C和C ++数据类型。</li>
+<li>函数，变量和常量。</li>
+<li>类。</li>
+<li>单重和多重继承。</li>
+<li>重载的函数和方法。</li>
+<li>重载的运算符。</li>
+<li>C ++模板（包括成员模板，专业化和部分专业化）。</li>
+<li>命名空间。</li>
+<li>变量 长度参数。</li>
+<li>C++智能指针。</li>
+</ul>
+<p>Most of C++11 is also supported. Details are in the <strong>7 SWIG and C++11</strong> chapter. C++14 support is covered in the <strong>8 SWIG and C++14</strong> chapter. C++17 support is covered in the <em>**9 SWIG and C++17</em> chapter.</p>
+<p>如果要深入了解脚本语言如何扩展需要的知识：编译器、链接器、makefile。</p>
+<p><strong>如需了解更多的细节可以查看官网文档</strong><br><a href="http://www.swig.org/Doc4.0/SWIGDocumentation.pdf" target="_blank" rel="noopener">SWIG文档</a></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/05/02/Programming-Language/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -699,384 +1138,11 @@ public class AuthController {
   
   
 
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/04/24/Spring-Boot-Learn/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Qiang Chen">
-      <meta itemprop="description" content="记录是忘记的第一助手.">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="编辑尼撑">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/04/24/Spring-Boot-Learn/" class="post-title-link" itemprop="url">Spring-Boot-Learn</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2021-04-24 16:44:19" itemprop="dateCreated datePublished" datetime="2021-04-24T16:44:19+08:00">2021-04-24</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-05-01 20:28:58" itemprop="dateModified" datetime="2021-05-01T20:28:58+08:00">2021-05-01</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Cloud-Compute/" itemprop="url" rel="index">
-                    <span itemprop="name">Cloud Compute</span>
-                  </a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="Spring-Boot学习"><a href="#Spring-Boot学习" class="headerlink" title="Spring Boot学习"></a>Spring Boot学习</h2><h3 id="一、创建Spring-Boot新项目"><a href="#一、创建Spring-Boot新项目" class="headerlink" title="一、创建Spring Boot新项目"></a>一、创建Spring Boot新项目</h3><p>创建工具IDEA</p>
-<ul>
-<li>File-&gt;New-&gt;project-&gt;Spring Initialize-&gt;Next</li>
-<li>填写Group、Artifact、Language、Java Version、Version、Name、Description</li>
-<li>Next-&gt;Web-&gt;Spring Web(随spring boot版本不同而不同)-&gt;Next-&gt;Finish</li>
-</ul>
-<p><img src="/2021/04/24/Spring-Boot-Learn/1.png" alt="new"></p>
-<ul>
-<li>配置环境File-&gt;Settings-&gt;Build,Execution,Deployment-&gt;Maven<ul>
-<li>Maven home directory #apache-maven-3.6.3的下载目录</li>
-<li>User settings file #apache-maven-3.6.3的配置文件，在其目录的conf下</li>
-<li>Local repository #一般在apache-maven-3的配置中已经指定，依赖的下载路径</li>
-</ul>
-</li>
-</ul>
-<p><img src="/2021/04/24/Spring-Boot-Learn/2.png" alt="new"></p>
-<p>运行程序Application.java<br>浏览器访问：http:localhost:8080<br>会发现如下的错误，前后端没有做映射，后端给出的默认界面</p>
-<p><img src="/2021/04/24/Spring-Boot-Learn/3.png" alt="new"></p>
-<p>前后端分离：前、后端通过RESTful API传递JSON数据进行交流。后端不涉及前端界面的内容，有别于JSP<br><strong>目前RESTful方式的前后端访问方式比较流行，如openstack提供了底层RESTful API接口给后端访问</strong></p>
-<p>前后端对接：前端调用前端的服务器Nginx,后端调用后端的服务器Tomcat<br>反向代理: 前端请求通过前端服务器转发给后端，只需知道后端开放的接口，无需知道如何实现<br>*为了保护服务器，不保留真实地址</p>
-<p>重点:<br>组件的依赖关系、版本的确认</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/04/24/Vue-Learn/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Qiang Chen">
-      <meta itemprop="description" content="记录是忘记的第一助手.">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="编辑尼撑">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/04/24/Vue-Learn/" class="post-title-link" itemprop="url">Vue-Learn</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2021-04-24 10:23:43" itemprop="dateCreated datePublished" datetime="2021-04-24T10:23:43+08:00">2021-04-24</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-05-01 14:58:58" itemprop="dateModified" datetime="2021-05-01T14:58:58+08:00">2021-05-01</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Cloud-Compute/" itemprop="url" rel="index">
-                    <span itemprop="name">Cloud Compute</span>
-                  </a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="Vue学习"><a href="#Vue学习" class="headerlink" title="Vue学习"></a>Vue学习</h2><h3 id="一、Vue安装"><a href="#一、Vue安装" class="headerlink" title="一、Vue安装"></a>一、Vue安装</h3><p><strong>安装Vue CLI脚手架需要</strong><br>1、node, 安装前先查看是否已安装<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">&gt;node -v</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">&#96;&#96;&#96;  </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">2、npm</span></pre></td></tr></table></figure></p>
-<blockquote>
-<p>npm -v</p>
-<h1 id="如未安装"><a href="#如未安装" class="headerlink" title="如未安装"></a>如未安装</h1><p>npm -g install npm  </p>
-</blockquote>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">安装vue-cli</span></pre></td></tr></table></figure>
-<blockquote>
-<p>npm install -g vue-cli #这是2.x版本，3.x版本安装命令会不一样<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">可能遇到的错误</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">![vue](Vue-Learn&#x2F;1.png)  </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">---</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">**构建项目**</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">如果前面安装时执行了npm install则直接执行：</span></pre></td></tr></table></figure><br>cd xxx_project_name<br>npm run dev<br>```  </p>
-</blockquote>
-<p><img src="/2021/04/24/Vue-Learn/2.png" alt="exec">  </p>
-<p><img src="/2021/04/24/Vue-Learn/3.png" alt="exec">  </p>
-<p>项目的构建也可以使用IDEA-&gt;IntelliJ IDEA<br>目录说明, <a href="http://localhost:8080" target="_blank" rel="noopener">http://localhost:8080</a> 访问初始界面<br><img src="/2021/04/24/Vue-Learn/5.png" alt="prostr">  </p>
-<p><img src="/2021/04/24/Vue-Learn/6.png" alt="prostr">  </p>
-<p><a href="https://www.cnblogs.com/irenehanb/p/10967834.html" target="_blank" rel="noopener">参考</a></p>
-<p><strong>关键文件</strong><br>index.html, 定义单页面，编写的其他内容都在此处的div中展示<br>App.vue， 根目录，包括script脚本和路由容器<br>main.js，将App，html，和路由整合到一起<br><img src="/2021/04/24/Vue-Learn/4.png" alt="prostr">  </p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/04/14/Vim-Summary/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Qiang Chen">
-      <meta itemprop="description" content="记录是忘记的第一助手.">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="编辑尼撑">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/04/14/Vim-Summary/" class="post-title-link" itemprop="url">Vim-Summary</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2021-04-14 21:17:54" itemprop="dateCreated datePublished" datetime="2021-04-14T21:17:54+08:00">2021-04-14</time>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/04/14/Cambricon-Learning/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Qiang Chen">
-      <meta itemprop="description" content="记录是忘记的第一助手.">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="编辑尼撑">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/04/14/Cambricon-Learning/" class="post-title-link" itemprop="url">Cambricon-Learning</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2021-04-14 21:17:36" itemprop="dateCreated datePublished" datetime="2021-04-14T21:17:36+08:00">2021-04-14</time>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/04/14/Tensorflow-Source-Code-Learning/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Qiang Chen">
-      <meta itemprop="description" content="记录是忘记的第一助手.">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="编辑尼撑">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/04/14/Tensorflow-Source-Code-Learning/" class="post-title-link" itemprop="url">Tensorflow-Source-Code-Learning</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2021-04-14 21:16:49 / 修改时间：21:58:22" itemprop="dateCreated datePublished" datetime="2021-04-14T21:16:49+08:00">2021-04-14</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Tensorflow/" itemprop="url" rel="index">
-                    <span itemprop="name">Tensorflow</span>
-                  </a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h3 id="Tensorflow-framework核心"><a href="#Tensorflow-framework核心" class="headerlink" title="Tensorflow framework核心"></a>Tensorflow framework核心</h3><p>1、前端接口语言的支持（通过swig实现其他语言与C/C++的编写的程序进行连接，如：Java,Python）<br>2、前后端session的管理<br>3、graph的构建、分裂、运行和执行<br>4、Operation的Register和Run<br>5、模块间的通信，本地和分布式两种<br>6、本地和分布式运行模式<br>7、CPU、GPU和TPU等异构设备的支持</p>
-<p>整个框架以C API为主，分为前、后端<br>前端负责，graph的构建、并传递给master<br>后端负责提供运行时环境，分为4层<br>1、运行时：图的接受，剪枝，编排等操作<br>2、计算层：提供op算子的内核实现<br>3、通信层：组件间通信<br>4、设备层：异构设备的支持</p>
-<h4 id="Tensorflow-图的构造和执行是相互分离的，大体流程为："><a href="#Tensorflow-图的构造和执行是相互分离的，大体流程为：" class="headerlink" title="Tensorflow 图的构造和执行是相互分离的，大体流程为："></a>Tensorflow 图的构造和执行是相互分离的，大体流程为：</h4><p>1、图的构造：用于在Client端使用前端的多语言编程接口（python、java）添加算子，完成计算图的构造<br>2、图的传递：Client开启Session，通过它建立和Master之间的连接，执行Session Run,将构建好的graph序列化为graphDef后，以Protobuf传给Master<br>3、图的剪枝：Master根据Session.run()传递的fetch和feeds列表，反向遍历全图，找到最小依赖子图，实施剪枝<br>4、图的分裂：Master将最小子图分裂为多个Graph Partition并注册到多个Worker上<br>5、图二次分裂：Worker根据当前的硬件资源，如CPU、GPU、TPU和MLU，将Graph Partition按照op算子设备约束规范二次分裂到不同设备<br>6、图的运行：每个设备，Worker按照op在kernel中的实现完成op运算</p>
-<h4 id="Tensorflow-源码编译"><a href="#Tensorflow-源码编译" class="headerlink" title="Tensorflow 源码编译"></a>Tensorflow 源码编译</h4><p>使用bazel编译，得到pywrap_tensorflow_internal.py 对接上层python调用加载_pywrap_tensorflow_internal.so动态库<br>得到pywrap_tensorflow_internal.cc 对接底层c API,注册了一个函数符号表，实现python接口和c接口的映射</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
   </div>
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/3/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/5/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
+    <a class="extend prev" rel="prev" href="/page/3/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><a class="page-number" href="/page/6/">6</a><a class="extend next" rel="next" href="/page/5/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
 
 
@@ -1120,20 +1186,20 @@ public class AuthController {
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">49</span>
+          <span class="site-state-item-count">54</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-count">11</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">17</span>
+        <span class="site-state-item-count">20</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>

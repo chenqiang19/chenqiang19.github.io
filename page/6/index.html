@@ -1,0 +1,820 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    hostname: new URL('http://yoursite.com').hostname,
+    root: '/',
+    scheme: 'Mist',
+    version: '7.5.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    sidebarPadding: 40
+  };
+</script>
+
+  <meta name="description" content="记录是忘记的第一助手.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="编辑尼撑">
+<meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;page&#x2F;6&#x2F;index.html">
+<meta property="og:site_name" content="编辑尼撑">
+<meta property="og:description" content="记录是忘记的第一助手.">
+<meta property="og:locale" content="zh-CN">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://yoursite.com/page/6/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: true,
+    isPost: false,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>编辑尼撑</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="编辑尼撑" type="application/atom+xml"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">编辑尼撑</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">学无止境</p>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-schedule">
+
+    <a href="/schedule/" rel="section"><i class="fa fa-fw fa-calendar"></i>日程表</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="搜索..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/04/03/MySQL-Install-In-Windows10/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Qiang Chen">
+      <meta itemprop="description" content="记录是忘记的第一助手.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="编辑尼撑">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/04/03/MySQL-Install-In-Windows10/" class="post-title-link" itemprop="url">MySQL-Install-In-Windows10</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-04-03 15:45:50" itemprop="dateCreated datePublished" datetime="2021-04-03T15:45:50+08:00">2021-04-03</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-04-24 16:54:19" itemprop="dateModified" datetime="2021-04-24T16:54:19+08:00">2021-04-24</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/SoftWare/" itemprop="url" rel="index">
+                    <span itemprop="name">SoftWare</span>
+                  </a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h3 id="MySQL8-Install-in-Windows10"><a href="#MySQL8-Install-in-Windows10" class="headerlink" title="MySQL8 Install in Windows10"></a>MySQL8 Install in Windows10</h3><p>1 Use mysql-installer-community-8.0.23.0.msi to install<br>download url: <a href="https://www.mysql.com/cn/downloads/" target="_blank" rel="noopener">https://www.mysql.com/cn/downloads/</a>  </p>
+<p>Step1: choise MySQL Community<br><img src="/2021/04/03/MySQL-Install-In-Windows10/mysql_0.png" alt="DOWNLOAD"><br>Step2: choise System<br><img src="/2021/04/03/MySQL-Install-In-Windows10/mysql_1.png" alt="DOWNLOAD"><br>Step3: choise Custom<br><img src="/2021/04/03/MySQL-Install-In-Windows10/mysql_2.png" alt="DOWNLOAD"><br>Step3: choise install product<br><img src="/2021/04/03/MySQL-Install-In-Windows10/mysql_3.png" alt="DOWNLOAD"><br>Step3: next.. next..<br><img src="/2021/04/03/MySQL-Install-In-Windows10/mysql_4.png" alt="DOWNLOAD"><br>Step4: input login in password<br><img src="/2021/04/03/MySQL-Install-In-Windows10/mysql_5.png" alt="DOWNLOAD"><br>Step5: drop Start the MySQL Server at System Startup<br><img src="/2021/04/03/MySQL-Install-In-Windows10/mysql_6.png" alt="DOWNLOAD"><br>Step6: Execute<br><img src="/2021/04/03/MySQL-Install-In-Windows10/mysql_7.png" alt="DOWNLOAD"><br>Step7: Finish!<br><img src="/2021/04/03/MySQL-Install-In-Windows10/mysql_8.png" alt="DOWNLOAD">  </p>
+<p>Verity:<br>2 Add environment:compute(right click)-&gt;property-&gt;advance property-&gt;env variable<br>2.1 MYSQL_HOME-&gt;C:\Program Files\MySQL\MySQL Server 8.0<br>2.2 Path: Add-&gt;%MYSQL_HOME%\bin  </p>
+<p>cmd(Administrator)-&gt;mysql —port=3306 -uroot -pxxxxxx  </p>
+<p>3 if step7 is unsuccessful!  Starting the server error!<br>The configuration for MySQL Server 8.0.23 has failed  </p>
+<p>3.1 remove mysql install<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">mysqld --remove mysql</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">mysqld --remove mysql80</span></pre></td></tr></table></figure></p>
+<p>3.2 init<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">mysqld --initialize-insecure --user&#x3D;mysql</span></pre></td></tr></table></figure></p>
+<p>3.3 create server<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">mysqld --install msyql</span></pre></td></tr></table></figure></p>
+<p>3.4 start server<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">net start mysql</span></pre></td></tr></table></figure></p>
+<p>3.5 login in<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">mysql -uroot -p (passward is empty, you kan search passward from $MSYQLPATH&#x2F;data&#x2F;***.err)</span></pre></td></tr></table></figure><br>eg. C:\\Program Files\\MySQL\\MySQL Server 8.0\\data\\DESKTOP-PGENXXX.err</p>
+<p>4 You can install Mysql with zip package, but you need configuration by yourself<br>download url: <a href="https://dev.mysql.com/downloads/mysql/" target="_blank" rel="noopener">https://dev.mysql.com/downloads/mysql/</a><br>4.1 unzip<br>4.2 touch my.ini file,<br>[mysqld]<br>port=3306<br>basedir=D:\\xxxx\\xxxx #(zip path, aim to load my.ini file)<br>datadir=D:\\xxxx\\xxxx\data #(storage mysql data)<br>max_connections=200<br>character-set-server=utf8<br>default-storage-engine=INNODB  #(default storage engine)</p>
+<p>[mysql]<br>default-character-set=utf8<br>[client]<br>port=3306<br>default-character-set=utf8</p>
+<p>4.3 install mysql<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">mysqld --initialize-insecure --user&#x3D;mysql --console #(console will show default login in passward)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">mysqld -install</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">net start mysql</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">mysql -uroot -pxxxx</span></pre></td></tr></table></figure></p>
+<p>5 reset mysql passward<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">net stop mysql</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">mysqld --console --skip-grant-tables --shared-memory</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">mysql -uroot -p</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">use mysql;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">update user set authentication_string&#x3D;&#39;&#39; where user&#x3D;&#39;root&#39;;  #(passward set null)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">net start mysql</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">mysql -u root -p</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line">alter user &#39;root&#39;@&#39;localhost&#39; identified with mysql_native_password BY &#39;xxxxxx&#39;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line">flush privileges;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">11</span></pre></td><td class="code"><pre><span class="line">exit;</span></pre></td></tr></table></figure></p>
+<p>如果执行mysqld install的时候，提示已有安装的版本，但是本地的目录已经删除了<br>可以使用如下的方法删除<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">1、mysqld -remove mysql</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">or</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">2、sc query mysql &amp;&amp; sc delete mysql</span></pre></td></tr></table></figure></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/11/14/Ubuntu18-04-RabbitMQ-Install/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Qiang Chen">
+      <meta itemprop="description" content="记录是忘记的第一助手.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="编辑尼撑">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/11/14/Ubuntu18-04-RabbitMQ-Install/" class="post-title-link" itemprop="url">Ubuntu18.04_RabbitMQ_Install</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-11-14 18:31:12" itemprop="dateCreated datePublished" datetime="2020-11-14T18:31:12+08:00">2020-11-14</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-04-14 22:02:31" itemprop="dateModified" datetime="2021-04-14T22:02:31+08:00">2021-04-14</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/SoftWare/" itemprop="url" rel="index">
+                    <span itemprop="name">SoftWare</span>
+                  </a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h3 id="RabbitMQ-Install-in-Ubuntu18-04"><a href="#RabbitMQ-Install-in-Ubuntu18-04" class="headerlink" title="RabbitMQ Install in Ubuntu18.04"></a>RabbitMQ Install in Ubuntu18.04</h3><ol>
+<li>set configuration</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">echo &quot;deb https:&#x2F;&#x2F;dl.bintray.com&#x2F;rabbitmq&#x2F;debian trusty main&quot; | sudo tee &#x2F;etc&#x2F;apt&#x2F;sources.list.d&#x2F;bintray.rabbitmq.list</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">echo &quot;deb http:&#x2F;&#x2F;packages.erlang-solutions.com&#x2F;ubuntu trusty contrib&quot; | sudo tee -a &#x2F;etc&#x2F;apt&#x2F;sources.list.d&#x2F;erlang_solutions.list</span></pre></td></tr></table></figure>
+<p>2.import key</p>
+<p>wget -c -O- <a href="http://packages.erlang-solutions.com/ubuntu/erlang_solutions.asc" target="_blank" rel="noopener">http://packages.erlang-solutions.com/ubuntu/erlang_solutions.asc</a> | sudo apt-key add -</p>
+<p>wget -O- <a href="https://dl.bintray.com/rabbitmq/Keys/rabbitmq-release-signing-key.asc" target="_blank" rel="noopener">https://dl.bintray.com/rabbitmq/Keys/rabbitmq-release-signing-key.asc</a> |sudo apt-key add -</p>
+<p>3.Install erlang and RabbitMQ  </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">sudo apt-get update  </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">sudo apt-get install erlang-nox  </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">sudo apt-get install rabbitmq-server</span></pre></td></tr></table></figure>
+<p>4.After installed��RabbitMQ has been started��these are some command of RabbitMQ��<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">sudo service rabbitmq-server start # start  </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">sudo service rabbitmq-server stop # stop  </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">sudo service rabbitmq-server restart # restart  </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">sudo service rabbitmq-server status # show current status</span></pre></td></tr></table></figure></p>
+<p>5.RabbitMQ manager,it is a RabbitMQ;’s WEB tool</p>
+<h1 id="if-you-want-to-use-web-to-manage-RabbitMQ-you-must-to-active-follow-command"><a href="#if-you-want-to-use-web-to-manage-RabbitMQ-you-must-to-active-follow-command" class="headerlink" title="if you want to use web to manage RabbitMQ, you must to active follow command"></a>if you want to use web to manage RabbitMQ, you must to active follow command</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">sudo rabbitmq-plugins enable rabbitmq_management  </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">sudo systemctl restart rabbitmq-server #restart rabbitmq server </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">#browser input��http:&#x2F;&#x2F;localhost:15672 #vetify RabbitMQ manager</span></pre></td></tr></table></figure>
+<p>6.create user and autority<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">#RabbitMQ is interviewed by localhost using default user guest&#x2F;guest from 3.3.0</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">#grammer rabbitmqctl add_user &lt;username&gt; &lt;password&gt;  </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">sudo rabbitmqctl add_user admin admin  </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">#give user admin (administrator) roles  </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">#firewall-cmd --list-ports  rabbitmqctl set_user_tags &lt;username&gt; &lt;tag&gt; [...]  </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">rabbitmqctl set_user_tags admin administrator  </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">#set authority for user admin(start remote accession)  </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">#set authority </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line">rabbitmqctl set_permissions -p &quot;&#x2F;&quot; admin &quot;.*&quot; &quot;.*&quot; &quot;.*&quot;  </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line">#look for  authority </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">11</span></pre></td><td class="code"><pre><span class="line">rabbitmqctl list_permissions -p &#x2F;  </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">12</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">13</span></pre></td><td class="code"><pre><span class="line">7.start firewall authority</span></pre></td></tr></table></figure></p>
+<h1 id="view-open-ports-No-ports-are-open-by-default"><a href="#view-open-ports-No-ports-are-open-by-default" class="headerlink" title="view open ports(No ports are open by default)"></a>view open ports(No ports are open by default)</h1><p>firewall-cmd —list-ports #may be you shoule to install firewalld use sudo install firewalld  </p>
+<h1 id="start-15672-port"><a href="#start-15672-port" class="headerlink" title="start 15672 port"></a>start 15672 port</h1><p>firewall-cmd —zone=public —add-port=15672/tcp —permanent  </p>
+<h1 id="restart-firewall"><a href="#restart-firewall" class="headerlink" title="restart firewall"></a>restart firewall</h1><p>firewall-cmd —reload  </p>
+<h1 id="Then-check-whether-the-port-is-open-the-following-shows-that-the-port-is-open"><a href="#Then-check-whether-the-port-is-open-the-following-shows-that-the-port-is-open" class="headerlink" title="Then check whether the port is open, the following shows that the port is open"></a>Then check whether the port is open, the following shows that the port is open</h1><p>firewall-cmd —list-ports #15672/tcp<br>```</p>
+<h4 id="if-use-Google-broswer-at-windows-to-access-ubuntu-server’s-RabbitMQ-web-manager-you-need-to-modified-hosts-file-in-windows"><a href="#if-use-Google-broswer-at-windows-to-access-ubuntu-server’s-RabbitMQ-web-manager-you-need-to-modified-hosts-file-in-windows" class="headerlink" title="*if use Google broswer at windows to access ubuntu server’s RabbitMQ web manager you need to modified hosts file in windows"></a>*if use Google broswer at windows to access ubuntu server’s RabbitMQ web manager you need to modified hosts file in windows</h4>
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/12/28/BilinerInterpolation/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Qiang Chen">
+      <meta itemprop="description" content="记录是忘记的第一助手.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="编辑尼撑">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2019/12/28/BilinerInterpolation/" class="post-title-link" itemprop="url">Bilinear Interpolation</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2019-12-28 19:41:53" itemprop="dateCreated datePublished" datetime="2019-12-28T19:41:53+08:00">2019-12-28</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-06-11 23:05:29" itemprop="dateModified" datetime="2021-06-11T23:05:29+08:00">2021-06-11</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Image-Processing/" itemprop="url" rel="index">
+                    <span itemprop="name">Image Processing</span>
+                  </a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="线性插值"><a href="#线性插值" class="headerlink" title="线性插值"></a>线性插值</h2><h4 id="已知两点-x0-y0-x1-y1-求x0和x1之间某一个位置x对应的y值"><a href="#已知两点-x0-y0-x1-y1-求x0和x1之间某一个位置x对应的y值" class="headerlink" title="已知两点(x0, y0), (x1, y1)求x0和x1之间某一个位置x对应的y值"></a>已知两点(x0, y0), (x1, y1)求x0和x1之间某一个位置x对应的y值</h4><script type="math/tex; mode=display">
+\frac{y-y_0}{x-x_0} = \frac{y_1-y_0}{x_1-x_0}\quad =>\quad y = \frac{x_1-x}{x_1-x_0}y_0 + \frac{x-x_0}{x_1-x_0}y_1</script><h4 id="双线性插值"><a href="#双线性插值" class="headerlink" title="双线性插值"></a>双线性插值</h4><p><img src="/2019/12/28/BilinerInterpolation/BilinerInterpolation.png" alt="BI"></p>
+<p><strong>核心思想是在两个方向分别进行一次线性插值</strong></p>
+<p>求未知函数f 在点 P = (x, y) 的值，假设我们已知函数 f 的Q11 = (x1, y1)、Q12 = (x1, y2), Q21 = (x2, y1) 以及 Q22 = (x2, y2) 四个点的值。f可以是一个像素点的像素值。首先在 x 方向进行线性插值：</p>
+<script type="math/tex; mode=display">
+f(R_1)\approx \frac{x_2-x}{x_2-x_1}f(Q_{11}) + \frac{x-x_1}{x_2-x_1}f(Q_{21})\quad where R_1 = (x, y_1)</script><script type="math/tex; mode=display">
+f(R_2)\approx \frac{x_2-x}{x_2-x_1}f(Q_{12}) + \frac{x-x_1}{x_2-x_1}f(Q_{22})\quad where R_2 = (x, y_2)</script><p><strong>然后在y方向进行线性插值：</strong></p>
+<script type="math/tex; mode=display">
+f(P)\approx \frac{y_2-y}{y_2-y_1}f(R_{1}) + \frac{y-y_1}{y_2-y_1}f(R_{2})\quad</script><p>将f(R<sub>1</sub>)和f(R<sub>2</sub>)代入上式。</p>
+<p>两个技巧：</p>
+<p>一、提高插值时对像素的充分利用</p>
+<p>二、加快计算速度(以整数代替，使用位移&gt;&gt;实现)</p>
+<p>下面的code参考自<a href="https://blog.csdn.net/random_repick/article/details/76165851" target="_blank" rel="noopener">C++双线性插值</a></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">bilinear</span><span class="params">(cv::Mat src, cv::Mat dst)</span></span>&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">    <span class="keyword">double</span> scale_x = (<span class="keyword">double</span>)(src.cols / dst.cols)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">    <span class="keyword">double</span> scale_y = (<span class="keyword">double</span>)(src.rows / dst.rows)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; row; ++i) &#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">        <span class="comment">//以ptr的方式访问dst的数捿修改p极为修改dst（指针）</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">        uchar *p = dst.ptr&lt;uchar&gt;(i);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">        <span class="comment">//使两个图像的几何中心重合，采样更合理</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">        <span class="comment">//将dst的坐标点映射会src</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line">        <span class="keyword">float</span> y = (i + <span class="number">0.5</span>) * scale_y - <span class="number">0.5</span>;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line">        <span class="comment">//int下取整，相当于y值左上角的整数坐栿        int fy = (int)y;</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">11</span></pre></td><td class="code"><pre><span class="line">        <span class="comment">//y为坐标的小数部分</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">12</span></pre></td><td class="code"><pre><span class="line">        y -= fy;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">13</span></pre></td><td class="code"><pre><span class="line">        fy = <span class="built_in">std</span>::<span class="built_in">min</span>(fy, src.rows - <span class="number">2</span>);  </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">14</span></pre></td><td class="code"><pre><span class="line">    	fy = <span class="built_in">std</span>::<span class="built_in">max</span>(<span class="number">0</span>, fy); </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">15</span></pre></td><td class="code"><pre><span class="line">        <span class="comment">//以整数计算速度更快</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">16</span></pre></td><td class="code"><pre><span class="line">        short y1 = (<span class="number">1.f</span> - y)*<span class="number">2048</span>;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">17</span></pre></td><td class="code"><pre><span class="line">        short y2 = <span class="number">2048</span> - y1;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">18</span></pre></td><td class="code"><pre><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; col; ++j) &#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">19</span></pre></td><td class="code"><pre><span class="line">            <span class="comment">//trick</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">20</span></pre></td><td class="code"><pre><span class="line">            <span class="keyword">float</span> x = (j + <span class="number">0.5</span>) * scale_x - <span class="number">0.5</span>;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">21</span></pre></td><td class="code"><pre><span class="line">            <span class="keyword">int</span> fx = (<span class="keyword">int</span>)x;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">22</span></pre></td><td class="code"><pre><span class="line">            x -= fx;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">23</span></pre></td><td class="code"><pre><span class="line">            <span class="keyword">if</span> (fx &lt; <span class="number">0</span>)&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">24</span></pre></td><td class="code"><pre><span class="line">            	x = <span class="number">0</span>, fx = <span class="number">0</span>;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">25</span></pre></td><td class="code"><pre><span class="line">            &#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">26</span></pre></td><td class="code"><pre><span class="line">            <span class="keyword">if</span> (fx &gt;= src.cols <span class="number">-1</span>) &#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">27</span></pre></td><td class="code"><pre><span class="line">            	x = <span class="number">0</span>, fx = src.cols <span class="number">-2</span>;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">28</span></pre></td><td class="code"><pre><span class="line">            &#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">29</span></pre></td><td class="code"><pre><span class="line">            <span class="comment">//trick</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">30</span></pre></td><td class="code"><pre><span class="line">            short x1 = (<span class="number">1.f</span> - x) * <span class="number">2048</span>;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">31</span></pre></td><td class="code"><pre><span class="line">            short x2 = <span class="number">2048</span> - x1;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">32</span></pre></td><td class="code"><pre><span class="line">            <span class="comment">//结果右移22位抵涿048的平斿            </span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">33</span></pre></td><td class="code"><pre><span class="line">            <span class="keyword">int</span> pos = i * dst.rows + j</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">34</span></pre></td><td class="code"><pre><span class="line">            p[pos] = (src.at&lt;uchar&gt;(fx,fy)*x1*y1 + src.at&lt;uchar&gt;		                                     					  (fx+<span class="number">1</span>,fy)*x2*y1+src.at&lt;uchar&gt;(fx,fy+<span class="number">1</span>)*x1*y2 + </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">35</span></pre></td><td class="code"><pre><span class="line">                     src.at&lt;uchar&gt;(fx+<span class="number">1</span>,fy+<span class="number">1</span>)*x2*y2) &gt;&gt; <span class="number">22</span>;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">36</span></pre></td><td class="code"><pre><span class="line">        &#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">37</span></pre></td><td class="code"><pre><span class="line">    &#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">38</span></pre></td><td class="code"><pre><span class="line">&#125;</span></pre></td></tr></table></figure>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/12/28/GBDT/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Qiang Chen">
+      <meta itemprop="description" content="记录是忘记的第一助手.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="编辑尼撑">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2019/12/28/GBDT/" class="post-title-link" itemprop="url">GBDT</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2019-12-28 19:36:41" itemprop="dateCreated datePublished" datetime="2019-12-28T19:36:41+08:00">2019-12-28</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-05-01 14:58:58" itemprop="dateModified" datetime="2021-05-01T14:58:58+08:00">2021-05-01</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Machine-Learning/" itemprop="url" rel="index">
+                    <span itemprop="name">Machine Learning</span>
+                  </a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h3 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h3><h4 id="GBDT-Gradient-Boosting-Decision-Tree-的优点"><a href="#GBDT-Gradient-Boosting-Decision-Tree-的优点" class="headerlink" title="GBDT(Gradient Boosting Decision Tree)的优点"></a>GBDT(Gradient Boosting Decision Tree)的优点</h4><ol>
+<li>既可以用于分类，也可以用于回归</li>
+<li>可以进行特征筛选（采用树结构）</li>
+<li>实验效果不错</li>
+</ol>
+<h4 id="GBDT训练过程"><a href="#GBDT训练过程" class="headerlink" title="GBDT训练过程"></a>GBDT训练过程</h4><p><img src="/2019/12/28/GBDT/GBDT.png" alt="GBDT"></p>
+<p>gbdt通过多轮迭代产生多个足够简单的弱分类器(低方差、高偏差)，将每轮训练得到的弱分类器加权求和得到最终的分类器，并且不断的减小每轮训练过程产生的残差以实现对目标的分类或回归。</p>
+<p><strong>上图是针对单个分类，如果多分类的话（K），同时训练k个CART树，k个树相互独立，单个树的训练过程一样</strong><br><strong>对于CART树生成的过程，重点关注那个特征最合适，这个特征对应的最优特征值切分点是多少</strong></p>
+<p>通过对每个特征的每个特征值，计算损失值，选取其中最小分量的特征作为树的节点，最小分量对应的特征值作为最佳切分点</p>
+<p>弱分类器一般选择<em>分类回归树</em>,必须符合CART模型；弱分类器的参数一般经过经验风险极小化来确定；损失函数(目标函数)有平方损失函数、0-1损失函数、对数损失函数等。</p>
+<h3 id="特征选择"><a href="#特征选择" class="headerlink" title="特征选择"></a>特征选择</h3><ol>
+<li>假设有M个特征，从中选择一个特征j作为二叉树的第一个节点</li>
+<li>对特征j选择一个切分点m，例如，小于m为一类，大于m为一类</li>
+<li>依次迭代，直到特征划分完为止<br><strong>这里面的关键是如何选取最优特征和该特征对应的最优切分点。这也是之后的改进算法出现的一个切入点</strong></li>
+</ol>
+<h3 id="如何使GBDT对数据具有非线性的拟合能力"><a href="#如何使GBDT对数据具有非线性的拟合能力" class="headerlink" title="如何使GBDT对数据具有非线性的拟合能力"></a>如何使GBDT对数据具有非线性的拟合能力</h3><ol>
+<li>CTR预估中，工业届一般使用逻辑回归，但其本身适合处理线性可分的数据</li>
+<li>为了让逻辑回归能够处理非线性数据，可以通过组合不同的特征</li>
+<li>传统的人工特征组合的方式，不仅耗费人力和时间，实验效果也不是很好。因此，希望通过算法自动、高效的寻找有效的特征组合，以提升模型的效果<br><strong>2014年，Facebook提出利用gbdt去产生有效的特征组合，使用GBDT生成两棵树，通过输入X得到最终的叶子节点作为新的特征与原始特征结合，然后输入逻辑回归进行训练，得到了显著的效果提升</strong></li>
+</ol>
+<hr>
+<blockquote>
+<p>Practical Lessons from Predicting Clicks on Ads at Facebook</p>
+</blockquote>
+<hr>
+<h4 id="细节请参考"><a href="#细节请参考" class="headerlink" title="细节请参考"></a>细节请参考</h4><p><a href="https://www.cnblogs.com/always-fight/p/9400346.html" target="_blank" rel="noopener">Blog-GBDT</a><br><a href="https://www.jianshu.com/p/405f233ed04b" target="_blank" rel="noopener">JianShu</a></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+  </div>
+
+  
+  <nav class="pagination">
+    <a class="extend prev" rel="prev" href="/page/5/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><span class="page-number current">6</span>
+  </nav>
+
+
+
+          </div>
+          
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Qiang Chen</p>
+  <div class="site-description" itemprop="description">记录是忘记的第一助手.</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">54</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">11</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">20</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/chenaing19" title="GitHub → https://github.com/chenaing19" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/765206494@qq.com" title="E-Mail → 765206494@qq.com"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Qiang Chen</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v4.0.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 �?<a href="https://mist.theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> v7.5.0
+  </div>
+    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+  
+  <script color='0,0,255' opacity='0.5' zIndex='-1' count='99' src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/muse.js"></script>
+<script src="/js/next-boot.js"></script>
+
+
+
+  
+
+
+
+
+  <script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+      
+<script type="text/x-mathjax-config">
+
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$', '$'], ['\\(', '\\)'] ],
+      processEscapes: true,
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {
+      equationNumbers: {
+        autoNumber: 'AMS'
+      }
+    }
+  });
+
+  MathJax.Hub.Register.StartupHook('TeX Jax Ready', function() {
+    MathJax.InputJax.TeX.prefilterHooks.Add(function(data) {
+      if (data.display) {
+        var next = data.script.nextSibling;
+        while (next && next.nodeName.toLowerCase() === '#text') {
+          next = next.nextSibling;
+        }
+        if (next && next.nodeName.toLowerCase() === 'br') {
+          next.parentNode.removeChild(next);
+        }
+      }
+    });
+  });
+
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for (i = 0; i < all.length; i += 1) {
+      element = document.getElementById(all[i].inputID + '-Frame').parentNode;
+      if (element.nodeName.toLowerCase() == 'li') {
+        element = element.parentNode;
+      }
+      element.classList.add('has-jax');
+    }
+  });
+</script>
+<script>
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/mathjax@2/MathJax.js?config=TeX-AMS-MML_HTMLorMML', () => {
+    MathJax.Hub.Typeset();
+  }, window.MathJax);
+</script>
+
+    
+
+  
+
+
+  
+  <!-- ҳ����С���� -->
+  
+  
+    <script src="/js/cursor/love.min.js"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  
+
+
+
+</body>
+</html>

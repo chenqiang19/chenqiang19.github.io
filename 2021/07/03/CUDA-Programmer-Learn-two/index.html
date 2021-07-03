@@ -1,0 +1,704 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    hostname: new URL('http://yoursite.com').hostname,
+    root: '/',
+    scheme: 'Mist',
+    version: '7.5.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    sidebarPadding: 40
+  };
+</script>
+
+  <meta name="description" content="CUDA编程学习笔记本笔记主要参考: 谭升大神的博客进行了部分关键知识的摘录，可能有些地方回去单独查找一些资料进行解释。 GPU中使用CUDA编程的核心部分分为：核函数、内存管理、线程管理和流。 在CUAD编程中特有的功能为：通过组织层次结构在GPU上组织线程的方法；通过组织层次结构在GPU上组织内存的方法。 在实际的CUDA应用开发过程中：需要从三个角度来思考如何解决问题？  领域层，根据所要解">
+<meta name="keywords" content="CUDA Programmer">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CUDA-Programmer-Learn-Two">
+<meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2021&#x2F;07&#x2F;03&#x2F;CUDA-Programmer-Learn-two&#x2F;index.html">
+<meta property="og:site_name" content="编辑尼撑">
+<meta property="og:description" content="CUDA编程学习笔记本笔记主要参考: 谭升大神的博客进行了部分关键知识的摘录，可能有些地方回去单独查找一些资料进行解释。 GPU中使用CUDA编程的核心部分分为：核函数、内存管理、线程管理和流。 在CUAD编程中特有的功能为：通过组织层次结构在GPU上组织线程的方法；通过组织层次结构在GPU上组织内存的方法。 在实际的CUDA应用开发过程中：需要从三个角度来思考如何解决问题？  领域层，根据所要解">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2021&#x2F;07&#x2F;03&#x2F;CUDA-Programmer-Learn-two&#x2F;1.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2021&#x2F;07&#x2F;03&#x2F;CUDA-Programmer-Learn-two&#x2F;2.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2021&#x2F;07&#x2F;03&#x2F;CUDA-Programmer-Learn-two&#x2F;3.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2021&#x2F;07&#x2F;03&#x2F;CUDA-Programmer-Learn-two&#x2F;4.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2021&#x2F;07&#x2F;03&#x2F;CUDA-Programmer-Learn-two&#x2F;5.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2021&#x2F;07&#x2F;03&#x2F;CUDA-Programmer-Learn-two&#x2F;6.png">
+<meta property="og:updated_time" content="2021-07-03T15:33:30.206Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2021&#x2F;07&#x2F;03&#x2F;CUDA-Programmer-Learn-two&#x2F;1.png">
+
+<link rel="canonical" href="http://yoursite.com/2021/07/03/CUDA-Programmer-Learn-two/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>CUDA-Programmer-Learn-Two | 编辑尼撑</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="编辑尼撑" type="application/atom+xml"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">编辑尼撑</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">学无止境</p>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-schedule">
+
+    <a href="/schedule/" rel="section"><i class="fa fa-fw fa-calendar"></i>日程表</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="搜索..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/07/03/CUDA-Programmer-Learn-two/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Qiang Chen">
+      <meta itemprop="description" content="记录是忘记的第一助手.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="编辑尼撑">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          CUDA-Programmer-Learn-Two
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2021-07-03 23:25:06 / 修改时间：23:33:30" itemprop="dateCreated datePublished" datetime="2021-07-03T23:25:06+08:00">2021-07-03</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/CUDA-Programmer/" itemprop="url" rel="index">
+                    <span itemprop="name">CUDA Programmer</span>
+                  </a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="CUDA编程学习笔记"><a href="#CUDA编程学习笔记" class="headerlink" title="CUDA编程学习笔记"></a>CUDA编程学习笔记</h2><p>本笔记主要<a href="https://face2ai.com/program-blog/#GPU%E7%BC%96%E7%A8%8B%EF%BC%88CUDA%EF%BC%89" target="_blank" rel="noopener">参考: 谭升</a>大神的博客进行了部分关键知识的摘录，可能有些地方回去单独查找一些资料进行解释。</p>
+<p>GPU中使用CUDA编程的核心部分分为：核函数、内存管理、线程管理和流。</p>
+<p>在CUAD编程中特有的功能为：通过组织层次结构在GPU上组织线程的方法；通过组织层次结构在GPU上组织内存的方法。</p>
+<p>在实际的CUDA应用开发过程中：需要从三个角度来思考如何解决问题？</p>
+<ol>
+<li>领域层，根据所要解决的问题的条件，在领域层分析数据和函数</li>
+<li>逻辑层，需要考虑线程的层次结构，可以获得良好的可扩展性。</li>
+<li>硬件层，通过理解线程如何映射到机器上，能充分帮助我们提高性能。</li>
+</ol>
+<h4 id="一、内存管理"><a href="#一、内存管理" class="headerlink" title="一、内存管理"></a>一、内存管理</h4><div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">标准C函数</th>
+<th style="text-align:center">CUDA C函数</th>
+<th style="text-align:center">说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">malloc</td>
+<td style="text-align:center">cudaMalloc</td>
+<td style="text-align:center">内存分配</td>
+</tr>
+<tr>
+<td style="text-align:center">memcpy</td>
+<td style="text-align:center">cudaMemcpy</td>
+<td style="text-align:center">内存复制</td>
+</tr>
+<tr>
+<td style="text-align:center">memset</td>
+<td style="text-align:center">cudaMemset</td>
+<td style="text-align:center">内存设置</td>
+</tr>
+<tr>
+<td style="text-align:center">free</td>
+<td style="text-align:center">cudaFree</td>
+<td style="text-align:center">释放内存</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h4 id="二、线程管理"><a href="#二、线程管理" class="headerlink" title="二、线程管理"></a>二、线程管理</h4><p>一个核函数只能有一个grid，一个grid可以有很多个块，每个块可以有很多的线程，这种分层的组织结构使得我们的并行过程更加自如灵活。一个线程块block中的线程可以完成同步和内存共享。<strong>不同块内线程不能相互影响，他们是物理隔离的。</strong></p>
+<p>每个线程都执行同样的一段串行代码，那么怎么让这段相同的代码对应不同的数据呢？</p>
+<p>依靠下面两个内置结构体确定线程标号：blockIdx（线程块在线程网格内的位置索引），threadIdx（线程在线程块内的位置索引）。这两个内置结构体基于 uint3 定义，包含三个无符号整数的结构，通过三个字段来指定：blockIdx.x，blockIdx.y，blockIdx.z，threadIdx.x，threadIdx.y，threadIdx.z。</p>
+<p>blockIdx对应的范围为gridDim，threadIdx对应的范围为blockDim。他们是dim3类型(基于uint3定义的数据结构)的变量，也包含三个字段x,y,z。blockDim.x，blockDim.y，blockDim.z。</p>
+<p>通过指定grid和block的维度，我们可以配置：1、内核中线程的数目；2、内核中使用的线程布局。可以使用<strong>dim3类型</strong>的grid维度和block维度配置内核，也可以使用int类型的变量，或者常量直接初始化。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">kernel_name&lt;&lt;&lt;<span class="number">4</span>,<span class="number">8</span>&gt;&gt;&gt;(argument <span class="built_in">list</span>);</span></pre></td></tr></table></figure>
+<p>上面这条指令的线程布局是：</p>
+<p><img src="/2021/07/03/CUDA-Programmer-Learn-two/1.png" alt="CUDA-Program-Lean-Plus"></p>
+<p>核函数是同时复制到多个线程执行的，上文我们说过一个对应问题，多个计算执行在一个数据，肯定是浪费时间，所以为了让多线程按照我们的意愿对应到不同的数据，就要给线程一个唯一的标识，由于设备内存是线性的（基本市面上的内存硬件都是线性形式存储数据的）我们观察上图，可以用threadIdx.x 和blockIdx.x 来组合获得对应的线程的唯一标识。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line"><span class="comment">//主机端显示等待设备端执行</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line"><span class="function">cudaError_t <span class="title">cudaDeviceSynchronize</span><span class="params">(<span class="keyword">void</span>)</span></span>;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line"><span class="comment">//主机端隐式等待设备端执行 </span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line"><span class="comment">//当核函数启动后的下一条指令就是从设备复制数据回主机端，那么主机端必须要等待设备端计算完成。</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line"><span class="function">cudaError_t <span class="title">cudaMemcpy</span><span class="params">(<span class="keyword">void</span>* dst,<span class="keyword">const</span> <span class="keyword">void</span> * src,</span></span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="params">  <span class="keyword">size_t</span> count,cudaMemcpyKind kind)</span></span>;</span></pre></td></tr></table></figure>
+<p>所有CUDA核函数的启动都是异步的。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line"><span class="comment">//编写核函数</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line"><span class="function">__global__ <span class="keyword">void</span> <span class="title">kernel_name</span><span class="params">(argument <span class="built_in">list</span>)</span></span>;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line"><span class="comment">//CUDA小技巧，当我们进行调试的时候可以把核函数配置成单线程的</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">kernel_name&lt;&lt;&lt;<span class="number">1</span>,<span class="number">1</span>&gt;&gt;&gt;(argument <span class="built_in">list</span>)</span></pre></td></tr></table></figure>
+<p><strong>错误处理</strong>，获得每个函数执行后的返回结果，然后对不成功的信息加以处理，CUDA C 的API每个调用都会返回一个错误代码。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">define</span> CHECK(call) \</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">&#123;\</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">	<span class="keyword">const</span> cudaError_t error=call;\</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">	<span class="keyword">if</span>(error!=cudaSuccess)\</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">	&#123;\</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">		<span class="built_in">printf</span>(<span class="string">"ERROR: %s:%d,"</span>,__FILE__,__LINE__);\</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">		<span class="built_in">printf</span>(<span class="string">"code:%d,reason:%s\n"</span>,error,cudaGetErrorString(error));\</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">		<span class="built_in">exit</span>(<span class="number">1</span>);\</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line">	&#125;\</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line">&#125;</span></pre></td></tr></table></figure>
+<p><strong>用CPU计时</strong></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;sys/time.h&gt;</span></span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">double</span> <span class="title">cpuSecond</span><span class="params">()</span></span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line"><span class="function"></span>&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">  <span class="class"><span class="keyword">struct</span> <span class="title">timeval</span> <span class="title">tp</span>;</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">  gettimeofday(&amp;tp,<span class="literal">NULL</span>);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">  <span class="keyword">return</span>((<span class="keyword">double</span>)tp.tv_sec+(<span class="keyword">double</span>)tp.tv_usec*<span class="number">1e-6</span>);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">&#125;</span></pre></td></tr></table></figure>
+<p><strong>理论极限最大化</strong></p>
+<p>得到了实际操作值，我们需要知道的是我们能优化的极限值是多少，也就是机器的理论计算极限，这个极限我们永远也达不到，但是我们必须明确的知道，比如理论极限是2秒，我们已经从10秒优化到2.01秒了，基本就没有必要再继续花大量时间优化速度了，而应该考虑买更多的机器或者更新的设备。各个设备的理论极限可以通过其芯片说明计算得到。具体的计算指标为：</p>
+<ul>
+<li>单精度峰值浮点数计算次数</li>
+<li>内存带宽峰值</li>
+<li>指令比</li>
+</ul>
+<h4 id="三、组织并行线程"><a href="#三、组织并行线程" class="headerlink" title="三、组织并行线程"></a>三、组织并行线程</h4><p>介绍每一个线程是怎么确定唯一的索引，然后建立并行计算，并且不同的线程组织形式是怎样影响性能的？</p>
+<p><strong>使用快和线程建立矩阵索引</strong></p>
+<p>多线程的优点就是每个线程处理不同的数据计算，那么怎么分配好每个线程处理不同的数据，而不至于多个不同的线程处理同一个数据，或者避免不同的线程没有组织的乱访问内存。</p>
+<p><img src="/2021/07/03/CUDA-Programmer-Learn-two/2.png" alt="CUDA-Program-Learn-Plus"></p>
+<p>这里(ix,iy)就是整个线程模型中任意一个线程的索引，或者叫做全局地址，局部地址当然就是(threadIdx.x,threadIdx.y)了，当然这个局部地址目前还没有什么用处，他只能索引线程块内的线程，不同线程块中有相同的局部索引值。</p>
+<p>前面讲过CUDA每一个线程执行相同的代码，也就是异构计算中说的多线程单指令，如果每个不同的线程执行同样的代码，又处理同一组数据，将会得到多个相同的结果，显然这是没意义的，为了让不同线程处理不同的数据，CUDA常用的做法是让不同的线程对应不同的数据，也就是用线程的全局标号对应不同组的数据。</p>
+<p>设备内存或者主机内存都是线性存在的，比如一个二维矩阵 (8×6)，存储在内存中是这样的：</p>
+<p><img src="/2021/07/03/CUDA-Programmer-Learn-two/3.png" alt="CUDA-Program-Learn-Plus"></p>
+<p>图像块中数据寻址的计算步骤：</p>
+<ul>
+<li>线程和块索引（来计算线程的全局索引），矩阵中给定点的坐标（ix,iy）</li>
+<li>(ix,iy)对应的线性内存的位置</li>
+</ul>
+<p>线性位置的计算方法是：</p>
+<script type="math/tex; mode=display">
+idx=ix+iy∗nx</script><h4 id="四、执行模型"><a href="#四、执行模型" class="headerlink" title="四、执行模型"></a>四、执行模型</h4><p>用CUDA的目的其实说白了就是为计算速度快，所以压榨性能，提高效率其实就是CUDA学习的最终目的。什么时候我们沿着硬件设计的思路设计程序，我们就会得到百战百胜。CUDA执行模型揭示了GPU并行架构的抽象视图，了解CUDA的执行模型，可以帮助我们优化指令吞吐量，和内存使用来获得极限速度。</p>
+<p><strong>GPU架构概述：</strong>GPU架构是围绕一个流式多处理器（SM）的扩展阵列搭建的。通过复制这种结构来实现GPU的硬件并行。</p>
+<p>下面图中展示了流式多处理器中的一些核心组件：CUDA核心、共享内存/一级缓存、寄存器文件、加载/存储单元、特殊功能单元、线程束调度器。</p>
+<p><img src="/2021/07/03/CUDA-Programmer-Learn-two/4.png" alt="CUDA-Program-Learn-Plus"></p>
+<p>GPU中每个SM都能支持数百个线程并发执行，每个GPU通常有多个SM，当一个核函数的网格被启动的时候，多个block会被同时分配给可用的SM上执行。</p>
+<p><strong>注意:</strong> 当一个blcok被分配给一个SM后，他就只能在这个SM上执行了，不可能重新分配到其他SM上了，多个线程块可以被分配到同一个SM上。在SM上同一个块内的多个线程进行线程级别并行，<strong>而同一线程内，指令利用指令级并行将单个线程处理成流水线。</strong></p>
+<p><strong>线程束：</strong>CUDA  采用单指令多线程SIMT架构管理执行线程，不同设备有不同的线程束大小，但是到目前为止基本所有设备都是维持在32，也就是说每个SM上有多个block，一个block有多个线程（可以是几百个，但不会超过某个最大值），但是从机器的角度，在某时刻T，SM上只执行一个线程束，也就是32个线程在同时同步执行，线程束中的每个线程执行同一条指令。</p>
+<p><strong>SIMD vs SIMT：</strong>单指令多数据的执行属于向量机，比如我们有四个数字要加上四个数字，那么我们可以用这种单指令多数据的指令来一次完成本来要做四次的运算。这种机制的问题就是过于死板，不允许每个分支有不同的操作，所有分支必须同时执行相同的指令，必须执行没有例外。相比之下单指令多线程SIMT就更加灵活了，虽然两者都是将相同指令广播给多个执行单元，但是SIMT的某些线程可以选择不执行，也就是说同一时刻所有线程被分配给相同的指令，SIMD规定所有人必须执行，而SIMT则规定有些人可以根据需要不执行，这样SIMT就保证了线程级别的并行，而SIMD更像是指令级别的并行。</p>
+<p>SIMT包括以下SIMD不具有的关键特性：</p>
+<ol>
+<li>每个线程都有自己的指令地址计数器</li>
+<li>每个线程都有自己的寄存器状态</li>
+<li>每个线程可以有一个独立的执行路径</li>
+</ol>
+<p>而上面这三个特性在编程模型可用的方式就是给每个线程一个唯一的标号（blckIdx,threadIdx），并且这三个特性保证了各线程之间的独立。</p>
+<p><strong>问题：如何将线程的标号唯一的对应到SM流式多处理器中的block，对应到block后CUDA核和指令寄存器之间的关系如何确定?</strong></p>
+<h4 id="五、CUDA编程的组件与逻辑"><a href="#五、CUDA编程的组件与逻辑" class="headerlink" title="五、CUDA编程的组件与逻辑"></a>五、CUDA编程的组件与逻辑</h4><p>下图从逻辑角度和硬件角度描述了CUDA编程模型对应的组件。</p>
+<p><img src="/2021/07/03/CUDA-Programmer-Learn-two/5.png" alt="CUDA-Program-Learn-Plus"></p>
+<p>SM中共享内存，和寄存器是关键的资源，线程块中线程通过共享内存和寄存器相互通信协调。寄存器和共享内存的分配可以严重影响性能！</p>
+<p>每个SM有<strong>两个线程束调度器，和两个指令调度单元</strong>，当一个线程块被指定给一个SM时，线程块内的所有线程被分成线程束，线程束选择其中两个线程束，在用指令调度器存储两个线程束要执行的指令（就像上面例子中分水果的水果一样，我们这里有两个班，两个班的老师各自控制的自己的水果，老师就是指令调度器）像第一张图上的显示一样，每16个CUDA核心为一个组，还有16个加载/存储单元或4个特殊功能单元。当某个线程块被分配到一个SM上的时候，会被分成多个线程束，线程束在SM上交替执行。</p>
+<p><strong>开发高性能计算程序关键的两个步骤：1、保证结果正确，和程序健壮性；2、优化速度。</strong></p>
+<p><strong>性能分析的主要关注点：</strong></p>
+<ol>
+<li>应用程序代码的空间或时间复杂度</li>
+<li>特殊指令的使用</li>
+<li>函数调用的频率和持续时间</li>
+</ol>
+<p><strong>性能分析工具：</strong></p>
+<ul>
+<li>nvvp</li>
+<li>nvprop</li>
+</ul>
+<h4 id="六、线程束和线程块"><a href="#六、线程束和线程块" class="headerlink" title="六、线程束和线程块"></a>六、线程束和线程块</h4><p>线程束是SM中基本的执行单元，当一个网格被启动（网格被启动，等价于一个内核被启动，每个内核对应于自己的网格），网格中包含线程块，线程块被分配到某一个SM上以后，将分为多个线程束，每个线程束一般是32个线程（目前的GPU都是32个线程，但不保证未来还是32个）在一个线程束中，所有线程按照单指令多线程SIMT的方式执行，每一步执行相同的指令，但是处理的数据为私有的数据，下图反应的就是逻辑，实际，和硬件的图形化。</p>
+<p><img src="/2021/07/03/CUDA-Programmer-Learn-two/6.png" alt="CUDA-Program-Learn-Plus"></p>
+<p><strong>线程束的分化：</strong>那么当一个线程束的32个线程执行这段代码的时候，如果其中16个执行if中的代码段，而另外16个执行else中的代码块，同一个线程束中的线程，执行不同的指令。<strong>线程束分化会产生严重的性能下降。条件分支越多，并行性削弱越严重。</strong>（因为分配命令的调度器就一个，所以满足if条件的线程得到if中的指令执行，不满足的部分等待。当满足if条件的线程执行完后，不满足的线程执行else中的指令，其余线程等待）</p>
+<p><strong>如何解决线程束的分化？</strong></p>
+<p>根本思路是避免同一个线程束内的线程分化，而让我们能控制线程束内线程行为的原因是线程块中线程分配到线程束是有规律的而不是随机的。这就使得我们根据线程编号来设计分支是可以的，补充说明下，当一个线程束中所有的线程都执行if或者，都执行else时，不存在性能下降；只有当线程束内有分歧产生分支的时候，性能才会急剧下降。线程束内被分配的线程是可以被我们控制的，那么我们就把都执行if的线程塞到一个线程束中，或者让一个线程束中的线程都执行if，另外线程都执行else的这种方式可以将效率提高很多。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line"><span class="comment">//低效的if else</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line"><span class="function">__global__ <span class="keyword">void</span> <span class="title">mathKernel1</span><span class="params">(<span class="keyword">float</span> *c)</span></span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line"><span class="function"></span>&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">	<span class="keyword">int</span> tid = blockIdx.x* blockDim.x + threadIdx.x;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">	<span class="keyword">float</span> a = <span class="number">0.0</span>;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">	<span class="keyword">float</span> b = <span class="number">0.0</span>;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">	<span class="keyword">if</span> (tid % <span class="number">2</span> == <span class="number">0</span>)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line">	&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line">		a = <span class="number">100.0f</span>;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">11</span></pre></td><td class="code"><pre><span class="line">	&#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">12</span></pre></td><td class="code"><pre><span class="line">	<span class="keyword">else</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">13</span></pre></td><td class="code"><pre><span class="line">	&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">14</span></pre></td><td class="code"><pre><span class="line">		b = <span class="number">200.0f</span>;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">15</span></pre></td><td class="code"><pre><span class="line">	&#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">16</span></pre></td><td class="code"><pre><span class="line">	c[tid] = a + b;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">17</span></pre></td><td class="code"><pre><span class="line">&#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">18</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">19</span></pre></td><td class="code"><pre><span class="line"><span class="comment">//高效的if else</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">20</span></pre></td><td class="code"><pre><span class="line"><span class="function">__global__ <span class="keyword">void</span> <span class="title">mathKernel2</span><span class="params">(<span class="keyword">float</span> *c)</span></span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">21</span></pre></td><td class="code"><pre><span class="line"><span class="function"></span>&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">22</span></pre></td><td class="code"><pre><span class="line">	<span class="keyword">int</span> tid = blockIdx.x* blockDim.x + threadIdx.x;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">23</span></pre></td><td class="code"><pre><span class="line">	<span class="keyword">float</span> a = <span class="number">0.0</span>;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">24</span></pre></td><td class="code"><pre><span class="line">	<span class="keyword">float</span> b = <span class="number">0.0</span>;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">25</span></pre></td><td class="code"><pre><span class="line">	<span class="keyword">if</span> ((tid/warpSize) % <span class="number">2</span> == <span class="number">0</span>)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">26</span></pre></td><td class="code"><pre><span class="line">	&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">27</span></pre></td><td class="code"><pre><span class="line">		a = <span class="number">100.0f</span>;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">28</span></pre></td><td class="code"><pre><span class="line">	&#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">29</span></pre></td><td class="code"><pre><span class="line">	<span class="keyword">else</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">30</span></pre></td><td class="code"><pre><span class="line">	&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">31</span></pre></td><td class="code"><pre><span class="line">		b = <span class="number">200.0f</span>;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">32</span></pre></td><td class="code"><pre><span class="line">	&#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">33</span></pre></td><td class="code"><pre><span class="line">	c[tid] = a + b;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">34</span></pre></td><td class="code"><pre><span class="line">&#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">35</span></pre></td><td class="code"><pre><span class="line"><span class="comment">//上面warpSize表示线程束中线程的大小,比如总64个线程，分到了两个线程束，一个线程束32个线程。</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">36</span></pre></td><td class="code"><pre><span class="line"><span class="comment">//那么0-31的线程束都是if内的指令，32-63的线程束都是else指令。</span></span></pre></td></tr></table></figure>
+<h4 id="七、资源分配"><a href="#七、资源分配" class="headerlink" title="七、资源分配"></a>七、资源分配</h4><p>每个SM上执行的基本单位是线程束，也就是说，单指令通过指令调度器广播给某线程束的全部线程，这些线程同一时刻执行同一命令。对于线程束来说有激活和未激活两个状态，线程束一旦被激活来到片上，那么他就不会再离开SM直到执行结束。而每个SM上有多少个线程束处于激活状态，取决于以下资源：</p>
+<ol>
+<li>程序计数器</li>
+<li>寄存器</li>
+<li>共享内存</li>
+</ol>
+<p>一个SM上被分配多少个线程块和线程束取决于SM中可用的寄存器和共享内存，以及内核需要的寄存器和共享内存大小。</p>
+<p>当寄存器和共享内存分配给了线程块，这个线程块处于活跃状态，所包含的线程束称为活跃线程束。活跃的线程束又分为三类：</p>
+<ul>
+<li>选定的线程束</li>
+<li>阻塞的线程束</li>
+<li>符合条件的线程束 //32个CUDA核心可以用于执行；执行所需要的资源全部就位</li>
+</ul>
+<p>当SM要执行某个线程束的时候，执行的这个线程束叫做选定的线程束，准备要执行的叫符合条件的线程束，如果线程束不符合条件还没准备好就是阻塞的线程束。</p>
+<h4 id="八、延迟隐藏"><a href="#八、延迟隐藏" class="headerlink" title="八、延迟隐藏"></a>八、延迟隐藏</h4><p>最大化是要最大化硬件，尤其是计算部分的硬件满跑，都不闲着的情况下利用率是最高的，总有人闲着，利用率就会低很多，即最大化功能单元的利用率。<strong>利用率与常驻线程束直接相关。</strong>硬件中线程束调度器负责调度线程束调度，当每时每刻都有可用的线程束供其调度，这时候可以达到计算资源的完全利用，以此来保证通过其他常驻线程束中发布其他指令的，可以隐藏每个指令的延迟。</p>
+<p>对于指令的延迟，通常分为两种：算术指令、内存指令。</p>
+<p>算数指令延迟是一个算术操作从开始，到产生结果之间的时间，这个时间段内只有某些计算单元处于工作状态，而其他逻辑计算单元处于空闲。算术延迟 10~20   个时钟周期</p>
+<p>内存指令延迟很好理解，当产生内存访问的时候，计算单元要等数据从内存拿到寄存器，这个周期是非常长的。内存延迟 400~800 个时钟周期</p>
+<p>所需线程束=延迟×吞吐量</p>
+<p>同样，与指令周期隐藏延迟类似，内存隐藏延迟是靠内存读取的并发操作来完成的，需要注意的是，指令隐藏的关键目的是使用全部的计算资源，而内存读取的延迟隐藏是为了使用全部的内存带宽，内存延迟的时候，计算资源正在被别的线程束使用，所以我们不考虑内存读取延迟的时候计算资源在做了什么。</p>
+<p>所以，延迟的隐藏取决于活动的线程束的数量，数量越多，隐藏的越好，但是线程束的数量又受到上面的说的资源影响。所以这里就需要寻找最优的执行配置来达到最优的延迟隐藏。</p>
+<h4 id="九、同步"><a href="#九、同步" class="headerlink" title="九、同步"></a>九、同步</h4><p>块级别的就是同一个块内的线程会同时停止在某个设定的位置</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">__syncthread();</span></pre></td></tr></table></figure>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/CUDA-Programmer/" rel="tag"># CUDA Programmer</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/07/03/CUDA-Programmer-Learn-One/" rel="prev" title="CUDA-Programmer-Learn-One">
+      <i class="fa fa-chevron-left"></i> CUDA-Programmer-Learn-One
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2021/07/03/CUDA-Programmer-Learn-Two/" rel="next" title="CUDA-Programmer-Learn-Two">
+      CUDA-Programmer-Learn-Two <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+    <div class="comments" id="gitalk-container"></div>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#CUDA编程学习笔记"><span class="nav-number">1.</span> <span class="nav-text">CUDA编程学习笔记</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#一、内存管理"><span class="nav-number">1.0.1.</span> <span class="nav-text">一、内存管理</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#二、线程管理"><span class="nav-number">1.0.2.</span> <span class="nav-text">二、线程管理</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#三、组织并行线程"><span class="nav-number">1.0.3.</span> <span class="nav-text">三、组织并行线程</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#四、执行模型"><span class="nav-number">1.0.4.</span> <span class="nav-text">四、执行模型</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#五、CUDA编程的组件与逻辑"><span class="nav-number">1.0.5.</span> <span class="nav-text">五、CUDA编程的组件与逻辑</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#六、线程束和线程块"><span class="nav-number">1.0.6.</span> <span class="nav-text">六、线程束和线程块</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#七、资源分配"><span class="nav-number">1.0.7.</span> <span class="nav-text">七、资源分配</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#八、延迟隐藏"><span class="nav-number">1.0.8.</span> <span class="nav-text">八、延迟隐藏</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#九、同步"><span class="nav-number">1.0.9.</span> <span class="nav-text">九、同步</span></a></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Qiang Chen</p>
+  <div class="site-description" itemprop="description">记录是忘记的第一助手.</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">54</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">11</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">20</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/chenaing19" title="GitHub → https://github.com/chenaing19" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/765206494@qq.com" title="E-Mail → 765206494@qq.com"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Qiang Chen</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v4.0.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 �?<a href="https://mist.theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> v7.5.0
+  </div>
+    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+  
+  <script color='0,0,255' opacity='0.5' zIndex='-1' count='99' src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/muse.js"></script>
+<script src="/js/next-boot.js"></script>
+
+
+
+  
+
+
+
+
+  <script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+      
+<script type="text/x-mathjax-config">
+
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$', '$'], ['\\(', '\\)'] ],
+      processEscapes: true,
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {
+      equationNumbers: {
+        autoNumber: 'AMS'
+      }
+    }
+  });
+
+  MathJax.Hub.Register.StartupHook('TeX Jax Ready', function() {
+    MathJax.InputJax.TeX.prefilterHooks.Add(function(data) {
+      if (data.display) {
+        var next = data.script.nextSibling;
+        while (next && next.nodeName.toLowerCase() === '#text') {
+          next = next.nextSibling;
+        }
+        if (next && next.nodeName.toLowerCase() === 'br') {
+          next.parentNode.removeChild(next);
+        }
+      }
+    });
+  });
+
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for (i = 0; i < all.length; i += 1) {
+      element = document.getElementById(all[i].inputID + '-Frame').parentNode;
+      if (element.nodeName.toLowerCase() == 'li') {
+        element = element.parentNode;
+      }
+      element.classList.add('has-jax');
+    }
+  });
+</script>
+<script>
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/mathjax@2/MathJax.js?config=TeX-AMS-MML_HTMLorMML', () => {
+    MathJax.Hub.Typeset();
+  }, window.MathJax);
+</script>
+
+    
+
+  
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID: '9c00bb4a73071d490d0b',
+      clientSecret: '0466125432b53cefbd6002b7ea866f7e15bbd9c8',
+      repo: 'chenqiang19.github.io',
+      owner: 'chenqiang19',
+      admin: ['chenqiang19'],
+      id: '7295bba96734082b73e47f1cc9ffe8e9',
+        language: '',
+      distractionFreeMode: 'true'
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+</script>
+
+  
+  <!-- ҳ����С���� -->
+  
+  
+    <script src="/js/cursor/love.min.js"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  
+
+
+
+</body>
+</html>

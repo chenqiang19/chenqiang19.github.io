@@ -1,0 +1,676 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    hostname: new URL('http://yoursite.com').hostname,
+    root: '/',
+    scheme: 'Mist',
+    version: '7.5.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    sidebarPadding: 40
+  };
+</script>
+
+  <meta name="description" content="CUDA编程学习笔记一、CUDA编程模式的基本概念CUDA是一种通用的异构并行计算平台和编程模型，你可以利用CUDA平台像在CPU上那样使用GPU来进行计算。 一般的CUDA(.cu)程序的执行步骤为：  分配GPU显存 将待处理的数据从HOST内存拷贝到GPU的显存 调用核函数对存储在GPU显存中的数据进行处理 将结果从GPU显存拷贝到HOST内存 释放GPU显存  二、CUDA编程模式的两大重">
+<meta name="keywords" content="CUDA Programmer">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CUDA-Programmer-Learn-Zero">
+<meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2021&#x2F;07&#x2F;03&#x2F;CUDA-Programmer-Learn-Zero&#x2F;index.html">
+<meta property="og:site_name" content="编辑尼撑">
+<meta property="og:description" content="CUDA编程学习笔记一、CUDA编程模式的基本概念CUDA是一种通用的异构并行计算平台和编程模型，你可以利用CUDA平台像在CPU上那样使用GPU来进行计算。 一般的CUDA(.cu)程序的执行步骤为：  分配GPU显存 将待处理的数据从HOST内存拷贝到GPU的显存 调用核函数对存储在GPU显存中的数据进行处理 将结果从GPU显存拷贝到HOST内存 释放GPU显存  二、CUDA编程模式的两大重">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2021&#x2F;07&#x2F;03&#x2F;CUDA-Programmer-Learn-Zero&#x2F;1.jpg">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2021&#x2F;07&#x2F;03&#x2F;CUDA-Programmer-Learn-Zero&#x2F;2.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2021&#x2F;07&#x2F;03&#x2F;CUDA-Programmer-Learn-Zero&#x2F;3.png">
+<meta property="og:updated_time" content="2021-07-03T15:16:39.552Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2021&#x2F;07&#x2F;03&#x2F;CUDA-Programmer-Learn-Zero&#x2F;1.jpg">
+
+<link rel="canonical" href="http://yoursite.com/2021/07/03/CUDA-Programmer-Learn-Zero/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>CUDA-Programmer-Learn-Zero | 编辑尼撑</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="编辑尼撑" type="application/atom+xml"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">编辑尼撑</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">学无止境</p>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-schedule">
+
+    <a href="/schedule/" rel="section"><i class="fa fa-fw fa-calendar"></i>日程表</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="搜索..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/07/03/CUDA-Programmer-Learn-Zero/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Qiang Chen">
+      <meta itemprop="description" content="记录是忘记的第一助手.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="编辑尼撑">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          CUDA-Programmer-Learn-Zero
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2021-07-03 23:14:11 / 修改时间：23:16:39" itemprop="dateCreated datePublished" datetime="2021-07-03T23:14:11+08:00">2021-07-03</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/CUDA-Programmer/" itemprop="url" rel="index">
+                    <span itemprop="name">CUDA Programmer</span>
+                  </a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="CUDA编程学习笔记"><a href="#CUDA编程学习笔记" class="headerlink" title="CUDA编程学习笔记"></a>CUDA编程学习笔记</h2><h4 id="一、CUDA编程模式的基本概念"><a href="#一、CUDA编程模式的基本概念" class="headerlink" title="一、CUDA编程模式的基本概念"></a>一、CUDA编程模式的基本概念</h4><p>CUDA是一种通用的异构并行计算平台和编程模型，你可以利用CUDA平台像在CPU上那样使用GPU来进行计算。</p>
+<p>一般的CUDA(.cu)程序的执行步骤为：</p>
+<ol>
+<li>分配GPU显存</li>
+<li>将待处理的数据从HOST内存拷贝到GPU的显存</li>
+<li>调用核函数对存储在GPU显存中的数据进行处理</li>
+<li>将结果从GPU显存拷贝到HOST内存</li>
+<li>释放GPU显存</li>
+</ol>
+<h4 id="二、CUDA编程模式的两大重点"><a href="#二、CUDA编程模式的两大重点" class="headerlink" title="二、CUDA编程模式的两大重点"></a>二、CUDA编程模式的两大重点</h4><ol>
+<li><p>通过层次结构来组织线程</p>
+<p>1.1 线程的管理：<strong>线程网格(Grid)、线程块(Block)、线程束(Warp)和线程(Thread)</strong></p>
+<p>1.2 一个内核启动所生成的所有线程称为一个网格，同一网格内的所有线程共享同一块全局内存空间。一个网格有多个线程块构成。一个线程块由一组线程构成</p>
+<p>1.3 优势：合理的利用资源，优化性能</p>
+</li>
+<li><p>通过层次结构来组织内存</p>
+<p>2.1 GPU的各级缓存和显存是可以通过程序进行控制的。具体有寄存器、共享内存、常量内存和全局内存等</p>
+<p>2.2 <strong>寄存器</strong>是GPU上运行速度最快的内存空间，带宽通常为8TB/s,延时为一个时钟周期。<strong>共享内存</strong>是GPU上可受用户控制的一级缓存，带宽通常为1.5TB/s,延迟为1~32个时钟周期。<strong>全局内存</strong>是GPU中最大的，延迟最高且最常被使用的内存。</p>
+<p><img src="/2021/07/03/CUDA-Programmer-Learn-Zero/1.jpg" alt="Cuda-memory-struct"></p>
+</li>
+</ol>
+<h5 id="三、矩阵运算"><a href="#三、矩阵运算" class="headerlink" title="三、矩阵运算"></a>三、矩阵运算</h5><p>1、矩阵索引：在一个二维矩阵加法的核函数中，一个线程通常被分配一个数据元素来处理。首先要完成的任务是如何使用块和线程索引从全局内存中访问指定的数据。</p>
+<p><strong>如何映射线程的Id到图像矩阵的坐标上？</strong></p>
+<p>可以使用如下的公式将线程网格和线程块的索引映射到矩阵坐标上,称为坐标索引。</p>
+<script type="math/tex; mode=display">
+ix = blockIdx.x * blockDim.x + threadIdx.x \\
+iy = blockIdx.y * blockDim.y + threadIdx.y</script><p>可以使用如下公式将矩阵坐标映射到全局内存的索引/存储单元上，称为全局索引(因为数据在内存的存储往往是一维的，需要地址映射)。</p>
+<script type="math/tex; mode=display">
+idx = iy*nx + ix,\quad nx表示x维度上元素的个数</script><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line"><span class="function">__global__ <span class="keyword">void</span> <span class="title">sumMatUsingGPU</span><span class="params">(<span class="keyword">unsigned</span> <span class="keyword">char</span>* A, <span class="keyword">unsigned</span> <span class="keyword">char</span>* B, <span class="keyword">unsigned</span> <span class="keyword">char</span>* C, uint <span class="built_in">height</span>, uint <span class="built_in">width</span>)</span></span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line"><span class="function"></span>&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">    <span class="keyword">unsigned</span> <span class="keyword">int</span> ix = blockIdx.x * blockDim.x + threadIdx.x;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">    <span class="keyword">unsigned</span> <span class="keyword">int</span> iy = blockIdy.y * blockDim.y + threadIdy.y;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">    <span class="keyword">unsigned</span> <span class="keyword">int</span> idx = iy * <span class="built_in">width</span> + ix;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">    </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">    <span class="keyword">if</span>(ix &lt; <span class="built_in">width</span> &amp;&amp; iy &lt; <span class="built_in">height</span>)&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">        C[idx] = A[idx] + B[idx];</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line">    &#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line">&#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">11</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">12</span></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">void</span>)</span></span>&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">13</span></pre></td><td class="code"><pre><span class="line">    uint <span class="built_in">height</span> = <span class="number">5</span>;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">14</span></pre></td><td class="code"><pre><span class="line">    uint <span class="built_in">width</span> = <span class="number">20</span>;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">15</span></pre></td><td class="code"><pre><span class="line">    <span class="keyword">int</span> byteSize = <span class="built_in">height</span> * <span class="built_in">width</span>;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">16</span></pre></td><td class="code"><pre><span class="line">    <span class="keyword">size_t</span> nBytes = byteSize * <span class="keyword">sizeof</span>(<span class="keyword">unsigned</span> <span class="keyword">char</span>);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">17</span></pre></td><td class="code"><pre><span class="line">    <span class="keyword">float</span> *h_A, *h_B, *h_C;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">18</span></pre></td><td class="code"><pre><span class="line">    h_A = (<span class="keyword">float</span> *)<span class="built_in">malloc</span>(nBytes);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">19</span></pre></td><td class="code"><pre><span class="line">    h_B = (<span class="keyword">float</span> *)<span class="built_in">malloc</span>(nBytes);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">20</span></pre></td><td class="code"><pre><span class="line">    h_C = (<span class="keyword">float</span> *)<span class="built_in">malloc</span>(nBytes);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">21</span></pre></td><td class="code"><pre><span class="line">    <span class="keyword">unsigned</span> <span class="keyword">char</span>* A, *B, *C;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">22</span></pre></td><td class="code"><pre><span class="line">    cudaMalloc(&amp;A, byteSize*<span class="keyword">sizeof</span>(<span class="keyword">unsigned</span> <span class="keyword">char</span>));</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">23</span></pre></td><td class="code"><pre><span class="line">    cudaMalloc(&amp;B, byteSize*<span class="keyword">sizeof</span>(<span class="keyword">unsigned</span> <span class="keyword">char</span>));</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">24</span></pre></td><td class="code"><pre><span class="line">    cudaMalloc(&amp;C, byteSize*<span class="keyword">sizeof</span>(<span class="keyword">unsigned</span> <span class="keyword">char</span>));</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">25</span></pre></td><td class="code"><pre><span class="line">    </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">26</span></pre></td><td class="code"><pre><span class="line">    cudaMemcpy(A, h_A, nBytes, cudaMemcpyHostToDeviec);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">27</span></pre></td><td class="code"><pre><span class="line">    cudaMemcpy(B, h_B, nBytes, cudaMemcpyHostToDeviec);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">28</span></pre></td><td class="code"><pre><span class="line">    cudaMemcpy(C, h_C, nBytes, cudaMemcpyHostToDeviec);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">29</span></pre></td><td class="code"><pre><span class="line">    </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">30</span></pre></td><td class="code"><pre><span class="line">    <span class="function">dim3 <span class="title">thread</span><span class="params">(<span class="built_in">height</span>/<span class="number">5</span>,<span class="built_in">width</span>/<span class="number">5</span>)</span></span>;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">31</span></pre></td><td class="code"><pre><span class="line">    <span class="function">dim3 <span class="title">block</span><span class="params">(<span class="built_in">height</span>, <span class="built_in">width</span>)</span></span>;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">32</span></pre></td><td class="code"><pre><span class="line">    sumMatUsingGPU&lt;&lt;&lt;block, thread&gt;&gt;&gt;(A, B, C, <span class="built_in">height</span>, <span class="built_in">width</span>);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">33</span></pre></td><td class="code"><pre><span class="line">    cudaMemcpy(h_c, d_c, nBytes, cudaMemcpyDeviceToHost);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">34</span></pre></td><td class="code"><pre><span class="line">    cudaFree(A);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">35</span></pre></td><td class="code"><pre><span class="line">    cudaFree(B);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">36</span></pre></td><td class="code"><pre><span class="line">    cudaFree(C);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">37</span></pre></td><td class="code"><pre><span class="line">&#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">38</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">39</span></pre></td><td class="code"><pre><span class="line"><span class="comment">//编译</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">40</span></pre></td><td class="code"><pre><span class="line">nvcc -arch=sm_20 sumOnGPU.cu -o sumOnGPU</span></pre></td></tr></table></figure>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>限定符</th>
+<th>执行</th>
+<th>调用</th>
+<th>备注</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>__global__</code></td>
+<td>在设备端执行</td>
+<td>可从主机、设备端调用</td>
+<td>必须有一个void返回类型</td>
+</tr>
+<tr>
+<td><code>__device__</code></td>
+<td>在设备端执行</td>
+<td>仅能从设备端调用</td>
+<td></td>
+</tr>
+<tr>
+<td><code>__host__</code></td>
+<td>在主机端执行</td>
+<td>仅能从主机端上调用</td>
+<td>可以省略不写</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h4 id="四、如何提升并行能力"><a href="#四、如何提升并行能力" class="headerlink" title="四、如何提升并行能力"></a>四、如何提升并行能力</h4><ul>
+<li>降低延迟，延迟是指操作从开始到结束所需要的时间，一般用微秒计算，延迟越低越好。</li>
+<li>提高带宽，带宽是单位时间内处理的数据量，一般用MB/s或者GB/s表示。</li>
+<li>提高吞吐量，吞吐量是单位时间内成功处理的运算数量，一般用gflops来表示（十亿次浮点计算），吞吐量和延迟有一定关系，都是反应计算速度的，<strong>一个是时间除以运算次数，得到的是单位次数用的时间–延迟，一个是运算次数除以时间，得到的是单位时间执行次数–吞吐量。</strong></li>
+</ul>
+<h4 id="五、计算机架构"><a href="#五、计算机架构" class="headerlink" title="五、计算机架构"></a>五、计算机架构</h4><p>划分不同计算机结构的方法有很多，广泛使用的一种被称为佛林分类法Flynn’s Taxonomy，<strong>根据指令和数据进入CPU的方式分类</strong>，分为以下四类：</p>
+<ol>
+<li>单指令单数据SISD（传统串行计算机，386）</li>
+<li>单指令多数据SIMD（并行架构，比如向量机，所有核心指令唯一，但是数据不同，现在CPU基本都有这类的向量指令）</li>
+<li>多指令单数据MISD（少见，多个指令围殴一个数据）</li>
+<li>多指令多数据MIMD（并行架构，多核心，多指令，异步处理多个数据流，从而实现空间上的并行，MIMD多数情况下包含SIMD，就是MIMD有很多计算核，计算核支持SIMD）</li>
+</ol>
+<p><strong>根据内存划分</strong>，分为以下两类：</p>
+<ol>
+<li><p>分布式内存的多节点系统</p>
+<p>通常叫做集群，就是一个机房好多机箱，每个机箱都有内存处理器电源等一些列硬件，通过网络互动，这样组成的就是分布式。</p>
+</li>
+<li><p>共享内存的多处理器系统</p>
+<p>单个主板有多个处理器，他们共享相同的主板上的内存，内存寻址空间相同，通过PCIe和内存互动。</p>
+<p><strong>多个处理器可以分多片处理器，和单片多核（众核many-core）</strong>，也就是有些主板上挂了好多片处理器，也有的是一个主板上就一个处理器，但是这个处理器里面有几百个核。<strong>GPU就属于众核系统</strong></p>
+</li>
+</ol>
+<ul>
+<li>CPU适合执行复杂的逻辑，比如多分支，其核心比较重（复杂）</li>
+<li>GPU适合执行简单的逻辑，大量的数据计算，其吞吐量更高，但是核心比较轻（结构简单）</li>
+</ul>
+<h4 id="六、异构架构"><a href="#六、异构架构" class="headerlink" title="六、异构架构"></a>六、异构架构</h4><p>拥有不同计算机架构体系的硬件相互配合完成高吞吐量工作的系统。例如：CPU我们可以把它看做一个指挥者，主机端，host，而完成大量计算的GPU是我们的计算设备，device。下图来之谭升的知乎</p>
+<p><img src="/2021/07/03/CUDA-Programmer-Learn-Zero/2.png" alt="Cuda-memory-struct"></p>
+<ul>
+<li>左图：一个四核CPU一般有四个ALU，ALU是完成逻辑计算的核心，也是我们平时说四核八核的核，控制单元，缓存也在片上，DRAM是内存，一般不在片上，CPU通过总线访问内存。</li>
+<li>右图：GPU，绿色小方块是ALU，我们注意红色框内的部分SM，这一组ALU公用一个Control单元和Cache，<strong>这个部分相当于一个完整的多核CPU</strong>，但是<strong>不同的是ALU多了，control部分变小，可见计算能力提升了，控制能力减弱了，</strong>所以对于控制（逻辑）复杂的程序，一个GPU的SM是没办法和CPU比较的，但是对了逻辑简单，数据量大的任务，GPU更高效。注意，一个GPU有好多个SM，而且越来越多。</li>
+</ul>
+<p>CPU和GPU之间通过PCIe总线连接，用于传递指令和数据，这部分也是后面要讨论的性能瓶颈之一。</p>
+<p>一个异构应用包含两种以上架构，所以分为主机端代码和设备端代码。主机代码在主机端运行，被<strong>编译成主机架构的机器码</strong>，设备端的在设备上执行，<strong>被编译成设备架构的机器码</strong>，所以主机端的机器码和设备端的机器码是隔离的，自己执行自己的，没办法交换执行。</p>
+<p>主机端代码主要是<strong>控制设备，完成数据传输等控制类工作</strong>，设备端主要的任务就是<strong>计算</strong>。</p>
+<p>NVIDIA目前有多种计算平台，每个平太针对不同的应用场景，比如Tegra用于嵌入式，Geforce是我们平时打游戏用到，Tesla主要用于计算。</p>
+<p>衡量GPU计算能力的主要靠下面两种<strong>容量特征</strong>：<strong>CUDA核心数和内存大小</strong>。<strong>计算能力的性能指标</strong>：<strong>峰值计算能力和内存带宽</strong>。下图来之谭升的知乎</p>
+<p><img src="/2021/07/03/CUDA-Programmer-Learn-Zero/3.png" alt="Cuda-memory-struct"></p>
+<p>CPU和GPU线程的区别：</p>
+<ol>
+<li>CPU线程是重量级实体，操作系统交替执行线程，线程上下文切换花销很大。</li>
+<li>GPU线程是轻量级的，GPU应用一般包含成千上万的线程，多数在排队状态，线程之间切换基本没有开销。</li>
+<li>CPU的核被设计用来尽可能减少一个或两个线程运行时间的延迟，而GPU核则是大量线程，最大幅度提高吞吐量。</li>
+</ol>
+<p>CUDA nvcc编译器会自动分离你代码里面的不同部分，如图中主机代码用C写成，使用本地的C语言编译器编译，设备端代码，也就是核函数，用CUDA C编写，通过nvcc编译，链接阶段，在内核程序调用或者明显的GPU设备操作时，添加运行时库。</p>
+<p>可以用到的工具：</p>
+<ul>
+<li>Nvidia Nsight集成开发环境</li>
+<li>CUDA-GDB 命令行调试器</li>
+<li>性能分析可视化工具</li>
+<li>CUDA-MEMCHECK工具</li>
+<li>GPU设备管理工具</li>
+</ul>
+<p><a href="https://face2ai.com/program-blog/#GPU%E7%BC%96%E7%A8%8B%EF%BC%88CUDA%EF%BC%89" target="_blank" rel="noopener">学习参考资料</a></p>
+<p><a href="https://zhuanlan.zhihu.com/p/346910129" target="_blank" rel="noopener">总结性资料</a></p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/CUDA-Programmer/" rel="tag"># CUDA Programmer</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/07/03/Principles-Of-Computer-Composition-Zero/" rel="prev" title="Principles-Of-Computer-Composition-Zero">
+      <i class="fa fa-chevron-left"></i> Principles-Of-Computer-Composition-Zero
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2021/07/03/CUDA-Programmer-Learn-One/" rel="next" title="CUDA-Programmer-Learn-One">
+      CUDA-Programmer-Learn-One <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+    <div class="comments" id="gitalk-container"></div>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#CUDA编程学习笔记"><span class="nav-number">1.</span> <span class="nav-text">CUDA编程学习笔记</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#一、CUDA编程模式的基本概念"><span class="nav-number">1.0.1.</span> <span class="nav-text">一、CUDA编程模式的基本概念</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#二、CUDA编程模式的两大重点"><span class="nav-number">1.0.2.</span> <span class="nav-text">二、CUDA编程模式的两大重点</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#三、矩阵运算"><span class="nav-number">1.0.2.1.</span> <span class="nav-text">三、矩阵运算</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#四、如何提升并行能力"><span class="nav-number">1.0.3.</span> <span class="nav-text">四、如何提升并行能力</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#五、计算机架构"><span class="nav-number">1.0.4.</span> <span class="nav-text">五、计算机架构</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#六、异构架构"><span class="nav-number">1.0.5.</span> <span class="nav-text">六、异构架构</span></a></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Qiang Chen</p>
+  <div class="site-description" itemprop="description">记录是忘记的第一助手.</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">54</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">11</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">20</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/chenaing19" title="GitHub → https://github.com/chenaing19" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/765206494@qq.com" title="E-Mail → 765206494@qq.com"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Qiang Chen</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v4.0.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 �?<a href="https://mist.theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> v7.5.0
+  </div>
+    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+  
+  <script color='0,0,255' opacity='0.5' zIndex='-1' count='99' src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/muse.js"></script>
+<script src="/js/next-boot.js"></script>
+
+
+
+  
+
+
+
+
+  <script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+      
+<script type="text/x-mathjax-config">
+
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$', '$'], ['\\(', '\\)'] ],
+      processEscapes: true,
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {
+      equationNumbers: {
+        autoNumber: 'AMS'
+      }
+    }
+  });
+
+  MathJax.Hub.Register.StartupHook('TeX Jax Ready', function() {
+    MathJax.InputJax.TeX.prefilterHooks.Add(function(data) {
+      if (data.display) {
+        var next = data.script.nextSibling;
+        while (next && next.nodeName.toLowerCase() === '#text') {
+          next = next.nextSibling;
+        }
+        if (next && next.nodeName.toLowerCase() === 'br') {
+          next.parentNode.removeChild(next);
+        }
+      }
+    });
+  });
+
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for (i = 0; i < all.length; i += 1) {
+      element = document.getElementById(all[i].inputID + '-Frame').parentNode;
+      if (element.nodeName.toLowerCase() == 'li') {
+        element = element.parentNode;
+      }
+      element.classList.add('has-jax');
+    }
+  });
+</script>
+<script>
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/mathjax@2/MathJax.js?config=TeX-AMS-MML_HTMLorMML', () => {
+    MathJax.Hub.Typeset();
+  }, window.MathJax);
+</script>
+
+    
+
+  
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID: '9c00bb4a73071d490d0b',
+      clientSecret: '0466125432b53cefbd6002b7ea866f7e15bbd9c8',
+      repo: 'chenqiang19.github.io',
+      owner: 'chenqiang19',
+      admin: ['chenqiang19'],
+      id: 'be453dfa7fb0acdabaf62a6accfa5d1a',
+        language: '',
+      distractionFreeMode: 'true'
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+</script>
+
+  
+  <!-- ҳ����С���� -->
+  
+  
+    <script src="/js/cursor/love.min.js"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  
+
+
+
+</body>
+</html>
