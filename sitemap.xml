@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://yoursite.com/2021/07/03/CUDA-Programmer-Learn-One/</loc>
+    
+    <lastmod>2021-07-03T16:04:58.785Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://yoursite.com/2021/06/11/Image-Process-Zero/</loc>
     
     <lastmod>2021-07-03T15:59:46.569Z</lastmod>
@@ -19,13 +26,6 @@
     <loc>http://yoursite.com/2021/07/03/CUDA-Programmer-Learn-Two/</loc>
     
     <lastmod>2021-07-03T15:25:06.657Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://yoursite.com/2021/07/03/CUDA-Programmer-Learn-One/</loc>
-    
-    <lastmod>2021-07-03T15:24:42.264Z</lastmod>
     
   </url>
   
