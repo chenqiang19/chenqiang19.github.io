@@ -316,21 +316,6 @@
   
   <entry>
     <title>CUDA-Programmer-Learn-Two</title>
-    <link href="http://yoursite.com/2021/07/03/CUDA-Programmer-Learn-Two/"/>
-    <id>http://yoursite.com/2021/07/03/CUDA-Programmer-Learn-Two/</id>
-    <published>2021-07-03T15:25:06.000Z</published>
-    <updated>2021-07-03T15:25:06.657Z</updated>
-    
-    <summary type="html">
-    
-    </summary>
-    
-    
-    
-  </entry>
-  
-  <entry>
-    <title>CUDA-Programmer-Learn-Two</title>
     <link href="http://yoursite.com/2021/07/03/CUDA-Programmer-Learn-two/"/>
     <id>http://yoursite.com/2021/07/03/CUDA-Programmer-Learn-two/</id>
     <published>2021-07-03T15:25:06.000Z</published>
@@ -352,6 +337,21 @@
     
     
       <category term="CUDA Programmer" scheme="http://yoursite.com/tags/CUDA-Programmer/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>CUDA-Programmer-Learn-Two</title>
+    <link href="http://yoursite.com/2021/07/03/CUDA-Programmer-Learn-Two/"/>
+    <id>http://yoursite.com/2021/07/03/CUDA-Programmer-Learn-Two/</id>
+    <published>2021-07-03T15:25:06.000Z</published>
+    <updated>2021-07-03T15:25:06.657Z</updated>
+    
+    <summary type="html">
+    
+    </summary>
+    
+    
     
   </entry>
   
