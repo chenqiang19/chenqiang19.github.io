@@ -2,6 +2,20 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://yoursite.com/2021/07/25/Image-Process-Morphology/</loc>
+    
+    <lastmod>2021-07-25T14:13:41.181Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2021/07/25/Image-Process-Image-Compression/</loc>
+    
+    <lastmod>2021-07-25T14:12:31.286Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://yoursite.com/2021/07/25/TensorRT/</loc>
     
     <lastmod>2021-07-25T13:55:17.642Z</lastmod>
