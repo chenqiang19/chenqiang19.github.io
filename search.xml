@@ -646,9 +646,36 @@ B=&Y+(Cb-128)\cdot1.7718\end{align}</script><figure class="highlight python"><ta
 <p><a href="https://docs.gitlab.com/runner/executors/#selecting-the-executor" target="_blank" rel="noopener">参考链接</a></p>
 </li>
 <li><p><strong>.gitlab-ci.yml配置的特定关键字</strong></p>
-<p>| 关键字 | 描述 |<br>| —— | —— |<br>| stages | stages定义在YML文件的最外层，它的值是一个数组，用于定义一个pipeline不同的流程节点 |<br>| stage | 作为Job的子属性，是一个字符串，且是stages数组的一个子项，表示的是当前的pipeline节点 |<br>| script | 作为Job的子属性，当前pipeline节点运行的shell脚本 |<br>| tags | 作为Job的子属性，tags是当前Job的标记 |</p>
 </li>
 </ol>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>关键字</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>stages</td>
+<td>stages定义在YML文件的最外层，它的值是一个数组，用于定义一个pipeline不同的流程节点</td>
+</tr>
+<tr>
+<td>stage</td>
+<td>作为Job的子属性，是一个字符串，且是stages数组的一个子项，表示的是当前的pipeline节点</td>
+</tr>
+<tr>
+<td>script</td>
+<td>作为Job的子属性，当前pipeline节点运行的shell脚本</td>
+</tr>
+<tr>
+<td>tags</td>
+<td>作为Job的子属性，tags是当前Job的标记</td>
+</tr>
+</tbody>
+</table>
+</div>
 <h4 id="五、实践"><a href="#五、实践" class="headerlink" title="五、实践"></a>五、实践</h4><p><strong>1、在平台上下载并安装Gitlab-runner命令行</strong></p>
 <figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">针对Linux平台</span></span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">下在二进制包</span></span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> Linux x86-64</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">sudo curl -L --output /usr/local/bin/gitlab-runner "https://gitlab-runner-downloads.s3.amazonaws.com/latest/binaries/gitlab-runner-linux-amd64"</span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">修改用户的下载目录操作权限</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">sudo chmod +x /usr/local/bin/gitlab-runner</span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">创建一个Gitlab CI 用户</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">sudo useradd --comment 'GitLab Runner' --create-home gitlab-runner --shell /bin/bash</span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">Install</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">sudo gitlab-runner install --user=gitlab-runner --working-directory=/home/gitlab-runner</span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">Run as service</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">sudo gitlab-runner start</span></pre></td></tr></table></figure>
 <p><a href="https://docs.gitlab.com/runner/install/linux-manually.html" target="_blank" rel="noopener">参考官网的链接</a></p>
@@ -1354,6 +1381,11 @@ S(\mu)=\mathscr{F}\{s_{\Delta T(t)}\}=\mathscr{F}\{\frac{1}{\Delta T}\sum^{\inft
   </entry>
   <entry>
     <title>CUDA-Programmer-Learn-Two</title>
+    <url>/2021/07/03/CUDA-Programmer-Learn-Two/</url>
+    <content><![CDATA[]]></content>
+  </entry>
+  <entry>
+    <title>CUDA-Programmer-Learn-Two</title>
     <url>/2021/07/03/CUDA-Programmer-Learn-two/</url>
     <content><![CDATA[<h2 id="CUDA编程学习笔记"><a href="#CUDA编程学习笔记" class="headerlink" title="CUDA编程学习笔记"></a>CUDA编程学习笔记</h2><p>本笔记主要<a href="https://face2ai.com/program-blog/#GPU%E7%BC%96%E7%A8%8B%EF%BC%88CUDA%EF%BC%89" target="_blank" rel="noopener">参考: 谭升</a>大神的博客进行了部分关键知识的摘录，可能有些地方回去单独查找一些资料进行解释。</p>
 <p>GPU中使用CUDA编程的核心部分分为：核函数、内存管理、线程管理和流。</p>
@@ -1503,11 +1535,6 @@ idx=ix+iy∗nx</script><h4 id="四、执行模型"><a href="#四、执行模型"
       <tags>
         <tag>CUDA Programmer</tag>
       </tags>
-  </entry>
-  <entry>
-    <title>CUDA-Programmer-Learn-Two</title>
-    <url>/2021/07/03/CUDA-Programmer-Learn-Two/</url>
-    <content><![CDATA[]]></content>
   </entry>
   <entry>
     <title>CUDA-Programmer-Learn-One</title>

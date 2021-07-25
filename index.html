@@ -98,9 +98,9 @@
   .use-motion .logo-line-before i { left: initial; }
   .use-motion .logo-line-after i { right: initial; }
   </style>
-</noscript><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+</noscript>
 
-<link rel="alternate" href="/atom.xml" title="编辑尼撑" type="application/atom+xml">
+<link rel="alternate" href="/atom.xml" title="编辑尼撑" type="application/atom+xml"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage">
@@ -1145,7 +1145,7 @@ B=&Y+(Cb-128)\cdot1.7718\end{align}</script><figure class="highlight python"><ta
               <span class="post-meta-item-text">发表于</span>
               
 
-              <time title="创建时间：2021-07-25 21:39:59 / 修改时间：22:38:29" itemprop="dateCreated datePublished" datetime="2021-07-25T21:39:59+08:00">2021-07-25</time>
+              <time title="创建时间：2021-07-25 21:39:59 / 修改时间：22:56:05" itemprop="dateCreated datePublished" datetime="2021-07-25T21:39:59+08:00">2021-07-25</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -1194,9 +1194,36 @@ B=&Y+(Cb-128)\cdot1.7718\end{align}</script><figure class="highlight python"><ta
 <p><a href="https://docs.gitlab.com/runner/executors/#selecting-the-executor" target="_blank" rel="noopener">参考链接</a></p>
 </li>
 <li><p><strong>.gitlab-ci.yml配置的特定关键字</strong></p>
-<p>| 关键字 | 描述 |<br>| —— | —— |<br>| stages | stages定义在YML文件的最外层，它的值是一个数组，用于定义一个pipeline不同的流程节点 |<br>| stage | 作为Job的子属性，是一个字符串，且是stages数组的一个子项，表示的是当前的pipeline节点 |<br>| script | 作为Job的子属性，当前pipeline节点运行的shell脚本 |<br>| tags | 作为Job的子属性，tags是当前Job的标记 |</p>
 </li>
 </ol>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>关键字</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>stages</td>
+<td>stages定义在YML文件的最外层，它的值是一个数组，用于定义一个pipeline不同的流程节点</td>
+</tr>
+<tr>
+<td>stage</td>
+<td>作为Job的子属性，是一个字符串，且是stages数组的一个子项，表示的是当前的pipeline节点</td>
+</tr>
+<tr>
+<td>script</td>
+<td>作为Job的子属性，当前pipeline节点运行的shell脚本</td>
+</tr>
+<tr>
+<td>tags</td>
+<td>作为Job的子属性，tags是当前Job的标记</td>
+</tr>
+</tbody>
+</table>
+</div>
 <h4 id="五、实践"><a href="#五、实践" class="headerlink" title="五、实践"></a>五、实践</h4><p><strong>1、在平台上下载并安装Gitlab-runner命令行</strong></p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">针对Linux平台</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">下在二进制包</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> Linux x86-64</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">sudo curl -L --output /usr/local/bin/gitlab-runner "https://gitlab-runner-downloads.s3.amazonaws.com/latest/binaries/gitlab-runner-linux-amd64"</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">修改用户的下载目录操作权限</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">sudo chmod +x /usr/local/bin/gitlab-runner</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">创建一个Gitlab CI 用户</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">sudo useradd --comment 'GitLab Runner' --create-home gitlab-runner --shell /bin/bash</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">Install</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line">sudo gitlab-runner install --user=gitlab-runner --working-directory=/home/gitlab-runner</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">11</span></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">Run as service</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">12</span></pre></td><td class="code"><pre><span class="line">sudo gitlab-runner start</span></pre></td></tr></table></figure>
 <p><a href="https://docs.gitlab.com/runner/install/linux-manually.html" target="_blank" rel="noopener">参考官网的链接</a></p>
