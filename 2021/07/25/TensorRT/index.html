@@ -1,0 +1,842 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    hostname: new URL('http://yoursite.com').hostname,
+    root: '/',
+    scheme: 'Mist',
+    version: '7.5.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    sidebarPadding: 40
+  };
+</script>
+
+  <meta name="description" content="TensorRT下面是根据何成杰 NVIDIA高级软件架构师的分享出的PPT进行了一些笔记摘录 一、概述用于高性能深度学习推理的 SDK ，在生产环境中优化和部署神经网络，功能如下：  使用编译器和运行时，最大化延迟关键应用的吞吐量  使用 INT8 和 FP16 优化部署，响应迅速且内存高效的应用程序  优化每个网络，包括 CNN、RNN 和 Transformer  通过 ONNX 支持、原生">
+<meta name="keywords" content="Model Compression and Acceleration">
+<meta property="og:type" content="article">
+<meta property="og:title" content="TensorRT">
+<meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2021&#x2F;07&#x2F;25&#x2F;TensorRT&#x2F;index.html">
+<meta property="og:site_name" content="编辑尼撑">
+<meta property="og:description" content="TensorRT下面是根据何成杰 NVIDIA高级软件架构师的分享出的PPT进行了一些笔记摘录 一、概述用于高性能深度学习推理的 SDK ，在生产环境中优化和部署神经网络，功能如下：  使用编译器和运行时，最大化延迟关键应用的吞吐量  使用 INT8 和 FP16 优化部署，响应迅速且内存高效的应用程序  优化每个网络，包括 CNN、RNN 和 Transformer  通过 ONNX 支持、原生">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2021&#x2F;07&#x2F;25&#x2F;TensorRT&#x2F;tensorRT1.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2021&#x2F;07&#x2F;25&#x2F;TensorRT&#x2F;tensorRT2.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2021&#x2F;07&#x2F;25&#x2F;TensorRT&#x2F;tensorRT3.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2021&#x2F;07&#x2F;25&#x2F;TensorRT&#x2F;tensorRT4.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2021&#x2F;07&#x2F;25&#x2F;TensorRT&#x2F;tensorRT5.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2021&#x2F;07&#x2F;25&#x2F;TensorRT&#x2F;tensorRT6.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2021&#x2F;07&#x2F;25&#x2F;TensorRT&#x2F;tensorRT7.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2021&#x2F;07&#x2F;25&#x2F;TensorRT&#x2F;tensorRT8.png">
+<meta property="og:updated_time" content="2021-07-25T13:55:17.642Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2021&#x2F;07&#x2F;25&#x2F;TensorRT&#x2F;tensorRT1.png">
+
+<link rel="canonical" href="http://yoursite.com/2021/07/25/TensorRT/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>TensorRT | 编辑尼撑</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="编辑尼撑" type="application/atom+xml"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">编辑尼撑</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">学无止境</p>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-schedule">
+
+    <a href="/schedule/" rel="section"><i class="fa fa-fw fa-calendar"></i>日程表</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="搜索..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/07/25/TensorRT/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Qiang Chen">
+      <meta itemprop="description" content="记录是忘记的第一助手.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="编辑尼撑">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          TensorRT
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2021-07-25 21:52:46 / 修改时间：21:55:17" itemprop="dateCreated datePublished" datetime="2021-07-25T21:52:46+08:00">2021-07-25</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Model-Compression-and-Acceleration/" itemprop="url" rel="index">
+                    <span itemprop="name">Model Compression and Acceleration</span>
+                  </a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="TensorRT"><a href="#TensorRT" class="headerlink" title="TensorRT"></a>TensorRT</h2><p><strong>下面是根据何成杰 NVIDIA高级软件架构师的分享出的PPT进行了一些笔记摘录</strong></p>
+<h4 id="一、概述"><a href="#一、概述" class="headerlink" title="一、概述"></a>一、概述</h4><p>用于高性能深度学习推理的 SDK ，在生产环境中优化和部署神经网络，功能如下：</p>
+<ul>
+<li>使用编译器和运行时，最大化延迟关键应用的吞吐量 </li>
+<li>使用 INT8 和 FP16 优化部署，响应迅速且内存高效的应用程序 </li>
+<li>优化每个网络，包括 CNN、RNN 和 Transformer </li>
+<li>通过 ONNX 支持、原生 TensorRT 集成加速每个框架</li>
+<li>在具有容器化推理服务器的节点上运行多个模型 </li>
+</ul>
+<p><img src="/2021/07/25/TensorRT/tensorRT1.png" alt="TensorRT"></p>
+<h4 id="二、TensorRT优化"><a href="#二、TensorRT优化" class="headerlink" title="二、TensorRT优化"></a>二、TensorRT优化</h4><ul>
+<li><p>层和张量融合</p>
+<ul>
+<li>垂直融合</li>
+<li>水平融合</li>
+<li>层消除</li>
+<li>层合并</li>
+</ul>
+<p>左边为未优化的网络，右边为使用TensorRT优化的网络</p>
+<p><img src="/2021/07/25/TensorRT/tensorRT2.png" alt="TensorRT"></p>
+<p>| Network      | Layers before | Layers after |<br>| —————— | ——————- | —————— |<br>| VGG19        | 43            | 27           |<br>| Inception V3 | 309           | 113          |<br>| ResNet-152   | 670           | 159          |</p>
+</li>
+</ul>
+<p><strong>Supported Layer Fusions</strong></p>
+<ol>
+<li>Convolution and ReLUActivation</li>
+<li>FullyConnectedand ReLUActivation</li>
+<li>Scale and Activation</li>
+<li>Convolution And ElementWiseSum</li>
+<li>Shuffle and Reduce</li>
+<li>Shuffle and Shuffle</li>
+<li>Scale(add 0, multiply by 1)</li>
+<li>Convolution and Scale</li>
+<li>Reduce</li>
+</ol>
+<ul>
+<li><p>重量和激活精密校准 </p>
+</li>
+<li><p>内核自动调优 </p>
+<p><strong>Multiple factors:</strong></p>
+<ul>
+<li>Target platform</li>
+<li>Batch size</li>
+<li>Input dimensions</li>
+<li>Filter dimensions</li>
+<li>Tensor layout</li>
+</ul>
+<p><strong>Choice:</strong></p>
+<ul>
+<li>Implementation of specific algorithm</li>
+<li>Kernels</li>
+<li>Tensor Layouts</li>
+</ul>
+</li>
+<li><p>动态张量内存 </p>
+</li>
+</ul>
+<p>优化是完全自动的 ，使用单个函数调用执行 </p>
+<h4 id="三、FP16，INT8-Precision-calibration"><a href="#三、FP16，INT8-Precision-calibration" class="headerlink" title="三、FP16，INT8 Precision calibration"></a>三、FP16，INT8 Precision calibration</h4><p><strong>利用降低精度功能：</strong> </p>
+<ul>
+<li>FP16 (Tesla V100): 125 TflopsFP16 vs 15.7 TflopsFP32</li>
+<li>INT8 (T4, 70W): 130 INT8 TOPS vs 8.1 TflopsFP32</li>
+</ul>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>精度</th>
+<th>动态范围</th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>FP32</strong></td>
+<td>-3.4x10<SUP>38</SUP> ~ +3.4x10<SUP>38</SUP></td>
+<td>训练的精度</td>
+</tr>
+<tr>
+<td><strong>FP16</strong></td>
+<td>-65504 ~ +65504</td>
+<td>无需校正</td>
+</tr>
+<tr>
+<td><strong>INT8</strong></td>
+<td>-128 ~ +128</td>
+<td>需要校正</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><strong>INT8推理的精度校准：</strong> </p>
+<ul>
+<li>在校准数据集上最大限度地减少 FP32 和 INT8 推理之间的信息丢失 </li>
+<li>完全自动化</li>
+</ul>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th></th>
+<th><strong>FP32 Top 1</strong></th>
+<th><strong>INT8 Top 1</strong></th>
+<th><strong>Difference</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Googlenet</strong></td>
+<td><strong>68.87%</strong></td>
+<td><strong>68.49%</strong></td>
+<td><strong>0.38%</strong></td>
+</tr>
+<tr>
+<td><strong>VGG</strong></td>
+<td><strong>68.56%</strong></td>
+<td><strong>68.45%</strong></td>
+<td><strong>0.11%</strong></td>
+</tr>
+<tr>
+<td><strong>Resnet-50</strong></td>
+<td><strong>73.11%</strong></td>
+<td><strong>72.54%</strong></td>
+<td><strong>0.57%</strong></td>
+</tr>
+<tr>
+<td><strong>Resnet-152</strong></td>
+<td><strong>75.18%</strong></td>
+<td><strong>74.56%</strong></td>
+<td><strong>0.61%</strong></td>
+</tr>
+</tbody>
+</table>
+</div>
+<h4 id="四、TensorRT工作流"><a href="#四、TensorRT工作流" class="headerlink" title="四、TensorRT工作流"></a>四、TensorRT工作流</h4><p>1、工作流1 使用优化的训练模型直接进行推理 </p>
+<p><img src="/2021/07/25/TensorRT/tensorRT3.png" alt="TensorRT"></p>
+<p>2、工作流2 </p>
+<ol>
+<li><p>优化训练模型</p>
+<p><img src="/2021/07/25/TensorRT/tensorRT4.png" alt="TensorRT"></p>
+</li>
+<li><p>使用运行时部署优化计划 </p>
+<p><img src="/2021/07/25/TensorRT/tensorRT5.png" alt="TensorRT"></p>
+</li>
+</ol>
+<p>44 / 5000</p>
+<p><strong>使用网络定义 API 来定义网络</strong> </p>
+<h4 id="五、序列化"><a href="#五、序列化" class="headerlink" title="五、序列化"></a>五、序列化</h4><p>序列化和反序列化是可选的，用于存储和以后使用。 序列化引擎不能跨平台或 TensorRT 版本移植。 </p>
+<h4 id="六、量化处理"><a href="#六、量化处理" class="headerlink" title="六、量化处理"></a>六、量化处理</h4><p>量化意识训练 ：提高了 INT8 推理的准确性 </p>
+<ul>
+<li>与训练后量化 (PTQ) 相比，准确度更高 </li>
+<li>以最小的精度损失量化最先进的模型 </li>
+<li>基于 PyTorch中的OSS量化工具包，支持 QAT、PTQ 和导出到 ONNX </li>
+<li>TensorRT 在不影响性能的情况下优化 Q/DQ 图进行推理 </li>
+</ul>
+<h4 id="七、稀疏支持"><a href="#七、稀疏支持" class="headerlink" title="七、稀疏支持"></a>七、稀疏支持</h4><p>通过稀疏性以低延迟最大化吞吐量 </p>
+<ul>
+<li>具有 2:4 细粒度结构稀疏性的新优化可提高性能，将权重减少一半 </li>
+<li>ASP (Automatic SParsity) 提供易于使用的工作流程来诱导稀疏性，同时保持原始密集网络的准确性 </li>
+<li>TensorRT 使用稀疏内核加速推理 </li>
+</ul>
+<h4 id="八、TRANSFORMER-OPTIMIZATIONS"><a href="#八、TRANSFORMER-OPTIMIZATIONS" class="headerlink" title="八、TRANSFORMER OPTIMIZATIONS"></a>八、TRANSFORMER OPTIMIZATIONS</h4><p>基于 Transformer 的网络的高性能融合内核生成 ，在生产环境中部署高度优化的基于 Transformers 的应用程序 。</p>
+<ul>
+<li>编译器融合多个操作，减少内核数量和执行时间 </li>
+<li>消除网络中的转置操作，全局地加速 GEMMs</li>
+<li>TensorRT 为 Transformer 构建块生成高度优化的内核，例如 MultiheadAttention </li>
+</ul>
+<h4 id="九、全新的全连接层优化"><a href="#九、全新的全连接层优化" class="headerlink" title="九、全新的全连接层优化"></a>九、全新的全连接层优化</h4><p>加速基于 MLP 的网络 </p>
+<ul>
+<li>用 1x1 卷积替换全连接层，提高计算速度 </li>
+<li>FullConnectedLayers 中的新优化可提高 MLP、BERT 等网络的性能 </li>
+<li>在 INT8 模式下使用 Tensor Core 提高性能。 </li>
+</ul>
+<h4 id="十、循环神经网络的优化"><a href="#十、循环神经网络的优化" class="headerlink" title="十、循环神经网络的优化"></a>十、循环神经网络的优化</h4><p>在生产环境中部署高度优化的对话式 AI 应用程序 </p>
+<ul>
+<li>用于定义在 RNN 中找到的循环的新 API </li>
+<li>编译器融合 pointwise ops，生成优化的内核，并跨时间步融合 ops </li>
+<li>在 300 毫秒内运行 ASR、NLU 和 TTS，这是实时应用程序的要求，10 倍性能与 CPU </li>
+<li>支持的模型：BERT、MT-DNN、RoBERTa、Tacotron2、WaveRNN、DeepASR、GNMT、LSTM Peephole、LSTM Autoencoder </li>
+</ul>
+<p><strong>可变输入尺寸支持</strong>，<strong>可变批量支持</strong> ，<strong>使用 MLP 进行神经协同过滤</strong> </p>
+<p>最大化接收可变大小输入的应用程序的推理性能 </p>
+<p><img src="/2021/07/25/TensorRT/tensorRT6.png" alt="TensorRT"></p>
+<h2 id="Triton"><a href="#Triton" class="headerlink" title="Triton"></a>Triton</h2><p>一种模式的推理服务，带有一个/多个 GPU 卡（通常在一个容器中作为服务）。可以与K8S集群—多卡多节点推理服务（容器化服务编排工具集）作比较。</p>
+<h4 id="一、TRITON-基本功能"><a href="#一、TRITON-基本功能" class="headerlink" title="一、TRITON 基本功能"></a>一、TRITON 基本功能</h4><ul>
+<li>支持多种模型框架（TensorFlow、PyTorch、TensorRT、ONNX RT 和自定义后端）</li>
+<li>CPU, GPU, Multi-GPU support</li>
+<li>并发模型执行（CPU 级优化）</li>
+<li>服务器 HTTP/REST、gRPC APIS </li>
+<li>通过延迟和健康指标与编排系统和自动缩放器集成</li>
+<li>模型管理、加载/卸载、模型更新 </li>
+<li>开源，在 GitHub 和 NGCas docker 容器上每月发布一次 </li>
+</ul>
+<p><strong>架构图</strong></p>
+<p><img src="/2021/07/25/TensorRT/tensorRT7.png" alt="TensorRT"></p>
+<h4 id="二、TRITON-的主要设计理念"><a href="#二、TRITON-的主要设计理念" class="headerlink" title="二、TRITON 的主要设计理念"></a>二、TRITON 的主要设计理念</h4><p><strong>想象一下基于推理生命周期：</strong> </p>
+<ul>
+<li>支持多种模型框架 -&gt; 这受制于框架，应由框架解耦 -&gt; Backends </li>
+<li>常用功能 <ul>
+<li>常用后台管理 </li>
+<li>模型管理——加载/卸载、模型更新、查询模型状态等</li>
+<li>并发模型执行——实例管理  </li>
+<li>请求队列分发和调度 </li>
+<li>推理生命周期管理 <ul>
+<li>推理请求的管理</li>
+<li>推理响应的管理</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>GRPC相关<ul>
+<li>GRPC服务器</li>
+</ul>
+</li>
+</ul>
+<p><strong>想象一下基于客户场景的抽象（注意：主要是模型类型相关）：</strong> </p>
+<p>大致可以分为三类 ：</p>
+<ul>
+<li>简单的独立模型 </li>
+<li>与模型管道集成 </li>
+<li>有状态模型 </li>
+</ul>
+<ol>
+<li>Stateless<ul>
+<li>CV</li>
+<li>默认调度器，动态批处理 </li>
+</ul>
+</li>
+<li>Stateful（预测结果取决于之前的序列）<ul>
+<li>NLP</li>
+<li>序列批次 </li>
+</ul>
+</li>
+<li>Ensemble<ul>
+<li>模型管道 </li>
+<li>每个模型都可以有自己的调度程序 </li>
+</ul>
+</li>
+</ol>
+<h4 id="三、模型组合"><a href="#三、模型组合" class="headerlink" title="三、模型组合"></a>三、模型组合</h4><ul>
+<li>一个或多个模型的流水线以及这些模型之间输入和输出张量的连接 </li>
+<li>用于数据预处理→推理→数据后处理等多模型的模型拼接或数据流转</li>
+<li>收集每个步骤中的输出张量，根据规范将它们作为其他步骤的输入张量提供 </li>
+<li>Ensemble 模型会继承所涉及模型的特性，因此请求头中的元数据必须符合 ensemble 内的模型 </li>
+</ul>
+<p><img src="/2021/07/25/TensorRT/tensorRT8.png" alt="TensorRT"></p>
+<h4 id="四、框架后端和客户后端"><a href="#四、框架后端和客户后端" class="headerlink" title="四、框架后端和客户后端"></a>四、框架后端和客户后端</h4><ul>
+<li>大多数基于框架的后端在Triton Github是独立的存储库</li>
+<li>通常，客户只需要实现一个客户后端 <ul>
+<li>模型可以具有非 ML 模型部分（BERT：标记器、特征提取器）。 Triton 后端 API 允许将这些类型的扩展集成到 Triton 中。 </li>
+<li>API 还允许用户在 Triton 中集成他们自己的执行引擎实现作为自定义后端。 </li>
+<li>好处： <ul>
+<li>使用向后兼容的 C API 将代码实现为共享库 </li>
+<li>利用完整的 Triton 功能集（与现有框架相同）</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h4 id="五、Triton辅助功能"><a href="#五、Triton辅助功能" class="headerlink" title="五、Triton辅助功能"></a>五、Triton辅助功能</h4><h5 id="1、模型分析"><a href="#1、模型分析" class="headerlink" title="1、模型分析"></a>1、模型分析</h5><ul>
+<li>模型分析器是一套工具，可根据特定的性能要求，提供有关如何在 Triton 中最佳优化单个或多个模型的分析和指导 </li>
+<li>在选择正确的模型配置时，它可以帮助用户在吞吐量、延迟和 GPU 内存占用方面做出权衡决定 </li>
+<li>提供两种基准测试功能： <ul>
+<li>性能分析 - 测量不同客户端负载下的吞吐量 (inf/s) 和延迟 </li>
+<li>内存分析 - 测量模型在不同配置下的 GPU 内存占用 </li>
+</ul>
+</li>
+</ul>
+<h5 id="2、内存分析"><a href="#2、内存分析" class="headerlink" title="2、内存分析"></a>2、内存分析</h5><ul>
+<li>针对各种批量大小和请求并发值测量模型的 GPU 内存占用。 然后可以使用结果来确定最佳模型配置，在满足内存利用率要求的同时最大限度地提高性能 </li>
+<li><strong>优化硬件使用：</strong>确定每个 GPU 可以加载的最大模型数量，减少所需的硬件，或权衡吞吐量 </li>
+<li><strong>最大化模型吞吐量：</strong>确保放置在每个 GPU 上的模型总和不会超过可用内存和 GPU 利用率的特定阈值。 这最大限度地提高了您的硬件的吞吐量 </li>
+<li><strong>提高可靠性：</strong>通过了解您在 GPU 上加载的模型不会超出其能力来消除内存不足错误 </li>
+<li><strong>更好的硬件规模：</strong>使用内存要求确定运行模型所需的确切硬件数量 </li>
+</ul>
+<p><a href="https://docs.nvidia.com/deeplearning/sdk/inference-release-notes/index.htmlhttps://docs.nvidia.com/deeplearning/sdk/triton-inference-serverguide/docs/quickstart.html" target="_blank" rel="noopener">Triton官网学习资料</a></p>
+<p><a href="https://github.com/NVIDIA/triton-inference-server" target="_blank" rel="noopener">开源Gitlab存储库</a></p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Model-Compression-and-Acceleration/" rel="tag"># Model Compression and Acceleration</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/07/25/Open-Neural-Network-Exchange/" rel="prev" title="Open-Neural-Network-Exchange">
+      <i class="fa fa-chevron-left"></i> Open-Neural-Network-Exchange
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2021/07/25/hello-world/" rel="next" title="Hello World">
+      Hello World <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+    <div class="comments" id="gitalk-container"></div>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#TensorRT"><span class="nav-number">1.</span> <span class="nav-text">TensorRT</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#一、概述"><span class="nav-number">1.0.1.</span> <span class="nav-text">一、概述</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#二、TensorRT优化"><span class="nav-number">1.0.2.</span> <span class="nav-text">二、TensorRT优化</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#三、FP16，INT8-Precision-calibration"><span class="nav-number">1.0.3.</span> <span class="nav-text">三、FP16，INT8 Precision calibration</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#四、TensorRT工作流"><span class="nav-number">1.0.4.</span> <span class="nav-text">四、TensorRT工作流</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#五、序列化"><span class="nav-number">1.0.5.</span> <span class="nav-text">五、序列化</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#六、量化处理"><span class="nav-number">1.0.6.</span> <span class="nav-text">六、量化处理</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#七、稀疏支持"><span class="nav-number">1.0.7.</span> <span class="nav-text">七、稀疏支持</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#八、TRANSFORMER-OPTIMIZATIONS"><span class="nav-number">1.0.8.</span> <span class="nav-text">八、TRANSFORMER OPTIMIZATIONS</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#九、全新的全连接层优化"><span class="nav-number">1.0.9.</span> <span class="nav-text">九、全新的全连接层优化</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#十、循环神经网络的优化"><span class="nav-number">1.0.10.</span> <span class="nav-text">十、循环神经网络的优化</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Triton"><span class="nav-number">2.</span> <span class="nav-text">Triton</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#一、TRITON-基本功能"><span class="nav-number">2.0.1.</span> <span class="nav-text">一、TRITON 基本功能</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#二、TRITON-的主要设计理念"><span class="nav-number">2.0.2.</span> <span class="nav-text">二、TRITON 的主要设计理念</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#三、模型组合"><span class="nav-number">2.0.3.</span> <span class="nav-text">三、模型组合</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#四、框架后端和客户后端"><span class="nav-number">2.0.4.</span> <span class="nav-text">四、框架后端和客户后端</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#五、Triton辅助功能"><span class="nav-number">2.0.5.</span> <span class="nav-text">五、Triton辅助功能</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1、模型分析"><span class="nav-number">2.0.5.1.</span> <span class="nav-text">1、模型分析</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2、内存分析"><span class="nav-number">2.0.5.2.</span> <span class="nav-text">2、内存分析</span></a></li></ol></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Qiang Chen</p>
+  <div class="site-description" itemprop="description">记录是忘记的第一助手.</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">62</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">11</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">20</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/chenaing19" title="GitHub → https://github.com/chenaing19" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/765206494@qq.com" title="E-Mail → 765206494@qq.com"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Qiang Chen</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v4.0.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 �?<a href="https://mist.theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> v7.5.0
+  </div>
+    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+  
+  <script color='0,0,255' opacity='0.5' zIndex='-1' count='99' src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/muse.js"></script>
+<script src="/js/next-boot.js"></script>
+
+
+
+  
+
+
+
+
+  <script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+      
+<script type="text/x-mathjax-config">
+
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$', '$'], ['\\(', '\\)'] ],
+      processEscapes: true,
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {
+      equationNumbers: {
+        autoNumber: 'AMS'
+      }
+    }
+  });
+
+  MathJax.Hub.Register.StartupHook('TeX Jax Ready', function() {
+    MathJax.InputJax.TeX.prefilterHooks.Add(function(data) {
+      if (data.display) {
+        var next = data.script.nextSibling;
+        while (next && next.nodeName.toLowerCase() === '#text') {
+          next = next.nextSibling;
+        }
+        if (next && next.nodeName.toLowerCase() === 'br') {
+          next.parentNode.removeChild(next);
+        }
+      }
+    });
+  });
+
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for (i = 0; i < all.length; i += 1) {
+      element = document.getElementById(all[i].inputID + '-Frame').parentNode;
+      if (element.nodeName.toLowerCase() == 'li') {
+        element = element.parentNode;
+      }
+      element.classList.add('has-jax');
+    }
+  });
+</script>
+<script>
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/mathjax@2/MathJax.js?config=TeX-AMS-MML_HTMLorMML', () => {
+    MathJax.Hub.Typeset();
+  }, window.MathJax);
+</script>
+
+    
+
+  
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID: '9c00bb4a73071d490d0b',
+      clientSecret: '0466125432b53cefbd6002b7ea866f7e15bbd9c8',
+      repo: 'chenqiang19.github.io',
+      owner: 'chenqiang19',
+      admin: ['chenqiang19'],
+      id: '7aaf02299048da805e339353f8b8a90a',
+        language: '',
+      distractionFreeMode: 'true'
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+</script>
+
+  
+  <!-- ҳ����С���� -->
+  
+  
+    <script src="/js/cursor/love.min.js"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  
+
+
+
+</body>
+</html>

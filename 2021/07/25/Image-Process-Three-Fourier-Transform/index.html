@@ -1,0 +1,722 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    hostname: new URL('http://yoursite.com').hostname,
+    root: '/',
+    scheme: 'Mist',
+    version: '7.5.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    sidebarPadding: 40
+  };
+</script>
+
+  <meta name="description" content="图像处理学习第一部分 离散傅里叶变换这里先引入单变量的离散傅里叶变换(DFT)。  \begin{align} &amp;假设原始函数为f(x),经过采样后的函数为\tilde{f}(x),采样函数相应的傅里叶变换为\tilde{F}(\mu),则利用傅里叶变换可得： \\ &amp;\tilde{F}(\mu)&#x3D;\int_{-\infty}^{\infty}\tilde{f}(x)e^{-j2\pi\mu t}">
+<meta name="keywords" content="Image Processing">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Image-Process-Three-Fourier-Transform">
+<meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2021&#x2F;07&#x2F;25&#x2F;Image-Process-Three-Fourier-Transform&#x2F;index.html">
+<meta property="og:site_name" content="编辑尼撑">
+<meta property="og:description" content="图像处理学习第一部分 离散傅里叶变换这里先引入单变量的离散傅里叶变换(DFT)。  \begin{align} &amp;假设原始函数为f(x),经过采样后的函数为\tilde{f}(x),采样函数相应的傅里叶变换为\tilde{F}(\mu),则利用傅里叶变换可得： \\ &amp;\tilde{F}(\mu)&#x3D;\int_{-\infty}^{\infty}\tilde{f}(x)e^{-j2\pi\mu t}">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2021-07-25T12:35:01.764Z">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://yoursite.com/2021/07/25/Image-Process-Three-Fourier-Transform/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>Image-Process-Three-Fourier-Transform | 编辑尼撑</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="编辑尼撑" type="application/atom+xml"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">编辑尼撑</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">学无止境</p>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-schedule">
+
+    <a href="/schedule/" rel="section"><i class="fa fa-fw fa-calendar"></i>日程表</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="搜索..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/07/25/Image-Process-Three-Fourier-Transform/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Qiang Chen">
+      <meta itemprop="description" content="记录是忘记的第一助手.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="编辑尼撑">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Image-Process-Three-Fourier-Transform
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2021-07-25 20:32:11 / 修改时间：20:35:01" itemprop="dateCreated datePublished" datetime="2021-07-25T20:32:11+08:00">2021-07-25</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Image-Processing/" itemprop="url" rel="index">
+                    <span itemprop="name">Image Processing</span>
+                  </a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="图像处理学习"><a href="#图像处理学习" class="headerlink" title="图像处理学习"></a>图像处理学习</h2><h4 id="第一部分-离散傅里叶变换"><a href="#第一部分-离散傅里叶变换" class="headerlink" title="第一部分 离散傅里叶变换"></a>第一部分 离散傅里叶变换</h4><p>这里先引入单变量的离散傅里叶变换(DFT)。</p>
+<script type="math/tex; mode=display">
+\begin{align}
+&假设原始函数为f(x),经过采样后的函数为\tilde{f}(x),采样函数相应的傅里叶变换为\tilde{F}(\mu),则利用傅里叶变换可得： \\
+&\tilde{F}(\mu)=\int_{-\infty}^{\infty}\tilde{f}(x)e^{-j2\pi\mu t}dt \\
+&根据数字图像处理p131的式(4.3-1)，\tilde{f}(t)=f(t)s_{\Delta T}(t)=\sum_{n=-\infty}^{\infty}f(t)\delta(t-n\Delta T),代入得： \\
+\tilde{F}(\mu)=&\int_{-\infty}^{\infty}\tilde{f}(t)e^{-j2\pi\mu t}dt=\int_{-\infty}^{\infty}\sum_{n=-\infty}^{\infty}f(t)\delta(t-n\Delta T)e^{-j2\pi\mu t}dt \\
+=&\sum_{n=-\infty}^{\infty}\int_{-\infty}^{\infty}f(t)\delta(t-n\Delta T)e^{-j2\pi\mu t}dt=\sum_{\infty}^{\infty}f_ne^{-j2\pi\mu n\Delta T}
+\end{align}</script><p>上式得最后一步推导有点不理解，下面给出个人的一个理解：</p>
+<script type="math/tex; mode=display">
+由于单位冲激函数\delta(t)的定义为：\\
+\delta(t)=\begin{cases}
+\infty & t=0 \\
+0 & t\neq0 
+\end{cases},那么
+\delta(t-t_0)=\begin{cases}
+\infty & t-t_0=0 \\
+0 & t-t_0\neq0 
+\end{cases} \\
+又根据取样特性：\int_{-\infty}^{\infty}f(t)\delta(t-t_0)dt=f(t_0)，这里可以直接把\int_{-\infty}^{\infty}f(t)\delta(t-t_0)dt=f(t_0)看成\int_{-\infty}^{\infty}f(t_0)\delta(t-t_0)dt=f(t_0)\\
+因为\int_{-\infty}^{\infty}\delta(t-t_0)d(t-t_0)=1， \int_{-\infty}^{\infty}f(t_0)\delta(t-t_0)dt=f(t_0)=f(t_0)\int_{-\infty}^{\infty}\delta(t-t_0)dt=f(t_0)\\
+所以，\sum_{n=-\infty}^{\infty}\int_{-\infty}^{\infty}f(t)\delta(t-n\Delta T)e^{-j2\pi\mu t}dt=\sum_{n=-\infty}^{\infty}\int_{-\infty}^{\infty}f(n\Delta T)\delta(t-n\Delta T)e^{-j2\pi\mu t}dt=\sum_{n=-\infty}^{\infty}f(n\Delta T)\int_{-\infty}^{\infty}\delta(t-n\Delta T)e^{-j2\pi\mu t}dt\\
+由于数字图像处理p129中例4.2,F(\mu)=\int_{-\infty}^{\infty}\delta(t-t_0)e^{-j2\pi\mu t}dt=e^{-j2\pi\mu t_0},所以上式等于 \\
+\sum_{n=-\infty}^{\infty}\int_{-\infty}^{\infty}f(n\Delta T)\delta(t-n\Delta T)e^{-j2\pi\mu t}dt=\sum_{n=-\infty}^{\infty}f(n\Delta T)e^{-j2\pi\mu n\Delta T} \\
+因为数字图像处理p132中式(4.3-2),f_k=\int_{-\infty}^{\infty}f(t)\delta(t-k\Delta T)dt=f(k\Delta T) \\
+所以，\sum_{n=-\infty}^{\infty}\int_{-\infty}^{\infty}f(n\Delta T)\delta(t-n\Delta T)e^{-j2\pi\mu t}dt=\sum_{n=-\infty}^{\infty}f_ne^{-j2\pi\mu n\Delta T}</script><p>假设想要在周期&mu;=0到&amp;mu=1/&Delta;T之间得到M个等间距的样本，可以通过在如下频率处取样：</p>
+<script type="math/tex; mode=display">
+\mu=\frac{m}{M\Delta T},m=0,1,2,\cdots,M-1,代入\tilde{F}(\mu)得，F_m=\sum_{n=0}^{M-1}f_ne^{-j2\pi mn/M},M=0,1,2,\cdots,M-1</script><p>根据上面一维离散傅里叶变换得推导，可以扩展到下面得二维离散傅里叶变换得情况。</p>
+<p>二维离散傅立叶变换是傅立叶变换在图像处理上的应用方法。通常傅立叶变换用于分离模拟信号或音频等连续一维信号的频率。但是，数字图像使用[0, 255]范围内的离散值表示，范围内的离散值表示，并且图像使用HxW的二维矩阵表示，所以在这里使用二维离散傅立叶变换。二维离散傅立叶变换使用下式计算，其中 表示输入图像：</p>
+<script type="math/tex; mode=display">
+G(u,v)=\sum^{M-1}_{x=0}\sum^{N-1}_{y=0}I(x,y)e^{-2\cdot \pi\cdot j\cdot (\frac{ux}{M}+\frac{vy}{N})}</script><p>二维傅里叶逆变换从频率分量G按照下式复原图像：</p>
+<script type="math/tex; mode=display">
+I(x,y)=\frac{1}{M\cdot N}\sum^{M-1}_{x=0}\sum^{N-1}_{y=0}G(u,v)e^{2\cdot \pi\cdot j\cdot (\frac{ux}{M}+\frac{vy}{N})}</script><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line"><span class="comment"># DFT hyper-parameters</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">K, L = <span class="number">128</span>, <span class="number">128</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">channel = <span class="number">3</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line"><span class="comment"># DFT</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">dft</span><span class="params">(img)</span>:</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">	H, W, _ = img.shape</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line">	<span class="comment"># Prepare DFT coefficient</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">11</span></pre></td><td class="code"><pre><span class="line">	G = np.zeros((L, K, channel), dtype=np.complex)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">12</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">13</span></pre></td><td class="code"><pre><span class="line">	<span class="comment"># prepare processed index corresponding to original image positions</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">14</span></pre></td><td class="code"><pre><span class="line">	x = np.tile(np.arange(W), (H, <span class="number">1</span>))</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">15</span></pre></td><td class="code"><pre><span class="line">	y = np.arange(H).repeat(W).reshape(H, <span class="number">-1</span>)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">16</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">17</span></pre></td><td class="code"><pre><span class="line">	<span class="comment"># dft</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">18</span></pre></td><td class="code"><pre><span class="line">	<span class="keyword">for</span> c <span class="keyword">in</span> range(channel):</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">19</span></pre></td><td class="code"><pre><span class="line">		<span class="keyword">for</span> l <span class="keyword">in</span> range(L):</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">20</span></pre></td><td class="code"><pre><span class="line">			<span class="keyword">for</span> k <span class="keyword">in</span> range(K):</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">21</span></pre></td><td class="code"><pre><span class="line">				G[l, k, c] = np.sum(img[..., c] * np.exp(<span class="number">-2j</span> * np.pi * (x * k / K + y * l / L))) / np.sqrt(K * L)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">22</span></pre></td><td class="code"><pre><span class="line">				<span class="comment">#for n in range(N):</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">23</span></pre></td><td class="code"><pre><span class="line">				<span class="comment">#    for m in range(M):</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">24</span></pre></td><td class="code"><pre><span class="line">				<span class="comment">#        v += gray[n, m] * np.exp(-2j * np.pi * (m * k / M + n * l / N))</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">25</span></pre></td><td class="code"><pre><span class="line">				<span class="comment">#G[l, k] = v / np.sqrt(M * N)</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">26</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">27</span></pre></td><td class="code"><pre><span class="line">	<span class="keyword">return</span> G</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">28</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">29</span></pre></td><td class="code"><pre><span class="line"><span class="comment"># IDFT</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">30</span></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">idft</span><span class="params">(G)</span>:</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">31</span></pre></td><td class="code"><pre><span class="line">	<span class="comment"># prepare out image</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">32</span></pre></td><td class="code"><pre><span class="line">	H, W, _ = G.shape</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">33</span></pre></td><td class="code"><pre><span class="line">	out = np.zeros((H, W, channel), dtype=np.float32)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">34</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">35</span></pre></td><td class="code"><pre><span class="line">	<span class="comment"># prepare processed index corresponding to original image positions</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">36</span></pre></td><td class="code"><pre><span class="line">	x = np.tile(np.arange(W), (H, <span class="number">1</span>))</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">37</span></pre></td><td class="code"><pre><span class="line">	y = np.arange(H).repeat(W).reshape(H, <span class="number">-1</span>)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">38</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">39</span></pre></td><td class="code"><pre><span class="line">	<span class="comment"># idft</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">40</span></pre></td><td class="code"><pre><span class="line">	<span class="keyword">for</span> c <span class="keyword">in</span> range(channel):</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">41</span></pre></td><td class="code"><pre><span class="line">		<span class="keyword">for</span> l <span class="keyword">in</span> range(H):</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">42</span></pre></td><td class="code"><pre><span class="line">			<span class="keyword">for</span> k <span class="keyword">in</span> range(W):</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">43</span></pre></td><td class="code"><pre><span class="line">				out[l, k, c] = np.abs(np.sum(G[..., c] * np.exp(<span class="number">2j</span> * np.pi * (x * k / W + y * l / H)))) / np.sqrt(W * H)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">44</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">45</span></pre></td><td class="code"><pre><span class="line">	<span class="comment"># clipping</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">46</span></pre></td><td class="code"><pre><span class="line">	out = np.clip(out, <span class="number">0</span>, <span class="number">255</span>)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">47</span></pre></td><td class="code"><pre><span class="line">	out = out.astype(np.uint8)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">48</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">49</span></pre></td><td class="code"><pre><span class="line">	<span class="keyword">return</span> out</span></pre></td></tr></table></figure>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> <span class="built_in">height</span> = <span class="number">128</span>, <span class="built_in">width</span> = <span class="number">128</span>;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">fourier_str</span> &#123;</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">  <span class="built_in">std</span>::<span class="built_in">complex</span>&lt;<span class="keyword">double</span>&gt; coef[<span class="built_in">height</span>][<span class="built_in">width</span>];</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">&#125;;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line"><span class="comment">// RGB to Gray scale</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line"><span class="function">cv::Mat <span class="title">BGR2GRAY</span><span class="params">(cv::Mat img)</span></span>&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line">  <span class="comment">// prepare output</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line">  cv::Mat out = cv::Mat::zeros(<span class="built_in">height</span>, <span class="built_in">width</span>, CV_8UC1);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">11</span></pre></td><td class="code"><pre><span class="line">  </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">12</span></pre></td><td class="code"><pre><span class="line">  <span class="comment">// BGR -&gt; Gray</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">13</span></pre></td><td class="code"><pre><span class="line">  <span class="keyword">for</span> (<span class="keyword">int</span> y = <span class="number">0</span>; y &lt; <span class="built_in">height</span>; y++)&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">14</span></pre></td><td class="code"><pre><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> x = <span class="number">0</span>; x &lt; <span class="built_in">width</span>; x++)&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">15</span></pre></td><td class="code"><pre><span class="line">      out.at&lt;uchar&gt;(y, x) = (<span class="keyword">int</span>)((<span class="keyword">float</span>)img.at&lt;cv::Vec3b&gt;(y, x)[<span class="number">0</span>] * <span class="number">0.0722</span> + \</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">16</span></pre></td><td class="code"><pre><span class="line">				  (<span class="keyword">float</span>)img.at&lt;cv::Vec3b&gt;(y, x)[<span class="number">1</span>] * <span class="number">0.7152</span> + \</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">17</span></pre></td><td class="code"><pre><span class="line">				  (<span class="keyword">float</span>)img.at&lt;cv::Vec3b&gt;(y, x)[<span class="number">2</span>] * <span class="number">0.2126</span>);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">18</span></pre></td><td class="code"><pre><span class="line">    &#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">19</span></pre></td><td class="code"><pre><span class="line">  &#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">20</span></pre></td><td class="code"><pre><span class="line">  <span class="keyword">return</span> out;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">21</span></pre></td><td class="code"><pre><span class="line">&#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">22</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">23</span></pre></td><td class="code"><pre><span class="line"><span class="comment">// Discrete Fourier transformation</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">24</span></pre></td><td class="code"><pre><span class="line"><span class="function">fourier_str <span class="title">dft</span><span class="params">(cv::Mat img, fourier_str fourier_s)</span></span>&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">25</span></pre></td><td class="code"><pre><span class="line">  <span class="keyword">double</span> I;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">26</span></pre></td><td class="code"><pre><span class="line">  <span class="keyword">double</span> theta;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">27</span></pre></td><td class="code"><pre><span class="line">  <span class="built_in">std</span>::<span class="built_in">complex</span>&lt;<span class="keyword">double</span>&gt; val;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">28</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">29</span></pre></td><td class="code"><pre><span class="line">  <span class="keyword">for</span> (<span class="keyword">int</span> l = <span class="number">0</span>; l &lt; <span class="built_in">height</span>; l ++)&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">30</span></pre></td><td class="code"><pre><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> k = <span class="number">0</span>; k &lt; <span class="built_in">width</span>; k ++)&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">31</span></pre></td><td class="code"><pre><span class="line">      val.real(<span class="number">0</span>);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">32</span></pre></td><td class="code"><pre><span class="line">      val.imag(<span class="number">0</span>);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">33</span></pre></td><td class="code"><pre><span class="line">      <span class="keyword">for</span> (<span class="keyword">int</span> y = <span class="number">0</span>; y &lt; <span class="built_in">height</span>; y++)&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">34</span></pre></td><td class="code"><pre><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> x = <span class="number">0</span>; x &lt; <span class="built_in">width</span>; x++)&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">35</span></pre></td><td class="code"><pre><span class="line">          I = (<span class="keyword">double</span>)img.at&lt;uchar&gt;(y, x);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">36</span></pre></td><td class="code"><pre><span class="line">          theta = <span class="number">-2</span> * M_PI * ((<span class="keyword">double</span>)k * (<span class="keyword">double</span>)x / (<span class="keyword">double</span>)<span class="built_in">width</span> + (<span class="keyword">double</span>)l * (<span class="keyword">double</span>)y / (<span class="keyword">double</span>)<span class="built_in">height</span>);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">37</span></pre></td><td class="code"><pre><span class="line">          val += <span class="built_in">std</span>::<span class="built_in">complex</span>&lt;<span class="keyword">double</span>&gt;(<span class="built_in">cos</span>(theta), <span class="built_in">sin</span>(theta)) * I;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">38</span></pre></td><td class="code"><pre><span class="line">        &#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">39</span></pre></td><td class="code"><pre><span class="line">      &#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">40</span></pre></td><td class="code"><pre><span class="line">      val /= <span class="built_in">sqrt</span>(<span class="built_in">height</span> * <span class="built_in">width</span>);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">41</span></pre></td><td class="code"><pre><span class="line">      fourier_s.coef[l][k] = val;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">42</span></pre></td><td class="code"><pre><span class="line">    &#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">43</span></pre></td><td class="code"><pre><span class="line">  &#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">44</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">45</span></pre></td><td class="code"><pre><span class="line">  <span class="keyword">return</span> fourier_s;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">46</span></pre></td><td class="code"><pre><span class="line">&#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">47</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">48</span></pre></td><td class="code"><pre><span class="line"><span class="comment">// Inverse Discrete Fourier transformation</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">49</span></pre></td><td class="code"><pre><span class="line"><span class="function">cv::Mat <span class="title">idft</span><span class="params">(cv::Mat out, fourier_str fourier_s)</span></span>&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">50</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">51</span></pre></td><td class="code"><pre><span class="line">  <span class="keyword">double</span> theta;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">52</span></pre></td><td class="code"><pre><span class="line">  <span class="keyword">double</span> g;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">53</span></pre></td><td class="code"><pre><span class="line">  <span class="built_in">std</span>::<span class="built_in">complex</span>&lt;<span class="keyword">double</span>&gt; G;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">54</span></pre></td><td class="code"><pre><span class="line">  <span class="built_in">std</span>::<span class="built_in">complex</span>&lt;<span class="keyword">double</span>&gt; val;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">55</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">56</span></pre></td><td class="code"><pre><span class="line">  <span class="keyword">for</span> ( <span class="keyword">int</span> y = <span class="number">0</span>; y &lt; <span class="built_in">height</span>; y ++)&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">57</span></pre></td><td class="code"><pre><span class="line">    <span class="keyword">for</span> ( <span class="keyword">int</span> x = <span class="number">0</span>; x &lt; <span class="built_in">width</span>; x ++)&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">58</span></pre></td><td class="code"><pre><span class="line">      val.real(<span class="number">0</span>);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">59</span></pre></td><td class="code"><pre><span class="line">      val.imag(<span class="number">0</span>);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">60</span></pre></td><td class="code"><pre><span class="line">      <span class="keyword">for</span> ( <span class="keyword">int</span> l = <span class="number">0</span>; l &lt; <span class="built_in">height</span>; l ++)&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">61</span></pre></td><td class="code"><pre><span class="line">        <span class="keyword">for</span> ( <span class="keyword">int</span> k = <span class="number">0</span>; k &lt; <span class="built_in">width</span>; k ++)&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">62</span></pre></td><td class="code"><pre><span class="line">          G = fourier_s.coef[l][k];</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">63</span></pre></td><td class="code"><pre><span class="line">          theta = <span class="number">2</span> * M_PI * ((<span class="keyword">double</span>)k * (<span class="keyword">double</span>)x / (<span class="keyword">double</span>)<span class="built_in">width</span> + (<span class="keyword">double</span>)l * (<span class="keyword">double</span>)y / (<span class="keyword">double</span>)<span class="built_in">height</span>);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">64</span></pre></td><td class="code"><pre><span class="line">          val += <span class="built_in">std</span>::<span class="built_in">complex</span>&lt;<span class="keyword">double</span>&gt;(<span class="built_in">cos</span>(theta), <span class="built_in">sin</span>(theta)) * G;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">65</span></pre></td><td class="code"><pre><span class="line">        &#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">66</span></pre></td><td class="code"><pre><span class="line">      &#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">67</span></pre></td><td class="code"><pre><span class="line">      g = <span class="built_in">std</span>::<span class="built_in">abs</span>(val) / <span class="built_in">sqrt</span>(<span class="built_in">height</span> * <span class="built_in">width</span>);      </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">68</span></pre></td><td class="code"><pre><span class="line">      out.at&lt;uchar&gt;(y, x) = (uchar)g;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">69</span></pre></td><td class="code"><pre><span class="line">    &#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">70</span></pre></td><td class="code"><pre><span class="line">  &#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">71</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">72</span></pre></td><td class="code"><pre><span class="line">  <span class="keyword">return</span> out;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">73</span></pre></td><td class="code"><pre><span class="line">&#125;</span></pre></td></tr></table></figure>
+<h4 id="第二部分-二维傅里叶变换的一些性质"><a href="#第二部分-二维傅里叶变换的一些性质" class="headerlink" title="第二部分 二维傅里叶变换的一些性质"></a>第二部分 二维傅里叶变换的一些性质</h4><h5 id="1、平移"><a href="#1、平移" class="headerlink" title="1、平移"></a>1、平移</h5><script type="math/tex; mode=display">
+f(x,y)e^{j2\pi(u_0x/M+v_0y/N)}\Leftrightarrow F(u-u_0,v-v_0),f(x-x_0,y-y_0)\Leftrightarrow F(u,v)e^{-j2\pi(x_0u/M+y_0v/N)}</script><p>上式指出，用指数项乘以f(x,y)将使DFT的原点移到点(u<sub>0</sub>,v<sub>0</sub>)；反之，用负指数乘以F(u,v)将使f(x,y)的原点移到点(x<sub>0</sub>,y<sub>0</sub>)。要证明上式成立，首先需要看清楚指数项所乘的对象，与对应的转换。</p>
+<script type="math/tex; mode=display">
+\because F(u,v)=\sum^{M-1}_{x=0}\sum^{N-1}_{y=0}f(x,y)e^{-j2\pi(ux/M+vy/N)}</script><script type="math/tex; mode=display">
+\therefore \sum^{M-1}_{x=0}\sum^{N-1}_{y=0}f(x,y)e^{-j2\pi(\frac{ux}{M}+\frac{vy}{N})}\times e^{j2\pi(\frac{u_0x}{M}+\frac{v_0y}{N})}=\sum^{M-1}_{x=0}\sum^{N-1}_{y=0}f(x,y)e^{-j2\pi[\frac{(u-u_0)x}{M}+\frac{(v-v_0)y}{N}]}=F(u-u_0,v-v_0)</script><script type="math/tex; mode=display">
+同理，\because f(x,y)=\frac{1}{M}\sum^{M-1}_{u=0}\sum^{N-1}_{v=0}F(u,v)e^{j2\pi(ux/M+vy/N}</script><script type="math/tex; mode=display">
+\therefore \frac{1}{M}\sum^{M-1}_{u=0}\sum^{N-1}_{v=0}F(u,v)e^{j2\pi(ux/M+vy/N}\times e^{-j2\pi(x_0u/M+y_0v/N)}=\frac{1}{M}\sum^{M-1}_{u=0}\sum^{N-1}_{v=0}F(u,v)e^{j2\pi[(x-x_0)u/M+(v-v_0)y/N)]}=f(x-x_0,y-y_0)</script><p> 除了上面的推导外，从网上看到了另一种推导方式，很漂亮👏。<a href="http://www.kevinnan.org.cn/index.php/archives/637/" target="_blank" rel="noopener">链接</a></p>
+<p>简单做一下记录，便于以后回顾：</p>
+<script type="math/tex; mode=display">
+f(x-x_0,y-y_0)\Leftrightarrow F(u',v') \\
+F(u',v')=\int^{\infty}_{-\infty}\int^{\infty}_{-\infty}f(x-x_0,y-y_0)e^{-j2\pi(ux+vy)}dxdy \\
+令x-x_0=x',y-y_0=y',则x=x'+x_0,y=y'+y_0;dx=dx',dy=dy' \\
+所以，F(u',v')=\int^{\infty}_{-\infty}\int^{\infty}_{-\infty}f(x',y')e^{-j2\pi [u(x'+x_0)+v(y'+y_0)]}dx'dy'=e^{-j2\pi (ux_0+vy_0)}\cdot\int^{\infty}_{-\infty}\int^{\infty}_{-\infty}f(x',y')e^{-j2\pi (ux'+vy')}dx'dy' \\
+因此，F(u',v')=F(u,v)\cdot e^{-j2\pi(ux_0+vy_0)}，同理也可以将F(u-u_0,v-v_0)代入求F(u-u_0,v-v_0)\Leftrightarrow f(x',y')*2、旋转</script><h5 id="2、旋转"><a href="#2、旋转" class="headerlink" title="2、旋转"></a>2、旋转</h5><p>若f(x,y)旋转&theta;角，则F(u,v)也往相同的方向旋转相同的角度。</p>
+<p>假设直角坐标系中点P(x,y)，绕平面中心旋转&theta;得Q(x’,y’)，用旋转矩阵表示两者得关系：（利用极坐标的表示方法推导下式）</p>
+<script type="math/tex; mode=display">
+x=r\cos\phi\quad y=r\sin\phi;x'=rcos(\theta+\phi),y=rsin(\theta+\phi)\\
+利用三角函数展开，x'=r\cos\theta\cos\phi-r\sin\theta\sin\phi,y'=r\sin\theta\cos\phi+r\cos\theta\sin\phi\\
+将x,y代入，即可得，x'=x\cos\theta-y\sin\theta,y'=x\sin\theta+y\cos\theta</script><script type="math/tex; mode=display">
+\left[
+\begin{matrix}
+x\\
+y \\
+\end{matrix}
+\right]
+=
+\left[
+\begin{matrix}
+cos\theta & -sin\theta\\
+sin\theta & cos\theta \\
+\end{matrix}
+\right]
+\left[
+\begin{matrix}
+x'\\
+y'\\
+\end{matrix}
+\right]
+反向求x',y';
+\left[
+\begin{matrix}
+x'\\
+y'\\
+\end{matrix}
+\right]
+=
+\left[
+\begin{matrix}
+cos\theta & sin\theta\\
+-sin\theta & cos\theta \\
+\end{matrix}
+\right]
+\left[
+\begin{matrix}
+x\\
+y\\
+\end{matrix}
+\right]</script><p>上式是利用了旋转矩阵的逆等于旋转矩阵的转置这个性质，即：</p>
+<script type="math/tex; mode=display">
+假设旋转矩阵为：R=[x^T\quad y^T\quad z^T],其转置矩阵为R^T=\left[
+\begin{matrix}
+x^T\\
+y^T\\
+z^T
+\end{matrix}
+\right]\\
+则，R^TR=\left[
+\begin{matrix}
+xx^T & xy^T & xz^T\\
+yx^T & yy^T & yz^T\\
+zx^T & zy^T & zz^T
+\end{matrix}
+\right],由于三角函数的正交特性，只有xx^T=yy^T=zz^T=1,其余为0\\
+故R^TR=I=R^{-1}R,即R^R=R^{-1}</script><p>旋转后点f(x’,y’)的傅里叶变换为：</p>
+<script type="math/tex; mode=display">
+F(u',v')=\int^{\infty}_{-\infty}\int^{\infty}_{-\infty}f(x',y')e^{-j2\pi(ux+vy)}dxdy \\
+F(u',v')=\int^{\infty}_{-\infty}\int^{\infty}_{-\infty}e^{-j2\pi[u(cos\theta x'-sin\theta y')+v(sin\theta x'+cos\theta y')]}dx'dy'\\
+F(u',v')=\int^{\infty}_{-\infty}\int^{\infty}_{-\infty}e^{-j2\pi[x'(ucos\theta+vsin\theta )+y'(vcos\theta-usin\theta)]}dx'dy'\\
+F(u',v')=F(ucos\theta+vsin\theta,-usin\theta+vsin\theta)，由此可得：\\
+\left[
+\begin{matrix}
+u'\\
+v'\\
+\end{matrix}
+\right]
+=
+\left[
+\begin{matrix}
+cos\theta & sin\theta\\
+-sin\theta & cos\theta \\
+\end{matrix}
+\right]
+\left[
+\begin{matrix}
+u\\
+v\\
+\end{matrix}
+\right]</script><p>所以，u，v旋转的角度和x，y旋转的角度相同。上面的dx，dy与dx’，dy’的转换使用的是二重积分的变换关系式。<a href="https://zhuanlan.zhihu.com/p/50355468" target="_blank" rel="noopener">参考</a></p>
+<h5 id="3、周期性"><a href="#3、周期性" class="headerlink" title="3、周期性"></a>3、周期性</h5><p>如一维情况一样，二维傅里叶变换及其反变换在u方向和v方向是无线周期的，即</p>
+<script type="math/tex; mode=display">
+F(u,v)=F(u+k_1M,v)=F(u,v+k_2N)=F(u+k1M,v+k_2N)\\
+f(x,y)=f(x+k_1M,y)=f(x,y+k_2N)=f(x+k_1M,y+k_2N)</script><p>上式中k<sub>1</sub>,k<sub>2</sub>为整数。</p>
+<p>由于在单维离散傅里叶变换表示为：</p>
+<script type="math/tex; mode=display">
+F_m=\sum^{M-1}_{n=0}f_ne^{-j2\pi mn/M},m=0,1,2,\cdots,M-1\\
+当m=\frac{M}{2}时，F_m=\sum^{M-1}_{n=0}f_ne^{-j\pi n}=\sum^{M-1}_{n=0}f_n[\cos(\pi n)-\sin(\pi n)]=\sum^{M-1}_{n=0}f_n\cos(\pi n)</script><p>上式说明，在M/2处，只有半个周期。而采样区间是在[0, M-1]。可见，该区间内是两个周期的各一半，即背靠背的半个周期组成。为了显示和滤波，<strong>在该区间中有一个变换的完整周期会更加方便</strong>。所以需要平移M/2个半周期。根据平移的性质：</p>
+<script type="math/tex; mode=display">
+f(x)e^{j2\pi(u_0x/M)}\Leftrightarrow F(u-u_0),令u_0=M/2,则指数变为e^{j\pi x}，由于x为整数\\
+e^{j\pi x}=\cos(\pi x)=(-1)^x,所以，上式，f(x)(-1)^x=F(u-u_0)</script><p>上式用(-1)<sup>x</sup>乘以f(x)将位于原点的数据F(0)移动到区间[0, M-1]的中心位置。这里做的是<strong>频谱的中心化</strong>，可以扩展到二维离散空间。</p>
+<script type="math/tex; mode=display">
+f(x,y)(-1)^x\Leftrightarrow F(u-M/2,v-N/2)</script><h4 id="补充部分"><a href="#补充部分" class="headerlink" title="补充部分"></a>补充部分</h4><p>周期冲击串的傅里叶变换</p>
+<p>首先，介绍一下冲击串s<sub>&Delta;T</sub>(t)：无限多个分离的周期冲激单元&Delta;T之和</p>
+<script type="math/tex; mode=display">
+s_{\Delta T}(t)=\sum^{\infty}_{n=-\infty}\delta(t-n\Delta T)</script><p>因为冲击串是一个周期函数，所以可以使用傅里叶级数表示：</p>
+<script type="math/tex; mode=display">
+s_{\Delta T}(t)=\sum^{\infty}_{n=-\infty}c_ne^{j\frac{2\pi n}{\Delta T}t}</script><p> 其中，</p>
+<script type="math/tex; mode=display">
+c_n=\frac{1}{\Delta T}\int^{\Delta T/2}_{-\Delta T/2}s_{\Delta T}e^{-j\frac{2\pi n}{\Delta T}t}dt</script><p>由于在区间[-&Delta;T/2，&Delta;T/2]的积分仅包含位于原点的冲激，所以，</p>
+<script type="math/tex; mode=display">
+c_n=\frac{1}{\Delta T}\int^{\Delta T/2}_{-\Delta T/2}\delta (t)e^{-j\frac{2\pi n}{\Delta T}t}dt=\frac{1}{\Delta T}</script><p>则，</p>
+<script type="math/tex; mode=display">
+s_{\Delta T}(t)=\frac{1}{\Delta T}\sum^{\infty}_{n=-\infty}e^{j\frac{2\pi n}{\Delta T}t}</script><p>则周期冲激串的傅里叶变换S(&mu;)为：</p>
+<script type="math/tex; mode=display">
+S(\mu)=\mathscr{F}\{s_{\Delta T(t)}\}=\mathscr{F}\{\frac{1}{\Delta T}\sum^{\infty}_{n=-\infty}e^{j\frac{2\pi n}{\Delta T}t}\}=\frac{1}{\Delta T}\mathscr{F}\{\sum^{\infty}_{n=-\infty}e^{j\frac{2\pi n}{\Delta T}t}\}</script><p> 从上式的最后一项看是对指数函数求和的傅里叶变换，由于求和是线性变换，与傅里叶变换之后求和的结果一致，所以需要求指数函数的傅里叶变换，即：</p>
+<script type="math/tex; mode=display">
+要求，\mathscr{F}\{e^{j\frac{2\pi n}{\Delta T}t}\}，根据定义\mathscr{F}\{f(t)\}=\int^{\infty}_{-\infty}f(t)e^{-j2\pi\mu t}dt \\
+则，\mathscr{F}\{e^{j\frac{2\pi n}{\Delta T}t}\}=\int^{\infty}_{-\infty}e^{j\frac{2\pi n}{\Delta T}t}\cdot e^{-j2\pi\mu t}dt=\int^{\infty}_{-\infty}1\cdot e^{-j2\pi(\mu-\frac{n}{\Delta T})t}dt \\
+所以，\mathscr{F}\{e^{j\frac{2\pi n}{\Delta T}t}\}=F(\mu-\frac{n}{\Delta T})=\delta(\mu-\frac{n}{\Delta T}),这里相当于模拟\mu的一个函数</script><h4 id="三、低通滤波器"><a href="#三、低通滤波器" class="headerlink" title="三、低通滤波器"></a>三、低通滤波器</h4><p>低通滤波器在频率中将高频信号滤除，保留更多的低频信号。其中，在傅里叶变换且中心化频率后，中心是平均灰度值，越靠近中心，低频信号越多；越远离，则为高频信号，例如：边界或噪声。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> cv2</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line"><span class="comment"># DFT hyper-parameters</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">K, L = <span class="number">128</span>, <span class="number">128</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">channel = <span class="number">3</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line"><span class="comment"># bgr -&gt; gray</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">11</span></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">bgr2gray</span><span class="params">(img)</span>:</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">12</span></pre></td><td class="code"><pre><span class="line">	gray = <span class="number">0.2126</span> * img[..., <span class="number">2</span>] + <span class="number">0.7152</span> * img[..., <span class="number">1</span>] + <span class="number">0.0722</span> * img[..., <span class="number">0</span>]</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">13</span></pre></td><td class="code"><pre><span class="line">	<span class="keyword">return</span> gray</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">14</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">15</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">16</span></pre></td><td class="code"><pre><span class="line"><span class="comment"># DFT</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">17</span></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">dft</span><span class="params">(img)</span>:</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">18</span></pre></td><td class="code"><pre><span class="line">	<span class="comment"># Prepare DFT coefficient, complex() 函数用于创建一个值为 real + imag * j 的复数 </span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">19</span></pre></td><td class="code"><pre><span class="line">	G = np.zeros((L, K, channel), dtype=np.complex)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">20</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">21</span></pre></td><td class="code"><pre><span class="line">	<span class="comment"># prepare processed index corresponding to original image positions</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">22</span></pre></td><td class="code"><pre><span class="line">	x = np.tile(np.arange(W), (H, <span class="number">1</span>))</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">23</span></pre></td><td class="code"><pre><span class="line">	y = np.arange(H).repeat(W).reshape(H, <span class="number">-1</span>)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">24</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">25</span></pre></td><td class="code"><pre><span class="line">	<span class="comment"># dft</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">26</span></pre></td><td class="code"><pre><span class="line">	<span class="keyword">for</span> c <span class="keyword">in</span> range(channel):</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">27</span></pre></td><td class="code"><pre><span class="line">		<span class="keyword">for</span> l <span class="keyword">in</span> range(L):</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">28</span></pre></td><td class="code"><pre><span class="line">			<span class="keyword">for</span> k <span class="keyword">in</span> range(K):</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">29</span></pre></td><td class="code"><pre><span class="line">				G[l, k, c] = np.sum(img[..., c] * np.exp(<span class="number">-2j</span> * np.pi * (x * k / K + y * l / L))) / np.sqrt(K * L)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">30</span></pre></td><td class="code"><pre><span class="line">				<span class="comment">#for n in range(N):</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">31</span></pre></td><td class="code"><pre><span class="line">				<span class="comment">#    for m in range(M):</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">32</span></pre></td><td class="code"><pre><span class="line">				<span class="comment">#        v += gray[n, m] * np.exp(-2j * np.pi * (m * k / M + n * l / N))</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">33</span></pre></td><td class="code"><pre><span class="line">				<span class="comment">#G[l, k] = v / np.sqrt(M * N)</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">34</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">35</span></pre></td><td class="code"><pre><span class="line">	<span class="keyword">return</span> G</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">36</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">37</span></pre></td><td class="code"><pre><span class="line"><span class="comment"># IDFT</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">38</span></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">idft</span><span class="params">(G)</span>:</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">39</span></pre></td><td class="code"><pre><span class="line">	<span class="comment"># prepare out image</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">40</span></pre></td><td class="code"><pre><span class="line">	H, W, _ = G.shape</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">41</span></pre></td><td class="code"><pre><span class="line">	out = np.zeros((H, W, channel), dtype=np.float32)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">42</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">43</span></pre></td><td class="code"><pre><span class="line">	<span class="comment"># prepare processed index corresponding to original image positions</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">44</span></pre></td><td class="code"><pre><span class="line">	x = np.tile(np.arange(W), (H, <span class="number">1</span>))</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">45</span></pre></td><td class="code"><pre><span class="line">	y = np.arange(H).repeat(W).reshape(H, <span class="number">-1</span>)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">46</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">47</span></pre></td><td class="code"><pre><span class="line">	<span class="comment"># idft</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">48</span></pre></td><td class="code"><pre><span class="line">	<span class="keyword">for</span> c <span class="keyword">in</span> range(channel):</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">49</span></pre></td><td class="code"><pre><span class="line">		<span class="keyword">for</span> l <span class="keyword">in</span> range(H):</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">50</span></pre></td><td class="code"><pre><span class="line">			<span class="keyword">for</span> k <span class="keyword">in</span> range(W):</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">51</span></pre></td><td class="code"><pre><span class="line">				out[l, k, c] = np.abs(np.sum(G[..., c] * np.exp(<span class="number">2j</span> * np.pi * (x * k / W + y * l / H)))) / np.sqrt(W * H)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">52</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">53</span></pre></td><td class="code"><pre><span class="line">	<span class="comment"># clipping</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">54</span></pre></td><td class="code"><pre><span class="line">	out = np.clip(out, <span class="number">0</span>, <span class="number">255</span>)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">55</span></pre></td><td class="code"><pre><span class="line">	out = out.astype(np.uint8)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">56</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">57</span></pre></td><td class="code"><pre><span class="line">	<span class="keyword">return</span> out</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">58</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">59</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">60</span></pre></td><td class="code"><pre><span class="line"><span class="comment"># LPF</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">61</span></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">lpf</span><span class="params">(G, ratio=<span class="number">0.5</span>)</span>:</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">62</span></pre></td><td class="code"><pre><span class="line">	H, W, _ = G.shape	</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">63</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">64</span></pre></td><td class="code"><pre><span class="line">	<span class="comment"># transfer positions</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">65</span></pre></td><td class="code"><pre><span class="line">	_G = np.zeros_like(G)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">66</span></pre></td><td class="code"><pre><span class="line">	_G[:H//<span class="number">2</span>, :W//<span class="number">2</span>] = G[H//<span class="number">2</span>:, W//<span class="number">2</span>:]</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">67</span></pre></td><td class="code"><pre><span class="line">	_G[:H//<span class="number">2</span>, W//<span class="number">2</span>:] = G[H//<span class="number">2</span>:, :W//<span class="number">2</span>]</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">68</span></pre></td><td class="code"><pre><span class="line">	_G[H//<span class="number">2</span>:, :W//<span class="number">2</span>] = G[:H//<span class="number">2</span>, W//<span class="number">2</span>:]</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">69</span></pre></td><td class="code"><pre><span class="line">	_G[H//<span class="number">2</span>:, W//<span class="number">2</span>:] = G[:H//<span class="number">2</span>, :W//<span class="number">2</span>]</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">70</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">71</span></pre></td><td class="code"><pre><span class="line">	<span class="comment"># get distance from center (H / 2, W / 2)</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">72</span></pre></td><td class="code"><pre><span class="line">	x = np.tile(np.arange(W), (H, <span class="number">1</span>))</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">73</span></pre></td><td class="code"><pre><span class="line">	y = np.arange(H).repeat(W).reshape(H, <span class="number">-1</span>)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">74</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">75</span></pre></td><td class="code"><pre><span class="line">	<span class="comment"># make filter</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">76</span></pre></td><td class="code"><pre><span class="line">	_x = x - W // <span class="number">2</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">77</span></pre></td><td class="code"><pre><span class="line">	_y = y - H // <span class="number">2</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">78</span></pre></td><td class="code"><pre><span class="line">	r = np.sqrt(_x ** <span class="number">2</span> + _y ** <span class="number">2</span>)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">79</span></pre></td><td class="code"><pre><span class="line">	mask = np.ones((H, W), dtype=np.float32)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">80</span></pre></td><td class="code"><pre><span class="line">	mask[r &gt; (W // <span class="number">2</span> * ratio)] = <span class="number">0</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">81</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">82</span></pre></td><td class="code"><pre><span class="line">	mask = np.repeat(mask, channel).reshape(H, W, channel)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">83</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">84</span></pre></td><td class="code"><pre><span class="line">	<span class="comment"># filtering</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">85</span></pre></td><td class="code"><pre><span class="line">	_G *= mask</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">86</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">87</span></pre></td><td class="code"><pre><span class="line">	<span class="comment"># reverse original positions</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">88</span></pre></td><td class="code"><pre><span class="line">	G[:H//<span class="number">2</span>, :W//<span class="number">2</span>] = _G[H//<span class="number">2</span>:, W//<span class="number">2</span>:]</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">89</span></pre></td><td class="code"><pre><span class="line">	G[:H//<span class="number">2</span>, W//<span class="number">2</span>:] = _G[H//<span class="number">2</span>:, :W//<span class="number">2</span>]</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">90</span></pre></td><td class="code"><pre><span class="line">	G[H//<span class="number">2</span>:, :W//<span class="number">2</span>] = _G[:H//<span class="number">2</span>, W//<span class="number">2</span>:]</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">91</span></pre></td><td class="code"><pre><span class="line">	G[H//<span class="number">2</span>:, W//<span class="number">2</span>:] = _G[:H//<span class="number">2</span>, :W//<span class="number">2</span>]</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">92</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">93</span></pre></td><td class="code"><pre><span class="line">	<span class="keyword">return</span> G</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">94</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">95</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">96</span></pre></td><td class="code"><pre><span class="line"><span class="comment"># Read image</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">97</span></pre></td><td class="code"><pre><span class="line">img = cv2.imread(<span class="string">"imori.jpg"</span>).astype(np.float32)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">98</span></pre></td><td class="code"><pre><span class="line">H, W, C = img.shape</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">99</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">100</span></pre></td><td class="code"><pre><span class="line"><span class="comment"># Gray scale</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">101</span></pre></td><td class="code"><pre><span class="line">gray = bgr2gray(img)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">102</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">103</span></pre></td><td class="code"><pre><span class="line"><span class="comment"># DFT</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">104</span></pre></td><td class="code"><pre><span class="line">G = dft(img)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">105</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">106</span></pre></td><td class="code"><pre><span class="line"><span class="comment"># LPF</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">107</span></pre></td><td class="code"><pre><span class="line">G = lpf(G)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">108</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">109</span></pre></td><td class="code"><pre><span class="line"><span class="comment"># IDFT</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">110</span></pre></td><td class="code"><pre><span class="line">out = idft(G)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">111</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">112</span></pre></td><td class="code"><pre><span class="line"><span class="comment"># Save result</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">113</span></pre></td><td class="code"><pre><span class="line">cv2.imshow(<span class="string">"result"</span>, out)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">114</span></pre></td><td class="code"><pre><span class="line">cv2.waitKey(<span class="number">0</span>)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">115</span></pre></td><td class="code"><pre><span class="line">cv2.imwrite(<span class="string">"out.jpg"</span>, out)</span></pre></td></tr></table></figure>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> <span class="built_in">height</span> = <span class="number">128</span>, <span class="built_in">width</span> = <span class="number">128</span>;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">fourier_str</span> &#123;</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">  <span class="built_in">std</span>::<span class="built_in">complex</span>&lt;<span class="keyword">double</span>&gt; coef[<span class="built_in">height</span>][<span class="built_in">width</span>];</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">&#125;;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line"><span class="comment">// RGB to Gray scale</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line"><span class="function">cv::Mat <span class="title">BGR2GRAY</span><span class="params">(cv::Mat img)</span></span>&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line">  <span class="comment">// prepare output</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line">  cv::Mat out = cv::Mat::zeros(<span class="built_in">height</span>, <span class="built_in">width</span>, CV_8UC1);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">11</span></pre></td><td class="code"><pre><span class="line">  </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">12</span></pre></td><td class="code"><pre><span class="line">  <span class="comment">// BGR -&gt; Gray</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">13</span></pre></td><td class="code"><pre><span class="line">  <span class="keyword">for</span> (<span class="keyword">int</span> y = <span class="number">0</span>; y &lt; <span class="built_in">height</span>; y++)&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">14</span></pre></td><td class="code"><pre><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> x = <span class="number">0</span>; x &lt; <span class="built_in">width</span>; x++)&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">15</span></pre></td><td class="code"><pre><span class="line">      out.at&lt;uchar&gt;(y, x) = (<span class="keyword">int</span>)((<span class="keyword">float</span>)img.at&lt;cv::Vec3b&gt;(y, x)[<span class="number">0</span>] * <span class="number">0.0722</span> + \</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">16</span></pre></td><td class="code"><pre><span class="line">				  (<span class="keyword">float</span>)img.at&lt;cv::Vec3b&gt;(y, x)[<span class="number">1</span>] * <span class="number">0.7152</span> + \</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">17</span></pre></td><td class="code"><pre><span class="line">				  (<span class="keyword">float</span>)img.at&lt;cv::Vec3b&gt;(y, x)[<span class="number">2</span>] * <span class="number">0.2126</span>);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">18</span></pre></td><td class="code"><pre><span class="line">    &#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">19</span></pre></td><td class="code"><pre><span class="line">  &#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">20</span></pre></td><td class="code"><pre><span class="line">  <span class="keyword">return</span> out;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">21</span></pre></td><td class="code"><pre><span class="line">&#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">22</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">23</span></pre></td><td class="code"><pre><span class="line"><span class="comment">// Discrete Fourier transformation</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">24</span></pre></td><td class="code"><pre><span class="line"><span class="function">fourier_str <span class="title">dft</span><span class="params">(cv::Mat img, fourier_str fourier_s)</span></span>&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">25</span></pre></td><td class="code"><pre><span class="line">  </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">26</span></pre></td><td class="code"><pre><span class="line">  <span class="keyword">double</span> I;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">27</span></pre></td><td class="code"><pre><span class="line">  <span class="keyword">double</span> theta;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">28</span></pre></td><td class="code"><pre><span class="line">  <span class="built_in">std</span>::<span class="built_in">complex</span>&lt;<span class="keyword">double</span>&gt; val;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">29</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">30</span></pre></td><td class="code"><pre><span class="line">  <span class="keyword">for</span> ( <span class="keyword">int</span> l = <span class="number">0</span>; l &lt; <span class="built_in">height</span>; l ++)&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">31</span></pre></td><td class="code"><pre><span class="line">    <span class="keyword">for</span> ( <span class="keyword">int</span> k = <span class="number">0</span>; k &lt; <span class="built_in">width</span>; k ++)&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">32</span></pre></td><td class="code"><pre><span class="line">      val.real(<span class="number">0</span>);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">33</span></pre></td><td class="code"><pre><span class="line">      val.imag(<span class="number">0</span>);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">34</span></pre></td><td class="code"><pre><span class="line">      <span class="keyword">for</span> ( <span class="keyword">int</span> y = <span class="number">0</span>; y &lt; <span class="built_in">height</span>; y ++)&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">35</span></pre></td><td class="code"><pre><span class="line">        <span class="keyword">for</span> ( <span class="keyword">int</span> x = <span class="number">0</span>; x &lt; <span class="built_in">width</span>; x ++)&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">36</span></pre></td><td class="code"><pre><span class="line">          I = (<span class="keyword">double</span>)img.at&lt;uchar&gt;(y, x);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">37</span></pre></td><td class="code"><pre><span class="line">          <span class="comment">//求欧拉公式中的theta角jxtheta=cos(theta)+jsin(theta)</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">38</span></pre></td><td class="code"><pre><span class="line">          theta = <span class="number">-2</span> * M_PI * ((<span class="keyword">double</span>)k * (<span class="keyword">double</span>)x / (<span class="keyword">double</span>)<span class="built_in">width</span> + (<span class="keyword">double</span>)l * (<span class="keyword">double</span>)y / (<span class="keyword">double</span>)<span class="built_in">height</span>);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">39</span></pre></td><td class="code"><pre><span class="line">          val += <span class="built_in">std</span>::<span class="built_in">complex</span>&lt;<span class="keyword">double</span>&gt;(<span class="built_in">cos</span>(theta), <span class="built_in">sin</span>(theta)) * I;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">40</span></pre></td><td class="code"><pre><span class="line">        &#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">41</span></pre></td><td class="code"><pre><span class="line">      &#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">42</span></pre></td><td class="code"><pre><span class="line">      val /= <span class="built_in">sqrt</span>(<span class="built_in">height</span> * <span class="built_in">width</span>);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">43</span></pre></td><td class="code"><pre><span class="line">      fourier_s.coef[l][k] = val;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">44</span></pre></td><td class="code"><pre><span class="line">    &#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">45</span></pre></td><td class="code"><pre><span class="line">  &#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">46</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">47</span></pre></td><td class="code"><pre><span class="line">  <span class="keyword">return</span> fourier_s;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">48</span></pre></td><td class="code"><pre><span class="line">&#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">49</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">50</span></pre></td><td class="code"><pre><span class="line"><span class="comment">// Inverse Discrete Fourier transformation</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">51</span></pre></td><td class="code"><pre><span class="line"><span class="function">cv::Mat <span class="title">idft</span><span class="params">(cv::Mat out, fourier_str fourier_s)</span></span>&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">52</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">53</span></pre></td><td class="code"><pre><span class="line">  <span class="keyword">double</span> theta;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">54</span></pre></td><td class="code"><pre><span class="line">  <span class="keyword">double</span> g;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">55</span></pre></td><td class="code"><pre><span class="line">  <span class="built_in">std</span>::<span class="built_in">complex</span>&lt;<span class="keyword">double</span>&gt; G;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">56</span></pre></td><td class="code"><pre><span class="line">  <span class="built_in">std</span>::<span class="built_in">complex</span>&lt;<span class="keyword">double</span>&gt; val;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">57</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">58</span></pre></td><td class="code"><pre><span class="line">  <span class="keyword">for</span> ( <span class="keyword">int</span> y = <span class="number">0</span>; y &lt; <span class="built_in">height</span>; y ++)&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">59</span></pre></td><td class="code"><pre><span class="line">    <span class="keyword">for</span> ( <span class="keyword">int</span> x = <span class="number">0</span>; x &lt; <span class="built_in">width</span>; x ++)&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">60</span></pre></td><td class="code"><pre><span class="line">      val.real(<span class="number">0</span>);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">61</span></pre></td><td class="code"><pre><span class="line">      val.imag(<span class="number">0</span>);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">62</span></pre></td><td class="code"><pre><span class="line">      <span class="keyword">for</span> ( <span class="keyword">int</span> l = <span class="number">0</span>; l &lt; <span class="built_in">height</span>; l ++)&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">63</span></pre></td><td class="code"><pre><span class="line">        <span class="keyword">for</span> ( <span class="keyword">int</span> k = <span class="number">0</span>; k &lt; <span class="built_in">width</span>; k ++)&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">64</span></pre></td><td class="code"><pre><span class="line">          G = fourier_s.coef[l][k];</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">65</span></pre></td><td class="code"><pre><span class="line">          theta = <span class="number">2</span> * M_PI * ((<span class="keyword">double</span>)k * (<span class="keyword">double</span>)x / (<span class="keyword">double</span>)<span class="built_in">width</span> + (<span class="keyword">double</span>)l * (<span class="keyword">double</span>)y / (<span class="keyword">double</span>)<span class="built_in">height</span>);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">66</span></pre></td><td class="code"><pre><span class="line">          val += <span class="built_in">std</span>::<span class="built_in">complex</span>&lt;<span class="keyword">double</span>&gt;(<span class="built_in">cos</span>(theta), <span class="built_in">sin</span>(theta)) * G;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">67</span></pre></td><td class="code"><pre><span class="line">        &#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">68</span></pre></td><td class="code"><pre><span class="line">      &#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">69</span></pre></td><td class="code"><pre><span class="line">      g = <span class="built_in">std</span>::<span class="built_in">abs</span>(val) / <span class="built_in">sqrt</span>(<span class="built_in">height</span> * <span class="built_in">width</span>);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">70</span></pre></td><td class="code"><pre><span class="line">      g = fmin(fmax(g, <span class="number">0</span>), <span class="number">255</span>);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">71</span></pre></td><td class="code"><pre><span class="line">      out.at&lt;uchar&gt;(y, x) = (uchar)g;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">72</span></pre></td><td class="code"><pre><span class="line">    &#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">73</span></pre></td><td class="code"><pre><span class="line">  &#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">74</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">75</span></pre></td><td class="code"><pre><span class="line">  <span class="keyword">return</span> out;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">76</span></pre></td><td class="code"><pre><span class="line">&#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">77</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">78</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">79</span></pre></td><td class="code"><pre><span class="line"><span class="comment">// Low pass Filter</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">80</span></pre></td><td class="code"><pre><span class="line"><span class="function">fourier_str <span class="title">lpf</span><span class="params">(fourier_str fourier_s, <span class="keyword">double</span> pass_r)</span></span>&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">81</span></pre></td><td class="code"><pre><span class="line">  <span class="comment">// filtering</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">82</span></pre></td><td class="code"><pre><span class="line">  <span class="keyword">int</span> r = <span class="built_in">height</span> / <span class="number">2</span>;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">83</span></pre></td><td class="code"><pre><span class="line">  <span class="keyword">int</span> filter_d = (<span class="keyword">int</span>)((<span class="keyword">double</span>)r * pass_r);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">84</span></pre></td><td class="code"><pre><span class="line">  <span class="keyword">for</span> ( <span class="keyword">int</span> j = <span class="number">0</span>; j &lt; <span class="built_in">height</span> / <span class="number">2</span>; j++)&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">85</span></pre></td><td class="code"><pre><span class="line">    <span class="keyword">for</span> ( <span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="built_in">width</span> / <span class="number">2</span>; i++)&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">86</span></pre></td><td class="code"><pre><span class="line">      <span class="keyword">if</span> (<span class="built_in">sqrt</span>(i * i + j * j) &gt;= filter_d)&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">87</span></pre></td><td class="code"><pre><span class="line">        fourier_s.coef[j][i] = <span class="number">0</span>;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">88</span></pre></td><td class="code"><pre><span class="line">        fourier_s.coef[j][<span class="built_in">width</span> - i] = <span class="number">0</span>;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">89</span></pre></td><td class="code"><pre><span class="line">        fourier_s.coef[<span class="built_in">height</span> - i][i] = <span class="number">0</span>;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">90</span></pre></td><td class="code"><pre><span class="line">        fourier_s.coef[<span class="built_in">height</span> - i][<span class="built_in">width</span> - i] = <span class="number">0</span>;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">91</span></pre></td><td class="code"><pre><span class="line">      &#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">92</span></pre></td><td class="code"><pre><span class="line">    &#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">93</span></pre></td><td class="code"><pre><span class="line">  &#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">94</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">95</span></pre></td><td class="code"><pre><span class="line">  <span class="keyword">return</span> fourier_s;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">96</span></pre></td><td class="code"><pre><span class="line">&#125;</span></pre></td></tr></table></figure>
+<h4 id="四、高通滤波器"><a href="#四、高通滤波器" class="headerlink" title="四、高通滤波器"></a>四、高通滤波器</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line"><span class="comment"># DFT hyper-parameters</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">K, L = <span class="number">128</span>, <span class="number">128</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">channel = <span class="number">3</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line"><span class="comment"># bgr -&gt; gray</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">bgr2gray</span><span class="params">(img)</span>:</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">	gray = <span class="number">0.2126</span> * img[..., <span class="number">2</span>] + <span class="number">0.7152</span> * img[..., <span class="number">1</span>] + <span class="number">0.0722</span> * img[..., <span class="number">0</span>]</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">	<span class="keyword">return</span> gray</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">11</span></pre></td><td class="code"><pre><span class="line"><span class="comment"># DFT</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">12</span></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">dft</span><span class="params">(img)</span>:</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">13</span></pre></td><td class="code"><pre><span class="line">	<span class="comment"># Prepare DFT coefficient</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">14</span></pre></td><td class="code"><pre><span class="line">	G = np.zeros((L, K, channel), dtype=np.complex)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">15</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">16</span></pre></td><td class="code"><pre><span class="line">	<span class="comment"># prepare processed index corresponding to original image positions</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">17</span></pre></td><td class="code"><pre><span class="line">	x = np.tile(np.arange(W), (H, <span class="number">1</span>))</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">18</span></pre></td><td class="code"><pre><span class="line">	y = np.arange(H).repeat(W).reshape(H, <span class="number">-1</span>)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">19</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">20</span></pre></td><td class="code"><pre><span class="line">	<span class="comment"># dft</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">21</span></pre></td><td class="code"><pre><span class="line">	<span class="keyword">for</span> c <span class="keyword">in</span> range(channel):</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">22</span></pre></td><td class="code"><pre><span class="line">		<span class="keyword">for</span> l <span class="keyword">in</span> range(L):</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">23</span></pre></td><td class="code"><pre><span class="line">			<span class="keyword">for</span> k <span class="keyword">in</span> range(K):</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">24</span></pre></td><td class="code"><pre><span class="line">				G[l, k, c] = np.sum(img[..., c] * np.exp(<span class="number">-2j</span> * np.pi * (x * k / K + y * l / L))) / np.sqrt(K * L)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">25</span></pre></td><td class="code"><pre><span class="line">	<span class="keyword">return</span> G</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">26</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">27</span></pre></td><td class="code"><pre><span class="line"><span class="comment"># IDFT</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">28</span></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">idft</span><span class="params">(G)</span>:</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">29</span></pre></td><td class="code"><pre><span class="line">	<span class="comment"># prepare out image</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">30</span></pre></td><td class="code"><pre><span class="line">	H, W, _ = G.shape</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">31</span></pre></td><td class="code"><pre><span class="line">	out = np.zeros((H, W, channel), dtype=np.float32)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">32</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">33</span></pre></td><td class="code"><pre><span class="line">	<span class="comment"># prepare processed index corresponding to original image positions</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">34</span></pre></td><td class="code"><pre><span class="line">	x = np.tile(np.arange(W), (H, <span class="number">1</span>))</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">35</span></pre></td><td class="code"><pre><span class="line">	y = np.arange(H).repeat(W).reshape(H, <span class="number">-1</span>)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">36</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">37</span></pre></td><td class="code"><pre><span class="line">	<span class="comment"># idft</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">38</span></pre></td><td class="code"><pre><span class="line">	<span class="keyword">for</span> c <span class="keyword">in</span> range(channel):</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">39</span></pre></td><td class="code"><pre><span class="line">		<span class="keyword">for</span> l <span class="keyword">in</span> range(H):</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">40</span></pre></td><td class="code"><pre><span class="line">			<span class="keyword">for</span> k <span class="keyword">in</span> range(W):</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">41</span></pre></td><td class="code"><pre><span class="line">				out[l, k, c] = np.abs(np.sum(G[..., c] * np.exp(<span class="number">2j</span> * np.pi * (x * k / W + y * l / H)))) / np.sqrt(W * H)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">42</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">43</span></pre></td><td class="code"><pre><span class="line">	<span class="comment"># clipping</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">44</span></pre></td><td class="code"><pre><span class="line">	out = np.clip(out, <span class="number">0</span>, <span class="number">255</span>)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">45</span></pre></td><td class="code"><pre><span class="line">	out = out.astype(np.uint8)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">46</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">47</span></pre></td><td class="code"><pre><span class="line">	<span class="keyword">return</span> out</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">48</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">49</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">50</span></pre></td><td class="code"><pre><span class="line"><span class="comment"># HPF</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">51</span></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">hpf</span><span class="params">(G, ratio=<span class="number">0.1</span>)</span>:</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">52</span></pre></td><td class="code"><pre><span class="line">	H, W, _ = G.shape	</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">53</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">54</span></pre></td><td class="code"><pre><span class="line">	<span class="comment"># transfer positions</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">55</span></pre></td><td class="code"><pre><span class="line">	_G = np.zeros_like(G)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">56</span></pre></td><td class="code"><pre><span class="line">	_G[:H//<span class="number">2</span>, :W//<span class="number">2</span>] = G[H//<span class="number">2</span>:, W//<span class="number">2</span>:]</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">57</span></pre></td><td class="code"><pre><span class="line">	_G[:H//<span class="number">2</span>, W//<span class="number">2</span>:] = G[H//<span class="number">2</span>:, :W//<span class="number">2</span>]</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">58</span></pre></td><td class="code"><pre><span class="line">	_G[H//<span class="number">2</span>:, :W//<span class="number">2</span>] = G[:H//<span class="number">2</span>, W//<span class="number">2</span>:]</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">59</span></pre></td><td class="code"><pre><span class="line">	_G[H//<span class="number">2</span>:, W//<span class="number">2</span>:] = G[:H//<span class="number">2</span>, :W//<span class="number">2</span>]</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">60</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">61</span></pre></td><td class="code"><pre><span class="line">	<span class="comment"># get distance from center (H / 2, W / 2)</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">62</span></pre></td><td class="code"><pre><span class="line">	x = np.tile(np.arange(W), (H, <span class="number">1</span>))</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">63</span></pre></td><td class="code"><pre><span class="line">	y = np.arange(H).repeat(W).reshape(H, <span class="number">-1</span>)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">64</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">65</span></pre></td><td class="code"><pre><span class="line">	<span class="comment"># make filter</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">66</span></pre></td><td class="code"><pre><span class="line">	_x = x - W // <span class="number">2</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">67</span></pre></td><td class="code"><pre><span class="line">	_y = y - H // <span class="number">2</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">68</span></pre></td><td class="code"><pre><span class="line">	r = np.sqrt(_x ** <span class="number">2</span> + _y ** <span class="number">2</span>)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">69</span></pre></td><td class="code"><pre><span class="line">	mask = np.ones((H, W), dtype=np.float32)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">70</span></pre></td><td class="code"><pre><span class="line">	mask[r &lt; (W // <span class="number">2</span> * ratio)] = <span class="number">0</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">71</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">72</span></pre></td><td class="code"><pre><span class="line">	mask = np.repeat(mask, channel).reshape(H, W, channel)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">73</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">74</span></pre></td><td class="code"><pre><span class="line">	<span class="comment"># filtering</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">75</span></pre></td><td class="code"><pre><span class="line">	_G *= mask</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">76</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">77</span></pre></td><td class="code"><pre><span class="line">	<span class="comment"># reverse original positions</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">78</span></pre></td><td class="code"><pre><span class="line">	G[:H//<span class="number">2</span>, :W//<span class="number">2</span>] = _G[H//<span class="number">2</span>:, W//<span class="number">2</span>:]</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">79</span></pre></td><td class="code"><pre><span class="line">	G[:H//<span class="number">2</span>, W//<span class="number">2</span>:] = _G[H//<span class="number">2</span>:, :W//<span class="number">2</span>]</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">80</span></pre></td><td class="code"><pre><span class="line">	G[H//<span class="number">2</span>:, :W//<span class="number">2</span>] = _G[:H//<span class="number">2</span>, W//<span class="number">2</span>:]</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">81</span></pre></td><td class="code"><pre><span class="line">	G[H//<span class="number">2</span>:, W//<span class="number">2</span>:] = _G[:H//<span class="number">2</span>, :W//<span class="number">2</span>]</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">82</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">83</span></pre></td><td class="code"><pre><span class="line">	<span class="keyword">return</span> G</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">84</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">85</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">86</span></pre></td><td class="code"><pre><span class="line"><span class="comment"># Read image</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">87</span></pre></td><td class="code"><pre><span class="line">img = cv2.imread(<span class="string">"imori.jpg"</span>).astype(np.float32)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">88</span></pre></td><td class="code"><pre><span class="line">H, W, C = img.shape</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">89</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">90</span></pre></td><td class="code"><pre><span class="line"><span class="comment"># Gray scale</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">91</span></pre></td><td class="code"><pre><span class="line">gray = bgr2gray(img)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">92</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">93</span></pre></td><td class="code"><pre><span class="line"><span class="comment"># DFT</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">94</span></pre></td><td class="code"><pre><span class="line">G = dft(img)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">95</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">96</span></pre></td><td class="code"><pre><span class="line"><span class="comment"># HPF</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">97</span></pre></td><td class="code"><pre><span class="line">G = hpf(G)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">98</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">99</span></pre></td><td class="code"><pre><span class="line"><span class="comment"># IDFT</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">100</span></pre></td><td class="code"><pre><span class="line">out = idft(G)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">101</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">102</span></pre></td><td class="code"><pre><span class="line"><span class="comment"># Save result</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">103</span></pre></td><td class="code"><pre><span class="line">cv2.imshow(<span class="string">"result"</span>, out)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">104</span></pre></td><td class="code"><pre><span class="line">cv2.waitKey(<span class="number">0</span>)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">105</span></pre></td><td class="code"><pre><span class="line">cv2.imwrite(<span class="string">"out.jpg"</span>, out)</span></pre></td></tr></table></figure>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> <span class="built_in">height</span> = <span class="number">128</span>, <span class="built_in">width</span> = <span class="number">128</span>;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">fourier_str</span> &#123;</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">  <span class="built_in">std</span>::<span class="built_in">complex</span>&lt;<span class="keyword">double</span>&gt; coef[<span class="built_in">height</span>][<span class="built_in">width</span>];</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">&#125;;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line"><span class="comment">// RGB to Gray scale</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line"><span class="function">cv::Mat <span class="title">BGR2GRAY</span><span class="params">(cv::Mat img)</span></span>&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line">  <span class="comment">// prepare output</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line">  cv::Mat out = cv::Mat::zeros(<span class="built_in">height</span>, <span class="built_in">width</span>, CV_8UC1);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">11</span></pre></td><td class="code"><pre><span class="line">  </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">12</span></pre></td><td class="code"><pre><span class="line">  <span class="comment">// BGR -&gt; Gray</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">13</span></pre></td><td class="code"><pre><span class="line">  <span class="keyword">for</span> (<span class="keyword">int</span> y = <span class="number">0</span>; y &lt; <span class="built_in">height</span>; y++)&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">14</span></pre></td><td class="code"><pre><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> x = <span class="number">0</span>; x &lt; <span class="built_in">width</span>; x++)&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">15</span></pre></td><td class="code"><pre><span class="line">      out.at&lt;uchar&gt;(y, x) = (<span class="keyword">int</span>)((<span class="keyword">float</span>)img.at&lt;cv::Vec3b&gt;(y, x)[<span class="number">0</span>] * <span class="number">0.0722</span> + \</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">16</span></pre></td><td class="code"><pre><span class="line">				  (<span class="keyword">float</span>)img.at&lt;cv::Vec3b&gt;(y, x)[<span class="number">1</span>] * <span class="number">0.7152</span> + \</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">17</span></pre></td><td class="code"><pre><span class="line">				  (<span class="keyword">float</span>)img.at&lt;cv::Vec3b&gt;(y, x)[<span class="number">2</span>] * <span class="number">0.2126</span>);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">18</span></pre></td><td class="code"><pre><span class="line">    &#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">19</span></pre></td><td class="code"><pre><span class="line">  &#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">20</span></pre></td><td class="code"><pre><span class="line">  <span class="keyword">return</span> out;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">21</span></pre></td><td class="code"><pre><span class="line">&#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">22</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">23</span></pre></td><td class="code"><pre><span class="line"><span class="comment">// Discrete Fourier transformation</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">24</span></pre></td><td class="code"><pre><span class="line"><span class="function">fourier_str <span class="title">dft</span><span class="params">(cv::Mat img, fourier_str fourier_s)</span></span>&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">25</span></pre></td><td class="code"><pre><span class="line">  </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">26</span></pre></td><td class="code"><pre><span class="line">  <span class="keyword">double</span> I;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">27</span></pre></td><td class="code"><pre><span class="line">  <span class="keyword">double</span> theta;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">28</span></pre></td><td class="code"><pre><span class="line">  <span class="built_in">std</span>::<span class="built_in">complex</span>&lt;<span class="keyword">double</span>&gt; val;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">29</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">30</span></pre></td><td class="code"><pre><span class="line">  <span class="keyword">for</span> ( <span class="keyword">int</span> l = <span class="number">0</span>; l &lt; <span class="built_in">height</span>; l ++)&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">31</span></pre></td><td class="code"><pre><span class="line">    <span class="keyword">for</span> ( <span class="keyword">int</span> k = <span class="number">0</span>; k &lt; <span class="built_in">width</span>; k ++)&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">32</span></pre></td><td class="code"><pre><span class="line">      val.real(<span class="number">0</span>);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">33</span></pre></td><td class="code"><pre><span class="line">      val.imag(<span class="number">0</span>);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">34</span></pre></td><td class="code"><pre><span class="line">      <span class="keyword">for</span> ( <span class="keyword">int</span> y = <span class="number">0</span>; y &lt; <span class="built_in">height</span>; y ++)&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">35</span></pre></td><td class="code"><pre><span class="line">        <span class="keyword">for</span> ( <span class="keyword">int</span> x = <span class="number">0</span>; x &lt; <span class="built_in">width</span>; x ++)&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">36</span></pre></td><td class="code"><pre><span class="line">          I = (<span class="keyword">double</span>)img.at&lt;uchar&gt;(y, x);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">37</span></pre></td><td class="code"><pre><span class="line">          theta = <span class="number">-2</span> * M_PI * ((<span class="keyword">double</span>)k * (<span class="keyword">double</span>)x / (<span class="keyword">double</span>)<span class="built_in">width</span> + (<span class="keyword">double</span>)l * (<span class="keyword">double</span>)y / (<span class="keyword">double</span>)<span class="built_in">height</span>);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">38</span></pre></td><td class="code"><pre><span class="line">          val += <span class="built_in">std</span>::<span class="built_in">complex</span>&lt;<span class="keyword">double</span>&gt;(<span class="built_in">cos</span>(theta), <span class="built_in">sin</span>(theta)) * I;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">39</span></pre></td><td class="code"><pre><span class="line">        &#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">40</span></pre></td><td class="code"><pre><span class="line">      &#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">41</span></pre></td><td class="code"><pre><span class="line">      val /= <span class="built_in">sqrt</span>(<span class="built_in">height</span> * <span class="built_in">width</span>);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">42</span></pre></td><td class="code"><pre><span class="line">      fourier_s.coef[l][k] = val;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">43</span></pre></td><td class="code"><pre><span class="line">    &#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">44</span></pre></td><td class="code"><pre><span class="line">  &#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">45</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">46</span></pre></td><td class="code"><pre><span class="line">  <span class="keyword">return</span> fourier_s;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">47</span></pre></td><td class="code"><pre><span class="line">&#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">48</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">49</span></pre></td><td class="code"><pre><span class="line"><span class="comment">// Inverse Discrete Fourier transformation</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">50</span></pre></td><td class="code"><pre><span class="line"><span class="function">cv::Mat <span class="title">idft</span><span class="params">(cv::Mat out, fourier_str fourier_s)</span></span>&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">51</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">52</span></pre></td><td class="code"><pre><span class="line">  <span class="keyword">double</span> theta;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">53</span></pre></td><td class="code"><pre><span class="line">  <span class="keyword">double</span> g;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">54</span></pre></td><td class="code"><pre><span class="line">  <span class="built_in">std</span>::<span class="built_in">complex</span>&lt;<span class="keyword">double</span>&gt; G;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">55</span></pre></td><td class="code"><pre><span class="line">  <span class="built_in">std</span>::<span class="built_in">complex</span>&lt;<span class="keyword">double</span>&gt; val;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">56</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">57</span></pre></td><td class="code"><pre><span class="line">  <span class="keyword">for</span> ( <span class="keyword">int</span> y = <span class="number">0</span>; y &lt; <span class="built_in">height</span>; y ++)&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">58</span></pre></td><td class="code"><pre><span class="line">    <span class="keyword">for</span> ( <span class="keyword">int</span> x = <span class="number">0</span>; x &lt; <span class="built_in">width</span>; x ++)&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">59</span></pre></td><td class="code"><pre><span class="line">      val.real(<span class="number">0</span>);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">60</span></pre></td><td class="code"><pre><span class="line">      val.imag(<span class="number">0</span>);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">61</span></pre></td><td class="code"><pre><span class="line">      <span class="keyword">for</span> ( <span class="keyword">int</span> l = <span class="number">0</span>; l &lt; <span class="built_in">height</span>; l ++)&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">62</span></pre></td><td class="code"><pre><span class="line">        <span class="keyword">for</span> ( <span class="keyword">int</span> k = <span class="number">0</span>; k &lt; <span class="built_in">width</span>; k ++)&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">63</span></pre></td><td class="code"><pre><span class="line">          G = fourier_s.coef[l][k];</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">64</span></pre></td><td class="code"><pre><span class="line">          theta = <span class="number">2</span> * M_PI * ((<span class="keyword">double</span>)k * (<span class="keyword">double</span>)x / (<span class="keyword">double</span>)<span class="built_in">width</span> + (<span class="keyword">double</span>)l * (<span class="keyword">double</span>)y / (<span class="keyword">double</span>)<span class="built_in">height</span>);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">65</span></pre></td><td class="code"><pre><span class="line">          val += <span class="built_in">std</span>::<span class="built_in">complex</span>&lt;<span class="keyword">double</span>&gt;(<span class="built_in">cos</span>(theta), <span class="built_in">sin</span>(theta)) * G;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">66</span></pre></td><td class="code"><pre><span class="line">        &#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">67</span></pre></td><td class="code"><pre><span class="line">      &#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">68</span></pre></td><td class="code"><pre><span class="line">      g = <span class="built_in">std</span>::<span class="built_in">abs</span>(val) / <span class="built_in">sqrt</span>(<span class="built_in">height</span> * <span class="built_in">width</span>);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">69</span></pre></td><td class="code"><pre><span class="line">      g = fmin(fmax(g, <span class="number">0</span>), <span class="number">255</span>);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">70</span></pre></td><td class="code"><pre><span class="line">      out.at&lt;uchar&gt;(y, x) = (uchar)g;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">71</span></pre></td><td class="code"><pre><span class="line">    &#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">72</span></pre></td><td class="code"><pre><span class="line">  &#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">73</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">74</span></pre></td><td class="code"><pre><span class="line">  <span class="keyword">return</span> out;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">75</span></pre></td><td class="code"><pre><span class="line">&#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">76</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">77</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">78</span></pre></td><td class="code"><pre><span class="line"><span class="comment">// Band pass Filter</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">79</span></pre></td><td class="code"><pre><span class="line"><span class="function">fourier_str <span class="title">bpf</span><span class="params">(fourier_str fourier_s, <span class="keyword">double</span> pass_lower, <span class="keyword">double</span> pass_upper)</span></span>&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">80</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">81</span></pre></td><td class="code"><pre><span class="line">  <span class="comment">// filtering</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">82</span></pre></td><td class="code"><pre><span class="line">  <span class="keyword">int</span> r = <span class="built_in">height</span> / <span class="number">2</span>;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">83</span></pre></td><td class="code"><pre><span class="line">  <span class="keyword">int</span> filter_lower = (<span class="keyword">int</span>)((<span class="keyword">double</span>)r * pass_lower);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">84</span></pre></td><td class="code"><pre><span class="line">  <span class="keyword">int</span> filter_upper = (<span class="keyword">int</span>)((<span class="keyword">double</span>)r * pass_upper);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">85</span></pre></td><td class="code"><pre><span class="line">  <span class="keyword">for</span> ( <span class="keyword">int</span> j = <span class="number">0</span>; j &lt; <span class="built_in">height</span> / <span class="number">2</span>; j++)&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">86</span></pre></td><td class="code"><pre><span class="line">    <span class="keyword">for</span> ( <span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="built_in">width</span> / <span class="number">2</span>; i++)&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">87</span></pre></td><td class="code"><pre><span class="line">      <span class="keyword">if</span> ((<span class="built_in">sqrt</span>(i * i + j * j) &lt; filter_lower) || </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">88</span></pre></td><td class="code"><pre><span class="line">          (<span class="built_in">sqrt</span>(i * i + j * j) &gt; filter_upper))&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">89</span></pre></td><td class="code"><pre><span class="line">        fourier_s.coef[j][i] = <span class="number">0</span>;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">90</span></pre></td><td class="code"><pre><span class="line">        fourier_s.coef[j][<span class="built_in">width</span> - i] = <span class="number">0</span>;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">91</span></pre></td><td class="code"><pre><span class="line">        fourier_s.coef[<span class="built_in">height</span> - i][i] = <span class="number">0</span>;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">92</span></pre></td><td class="code"><pre><span class="line">        fourier_s.coef[<span class="built_in">height</span> - i][<span class="built_in">width</span> - i] = <span class="number">0</span>;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">93</span></pre></td><td class="code"><pre><span class="line">      &#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">94</span></pre></td><td class="code"><pre><span class="line">    &#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">95</span></pre></td><td class="code"><pre><span class="line">  &#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">96</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">97</span></pre></td><td class="code"><pre><span class="line">  <span class="keyword">return</span> fourier_s;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">98</span></pre></td><td class="code"><pre><span class="line">&#125;</span></pre></td></tr></table></figure>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Image-Processing/" rel="tag"># Image Processing</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/07/03/CUDA-Programmer-Learn-Two/" rel="prev" title="CUDA-Programmer-Learn-Two">
+      <i class="fa fa-chevron-left"></i> CUDA-Programmer-Learn-Two
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2021/07/25/Image-Process-Edge-Detection/" rel="next" title="Image-Process-Edge-Detection">
+      Image-Process-Edge-Detection <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+    <div class="comments" id="gitalk-container"></div>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#图像处理学习"><span class="nav-number">1.</span> <span class="nav-text">图像处理学习</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#第一部分-离散傅里叶变换"><span class="nav-number">1.0.1.</span> <span class="nav-text">第一部分 离散傅里叶变换</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#第二部分-二维傅里叶变换的一些性质"><span class="nav-number">1.0.2.</span> <span class="nav-text">第二部分 二维傅里叶变换的一些性质</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1、平移"><span class="nav-number">1.0.2.1.</span> <span class="nav-text">1、平移</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2、旋转"><span class="nav-number">1.0.2.2.</span> <span class="nav-text">2、旋转</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3、周期性"><span class="nav-number">1.0.2.3.</span> <span class="nav-text">3、周期性</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#补充部分"><span class="nav-number">1.0.3.</span> <span class="nav-text">补充部分</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#三、低通滤波器"><span class="nav-number">1.0.4.</span> <span class="nav-text">三、低通滤波器</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#四、高通滤波器"><span class="nav-number">1.0.5.</span> <span class="nav-text">四、高通滤波器</span></a></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Qiang Chen</p>
+  <div class="site-description" itemprop="description">记录是忘记的第一助手.</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">62</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">11</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">20</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/chenaing19" title="GitHub → https://github.com/chenaing19" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/765206494@qq.com" title="E-Mail → 765206494@qq.com"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Qiang Chen</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v4.0.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 �?<a href="https://mist.theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> v7.5.0
+  </div>
+    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+  
+  <script color='0,0,255' opacity='0.5' zIndex='-1' count='99' src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/muse.js"></script>
+<script src="/js/next-boot.js"></script>
+
+
+
+  
+
+
+
+
+  <script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+      
+<script type="text/x-mathjax-config">
+
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$', '$'], ['\\(', '\\)'] ],
+      processEscapes: true,
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {
+      equationNumbers: {
+        autoNumber: 'AMS'
+      }
+    }
+  });
+
+  MathJax.Hub.Register.StartupHook('TeX Jax Ready', function() {
+    MathJax.InputJax.TeX.prefilterHooks.Add(function(data) {
+      if (data.display) {
+        var next = data.script.nextSibling;
+        while (next && next.nodeName.toLowerCase() === '#text') {
+          next = next.nextSibling;
+        }
+        if (next && next.nodeName.toLowerCase() === 'br') {
+          next.parentNode.removeChild(next);
+        }
+      }
+    });
+  });
+
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for (i = 0; i < all.length; i += 1) {
+      element = document.getElementById(all[i].inputID + '-Frame').parentNode;
+      if (element.nodeName.toLowerCase() == 'li') {
+        element = element.parentNode;
+      }
+      element.classList.add('has-jax');
+    }
+  });
+</script>
+<script>
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/mathjax@2/MathJax.js?config=TeX-AMS-MML_HTMLorMML', () => {
+    MathJax.Hub.Typeset();
+  }, window.MathJax);
+</script>
+
+    
+
+  
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID: '9c00bb4a73071d490d0b',
+      clientSecret: '0466125432b53cefbd6002b7ea866f7e15bbd9c8',
+      repo: 'chenqiang19.github.io',
+      owner: 'chenqiang19',
+      admin: ['chenqiang19'],
+      id: '88f3bdbb5e0218c745a821be2f704f2e',
+        language: '',
+      distractionFreeMode: 'true'
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+</script>
+
+  
+  <!-- ҳ����С���� -->
+  
+  
+    <script src="/js/cursor/love.min.js"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  
+
+
+
+</body>
+</html>

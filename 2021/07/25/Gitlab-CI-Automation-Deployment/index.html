@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    hostname: new URL('http://yoursite.com').hostname,
+    root: '/',
+    scheme: 'Mist',
+    version: '7.5.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    sidebarPadding: 40
+  };
+</script>
+
+  <meta name="description" content="Gitlab CI自动化部署 一、概念简述GitLab CI&#x2F;CD 是一个内置在GitLab中的工具，其中集成了Continuous Integration (CI)  持续集成、Continuous Delivery (CD)     持续交付、Continuous Deployment (CD)   持续部署等功能。可以实现自动或手动的部署和测试等。 持续集成的工作原理是将项目根目录下Git管">
+<meta name="keywords" content="Cloud Compute">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Gitlab-CI-Automation-Deployment">
+<meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2021&#x2F;07&#x2F;25&#x2F;Gitlab-CI-Automation-Deployment&#x2F;index.html">
+<meta property="og:site_name" content="编辑尼撑">
+<meta property="og:description" content="Gitlab CI自动化部署 一、概念简述GitLab CI&#x2F;CD 是一个内置在GitLab中的工具，其中集成了Continuous Integration (CI)  持续集成、Continuous Delivery (CD)     持续交付、Continuous Deployment (CD)   持续部署等功能。可以实现自动或手动的部署和测试等。 持续集成的工作原理是将项目根目录下Git管">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2021&#x2F;07&#x2F;25&#x2F;Gitlab-CI-Automation-Deployment&#x2F;1.jpg">
+<meta property="og:updated_time" content="2021-07-25T13:40:58.289Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2021&#x2F;07&#x2F;25&#x2F;Gitlab-CI-Automation-Deployment&#x2F;1.jpg">
+
+<link rel="canonical" href="http://yoursite.com/2021/07/25/Gitlab-CI-Automation-Deployment/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>Gitlab-CI-Automation-Deployment | 编辑尼撑</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="编辑尼撑" type="application/atom+xml"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">编辑尼撑</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">学无止境</p>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-schedule">
+
+    <a href="/schedule/" rel="section"><i class="fa fa-fw fa-calendar"></i>日程表</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="搜索..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/07/25/Gitlab-CI-Automation-Deployment/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Qiang Chen">
+      <meta itemprop="description" content="记录是忘记的第一助手.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="编辑尼撑">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Gitlab-CI-Automation-Deployment
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2021-07-25 21:39:59 / 修改时间：21:40:58" itemprop="dateCreated datePublished" datetime="2021-07-25T21:39:59+08:00">2021-07-25</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Cloud-Compute/" itemprop="url" rel="index">
+                    <span itemprop="name">Cloud Compute</span>
+                  </a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="Gitlab-CI自动化部署"><a href="#Gitlab-CI自动化部署" class="headerlink" title="Gitlab CI自动化部署"></a>Gitlab CI自动化部署</h2><p><img src="/2021/07/25/Gitlab-CI-Automation-Deployment/1.jpg" alt="gitlab-ci"></p>
+<h4 id="一、概念简述"><a href="#一、概念简述" class="headerlink" title="一、概念简述"></a>一、概念简述</h4><p>GitLab CI/CD 是一个内置在GitLab中的工具，其中集成了Continuous Integration (CI)  <strong>持续集成</strong>、Continuous Delivery (CD)     持续交付、Continuous Deployment (CD)   <strong>持续部署</strong>等功能。可以实现<strong>自动</strong>或<strong>手动</strong>的部署和测试等。</p>
+<p><strong>持续集成</strong>的工作原理是将项目根目录下Git管理的代码块推送到Git仓库托管的远程代码分支上，并且每次推送时，都要运行一系列脚本来安装、构建、测试和验证代码的更改。</p>
+<p><strong>持续交付(需要人工干预)和部署(自动部署)</strong>相当于更进一步的CI，可以在每次推送到仓库默认分支的同时将应用程序部署到生产环境。</p>
+<h4 id="二、优点"><a href="#二、优点" class="headerlink" title="二、优点"></a>二、优点</h4><ul>
+<li>可以在开发周期的早期发现bugs和errors，从而确保部署到生产环境的所有代码都符合为应用程序建立的代码标准。能够尽早地发现问题，解决问题，减少项目最终部署的成本。</li>
+<li>软件开发的持续方法基于自动执行脚本，以最大程度地减少在开发应用程序时引入错误的机会。从开发新代码到部署新代码，他们几乎不需要人工干预，甚至根本不需要干预。 </li>
+</ul>
+<h4 id="三、工作过程"><a href="#三、工作过程" class="headerlink" title="三、工作过程"></a>三、工作过程</h4><ol>
+<li>gitlab-ci提供了指定ci运行平台的机制，它提供了一个叫<strong>gitlab-runner</strong>的软件，只要在对应的平台(机器或docker)上下载并运行这个命令行软件，并输入从gitlab交互界面获取的token,就可以把当前机器和对应的gitlab-ci流程绑定。</li>
+<li>根目录中创建<strong>.gitlab-ci.yml</strong>文件，用于控制CI流程的不同阶段。如：安装、构建、测试和部署的脚本和其他配置信息。</li>
+<li>每当你push/merge一次，gitlab-ci都会检查项目的根目录下有没有.gitlab-ci.yml文件。如果有，它会执行你在里面编写的脚本，并完整地走一遍在.gitlab-ci.yml中配置的流程。</li>
+</ol>
+<h4 id="四、gitlab-ci涉及的抽象概念"><a href="#四、gitlab-ci涉及的抽象概念" class="headerlink" title="四、gitlab-ci涉及的抽象概念"></a>四、gitlab-ci涉及的抽象概念</h4><ol>
+<li><h5 id="Pipeling-amp-Job"><a href="#Pipeling-amp-Job" class="headerlink" title="Pipeling &amp; Job"></a>Pipeling &amp; Job</h5><p>Pipeline是Gitlab根据项目的.gitlab-ci.yml文件执行的流程，它由许多个任务节点组成,    而这些Pipeline上的每一个任务节点，都是一个独立的Job。<strong>每个Job都会配置一个stage属性，来表示这个Job所处的阶段。</strong></p>
+</li>
+<li><h5 id="Runner"><a href="#Runner" class="headerlink" title="Runner"></a><strong>Runner</strong></h5><p>Runner可以理解为：<strong>在特定机器上</strong>根据项目的<strong>.gitlab-ci.yml</strong>文件，对项目执行pipeline的<strong>程序</strong>。Runner可以分为两种： <strong>Specific Runner</strong>(可以自定义，在自己选择的机器上运行runner程序，gitlab给我们提供了一个叫gitlab-runner的命令行软件，只要在对应机器上下载安装这个软件，并且运行gitlab-runner register命令，然后输入从gitlab-ci交互界面获取的token进行注册, 就可以在自己的机器上远程运行pipeline程序了) 和 <strong>Shared Runner</strong>(Gitlab平台提供的免费使用的runner程序，它由Google云平台提供支持，对CI时间有限制)。</p>
+</li>
+<li><p><strong>Executors</strong></p>
+<p>GitLab Runner 实现了许多可用于在不同场景中运行构建的执行器。下表列出了GitLab Runner支持的一些执行器，并且不会在扩展去支持其他的一些执行器。执行器支持用于构建项目的不同平台和方法。 下表显示了每个 executor 的关键事实，这将帮助您决定使用哪个 executor。 </p>
+<p>| 执行器                    |        SSH         |       Shell        |     VirtualBox     |     Parallels      |       Docker       |     Kubernetes     |       Custom       |<br>| ————————————- | :————————: | :————————: | :————————: | :————————: | :————————: | :————————: | :————————: |<br>| 每次构建都清空构建环境    |         ❌          |         ❌          | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |      有条件的      |<br>| 重用以前的Clone(如果存在) | :heavy_check_mark: | :heavy_check_mark: |         ❌          |         ❌          | :heavy_check_mark: |         ❌          |      有条件的      |<br>| Runner文件系统访问受保护  | :heavy_check_mark: |         ❌          | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |      有条件的      |<br>| Runner平台迁移            |         ❌          |         ❌          |       部分的       |       部分的       | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |<br>| 无需配置支持并发构建      |         ❌          |         ❌          | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |      有条件的      |<br>| 复杂的构建环境            |         ❌          |         ❌          | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |<br>| bug调试和排查             |        简单        |        简单        |        困难        |        困难        |        困难        |        中等        |        中等        |</p>
+<p><a href="https://docs.gitlab.com/runner/executors/#selecting-the-executor" target="_blank" rel="noopener">参考链接</a></p>
+</li>
+<li><p><strong>.gitlab-ci.yml配置的特定关键字</strong></p>
+<p>| 关键字 | 描述                                                         |<br>| ——— | —————————————————————————————— |<br>| stages | stages定义在YML文件的最外层，它的值是一个数组，用于定义一个pipeline不同的流程节点 |<br>| stage  | 作为Job的子属性，是一个字符串，且是stages数组的一个子项，表示的是当前的pipeline节点 |<br>| script | 作为Job的子属性，当前pipeline节点运行的shell脚本             |<br>| tags   | 作为Job的子属性，tags是当前Job的标记                         |</p>
+</li>
+</ol>
+<h4 id="五、实践"><a href="#五、实践" class="headerlink" title="五、实践"></a>五、实践</h4><p><strong>1、在平台上下载并安装Gitlab-runner命令行</strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">针对Linux平台</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">下在二进制包</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> Linux x86-64</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">sudo curl -L --output /usr/local/bin/gitlab-runner "https://gitlab-runner-downloads.s3.amazonaws.com/latest/binaries/gitlab-runner-linux-amd64"</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">修改用户的下载目录操作权限</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">sudo chmod +x /usr/local/bin/gitlab-runner</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">创建一个Gitlab CI 用户</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">sudo useradd --comment 'GitLab Runner' --create-home gitlab-runner --shell /bin/bash</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">Install</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line">sudo gitlab-runner install --user=gitlab-runner --working-directory=/home/gitlab-runner</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">11</span></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">Run as service</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">12</span></pre></td><td class="code"><pre><span class="line">sudo gitlab-runner start</span></pre></td></tr></table></figure>
+<p><a href="https://docs.gitlab.com/runner/install/linux-manually.html" target="_blank" rel="noopener">参考官网的链接</a></p>
+<p><strong>3、注册Runner</strong></p>
+<p>注册前的需求</p>
+<ul>
+<li>安装gitlab-runner到部署服务器，而不是GitLab仓库所在的服务器</li>
+<li>获取token<ul>
+<li>For a <a href="https://docs.gitlab.com/ee/ci/runners/#shared-runners" target="_blank" rel="noopener">shared runner</a>, have an administrator go to the GitLab Admin Area and click <strong>Overview &gt; Runners</strong></li>
+<li>For a <a href="https://docs.gitlab.com/ee/ci/runners/README.html#group-runners" target="_blank" rel="noopener">group runner</a>, go to <strong>Settings &gt; CI/CD</strong> and expand the <strong>Runners</strong> section</li>
+<li>For a <a href="https://docs.gitlab.com/ee/ci/runners/README.html#specific-runners" target="_blank" rel="noopener">project-specific runner</a>, go to <strong>Settings &gt; CI/CD</strong> and expand the <strong>Runners</strong> section</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">针对Linux平台</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">1、sudo gitlab-runner register</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">2、Enter your GitLab instance URL (also known as the gitlab-ci coordinator URL). </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">3、Enter the token you obtained to register the runner. </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">4、Enter a description for the runner. You can change this value later in the GitLab user interface. </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">5、Enter the tags associated with the runner, separated by commas. You can change this value later in the GitLab user interface. </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">6、Provide the runner executor. For most use cases, enter docker. </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">7、If you entered docker as your executor, you’ll be asked for the default image to be used for projects that do not define one in .gitlab-ci.yml.</span></pre></td></tr></table></figure>
+<p><a href="https://docs.gitlab.com/runner/register/index.html" target="_blank" rel="noopener">参考链接</a></p>
+<p><strong>4、激活Runner</strong></p>
+<p>注册完了可能还需要激活，如果在CI/CD面板中Runner显示的是黑色的感叹号，那么说明Runner已经注册成功了，但是还需要激活，如果显示绿色的话，说明已经激活，可以跳过本步。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">sudo gitlab-runner verify</span></pre></td></tr></table></figure>
+<p><strong>注意：</strong>gitlab-ci每次都会对比部署目录下面的文件夹，如果仓库中的文件夹在本地没有的话，那么每次push/merge的时候会删除部署环境中的文件夹。如果mysql/data在部署路径下， 但是仓库中没有mysql的目录，那么每次push就会删除数据库。简直是<strong>神不知，鬼不觉</strong>的删库跑路。所以为了避免这种情况，需要将mysql的环境在docker-compose中单独指定宿主机的一个目录，然后在映射到docker容器中，然后指定docker容器中mysql的配置文件即可。这里的原因可能有两个，一个是在选择exector的时候，根据前面说的，选择了会情况build环境的executor，另一个可能涉及到<strong>Cache</strong>这个关键字(但对于单Job的执行流程来说，尝试过设置Cache的path，但是没有卵用)。</p>
+<p>Cache的出现是为了缓冲一些已经安装好的环境，<strong>以免</strong>每次push/merge的时候都需安装一些依赖的环境，导致整个pipeline的时间过长，降低效率。另一个是<strong>gitlab-ci在运行下一个Job的时候，会默认把前一个Job新增的资源删除干净。</strong></p>
+<p><strong>cache的作用就是：</strong></p>
+<ul>
+<li><strong>在不同pipeline之间重用资源</strong></li>
+<li><strong>在同一pipeline的不同Job之间重用资源</strong></li>
+</ul>
+<p><a href="https://zhuanlan.zhihu.com/p/184936276" target="_blank" rel="noopener">参考资料</a></p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Cloud-Compute/" rel="tag"># Cloud Compute</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/07/25/Cloud-PaaS-Learn/" rel="prev" title="Cloud-Paas-Learn">
+      <i class="fa fa-chevron-left"></i> Cloud-Paas-Learn
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2021/07/25/Open-Neural-Network-Exchange/" rel="next" title="Open-Neural-Network-Exchange">
+      Open-Neural-Network-Exchange <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+    <div class="comments" id="gitalk-container"></div>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Gitlab-CI自动化部署"><span class="nav-number">1.</span> <span class="nav-text">Gitlab CI自动化部署</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#一、概念简述"><span class="nav-number">1.0.1.</span> <span class="nav-text">一、概念简述</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#二、优点"><span class="nav-number">1.0.2.</span> <span class="nav-text">二、优点</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#三、工作过程"><span class="nav-number">1.0.3.</span> <span class="nav-text">三、工作过程</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#四、gitlab-ci涉及的抽象概念"><span class="nav-number">1.0.4.</span> <span class="nav-text">四、gitlab-ci涉及的抽象概念</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#Pipeling-amp-Job"><span class="nav-number">1.0.4.1.</span> <span class="nav-text">Pipeling &amp; Job</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Runner"><span class="nav-number">1.0.4.2.</span> <span class="nav-text">Runner</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#五、实践"><span class="nav-number">1.0.5.</span> <span class="nav-text">五、实践</span></a></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Qiang Chen</p>
+  <div class="site-description" itemprop="description">记录是忘记的第一助手.</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">62</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">11</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">20</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/chenaing19" title="GitHub → https://github.com/chenaing19" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/765206494@qq.com" title="E-Mail → 765206494@qq.com"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Qiang Chen</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v4.0.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 �?<a href="https://mist.theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> v7.5.0
+  </div>
+    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+  
+  <script color='0,0,255' opacity='0.5' zIndex='-1' count='99' src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/muse.js"></script>
+<script src="/js/next-boot.js"></script>
+
+
+
+  
+
+
+
+
+  <script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+      
+<script type="text/x-mathjax-config">
+
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$', '$'], ['\\(', '\\)'] ],
+      processEscapes: true,
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {
+      equationNumbers: {
+        autoNumber: 'AMS'
+      }
+    }
+  });
+
+  MathJax.Hub.Register.StartupHook('TeX Jax Ready', function() {
+    MathJax.InputJax.TeX.prefilterHooks.Add(function(data) {
+      if (data.display) {
+        var next = data.script.nextSibling;
+        while (next && next.nodeName.toLowerCase() === '#text') {
+          next = next.nextSibling;
+        }
+        if (next && next.nodeName.toLowerCase() === 'br') {
+          next.parentNode.removeChild(next);
+        }
+      }
+    });
+  });
+
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for (i = 0; i < all.length; i += 1) {
+      element = document.getElementById(all[i].inputID + '-Frame').parentNode;
+      if (element.nodeName.toLowerCase() == 'li') {
+        element = element.parentNode;
+      }
+      element.classList.add('has-jax');
+    }
+  });
+</script>
+<script>
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/mathjax@2/MathJax.js?config=TeX-AMS-MML_HTMLorMML', () => {
+    MathJax.Hub.Typeset();
+  }, window.MathJax);
+</script>
+
+    
+
+  
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID: '9c00bb4a73071d490d0b',
+      clientSecret: '0466125432b53cefbd6002b7ea866f7e15bbd9c8',
+      repo: 'chenqiang19.github.io',
+      owner: 'chenqiang19',
+      admin: ['chenqiang19'],
+      id: 'e113bcbff9ae02210a44fb45f968af54',
+        language: '',
+      distractionFreeMode: 'true'
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+</script>
+
+  
+  <!-- ҳ����С���� -->
+  
+  
+    <script src="/js/cursor/love.min.js"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  
+
+
+
+</body>
+</html>

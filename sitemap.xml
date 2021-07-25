@@ -2,6 +2,62 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://yoursite.com/2021/07/25/TensorRT/</loc>
+    
+    <lastmod>2021-07-25T13:55:17.642Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2021/07/25/Open-Neural-Network-Exchange/</loc>
+    
+    <lastmod>2021-07-25T13:52:23.387Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2021/07/25/Gitlab-CI-Automation-Deployment/</loc>
+    
+    <lastmod>2021-07-25T13:40:58.289Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2021/07/25/Cloud-PaaS-Learn/</loc>
+    
+    <lastmod>2021-07-25T13:33:03.790Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2021/07/25/Cloud-Paas-Learn/</loc>
+    
+    <lastmod>2021-07-25T13:29:11.245Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2021/07/25/Image-Process-Pattern-Recognition/</loc>
+    
+    <lastmod>2021-07-25T12:46:48.075Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2021/07/25/Image-Process-Edge-Detection/</loc>
+    
+    <lastmod>2021-07-25T12:45:01.076Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2021/07/25/Image-Process-Three-Fourier-Transform/</loc>
+    
+    <lastmod>2021-07-25T12:35:01.764Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://yoursite.com/2021/07/03/CUDA-Programmer-Learn-One/</loc>
     
     <lastmod>2021-07-03T16:04:58.785Z</lastmod>
@@ -373,7 +429,7 @@
   </url>
   
   <url>
-    <loc>http://yoursite.com/2021/07/03/hello-world/</loc>
+    <loc>http://yoursite.com/2021/07/25/hello-world/</loc>
     
     <lastmod>2021-04-03T12:51:40.438Z</lastmod>
     
