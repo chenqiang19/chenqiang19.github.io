@@ -62,7 +62,7 @@
 <meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2021&#x2F;07&#x2F;25&#x2F;TensorRT&#x2F;tensorRT6.png">
 <meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2021&#x2F;07&#x2F;25&#x2F;TensorRT&#x2F;tensorRT7.png">
 <meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2021&#x2F;07&#x2F;25&#x2F;TensorRT&#x2F;tensorRT8.png">
-<meta property="og:updated_time" content="2021-07-25T13:55:17.642Z">
+<meta property="og:updated_time" content="2021-07-25T15:04:03.716Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2021&#x2F;07&#x2F;25&#x2F;TensorRT&#x2F;tensorRT1.png">
 
@@ -245,7 +245,7 @@
               <span class="post-meta-item-text">发表于</span>
               
 
-              <time title="创建时间：2021-07-25 21:52:46 / 修改时间：21:55:17" itemprop="dateCreated datePublished" datetime="2021-07-25T21:52:46+08:00">2021-07-25</time>
+              <time title="创建时间：2021-07-25 21:52:46 / 修改时间：23:04:03" itemprop="dateCreated datePublished" datetime="2021-07-25T21:52:46+08:00">2021-07-25</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -297,9 +297,36 @@
 </ul>
 <p>左边为未优化的网络，右边为使用TensorRT优化的网络</p>
 <p><img src="/2021/07/25/TensorRT/tensorRT2.png" alt="TensorRT"></p>
-<p>| Network      | Layers before | Layers after |<br>| —————— | ——————- | —————— |<br>| VGG19        | 43            | 27           |<br>| Inception V3 | 309           | 113          |<br>| ResNet-152   | 670           | 159          |</p>
 </li>
 </ul>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>Network</th>
+<th>Layers before</th>
+<th>Layers after</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>VGG19</td>
+<td>43</td>
+<td>27</td>
+</tr>
+<tr>
+<td>Inception V3</td>
+<td>309</td>
+<td>113</td>
+</tr>
+<tr>
+<td>ResNet-152</td>
+<td>670</td>
+<td>159</td>
+</tr>
+</tbody>
+</table>
+</div>
 <p><strong>Supported Layer Fusions</strong></p>
 <ol>
 <li>Convolution and ReLUActivation</li>
