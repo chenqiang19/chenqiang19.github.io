@@ -55,7 +55,8 @@
 <meta property="og:description" content="Gitlab CI自动化部署 一、概念简述GitLab CI&#x2F;CD 是一个内置在GitLab中的工具，其中集成了Continuous Integration (CI)  持续集成、Continuous Delivery (CD)     持续交付、Continuous Deployment (CD)   持续部署等功能。可以实现自动或手动的部署和测试等。 持续集成的工作原理是将项目根目录下Git管">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2021&#x2F;07&#x2F;25&#x2F;Gitlab-CI-Automation-Deployment&#x2F;1.jpg">
-<meta property="og:updated_time" content="2021-07-25T13:40:58.289Z">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2021&#x2F;07&#x2F;25&#x2F;Gitlab-CI-Automation-Deployment&#x2F;table.png">
+<meta property="og:updated_time" content="2021-07-25T14:30:22.069Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2021&#x2F;07&#x2F;25&#x2F;Gitlab-CI-Automation-Deployment&#x2F;1.jpg">
 
@@ -238,7 +239,7 @@
               <span class="post-meta-item-text">发表于</span>
               
 
-              <time title="创建时间：2021-07-25 21:39:59 / 修改时间：21:40:58" itemprop="dateCreated datePublished" datetime="2021-07-25T21:39:59+08:00">2021-07-25</time>
+              <time title="创建时间：2021-07-25 21:39:59 / 修改时间：22:30:22" itemprop="dateCreated datePublished" datetime="2021-07-25T21:39:59+08:00">2021-07-25</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -290,11 +291,11 @@
 </li>
 <li><p><strong>Executors</strong></p>
 <p>GitLab Runner 实现了许多可用于在不同场景中运行构建的执行器。下表列出了GitLab Runner支持的一些执行器，并且不会在扩展去支持其他的一些执行器。执行器支持用于构建项目的不同平台和方法。 下表显示了每个 executor 的关键事实，这将帮助您决定使用哪个 executor。 </p>
-<p>| 执行器                    |        SSH         |       Shell        |     VirtualBox     |     Parallels      |       Docker       |     Kubernetes     |       Custom       |<br>| ————————————- | :————————: | :————————: | :————————: | :————————: | :————————: | :————————: | :————————: |<br>| 每次构建都清空构建环境    |         ❌          |         ❌          | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |      有条件的      |<br>| 重用以前的Clone(如果存在) | :heavy_check_mark: | :heavy_check_mark: |         ❌          |         ❌          | :heavy_check_mark: |         ❌          |      有条件的      |<br>| Runner文件系统访问受保护  | :heavy_check_mark: |         ❌          | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |      有条件的      |<br>| Runner平台迁移            |         ❌          |         ❌          |       部分的       |       部分的       | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |<br>| 无需配置支持并发构建      |         ❌          |         ❌          | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |      有条件的      |<br>| 复杂的构建环境            |         ❌          |         ❌          | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |<br>| bug调试和排查             |        简单        |        简单        |        困难        |        困难        |        困难        |        中等        |        中等        |</p>
+<p><img src="/2021/07/25/Gitlab-CI-Automation-Deployment/table.png" alt="Gitlab-CI-Automation-Deployment"></p>
 <p><a href="https://docs.gitlab.com/runner/executors/#selecting-the-executor" target="_blank" rel="noopener">参考链接</a></p>
 </li>
 <li><p><strong>.gitlab-ci.yml配置的特定关键字</strong></p>
-<p>| 关键字 | 描述                                                         |<br>| ——— | —————————————————————————————— |<br>| stages | stages定义在YML文件的最外层，它的值是一个数组，用于定义一个pipeline不同的流程节点 |<br>| stage  | 作为Job的子属性，是一个字符串，且是stages数组的一个子项，表示的是当前的pipeline节点 |<br>| script | 作为Job的子属性，当前pipeline节点运行的shell脚本             |<br>| tags   | 作为Job的子属性，tags是当前Job的标记                         |</p>
+<p>| 关键字 | 描述                                                         |<br>| :——: | —————————————————————————————— |<br>| stages | stages定义在YML文件的最外层，它的值是一个数组，用于定义一个pipeline不同的流程节点 |<br>| stage  | 作为Job的子属性，是一个字符串，且是stages数组的一个子项，表示的是当前的pipeline节点 |<br>| script | 作为Job的子属性，当前pipeline节点运行的shell脚本             |<br>|  tags  | 作为Job的子属性，tags是当前Job的标记                         |</p>
 </li>
 </ol>
 <h4 id="五、实践"><a href="#五、实践" class="headerlink" title="五、实践"></a>五、实践</h4><p><strong>1、在平台上下载并安装Gitlab-runner命令行</strong></p>
@@ -342,7 +343,7 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2021/07/25/Cloud-PaaS-Learn/" rel="prev" title="Cloud-Paas-Learn">
+    <a href="/2021/07/25/Cloud-Paas-Learn/" rel="prev" title="Cloud-Paas-Learn">
       <i class="fa fa-chevron-left"></i> Cloud-Paas-Learn
     </a></div>
       <div class="post-nav-item">
