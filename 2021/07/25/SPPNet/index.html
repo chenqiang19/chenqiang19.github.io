@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    hostname: new URL('http://yoursite.com').hostname,
+    root: '/',
+    scheme: 'Mist',
+    version: '7.5.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    sidebarPadding: 40
+  };
+</script>
+
+  <meta name="description" content="SPPNet学习笔记Spatial Pyramid Pooling in Deep ConvolutionalNetworks for Visual Recognition论文链接 一、为了解决什么问题在CNNs的训练和测试中存在一个技术问题：流行的CNNs需要固定输入图像的尺寸（例如224×224），这限制了输入图像的纵横比和尺度。当应用于任意尺寸的图像时， 当前方法主要是通过裁剪或通过变形将输">
+<meta name="keywords" content="Deep Learning">
+<meta property="og:type" content="article">
+<meta property="og:title" content="SPPNet">
+<meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2021&#x2F;07&#x2F;25&#x2F;SPPNet&#x2F;index.html">
+<meta property="og:site_name" content="编辑尼撑">
+<meta property="og:description" content="SPPNet学习笔记Spatial Pyramid Pooling in Deep ConvolutionalNetworks for Visual Recognition论文链接 一、为了解决什么问题在CNNs的训练和测试中存在一个技术问题：流行的CNNs需要固定输入图像的尺寸（例如224×224），这限制了输入图像的纵横比和尺度。当应用于任意尺寸的图像时， 当前方法主要是通过裁剪或通过变形将输">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2021&#x2F;07&#x2F;25&#x2F;SPPNet&#x2F;sppnet.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2021&#x2F;07&#x2F;25&#x2F;SPPNet&#x2F;sppnet-1.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2021&#x2F;07&#x2F;25&#x2F;SPPNet&#x2F;sppnet2.png">
+<meta property="og:updated_time" content="2021-07-25T14:17:44.211Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2021&#x2F;07&#x2F;25&#x2F;SPPNet&#x2F;sppnet.png">
+
+<link rel="canonical" href="http://yoursite.com/2021/07/25/SPPNet/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>SPPNet | 编辑尼撑</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="编辑尼撑" type="application/atom+xml"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">编辑尼撑</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">学无止境</p>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-schedule">
+
+    <a href="/schedule/" rel="section"><i class="fa fa-fw fa-calendar"></i>日程表</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="搜索..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/07/25/SPPNet/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Qiang Chen">
+      <meta itemprop="description" content="记录是忘记的第一助手.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="编辑尼撑">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          SPPNet
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2021-07-25 22:15:25 / 修改时间：22:17:44" itemprop="dateCreated datePublished" datetime="2021-07-25T22:15:25+08:00">2021-07-25</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Deep-Learning/" itemprop="url" rel="index">
+                    <span itemprop="name">Deep Learning</span>
+                  </a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="SPPNet学习笔记"><a href="#SPPNet学习笔记" class="headerlink" title="SPPNet学习笔记"></a>SPPNet学习笔记</h2><p><strong>Spatial Pyramid Pooling in Deep ConvolutionalNetworks for Visual Recognition</strong><a href="https://arxiv.org/pdf/1406.4729.pdf" target="_blank" rel="noopener">论文链接</a></p>
+<h4 id="一、为了解决什么问题"><a href="#一、为了解决什么问题" class="headerlink" title="一、为了解决什么问题"></a>一、为了解决什么问题</h4><p>在CNNs的训练和测试中<strong>存在一个技术问题</strong>：流行的CNNs需要<strong>固定输入图像的尺寸</strong>（例如224×224），这限制了输入图像的纵横比和尺度。当应用于任意尺寸的图像时， 当前方法主要是通过<strong>裁剪</strong>或通过<strong>变形</strong>将输入图像拟合到固定大小。<strong>但是</strong>裁剪区域可能<strong>不包含整个对象</strong>，而扭曲的内容可能会导致不必要的<strong>几何失真</strong>。由于内容丢失或失真，识别<strong>精度可能会受到影响</strong>。不可能采用多尺度或者是大量的数据增强去训练模型。</p>
+<p><strong>分析为什么需要固定尺寸的输入？</strong></p>
+<p> 一个CNN主要由两部分组成：卷积层和后面的全连接层。 卷积层以滑动窗口方式运行，并输出表示激活空间排列的特征图。事实上，卷积层不需要固定的图像大小，可以生成任意大小的特征图。 另一方面，全连接层需要根据其定义具有固定大小/长度的输入。 因此，固定大小的约束仅来自存在于网络更深阶段的全连接层。 </p>
+<p><strong>如何解决全连接层需要固定输入的问题？</strong></p>
+<p>在最后的卷积层和全连接层之间加入SPP层(<code>spatial pyramid pooling layer</code>)。具体做法在下图中是，在conv5层得到的特征图是256个feature maps，每层的特征图都做一次spatial pyramid pooling。先把每个特征图分割成多个不同尺寸的网格，比如网格分别为4x4、2x2、1x1,然后每个网格做max  pooling，这样256层特征图就形成了16x256，4x256，1x256维特征，他们连起来就形成了一个固定长度的特征向量，将这个向量输入到后面的全连接层。</p>
+<p><img src="/2021/07/25/SPPNet/sppnet.png" alt="SPPNet"></p>
+<p><img src="/2021/07/25/SPPNet/sppnet-1.png" alt="SPPNet"></p>
+<p><strong>获得的好处：</strong></p>
+<p>1) SPP 能够生成固定长度的输出，而不管输入大小，而滑动窗口池化用于以前的深度网络 [3] 不能； </p>
+<p>2）SPP使用多级空间bins，而滑动窗口池化只使用单一窗口大小。多级池化已被证明对对象变形具有鲁棒性(SPM中证明)； </p>
+<p>3) 由于输入尺度的灵活性，SPP 可以池化以可变尺度提取的特征。通过实验，我们表明所有这些因素都提高了深度网络的识别精度。 </p>
+<h4 id="二、多尺度训练方法"><a href="#二、多尺度训练方法" class="headerlink" title="二、多尺度训练方法"></a>二、多尺度训练方法</h4><p>当<strong>输入图像</strong>处于<strong>不同尺度</strong>时，<strong>网络（具有相同过滤器尺寸）将提取不同尺度的特征</strong>。 尺度在传统方法中起着重要作用，例如，SIFT 向量通常在多个尺度上提取 [29]、[27]（由补丁和高斯滤波器的大小决定）。 我们将证明尺度对于深度网络的准确性也很重要。 </p>
+<p>从理论上讲，无论输入图像大小如何，都可以使用标准的反向传播来训练上述网络结构。 但在实践中，GPU 实现（例如 cuda-convnet和 Caffe）最好在固定输入图像上运行。 接下来我们描述我们的训练解决方案，它利用这些 GPU 实现，同时仍然保留空间金字塔池化行为。 </p>
+<p><strong>首先考虑固定尺度的训练</strong></p>
+<p>和之前的工作一样，我们首先考虑一个网络，它采用从图像中裁剪出来的固定尺寸输入（224×224）。裁剪是为了数据增强。对于给定尺寸的图像，我们可以预先计算空间金字塔池化所需的 bin 大小。考虑 conv5 之后的特征图，其大小为 a×a（例如，13×13）。 假如金字塔中的一层有n×n个bins，我们将此金字塔层的池化过程实现为滑动窗口池化，滑动窗的大小为win=&lceil;a/n&rceil;，步长stride=&lfloor;a/n&rfloor;，对应金字塔中的L个层级，用同样的方式实现。最后将L个输出concatenate到一起输入全连接层。</p>
+<p><strong>多尺度的训练</strong></p>
+<p>为了解决<strong>训练中不同图像尺寸</strong>的问题，我们考虑了一组<strong>预定义的尺寸</strong>。我们考虑两种尺寸：180×180 和 224×224。<strong>我们没有裁剪较小的 180×180 区域，而是将上述 224×224 区域调整为180×180</strong>(这句话的意思是输入的图像其实都是224x224，但是为了考虑多尺度训练，将部分图像的尺寸由224x224缩放到180x180)。因此，两个尺度的区域仅在分辨率上不同，而在<strong>内容/布局</strong>(等比例缩放)上没有区别。为了让网络接受180×180 的输入，我们实现了另一个固定大小的输入为180×180的网络。在这种情况下，conv5之后的特征图，其大小为 a×a=10×10(<strong>注意</strong>，这里用的是<strong>同一个网络结构</strong>，存在一种情况：如果网络较深或图像尺寸比例太大，不同尺度的图像输入后，半中间可能卷积的尺寸就为0了)。然后我们还是用滑动窗的大小为win=&lceil;a/n&rceil;，步长stride=&lfloor;a/n&rfloor;来实现每个金字塔池化级别。这个 180 网络的空间金字塔池化层的输出具有与 224 网络相同的固定长度(<strong>为什么呢？</strong>因为这里不管最后一层卷积输出的特征图是13x13还是10x10都需要根据n的值将feature map分成固定大小的块做pooling，比如4x4，2x2，1x1这些值是固定的，feature map的数量也是固定的<strong>(卷积核数固定)</strong>，如：256)。因此，这个180x180的网络在每一层具有与224网络完全相同的参数。换句话说，在训练期间，我们通过两个<strong>共享参数的固定大小网络</strong>实现了<strong>不同输入大小</strong>的 SPP-net。 </p>
+<p>为了减少从一个网络（例如，224）切换到另一个（例如，180）的开销，我们在一个网络上训练每个完整时期(每一个epoch)，然后在下一个完整时期切换到另一个网络（<strong>保留所有权重</strong>）。 这是迭代的。 在实验中，我们发现这种多尺寸训练的收敛率与上述单尺寸训练相似。 </p>
+<p><strong>请注意，上述单一/多尺寸解决方案仅用于训练。 在测试阶段，可以直接将 SPP-net训练出的模型应用于任何尺寸的图像。</strong> </p>
+<h4 id="三、SPPNet用于目标检测"><a href="#三、SPPNet用于目标检测" class="headerlink" title="三、SPPNet用于目标检测"></a>三、SPPNet用于目标检测</h4><p>我们的 SPP-net 也可用于目标检测。我们只从整个图像中提取一次特征图（可能在多个尺度上）。 然后我们在<strong>特征图的每个候选窗口上</strong>应用<strong>空间金字塔池化</strong>来池化<strong>这个窗口</strong>的<strong>固定长度</strong>表示。 因为耗时的卷积只应用一次，我们的方法可以快几个数量级。 </p>
+<p>我们的方法从特征图的区域中提取窗口特征，而 R-CNN 直接从图像区域中提取。 在以前的工作中，可变形零件模型 (DPM)从 HOG特征图中的窗口中提取特征，而选择性搜索 (SS) 方法 从编码的 SIFT 特征图中的窗口中提取特征。 Overfeat检测方法也从深度卷积特征图的窗口中提取，但需要预先定义窗口大小。 相反，我们的方法可以从深度卷积特征图中的任意窗口中提取特征。对卷积层可视化发现：输入图片的某个位置的特征反应在特征图上也是在相同位置。基于这一事实，对某个ROI区域的特征提取只需要在特征图上的相应位置提取就可以了。</p>
+<p><img src="/2021/07/25/SPPNet/sppnet2.png" alt="SPPNet"></p>
+<p>我们使用<strong>选择性搜索(select search)</strong>的“快速”模式为每个图像生成大约 2,000 个候选窗口。然后我们调整图像的大小，使得 min(w,h) = s，并从<strong>整个图像中提取特征图</strong>。我们暂时使用ZF-5的SPP-net模型（单尺寸训练）。 在每个<strong>候选窗口</strong>中，我们使用 4 级空间金字塔（1×1、2×2、3×3、6×6、总共 50 个 bin）来<strong>汇集</strong>特征。 这将为每个窗口生成一个 12,800-d (256×50) 的表示。 这些表示被<strong>提供给网络的全连接层</strong>。 然后<strong>针对这些特征为每个类别训练一个二元线性 SVM 分类器</strong>。 </p>
+<p>我们对 SVM 训练的实施如下。 我们使用<strong>真实窗口来生成正样本</strong>。 <strong>负样本</strong>是那些与<strong>正窗口重叠最多 30%</strong>（由交集与联合（IoU）比率衡量）的那些样本。如果任何<strong>负样本</strong>与<strong>另一个负样本</strong>重叠<strong>超过 70%，则将其移除</strong>。 我们应用标准的<strong>hard negative mining</strong>来训练 SVM。 这一步迭代一次。 为所有 20 个类别训练 SVM 只需不到 1 小时。 在测试中，分类器用于对候选窗口进行评分。 然后我们在评分窗口上使用<strong>非最大抑制</strong>（阈值为 30%）。 </p>
+<p>一张任意尺寸的图片，在最后的卷积层conv5可以得到特征图。根据Region proposal步骤可以得到很多候选区域，这个候选区域可以在特征图上找到相同位置对应的窗口，然后使用SPP，每个窗口都可以得到一个固定长度的输出。将这个输出输入到全连接层里面。这样，图片只需要经过一次CNN，候选区域特征直接从整张图片特征图上提取。在训练这个特征提取网络的时候，使用分类任务得到的网络，固定前面的卷积层，只微调后面的全连接层。</p>
+<p>在检测的后面模块，仍然和R-CNN一样，使用SVM和边框回归。SVM的特征输入是FC层，边框回归特征使用SPP层。</p>
+<p><strong>Mapping  a  Window  to  Feature  Maps(映射图像域中的窗口到特征图上)</strong></p>
+<p>在图像域中给出了一个窗口，我们用它来裁剪经过多次子采样的卷积特征图（例如，conv5）。 所以我们需要在特征图上对齐窗口。 </p>
+<p>在我们的实现中，我们将<strong>窗口的角点</strong>投影到特征图中的一个像素上，这样<strong>图像域中的这个角点最接近该特征图像素的感受野中心</strong>。 由于所有卷积层和池化层的填充，使得映射变得很复杂。 为了简化实现，在部署期间，我们为过滤器大小为 p 的层填充了&lfloor;p/2&rfloor;个pixels。 因此，对于以 (x’,y’) 为中心的响应(特征图)，其在图像域中的有效感受野以 (x,y) =(Sx’,Sy’) 为中心，其中 S是<strong>所有先前步幅的乘积</strong>。 在我们的模型中，对于 conv5 上的 ZF-5，S= 16，对于 conv5/7 上的 Overfeat-5/7，S= 12。 给定图像域中的一个窗口，我们将左（上）边界投影为：x′=&lfloor;x/S&rfloor;+1 和右（下）边界 x′=&lfloor;x/S&rfloor;−1。 如果填充不是&lfloor;p/2&rfloor;，我们需要给x添加一个适当的偏移量。 </p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Deep-Learning/" rel="tag"># Deep Learning</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/07/25/Image-Process-Image-Compression/" rel="prev" title="Image-Process-Image-Compression">
+      <i class="fa fa-chevron-left"></i> Image-Process-Image-Compression
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2021/07/25/hello-world/" rel="next" title="Hello World">
+      Hello World <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+    <div class="comments" id="gitalk-container"></div>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#SPPNet学习笔记"><span class="nav-number">1.</span> <span class="nav-text">SPPNet学习笔记</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#一、为了解决什么问题"><span class="nav-number">1.0.1.</span> <span class="nav-text">一、为了解决什么问题</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#二、多尺度训练方法"><span class="nav-number">1.0.2.</span> <span class="nav-text">二、多尺度训练方法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#三、SPPNet用于目标检测"><span class="nav-number">1.0.3.</span> <span class="nav-text">三、SPPNet用于目标检测</span></a></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Qiang Chen</p>
+  <div class="site-description" itemprop="description">记录是忘记的第一助手.</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">65</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">12</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">21</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/chenaing19" title="GitHub → https://github.com/chenaing19" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/765206494@qq.com" title="E-Mail → 765206494@qq.com"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Qiang Chen</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v4.0.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 �?<a href="https://mist.theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> v7.5.0
+  </div>
+    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+  
+  <script color='0,0,255' opacity='0.5' zIndex='-1' count='99' src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/muse.js"></script>
+<script src="/js/next-boot.js"></script>
+
+
+
+  
+
+
+
+
+  <script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+      
+<script type="text/x-mathjax-config">
+
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$', '$'], ['\\(', '\\)'] ],
+      processEscapes: true,
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {
+      equationNumbers: {
+        autoNumber: 'AMS'
+      }
+    }
+  });
+
+  MathJax.Hub.Register.StartupHook('TeX Jax Ready', function() {
+    MathJax.InputJax.TeX.prefilterHooks.Add(function(data) {
+      if (data.display) {
+        var next = data.script.nextSibling;
+        while (next && next.nodeName.toLowerCase() === '#text') {
+          next = next.nextSibling;
+        }
+        if (next && next.nodeName.toLowerCase() === 'br') {
+          next.parentNode.removeChild(next);
+        }
+      }
+    });
+  });
+
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for (i = 0; i < all.length; i += 1) {
+      element = document.getElementById(all[i].inputID + '-Frame').parentNode;
+      if (element.nodeName.toLowerCase() == 'li') {
+        element = element.parentNode;
+      }
+      element.classList.add('has-jax');
+    }
+  });
+</script>
+<script>
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/mathjax@2/MathJax.js?config=TeX-AMS-MML_HTMLorMML', () => {
+    MathJax.Hub.Typeset();
+  }, window.MathJax);
+</script>
+
+    
+
+  
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID: '9c00bb4a73071d490d0b',
+      clientSecret: '0466125432b53cefbd6002b7ea866f7e15bbd9c8',
+      repo: 'chenqiang19.github.io',
+      owner: 'chenqiang19',
+      admin: ['chenqiang19'],
+      id: '70a2bc0b6702909cd970b1032fc86131',
+        language: '',
+      distractionFreeMode: 'true'
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+</script>
+
+  
+  <!-- ҳ����С���� -->
+  
+  
+    <script src="/js/cursor/love.min.js"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  
+
+
+
+</body>
+</html>
