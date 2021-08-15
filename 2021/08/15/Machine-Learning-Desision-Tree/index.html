@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    hostname: new URL('http://yoursite.com').hostname,
+    root: '/',
+    scheme: 'Mist',
+    version: '7.5.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    sidebarPadding: 40
+  };
+</script>
+
+  <meta name="description" content="第四章 决策树（西瓜书学习-笔记）一、基本流程决策树学习的目的是为了产生一颗泛化能力强的决策树。一般，一颗决策树包含一个根结点、若干个内部结点和若干个叶结点；叶结点对应于决策结果，其他每个结点则对应于一个属性测试；每个结点包含的样本集合根据属性测试的结果被划分到子结点中；根结点包含样本全集。从根结点到每个叶节点的路径对应了一个判定测试序列。  二、划分选择一般而言，随着划分过程的不断进行，希望决策">
+<meta name="keywords" content="Machine Learning">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Machine-Learning-Desision-Tree">
+<meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2021&#x2F;08&#x2F;15&#x2F;Machine-Learning-Desision-Tree&#x2F;index.html">
+<meta property="og:site_name" content="编辑尼撑">
+<meta property="og:description" content="第四章 决策树（西瓜书学习-笔记）一、基本流程决策树学习的目的是为了产生一颗泛化能力强的决策树。一般，一颗决策树包含一个根结点、若干个内部结点和若干个叶结点；叶结点对应于决策结果，其他每个结点则对应于一个属性测试；每个结点包含的样本集合根据属性测试的结果被划分到子结点中；根结点包含样本全集。从根结点到每个叶节点的路径对应了一个判定测试序列。  二、划分选择一般而言，随着划分过程的不断进行，希望决策">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2021&#x2F;08&#x2F;15&#x2F;Machine-Learning-Desision-Tree&#x2F;DesisionTree_0.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2021&#x2F;08&#x2F;15&#x2F;Machine-Learning-Desision-Tree&#x2F;Desision-Tree-2.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2021&#x2F;08&#x2F;15&#x2F;Machine-Learning-Desision-Tree&#x2F;Desision-Tree-3.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2021&#x2F;08&#x2F;15&#x2F;Machine-Learning-Desision-Tree&#x2F;Desision-Tree-4.png">
+<meta property="og:updated_time" content="2021-08-15T10:13:31.688Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2021&#x2F;08&#x2F;15&#x2F;Machine-Learning-Desision-Tree&#x2F;DesisionTree_0.png">
+
+<link rel="canonical" href="http://yoursite.com/2021/08/15/Machine-Learning-Desision-Tree/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>Machine-Learning-Desision-Tree | 编辑尼撑</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="编辑尼撑" type="application/atom+xml"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">编辑尼撑</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">学无止境</p>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-schedule">
+
+    <a href="/schedule/" rel="section"><i class="fa fa-fw fa-calendar"></i>日程表</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="搜索..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/08/15/Machine-Learning-Desision-Tree/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Qiang Chen">
+      <meta itemprop="description" content="记录是忘记的第一助手.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="编辑尼撑">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Machine-Learning-Desision-Tree
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2021-08-15 18:10:41 / 修改时间：18:13:31" itemprop="dateCreated datePublished" datetime="2021-08-15T18:10:41+08:00">2021-08-15</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Machine-Learning/" itemprop="url" rel="index">
+                    <span itemprop="name">Machine Learning</span>
+                  </a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="第四章-决策树（西瓜书学习-笔记）"><a href="#第四章-决策树（西瓜书学习-笔记）" class="headerlink" title="第四章 决策树（西瓜书学习-笔记）"></a>第四章 决策树（西瓜书学习-笔记）</h2><h4 id="一、基本流程"><a href="#一、基本流程" class="headerlink" title="一、基本流程"></a>一、基本流程</h4><p>决策树学习的目的是为了产生一颗泛化能力强的决策树。一般，一颗决策树包含一个根结点、若干个内部结点和若干个叶结点；叶结点对应于决策结果，其他每个结点则对应于一个属性测试；每个结点包含的样本集合根据属性测试的结果被划分到子结点中；根结点包含样本全集。从根结点到每个叶节点的路径对应了一个判定测试序列。</p>
+<p><img src="/2021/08/15/Machine-Learning-Desision-Tree/DesisionTree_0.png" alt="ML"></p>
+<h4 id="二、划分选择"><a href="#二、划分选择" class="headerlink" title="二、划分选择"></a>二、划分选择</h4><p>一般而言，随着划分过程的不断进行，希望决策树的分支结点所包含的样本尽可能属于同一类，即结点的”纯度”越来越高。</p>
+<h5 id="2-1-信息增益"><a href="#2-1-信息增益" class="headerlink" title="2.1 信息增益"></a>2.1 信息增益</h5><p>“信息熵”是度量样本集合纯度最常用的一种指标。假设当前样本集合D中第k类样本所占的比例为p<sub>k</sub>(k=1,2,…,|y|),则D的信息熵定义为：</p>
+<script type="math/tex; mode=display">
+Ent(D)=-\sum^{|y|}_{k=1}p_k\log_2p_k,Ent(D)的值越小，D的纯度越高</script><p>假定离散属性a有V个可能的取值{a<sup>1</sup>,a<sup>2</sup>,…,a<sup>V</sup>}，若使用a来对样本集D进行划分，则会产生V个分支结点，其中第v个分支结点包含了D中所有在属性a上取值为a<sup>v</sup>的样本，记为D<sup>v</sup>。划分步骤如下：</p>
+<ol>
+<li>计算出D<sup>v</sup>的信息熵</li>
+<li>不同分支结点包含不同的样本数，给分支结点赋予权重|D<sup>v</sup>|/D</li>
+<li>计算属性a对样本集D进行划分所获得的”信息增益”</li>
+</ol>
+<script type="math/tex; mode=display">
+Gain(D,a)=Ent(D)-\sum^{V}_{v=1}\frac{|D^v|}{|D|}Ent(D^v)</script><p>一般，信息增益越大，则意味着使用属性a来进行划分所获得的“纯度提升”越大。所以上面选择属性时使用下式选择最佳属性(ID3)：</p>
+<script type="math/tex; mode=display">
+a_*=arg\,\max_{a\in A}Gain(D,a)</script><p><img src="/2021/08/15/Machine-Learning-Desision-Tree/Desision-Tree-2.png" alt="ML"></p>
+<p><strong>如何选择最优划分属性？</strong></p>
+<p>上图中共包含17个样本，因为是二分类，所以|y|=2。</p>
+<ol>
+<li>根结点包含D中所有的样例，计算根结点的信息熵：</li>
+</ol>
+<script type="math/tex; mode=display">
+Ent(D)=-\sum^{2}_{k=1}p_k\log_2p_k=-(\frac{8}{17}\log_2\frac{8}{17}+\frac{9}{17}\log_2\frac{9}{17})=0.998,其中，正例占p_1=\frac{8}{17},反例占p_2=\frac{9}{17}</script><ol>
+<li><p>计算当前属性集合{色泽，根蒂，敲声，纹理，脐部，触感}中每个属性的信息增益。以属性”色泽”为例。色泽有三个取值：{青绿色，乌黑，浅白}，使用这三个取值对D进行划分，得到3个子集，分别记为：D<sup>1</sup>(色泽=青绿),D<sup>2</sup>(色泽=乌黑)，D<sup>3</sup>(色泽=浅白)。</p>
+<p>D<sub>1</sub>包含6个样例，正例占比p<sub>1</sub>=4/6，反例占比p<sub>2</sub>=2/6。D<sub>3</sub>包含5个样例，正例占比p<sub>1</sub>=1/5，反例占比p<sub>2</sub>=4/5。</p>
+</li>
+</ol>
+<script type="math/tex; mode=display">
+Ent(D^1)=-(\frac{3}{6}\log_2\frac{3}{6}+\frac{3}{6}\log_2\frac{3}{6})=1.000,\\
+Ent(D^2)=-(\frac{4}{6}\log_2\frac{4}{6}+\frac{2}{6}\log_2\frac{2}{6})=0.918,\\
+Ent(D^3)=-(\frac{1}{5}\log_2\frac{1}{5}+\frac{4}{5}\log_2\frac{4}{5})=0.772,\\</script><ol>
+<li>计算”色泽”的信息增益为：</li>
+</ol>
+<script type="math/tex; mode=display">
+Gain(D,色泽)=Ent(D)-\sum^{3}_{v=1}\frac{|D^v|}{|D|}Ent(D^v)=0.998-(\frac{6}{17}\times1.000+\frac{6}{17}\times0.918+\frac{5}{17}\times0.772)=0.109</script><ol>
+<li>类似的，计算出其他属性的信息增益：</li>
+</ol>
+<script type="math/tex; mode=display">
+Gain(D,根蒂)=0.143，Gain(D,敲声)=0.141，Gain(D,纹理)=0.381，Gain(D,脐部)=0.289，Gain(D,触感)=0.006，</script><ol>
+<li>选取信息增益最大的属性，上例中为”纹理”</li>
+</ol>
+<p><img src="/2021/08/15/Machine-Learning-Desision-Tree/Desision-Tree-3.png" alt="ML"></p>
+<ol>
+<li>根据选取的最大增益的属性划分数据集，如上图纹理=清晰有9个样例。可用属性集合为{色泽，根蒂，敲声，脐部，触感}</li>
+<li>基于清晰划分的新集合的D<sub>1</sub>计算各属性的信息增益：</li>
+</ol>
+<script type="math/tex; mode=display">
+Gain(D^1,色泽)=0.043，Gain(D^1,根蒂)=0.458，Gain(D^1,敲声)=0.331，Gain(D^1,脐部)=0.458，Gain(D^1,触感)=0.458，</script><p>若有多个属性均取得了最大的信息增益，可任选其中之一作为划分属性</p>
+<ol>
+<li>对每个结点进行上述操作</li>
+</ol>
+<h5 id="2-2-增益率"><a href="#2-2-增益率" class="headerlink" title="2.2 增益率"></a>2.2 增益率</h5><p>由于信息增益准则对可取值数目较多的属性有所偏好(属性可选的值的数量，如色泽、纹理等)，为了减少这种偏好带来的不利影响，著名的C4.5决策树算法不直接使用信息增益，而是使用”增益率”来选择最优划分属性。增益率定义为：</p>
+<script type="math/tex; mode=display">
+Gain_ratio(D,a)=\frac{Gain(D,a)}{IV(a)},其中，IV(A)=-\sum^{V}_{v=1}\frac{|D|^v}{|D|}\log_2\frac{|D^v|}{|D|},称为属性a的固有值。</script><p>上式中属性a的可能取值数目越多，比如，纹理中清晰的样例越多，则IV(a)的值通常会越大。</p>
+<p>注意：增益率准则对可取值数目较少的属性有所偏好，因此，C4.5算法并不是直接选择增益率UI大的候选划分属性，而是使用一个启发式：先从候选划分属性中找出信息增益高于平均水平的属性，再从中选择信息增益最高的。</p>
+<h4 id="2-3-基尼指数"><a href="#2-3-基尼指数" class="headerlink" title="2.3 基尼指数"></a>2.3 基尼指数</h4><p>CART决策树使用”基尼指数”(Gini index)来选择划分属性。数据集D的纯度可用基尼值来度量：</p>
+<script type="math/tex; mode=display">
+Gini(D)=\sum^{|y|}_{k=1}\sum_{k'\ne k}p_kp_k'=1-\sum^{|y|}_{k=1}p_k^2</script><p>直观来说，Gini(D)反映了从数据集D中随机抽取两个样本，其类别标记不一致的概率。因此，Gini(D)越小，则数据集D的纯度越高。</p>
+<script type="math/tex; mode=display">
+属性a的基尼指数定义为：Gini_index(D,a)=\sum^{V}_{v=1}\frac{|D^v|}{|D|}Gini(D^v)</script><p>所以，最优划分属性选取基尼指数最小的属性：</p>
+<script type="math/tex; mode=display">
+a_*=arg\,\max_{a\in A}Gini_index(D,a)</script><h4 id="三、剪枝处理"><a href="#三、剪枝处理" class="headerlink" title="三、剪枝处理"></a>三、剪枝处理</h4><p>剪枝(pruning)是决策树学习算法对付“过拟合”的主要手段。在决策树学习中，为了尽可能正确分类训练样本，结点划分过程将不断重复，有时造成决策树分支过多，从而可能因训练样本学得“太好”了，以致于把训练集自身的一些特点当作所有数据都具有的一般性质而导致过拟合。所以，可通过主动去掉一些分支来降低过拟合的分险。</p>
+<p>决策树剪枝的基本策略有“预剪枝”(prepruning)和“后剪枝”(post-pruning)。</p>
+<ul>
+<li>预剪枝：在决策树生成过程中，对每个结点在划分前先进行评估。若当前结点的划分不能带来决策树泛化性能提升，则停止划分并将当前结点标记为叶结点。</li>
+<li>后剪枝：先从训练集生成一颗完整的决策树，然后自底向上地对非叶结点进行考察，若将该结点对应的子树替换为叶结点能带来决策树泛化性能提升，则将该子树替换为叶结点。</li>
+</ul>
+<p>预剪枝优点：使决策树的很多分支没有展开，不仅减低了过拟合的风险，而且显著减少了决策树的训练时间开销和测试时间开销。</p>
+<p>预剪枝确定：基于贪心本质禁止这些分支展开，给预剪枝决策树带来了欠拟合的风险。</p>
+<p>后剪枝优点：欠拟合风险小，泛化性能往往优于预剪枝决策树。</p>
+<p>后剪枝缺点：在生成完全决策树之后进行的，并且要自底向上进行考察，因此训练时间开销要大得多。</p>
+<h4 id="四、连续和缺失值"><a href="#四、连续和缺失值" class="headerlink" title="四、连续和缺失值"></a>四、连续和缺失值</h4><h5 id="4-1-连续值处理"><a href="#4-1-连续值处理" class="headerlink" title="4,1 连续值处理"></a>4,1 连续值处理</h5><p>对于要处理的连续属性，需要使用连续属性离散化技术。最简单的策略是采用二分法对连续属性进行处理。 </p>
+<p>给定样本集D和连续属性a，假定a在D上出现了n个不同的取值：</p>
+<ol>
+<li>将这些值从小到大排序，记为{a<sup>1</sup>, a<sup>2</sup>，a<sup>3</sup>，… ，a<sup>n</sup>}</li>
+<li>基于划分点t可将D分为子集D<sup>-</sup><sub>t</sub>和D<sup>+</sup><sub>t</sub>，分别表示在属性a上取值不大于t的样本，和取值大于t的样本</li>
+<li>在区间[a<sup>i</sup>，a<sup>i+1</sup>)中取任意值所产生的划分结果相同，所以对连续属性a，可以考察包含n-1个元素的候选划分点集合</li>
+</ol>
+<script type="math/tex; mode=display">
+T_a=\{\frac{a^i+a^{i+1}}{2}|1\le i\le n-1\}</script><ol>
+<li>把区域[a<sup>i</sup>，a<sup>i+1</sup>)的中心点作为候选划分点。然后可像离散属性值一样来考察这些划分点</li>
+</ol>
+<script type="math/tex; mode=display">
+Gain(D,a)=\max_{t\in T_a}\,Gain(D,a,t)=\max_{t\in T_a}\,Ent(D)-\sum_{\lambda\in\{-,+\}}\frac{|D^{\lambda}_t|}{|D|}Ent(D^{\lambda}_t)\\
+Gain(D,a,t)是样本集D基于划分点t二分后的信息增益，可选择使Gain(D,a,t)最大化的划分点</script><p>与离散值不同，当前结点划分属性为连续属性，该属性还可作为其后代结点的划分属性。</p>
+<h5 id="4-2-缺失值处理"><a href="#4-2-缺失值处理" class="headerlink" title="4.2 缺失值处理"></a>4.2 缺失值处理</h5><p>任务中会遇到一些不完整的样本，即样本的某些属性值缺失。如果简单地放弃不完整样本，仅使用无缺失的样本进行学习，显然造成了数据信息的浪费。对于缺失值需要处理两个问题：</p>
+<ol>
+<li>如何在属性值缺失的情况下进行划分属性选择</li>
+<li>给定划分属性，若样本在该属性上的值缺失，该如何对样本进行划分</li>
+</ol>
+<script type="math/tex; mode=display">
+给定训练集D和属性a，令\tilde{D}表示D中在属性a上没有缺失值的样本子集。假定属性a有V个可取值\{a^1,a^2,...,a^V\}\\
+令\tilde{D}^v表示\tilde{D}中在属性a上取值为a^v的样本子集，\tilde{D}_k表示\tilde{D}中属于第k类(k=1,2,...,|y|)的样本子集\\
+则,\tilde{D}=\bigcup^{|y|}_{k=1}\tilde{D}_k,\tilde{D}=\bigcup^{|V|}_{v=1}\tilde{D}^v,假定给每一个样本x赋予一个权重w_x，并定义如下：\\
+\rho=\frac{\sum_{x\in\tilde{D}}w_x}{\sum_{x\in D}w_x},\tilde{p}_k=\frac{\sum_{x\in\tilde{D}_k}w_x}{\sum_{x\in \tilde{D}}w_x}\,(1\le k\le|y|),\tilde{r}_v=\frac{\sum_{x\in\tilde{D}^v}w_x}{\sum_{x\in \tilde{D}}w_x}\,(1\le v\le|V|)\\
+对属性a，\rho表示无缺失样本所占的比例，\tilde{p}_k表示无缺失样本中第k类所占的比例，\\\tilde{r}_v则表示无缺失样本中在属性a上取值为a^v的样本所占的比例，显然，\sum^{|y|}_{k=1}\tilde{p}_k=1,\sum^{V}_{v=1}\tilde{r}_v=1\\
+则，信息增益可推广为：Gain(D,a)=\rho\times Gain(\tilde{D},a)=\rho\times (Ent(\tilde{D})-\sum^{V}_{k-1}\tilde{r}_vEnt(\tilde{D}^v))\\
+其中，Ent(\tilde{D})=-\sum^{|y|}_{k=1}\tilde{p}_k\log_2\tilde{p}_k</script><p>对于属性a，如果划分属性已知，则将x划入对应的子结点，保持样本权值为w<sub>x</sub>，对于划分属性缺失的情况，则将x同时划入所有子结点，且样本权值在对应的子结点中调整为tilde r<sub>v</sub> &times; w<sub>x</sub>；直观地看，就是让同一个样本的概率划入到不同的子结点中去。</p>
+<h4 id="五、多变量决策树"><a href="#五、多变量决策树" class="headerlink" title="五、多变量决策树"></a>五、多变量决策树</h4><p>决策树形成的分类边界有一个明显的特点：轴平行，即它的分类边界由若干个与坐标轴平行的分段组成。在学习任务的真实分类边界比较复杂时，必须使用很多划分才能获得较好的近似。</p>
+<p>多变量决策树，是为了实现斜划分，对非叶结点不再是仅对某个属性，而是对属性的线性组合进行测试。</p>
+<script type="math/tex; mode=display">
+每个非叶结点是一个\sum^d_{i=1}w_ia_i=t的线性分类器，其中w_i和t可在该结点所含的样本集合属性集上学得</script><p>与单变量决策树不同，多变量决策树的学习过程中，不是为每个非叶结点寻找一个最优划分属性，而是试图建立一个合适的线性分类器。</p>
+<p><img src="/2021/08/15/Machine-Learning-Desision-Tree/Desision-Tree-4.png" alt="ML"></p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Machine-Learning/" rel="tag"># Machine Learning</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/08/15/Linear-Model/" rel="prev" title="Linear-Model">
+      <i class="fa fa-chevron-left"></i> Linear-Model
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2021/08/15/Support-Vector-Machine/" rel="next" title="Support-Vector-Machine">
+      Support-Vector-Machine <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+    <div class="comments" id="gitalk-container"></div>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#第四章-决策树（西瓜书学习-笔记）"><span class="nav-number">1.</span> <span class="nav-text">第四章 决策树（西瓜书学习-笔记）</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#一、基本流程"><span class="nav-number">1.0.1.</span> <span class="nav-text">一、基本流程</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#二、划分选择"><span class="nav-number">1.0.2.</span> <span class="nav-text">二、划分选择</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#2-1-信息增益"><span class="nav-number">1.0.2.1.</span> <span class="nav-text">2.1 信息增益</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-2-增益率"><span class="nav-number">1.0.2.2.</span> <span class="nav-text">2.2 增益率</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-3-基尼指数"><span class="nav-number">1.0.3.</span> <span class="nav-text">2.3 基尼指数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#三、剪枝处理"><span class="nav-number">1.0.4.</span> <span class="nav-text">三、剪枝处理</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#四、连续和缺失值"><span class="nav-number">1.0.5.</span> <span class="nav-text">四、连续和缺失值</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#4-1-连续值处理"><span class="nav-number">1.0.5.1.</span> <span class="nav-text">4,1 连续值处理</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#4-2-缺失值处理"><span class="nav-number">1.0.5.2.</span> <span class="nav-text">4.2 缺失值处理</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#五、多变量决策树"><span class="nav-number">1.0.6.</span> <span class="nav-text">五、多变量决策树</span></a></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Qiang Chen</p>
+  <div class="site-description" itemprop="description">记录是忘记的第一助手.</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">78</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">13</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">22</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/chenaing19" title="GitHub → https://github.com/chenaing19" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/765206494@qq.com" title="E-Mail → 765206494@qq.com"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Qiang Chen</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v4.0.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 �?<a href="https://mist.theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> v7.5.0
+  </div>
+    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+  
+  <script color='0,0,255' opacity='0.5' zIndex='-1' count='99' src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/muse.js"></script>
+<script src="/js/next-boot.js"></script>
+
+
+
+  
+
+
+
+
+  <script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+      
+<script type="text/x-mathjax-config">
+
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$', '$'], ['\\(', '\\)'] ],
+      processEscapes: true,
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {
+      equationNumbers: {
+        autoNumber: 'AMS'
+      }
+    }
+  });
+
+  MathJax.Hub.Register.StartupHook('TeX Jax Ready', function() {
+    MathJax.InputJax.TeX.prefilterHooks.Add(function(data) {
+      if (data.display) {
+        var next = data.script.nextSibling;
+        while (next && next.nodeName.toLowerCase() === '#text') {
+          next = next.nextSibling;
+        }
+        if (next && next.nodeName.toLowerCase() === 'br') {
+          next.parentNode.removeChild(next);
+        }
+      }
+    });
+  });
+
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for (i = 0; i < all.length; i += 1) {
+      element = document.getElementById(all[i].inputID + '-Frame').parentNode;
+      if (element.nodeName.toLowerCase() == 'li') {
+        element = element.parentNode;
+      }
+      element.classList.add('has-jax');
+    }
+  });
+</script>
+<script>
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/mathjax@2/MathJax.js?config=TeX-AMS-MML_HTMLorMML', () => {
+    MathJax.Hub.Typeset();
+  }, window.MathJax);
+</script>
+
+    
+
+  
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID: '9c00bb4a73071d490d0b',
+      clientSecret: '0466125432b53cefbd6002b7ea866f7e15bbd9c8',
+      repo: 'chenqiang19.github.io',
+      owner: 'chenqiang19',
+      admin: ['chenqiang19'],
+      id: 'd8f0d0fd25a79f144d6aa7073ff26252',
+        language: '',
+      distractionFreeMode: 'true'
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+</script>
+
+  
+  <!-- ҳ����С���� -->
+  
+  
+    <script src="/js/cursor/love.min.js"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  
+
+
+
+</body>
+</html>

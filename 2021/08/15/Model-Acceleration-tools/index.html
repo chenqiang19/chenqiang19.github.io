@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    hostname: new URL('http://yoursite.com').hostname,
+    root: '/',
+    scheme: 'Mist',
+    version: '7.5.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    sidebarPadding: 40
+  };
+</script>
+
+  <meta name="description" content="模型推理工具学习一、MLPerfBenchmark在计算机领域应用最成功的就是性能测试，主要测试负载的执行时间、传输速度、吞吐量、资源占用率等。 性能调优的两大利器是Benchmark和profile工具。Benchmark用压力测试挖掘整个系统的性能状况，而profile工具最大限度地呈现系统的运行状态和性能指标，方便用户诊断性能问题和进行调优。 Benchmark的组成 Benchmark中除">
+<meta name="keywords" content="Model Acceleration">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Model-Acceleration-tools">
+<meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2021&#x2F;08&#x2F;15&#x2F;Model-Acceleration-tools&#x2F;index.html">
+<meta property="og:site_name" content="编辑尼撑">
+<meta property="og:description" content="模型推理工具学习一、MLPerfBenchmark在计算机领域应用最成功的就是性能测试，主要测试负载的执行时间、传输速度、吞吐量、资源占用率等。 性能调优的两大利器是Benchmark和profile工具。Benchmark用压力测试挖掘整个系统的性能状况，而profile工具最大限度地呈现系统的运行状态和性能指标，方便用户诊断性能问题和进行调优。 Benchmark的组成 Benchmark中除">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2021-08-15T12:37:33.713Z">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://yoursite.com/2021/08/15/Model-Acceleration-tools/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>Model-Acceleration-tools | 编辑尼撑</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="编辑尼撑" type="application/atom+xml"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">编辑尼撑</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">学无止境</p>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-schedule">
+
+    <a href="/schedule/" rel="section"><i class="fa fa-fw fa-calendar"></i>日程表</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="搜索..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/08/15/Model-Acceleration-tools/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Qiang Chen">
+      <meta itemprop="description" content="记录是忘记的第一助手.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="编辑尼撑">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Model-Acceleration-tools
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2021-08-15 20:35:21 / 修改时间：20:37:33" itemprop="dateCreated datePublished" datetime="2021-08-15T20:35:21+08:00">2021-08-15</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Model-Acceleration/" itemprop="url" rel="index">
+                    <span itemprop="name">Model Acceleration</span>
+                  </a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="模型推理工具学习"><a href="#模型推理工具学习" class="headerlink" title="模型推理工具学习"></a>模型推理工具学习</h2><h4 id="一、MLPerf"><a href="#一、MLPerf" class="headerlink" title="一、MLPerf"></a>一、MLPerf</h4><p><strong>Benchmark</strong>在计算机领域应用最成功的就是性能测试，主要测试负载的<strong>执行时间、传输速度、吞吐量、资源占用率</strong>等。</p>
+<p>性能调优的两大利器是<strong>Benchmark和profile工具</strong>。<strong>Benchmark</strong>用压力测试挖掘整个系统的<strong>性能状况</strong>，而<strong>profile工具</strong>最大限度地呈现系统的运行状态和性能指标，方便用户诊断性能问题和进行调优。</p>
+<p><strong>Benchmark的组成</strong></p>
+<p>Benchmark中除了dataset，应该还包括做对比的基准算法，以及评估标准。有点像做对比实验的感觉。</p>
+<p>Benchmark的核心由3部分组成：数据集、 工作负载、度量指标。</p>
+<ul>
+<li><p>数据集：数据类型分为结构化数据、半结构化数据和非结构化数据。</p>
+<ul>
+<li>结构化数据：传统的关系数据模型</li>
+<li>半结构化数据：类似XML、HTML之类</li>
+<li>非结构化数据：各种文档、图片、视频和音频等</li>
+</ul>
+</li>
+<li><p>工作负载</p>
+<ul>
+<li>密集计算类型：CPU密集型计算、IO密集型计算、网络密集型计算</li>
+<li>计算范式：SQL、批处理、流计算、图计算、机器学习；</li>
+<li>计算延迟：在线计算、离线计算、实时计算</li>
+<li>应用领域：搜索引擎、社交网络、电子商务、地理位置、媒体、游戏</li>
+</ul>
+</li>
+<li><p>度量指标</p>
+<ul>
+<li>工具的使用：perf，nmon等工具和命令</li>
+<li>度量指标：浮点型操纵密度、整数型操纵密度、指令中断、cache命中率、TLB命中率</li>
+</ul>
+<p><a href="https://www.cnblogs.com/sddai/p/7642738.html" target="_blank" rel="noopener">参考资料</a></p>
+</li>
+</ul>
+<h5 id="一、介绍"><a href="#一、介绍" class="headerlink" title="一、介绍"></a>一、介绍</h5><p><code>MLPerf</code>是一套用于测量和提高机器学习软硬件性能的通用基准。主要用来测量<code>训练</code>和<code>推理</code>不同神经网络所需要的时间。<code>MLPerf</code>测试集包含了不同领域的Benchmark子项，主要包括图像分类、物体识别、翻译、推荐、语音识别、情感分析以及强化学习。</p>
+<h5 id="二、MLPerf-Training"><a href="#二、MLPerf-Training" class="headerlink" title="二、MLPerf Training"></a>二、MLPerf Training</h5><p><strong>对于MLPerf Training测试</strong>，每个Benchmark的评价标准是：在特定数据集上训练一个模型使其达到Quality Target时的Clock time。由于机器学习任务的训练时间有很大差异，因此，MLPerf 的最终训练结果是由指定次数的基准测试时间平均得出的，其中会去掉最低和最高的数字，一般是运行5次取平均值，Train测试时间包含了模型构建，数据预处理，训练以及质量测试等时间。</p>
+<p>MLPerf training可以分为封闭模型分区（Closed Model Division）和开放模型分区（Open Model Division）。</p>
+<p><strong>Closed Model Division</strong>具体要求如下：MLPerf为每个领域的Benchmark测试都提供了参考实例</p>
+<ol>
+<li><strong>预处理</strong>必须采用与参考实例相同的预处理步骤，图像必须与参考实现中的大小相同。</li>
+<li><strong>权重和偏差</strong>必须使用与参考实例相同的常数或随机值分布进行初始化。</li>
+<li><strong>损失函数</strong>必须使用与参考实例相同的损失函数。</li>
+<li><strong>优化器</strong>必须使用与参考实例相同的优化器。</li>
+<li>RL环境也需要与参考实例相同，参数相同。</li>
+<li>超参数是可以自己选择的。</li>
+</ol>
+<p><strong>Open Model Division</strong>：</p>
+<p>开放模型分区要求使用相同的数据集解决相同的问题，允许使用任意预处理，模型或训练方法。它旨在推进ML模型和优化的创新。</p>
+<p><strong>MLPerfTraining Result</strong>:</p>
+<p>MLPerf Result被定义为将模型训练到目标质量的时间，这个时间包括模型构建，数据预处理，训练以及质量测试等时间，它通常是数小时或数天。</p>
+<p>加速比: 加速比是当前测试结果和使用一块Pascal P100显卡在未进行任何优化情况下的测试结果的比值。即当前测试结果和参考基准的比值。</p>
+<p><strong>具体的步骤</strong>：</p>
+<ul>
+<li>环境构建</li>
+<li>准备数据</li>
+<li>运行Benchmark</li>
+</ul>
+<h5 id="三、MLPerf-Inference"><a href="#三、MLPerf-Inference" class="headerlink" title="三、MLPerf Inference"></a>三、MLPerf Inference</h5><p><strong>对于MLPerf Inference测试</strong>，每个Benchmark的评价标准是：<code>在特定数据集上测量模型的推理性能，包括延时和吞吐量。</code></p>
+<p>在MLPerf Inference中，主要分为三个部分：</p>
+<ul>
+<li><p>Load Generator: Load Generator是MLPerf的负载生成器，用于启动和控制Inference Benchmark测试。</p>
+<p>MLPerf Inference有三个基本概念: SUT(被测系统)、Sample(inference单位，图像或词)和query(一次推理的样本数)。</p>
+<p>在Inference测试中，LoadGen主要负责以下事情：</p>
+<ol>
+<li>根据测试某个场景生成query</li>
+<li>跟踪query的Latency</li>
+<li>验证结果的准确性</li>
+<li>计算最终的metric</li>
+</ol>
+</li>
+<li><p>Cloud: 云业务场景，MLPerf Inference计划为Cloud环境提供6个领域的Benchmark</p>
+</li>
+<li><p>Edge:  边缘端的业务场景，MLPerf Inference计划为Edge环境提供6个领域的Benchmark</p>
+</li>
+</ul>
+<p>MLPerf Inference也分为封闭分区（Closed Division）和开放分区（Open Division）。</p>
+<ul>
+<li><p>封闭分区需要使用等同于参考实现的预处理，后处理和模型。封闭分区允许校准量化，不允许任何再训练。</p>
+</li>
+<li><p>开放分区只限制使用相同的数据集，它允许使用任意的预处理或后处理和模型，包括再培训</p>
+</li>
+</ul>
+<p><a href="https://blog.csdn.net/han2529386161/article/details/102723482" target="_blank" rel="noopener">参考链接</a></p>
+<h4 id="二、MPI"><a href="#二、MPI" class="headerlink" title="二、MPI"></a>二、MPI</h4><p>在程序中，不同的进程需要相互的数据交换，特别是在科学计算中，需要大规模的计算与数据交换，集群可以很好解决单节点计算力不足的问题，但在集群中大规模的数据交换是很耗费时间的，因此需要一种在多节点的情况下能快速进行数据交流的标准，这就是MPI。</p>
+<p>MPI是一组用于多节点数据通信的标准，而非一种语言或者接口。具体的使用方法需要依赖它的具体实现(mpich or openmpi等)。</p>
+<p>mpi的目标是</p>
+<ol>
+<li>实现较高的通信性能</li>
+<li>好的程序移植性</li>
+<li>强大的功能</li>
+</ol>
+<p><strong>进程</strong></p>
+<p>通俗的说，进程就是运行的程序。一个程序可以含有多个进程，但一个进程不能同属于多个程序。进程拥有独立的运行环境(内存，寄存器，CPU执行时间等)，是操作系统中独立存在的可执行的基本单位。每个进程所占有的资源都是独立的，不与其他的进程共享，不能访问其他进程内存空间，其他进程也无法访问该进程内存空间。但可以通过消息传递来进行通信。</p>
+<p><strong>进程组</strong></p>
+<p>指一个mpi程序中的所有(n个)进程的集合。该程序中所有进程编号从0到n-1，主要是为了标识不同的进程，可以通过进程的编号来索引该进程。不同进程组的进程的编号可以相同。</p>
+<p><strong>通信器(MPI_Comm)</strong></p>
+<p>可以理解为一组进程间可以通信的进程组，通信函数必须在通信器内调用。</p>
+<p><strong>消息</strong></p>
+<p>需要通信的数据。</p>
+<p><strong>mpi对象</strong></p>
+<p>mpi内存的数据结构，包括数据类型(MPI_DOUBLE)，通信器(MPI_COMM)等</p>
+<p><a href="https://zhuanlan.zhihu.com/p/69497154" target="_blank" rel="noopener">参考资料</a></p>
+<h4 id="三、GPU-Director"><a href="#三、GPU-Director" class="headerlink" title="三、GPU Director"></a>三、GPU Director</h4><p>当前深度学习模型越来越复杂，计算数据量暴增，对于大规模深度学习训练任务，单机已经无法满足计算要求，多机多卡的分布式训练成为了必要的需求，这个时候多机间的通信成为了分布式训练性能的重要指标。</p>
+<p><strong>RDMA介绍</strong></p>
+<p>我们先来看看RDMA技术是什么？RDMA即Remote DMA，是Remote Direct Memory Access的英文缩写。</p>
+<p><strong>DMA原理</strong></p>
+<p>DMA（直接内存访问）技术是Offload CPU负载的一项重要技术。DMA的引入，使得原来设备内存与系统内存的数据交换必须要CPU参与，变为交给DMA控制来进行数据传输。</p>
+<p> 直接内存访问(DMA)方式，是一种完全由硬件执行I/O交换的工作方式。在这种方式中，  DMA控制器从CPU完全接管对总线的控制，数据交换不经过CPU，而直接在内存和IO设备之间进行。DMA工作时，由DMA  控制器向内存发出地址和控制信号，进行地址修改，对传送字的个数计数，并且以中断方式向CPU 报告传送操作的结束。</p>
+<p>使用DMA方式的目的是减少大批量数据传输时CPU 的开销。采用专用DMA控制器(DMAC) 生成访存地址并控制访存过程。优点有操作均由硬件电路实现，传输速度快；CPU 基本不干预，仅在初始化和结束时参与，CPU与外设并行工作，效率高。</p>
+<p>传统的TCP/IP协议，应用程序需要要经过多层复杂的协议栈解析，才能获取到网卡中的数据包，而使用RDMA协议，应用程序可以直接旁路内核获取到网卡中的数据包。</p>
+<p>RDMA可以简单理解为利用相关的硬件和网络技术，服务器1的网卡可以直接读写服务器2的内存，最终达到高带宽、低延迟和低资源利用率的效果。</p>
+<p>GPUDirect  RDMA，就是计算机1的GPU可以直接访问计算机2的GPU内存。而在没有这项技术之前，GPU需要先将数据从GPU内存搬移到系统内存，然后再利用RDMA传输到计算机2，计算机2的GPU还要做一次数据从系统内存到GPU内存的搬移动作。GPUDirect RDMA技术使得进一步减少了GPU通信的数据复制次数，通信延迟进一步降低。</p>
+<p><a href="https://blog.csdn.net/weixin_33709609/article/details/89687048" target="_blank" rel="noopener">参考资料</a></p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Model-Acceleration/" rel="tag"># Model Acceleration</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/08/15/Model-Acceleration-Zero/" rel="prev" title="Model-Acceleration-Zero">
+      <i class="fa fa-chevron-left"></i> Model-Acceleration-Zero
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2021/08/15/Neural-Network/" rel="next" title="Neural-Network">
+      Neural-Network <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+    <div class="comments" id="gitalk-container"></div>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#模型推理工具学习"><span class="nav-number">1.</span> <span class="nav-text">模型推理工具学习</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#一、MLPerf"><span class="nav-number">1.0.1.</span> <span class="nav-text">一、MLPerf</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#一、介绍"><span class="nav-number">1.0.1.1.</span> <span class="nav-text">一、介绍</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#二、MLPerf-Training"><span class="nav-number">1.0.1.2.</span> <span class="nav-text">二、MLPerf Training</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#三、MLPerf-Inference"><span class="nav-number">1.0.1.3.</span> <span class="nav-text">三、MLPerf Inference</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#二、MPI"><span class="nav-number">1.0.2.</span> <span class="nav-text">二、MPI</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#三、GPU-Director"><span class="nav-number">1.0.3.</span> <span class="nav-text">三、GPU Director</span></a></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Qiang Chen</p>
+  <div class="site-description" itemprop="description">记录是忘记的第一助手.</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">78</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">13</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">22</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/chenaing19" title="GitHub → https://github.com/chenaing19" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/765206494@qq.com" title="E-Mail → 765206494@qq.com"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Qiang Chen</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v4.0.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 �?<a href="https://mist.theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> v7.5.0
+  </div>
+    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+  
+  <script color='0,0,255' opacity='0.5' zIndex='-1' count='99' src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/muse.js"></script>
+<script src="/js/next-boot.js"></script>
+
+
+
+  
+
+
+
+
+  <script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+      
+<script type="text/x-mathjax-config">
+
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$', '$'], ['\\(', '\\)'] ],
+      processEscapes: true,
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {
+      equationNumbers: {
+        autoNumber: 'AMS'
+      }
+    }
+  });
+
+  MathJax.Hub.Register.StartupHook('TeX Jax Ready', function() {
+    MathJax.InputJax.TeX.prefilterHooks.Add(function(data) {
+      if (data.display) {
+        var next = data.script.nextSibling;
+        while (next && next.nodeName.toLowerCase() === '#text') {
+          next = next.nextSibling;
+        }
+        if (next && next.nodeName.toLowerCase() === 'br') {
+          next.parentNode.removeChild(next);
+        }
+      }
+    });
+  });
+
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for (i = 0; i < all.length; i += 1) {
+      element = document.getElementById(all[i].inputID + '-Frame').parentNode;
+      if (element.nodeName.toLowerCase() == 'li') {
+        element = element.parentNode;
+      }
+      element.classList.add('has-jax');
+    }
+  });
+</script>
+<script>
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/mathjax@2/MathJax.js?config=TeX-AMS-MML_HTMLorMML', () => {
+    MathJax.Hub.Typeset();
+  }, window.MathJax);
+</script>
+
+    
+
+  
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID: '9c00bb4a73071d490d0b',
+      clientSecret: '0466125432b53cefbd6002b7ea866f7e15bbd9c8',
+      repo: 'chenqiang19.github.io',
+      owner: 'chenqiang19',
+      admin: ['chenqiang19'],
+      id: 'e06ea5de0b6ec5fce19fe585be71ea63',
+        language: '',
+      distractionFreeMode: 'true'
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+</script>
+
+  
+  <!-- ҳ����С���� -->
+  
+  
+    <script src="/js/cursor/love.min.js"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  
+
+
+
+</body>
+</html>

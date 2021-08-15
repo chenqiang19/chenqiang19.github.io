@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    hostname: new URL('http://yoursite.com').hostname,
+    root: '/',
+    scheme: 'Mist',
+    version: '7.5.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    sidebarPadding: 40
+  };
+</script>
+
+  <meta name="description" content="Mask-RCNN论文学习笔记一、概述 Mask R-CNN是一个概念上简单、灵活和通用的对象实例分割框架。该框架有效地检测图像中的对象，同时为每个实例生成高质量的分割掩码。其通过添加一个分支来与现有的边界框识别分支并行预测对象掩码，从而扩展了 Faster R-CNN。  Mask R-CNN，通过添加用于预测每个感兴趣区域 (RoI) 上的分割掩码的分支来扩展 Faster R-CNN，与用于">
+<meta name="keywords" content="Deep Learning">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Mask-R-CNN">
+<meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2021&#x2F;08&#x2F;15&#x2F;Mask-R-CNN&#x2F;index.html">
+<meta property="og:site_name" content="编辑尼撑">
+<meta property="og:description" content="Mask-RCNN论文学习笔记一、概述 Mask R-CNN是一个概念上简单、灵活和通用的对象实例分割框架。该框架有效地检测图像中的对象，同时为每个实例生成高质量的分割掩码。其通过添加一个分支来与现有的边界框识别分支并行预测对象掩码，从而扩展了 Faster R-CNN。  Mask R-CNN，通过添加用于预测每个感兴趣区域 (RoI) 上的分割掩码的分支来扩展 Faster R-CNN，与用于">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2021&#x2F;08&#x2F;15&#x2F;Mask-R-CNN&#x2F;Mask-RCNN-0.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2021&#x2F;08&#x2F;15&#x2F;Mask-R-CNN&#x2F;Mask-RCNN-1.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2021&#x2F;08&#x2F;15&#x2F;Mask-R-CNN&#x2F;Mask-RCNN-2.png">
+<meta property="og:updated_time" content="2021-08-15T12:24:33.350Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2021&#x2F;08&#x2F;15&#x2F;Mask-R-CNN&#x2F;Mask-RCNN-0.png">
+
+<link rel="canonical" href="http://yoursite.com/2021/08/15/Mask-R-CNN/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>Mask-R-CNN | 编辑尼撑</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="编辑尼撑" type="application/atom+xml"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">编辑尼撑</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">学无止境</p>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-schedule">
+
+    <a href="/schedule/" rel="section"><i class="fa fa-fw fa-calendar"></i>日程表</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="搜索..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/08/15/Mask-R-CNN/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Qiang Chen">
+      <meta itemprop="description" content="记录是忘记的第一助手.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="编辑尼撑">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Mask-R-CNN
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2021-08-15 20:22:35 / 修改时间：20:24:33" itemprop="dateCreated datePublished" datetime="2021-08-15T20:22:35+08:00">2021-08-15</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Deep-Learning/" itemprop="url" rel="index">
+                    <span itemprop="name">Deep Learning</span>
+                  </a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="Mask-RCNN论文学习笔记"><a href="#Mask-RCNN论文学习笔记" class="headerlink" title="Mask-RCNN论文学习笔记"></a>Mask-RCNN论文学习笔记</h2><h4 id="一、概述"><a href="#一、概述" class="headerlink" title="一、概述"></a>一、概述</h4><p><img src="/2021/08/15/Mask-R-CNN/Mask-RCNN-0.png" alt="Mask-R-CNN"></p>
+<p>Mask R-CNN是一个概念上简单、灵活和通用的对象实例分割框架。该框架有效地检测图像中的对象，同时为每个实例生成高质量的分割掩码。其通过添加一个分支来与现有的边界框识别分支并行预测对象掩码，从而扩展了 Faster R-CNN。</p>
+<p> Mask R-CNN，通过添加用于预测每个感兴趣区域 (RoI) 上的分割掩码的分支来扩展 Faster R-CNN，与用于分类和边界框回归的现有分支并行（图 1） . 掩码分支是应用于每个 RoI 的小 FCN，以像素到像素的方式预测分割掩码。</p>
+<p>Faster R-CNN 并不是为网络输入和输出之间的像素到像素对齐而设计的。这在<code>RoIPool</code>如何为特征提取执行粗略的空间量化中最为明显。为了修复错位，我们提出了一个简单的、无量化的层，称为<code>RoIAlign</code>，它忠实地保留了精确的空间位置。尽管看似很小的变化，<code>RoIAlign</code>却产生了巨大的影响：它将掩码准确度提高了 10% 到 50%。其次，作者发现将<strong>掩码和类别预测解耦</strong>至关重要：他们独立地为每个类别预测一个二元掩码，类别之间没有竞争，并依靠网络的 RoI 分类分支来预测类别。</p>
+<h4 id="二、Mask-R-CNN"><a href="#二、Mask-R-CNN" class="headerlink" title="二、Mask R-CNN"></a>二、Mask R-CNN</h4><p>在训练期间，作者将每个采样的 RoI 上的多任务损失定义为 L = L<sub>cls</sub> + L<sub>box</sub> + L<sub>mask</sub>。 分类损失 L<sub>cls</sub>和边界框损失 L<sub>box与 <code>Faster R-CNN</code> 中定义的相同。 掩码分支对每个 RoI 都有一个 Km<sup>2</sup> 维的输出，它编码 K 个分辨率为 m ×m 的二进制掩码，K为类别数。同时，为每像素应用了 sigmoid，并将 L<sub>mask</sub>定义为平均二元交叉熵损失。对于与真实类别 k 相关联的 RoI，L<sub>mask</sub>仅在第 k 个掩码上定义（其他掩码输出对损失没有贡献）。 </sub></p>
+<p>其次，作者对 L<sub>mask</sub>的定义允许网络为每个类生成掩码，而无需类之间的竞争； 依靠专用的分类分支来预测用于选择输出掩码的类标签。 这将掩码和类别预测解耦。并得出这种方式是获得良好实例分割结果的关键。</p>
+<p><code>Mask R-CNN</code> 的关键要素，包括像素到像素对齐，这是 Fast/Faster R-CNN 的主要缺失部分。 mask分支使用 <code>FCN</code>从每个 RoI 预测 m ×m 掩码，这种像素到像素的行为要求RoI特征（它们本身是小特征图）能够很好地对齐(因为<code>RoI Pooling</code>，将feature map分成7&times;7的时候，如果不能整除，那么余数将被下取整，但是下取整的部分对应回原图可能有几十个像素的偏差，这对分割任务极为不利)，以忠实地保留明确的每像素空间对应关系。 这促使了<code>RoIAlign</code>层的开发，它在掩码预测中起着关键作用。 </p>
+<h4 id="三、ROIAlign"><a href="#三、ROIAlign" class="headerlink" title="三、ROIAlign"></a>三、ROIAlign</h4><p><code>RoIPool</code>是从每个 RoI 中提取小特征图（例如，7×7）的标准操作。 <code>RoIPool</code> 首先将一个浮点数的 RoI 量化为特征图的离散粒度，然后将这个量化的 RoI 细分为自己量化的空间 bin，最后聚合每个 bin 覆盖的特征值（通常通过最大池化）。 例如，通过计算 [x/16] 在<strong>连续坐标</strong> x 上执行量化，其中 16 是特征图步幅，[·] 是舍入； 同样，在划分为 bin 时执行量化（例如，7×7）。 这些量化会在 RoI 和提取的特征之间<strong>引入错位</strong>。 虽然这可能不会影响分类，这对小平移具有鲁棒性，但它对预测像素准确的掩码有很大的负面影响。 </p>
+<p>为了解决这个问题，作者提出了一个<code>RoIAlign</code>层，它去除了<code>RoIPool</code>的粗糙量化，正确地将提取的<strong>特征</strong>与<strong>输入</strong>对齐。在这里作者提出了一个简单的方案，即避免对 RoI 边界或 bin 进行任何量化（用使用 x/16 代替 [x/16]）。 并且二使用双线性插值来计算每个 <code>RoI bin</code> 中四个定期采样位置的输入特征的精确值，并聚合结果（使用最大值或平均值），详情参见图 3。 注意到，只要不执行量化，结果对确切的采样位置或采样的点数并不敏感。 </p>
+<p><img src="/2021/08/15/Mask-R-CNN/Mask-RCNN-1.png" alt="Mask-R-CNN"></p>
+<p>虚线网格表示特征图，实线表示 RoI（在本例中为 2×2 个 bin），点表示每个 bin 中的 4 个采样点。 <code>RoIAlign</code> 从特征图上的附近网格点通过<strong>双线性插值计算每个采样点的值</strong>。 不对 RoI、其 bin 或采样点中涉及的任何坐标执行量化。 </p>
+<h4 id="四、网络的HEAD"><a href="#四、网络的HEAD" class="headerlink" title="四、网络的HEAD"></a>四、网络的HEAD</h4><p><img src="/2021/08/15/Mask-R-CNN/Mask-RCNN-2.png" alt="Mask-R-CNN"></p>
+<p> 上图左/右面板分别显示了 <code>ResNet C4</code> 和 <code>FPN</code> 主干的头部，其中添加了掩码分支。</p>
+<h4 id="五、Training"><a href="#五、Training" class="headerlink" title="五、Training"></a>五、Training</h4><p>就像在 <code>Fast R-CNN</code> 中一样，如果 RoI 具有至少 0.5 的真实值框的 IoU，则它被认为是正的，否则被认为是负的。 掩码损失 L<sub>mask</sub>仅在正 RoI 上定义。 掩码目标是 RoI 与其关联的真实掩码之间的<strong>交集</strong>。 </p>
+<p><a href="https://arxiv.org/pdf/1703.06870.pdf" target="_blank" rel="noopener">论文链接</a></p>
+<p><a href="https://zhuanlan.zhihu.com/p/73138740#:~:text=ROI%20Pooling%20%E4%B8%8E%20ROI%20Align%20ROI%20Pooling%20%E6%98%AF%E5%9C%A8Faster,Align%E6%98%AF%E5%9C%A8Mask%20RCNN%E4%B8%AD%E6%8F%90%E5%87%BA%E6%9D%A5%E7%9A%84%E7%94%A8%E4%BA%8E%E6%94%B9%E8%BF%9BROI%20Pooling%E7%9A%84%E7%BC%BA%E9%99%B7%E3%80%82%20%E5%81%87%E8%AE%BE%E5%8E%9F%E5%9B%BE%E5%B0%BA%E5%AF%B8%E5%A4%A7%E5%B0%8F%E4%B8%BA256%C3%97256%EF%BC%8C%E9%A2%84%E6%B5%8BROI%E7%9A%84%E5%9D%90%E6%A0%87%E4%B8%BA%20%286.4%2C%2012.8%2C%20153.6%2C%20172.8%29%2C%E7%89%B9%E5%BE%81%E5%9B%BE%E2%80%A6" target="_blank" rel="noopener">ROI Align</a></p>
+<p><a href="https://www.aiuai.cn/aifarm1404.html" target="_blank" rel="noopener">待参考链接</a></p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Deep-Learning/" rel="tag"># Deep Learning</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/08/15/R-FCN/" rel="prev" title="R-FCN">
+      <i class="fa fa-chevron-left"></i> R-FCN
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2021/08/15/Faster-R-CNN-Code-Analyse/" rel="next" title="Faster-R-CNN-Code-Analyse">
+      Faster-R-CNN-Code-Analyse <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+    <div class="comments" id="gitalk-container"></div>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Mask-RCNN论文学习笔记"><span class="nav-number">1.</span> <span class="nav-text">Mask-RCNN论文学习笔记</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#一、概述"><span class="nav-number">1.0.1.</span> <span class="nav-text">一、概述</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#二、Mask-R-CNN"><span class="nav-number">1.0.2.</span> <span class="nav-text">二、Mask R-CNN</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#三、ROIAlign"><span class="nav-number">1.0.3.</span> <span class="nav-text">三、ROIAlign</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#四、网络的HEAD"><span class="nav-number">1.0.4.</span> <span class="nav-text">四、网络的HEAD</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#五、Training"><span class="nav-number">1.0.5.</span> <span class="nav-text">五、Training</span></a></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Qiang Chen</p>
+  <div class="site-description" itemprop="description">记录是忘记的第一助手.</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">78</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">13</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">22</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/chenaing19" title="GitHub → https://github.com/chenaing19" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/765206494@qq.com" title="E-Mail → 765206494@qq.com"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Qiang Chen</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v4.0.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 �?<a href="https://mist.theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> v7.5.0
+  </div>
+    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+  
+  <script color='0,0,255' opacity='0.5' zIndex='-1' count='99' src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/muse.js"></script>
+<script src="/js/next-boot.js"></script>
+
+
+
+  
+
+
+
+
+  <script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+      
+<script type="text/x-mathjax-config">
+
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$', '$'], ['\\(', '\\)'] ],
+      processEscapes: true,
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {
+      equationNumbers: {
+        autoNumber: 'AMS'
+      }
+    }
+  });
+
+  MathJax.Hub.Register.StartupHook('TeX Jax Ready', function() {
+    MathJax.InputJax.TeX.prefilterHooks.Add(function(data) {
+      if (data.display) {
+        var next = data.script.nextSibling;
+        while (next && next.nodeName.toLowerCase() === '#text') {
+          next = next.nextSibling;
+        }
+        if (next && next.nodeName.toLowerCase() === 'br') {
+          next.parentNode.removeChild(next);
+        }
+      }
+    });
+  });
+
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for (i = 0; i < all.length; i += 1) {
+      element = document.getElementById(all[i].inputID + '-Frame').parentNode;
+      if (element.nodeName.toLowerCase() == 'li') {
+        element = element.parentNode;
+      }
+      element.classList.add('has-jax');
+    }
+  });
+</script>
+<script>
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/mathjax@2/MathJax.js?config=TeX-AMS-MML_HTMLorMML', () => {
+    MathJax.Hub.Typeset();
+  }, window.MathJax);
+</script>
+
+    
+
+  
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID: '9c00bb4a73071d490d0b',
+      clientSecret: '0466125432b53cefbd6002b7ea866f7e15bbd9c8',
+      repo: 'chenqiang19.github.io',
+      owner: 'chenqiang19',
+      admin: ['chenqiang19'],
+      id: 'b323eafc1810d5b1cbd3e5ee885d654e',
+        language: '',
+      distractionFreeMode: 'true'
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+</script>
+
+  
+  <!-- ҳ����С���� -->
+  
+  
+    <script src="/js/cursor/love.min.js"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  
+
+
+
+</body>
+</html>

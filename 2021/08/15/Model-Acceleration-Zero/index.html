@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    hostname: new URL('http://yoursite.com').hostname,
+    root: '/',
+    scheme: 'Mist',
+    version: '7.5.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    sidebarPadding: 40
+  };
+</script>
+
+  <meta name="description" content="模型加速一、pytorch JIT浅解析Torch脚本是一种从PyTorch代码创建可序列化和可优化模型的方法。用Torch脚本编写的代码可以从Python进程中保存，并在没有Python依赖的进程中加载。 Torch Script中的核心数据结构是ScriptModule。 它是Torch的nn.Module的类似物，代表整个模型作为子模块树。 与普通模块一样，ScriptModule中的每个单">
+<meta name="keywords" content="Model Acceleration">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Model-Acceleration-Zero">
+<meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2021&#x2F;08&#x2F;15&#x2F;Model-Acceleration-Zero&#x2F;index.html">
+<meta property="og:site_name" content="编辑尼撑">
+<meta property="og:description" content="模型加速一、pytorch JIT浅解析Torch脚本是一种从PyTorch代码创建可序列化和可优化模型的方法。用Torch脚本编写的代码可以从Python进程中保存，并在没有Python依赖的进程中加载。 Torch Script中的核心数据结构是ScriptModule。 它是Torch的nn.Module的类似物，代表整个模型作为子模块树。 与普通模块一样，ScriptModule中的每个单">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2021&#x2F;08&#x2F;15&#x2F;Model-Acceleration-Zero&#x2F;quantified-0.jpg">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2021&#x2F;08&#x2F;15&#x2F;Model-Acceleration-Zero&#x2F;quantified-1.jpg">
+<meta property="og:updated_time" content="2021-08-15T12:35:04.185Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2021&#x2F;08&#x2F;15&#x2F;Model-Acceleration-Zero&#x2F;quantified-0.jpg">
+
+<link rel="canonical" href="http://yoursite.com/2021/08/15/Model-Acceleration-Zero/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>Model-Acceleration-Zero | 编辑尼撑</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="编辑尼撑" type="application/atom+xml"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">编辑尼撑</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">学无止境</p>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-schedule">
+
+    <a href="/schedule/" rel="section"><i class="fa fa-fw fa-calendar"></i>日程表</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="搜索..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/08/15/Model-Acceleration-Zero/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Qiang Chen">
+      <meta itemprop="description" content="记录是忘记的第一助手.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="编辑尼撑">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Model-Acceleration-Zero
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2021-08-15 20:32:19 / 修改时间：20:35:04" itemprop="dateCreated datePublished" datetime="2021-08-15T20:32:19+08:00">2021-08-15</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Model-Acceleration/" itemprop="url" rel="index">
+                    <span itemprop="name">Model Acceleration</span>
+                  </a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="模型加速"><a href="#模型加速" class="headerlink" title="模型加速"></a>模型加速</h2><h4 id="一、pytorch-JIT浅解析"><a href="#一、pytorch-JIT浅解析" class="headerlink" title="一、pytorch JIT浅解析"></a>一、pytorch JIT浅解析</h4><p>Torch脚本是一种从PyTorch代码创建可序列化和可优化模型的方法。用Torch脚本编写的代码可以从Python进程中保存，并在没有Python依赖的进程中加载。</p>
+<p>Torch Script中的核心数据结构是ScriptModule。 它是<strong>Torch的nn.Module的类似物</strong>，代表整个模型作为子模块树。 与普通模块一样，ScriptModule中的每个单独模块都可以包含子模块，参数和方法。 在nn.Modules中，方法是作为Python函数实现的，但在ScriptModules方法中通常实现为Torch Script函数，这是一个<strong>静态类型的Python子集</strong>，包含PyTorch的所有内置Tensor操作。 这种差异允许您运行ScriptModules代码而无需Python解释器。</p>
+<p><strong>ScriptModules和Torch Script函数可以通过两种方式创建：</strong></p>
+<p><strong>Tracing:</strong> 使用torch.jit.trace，可以获取现有模块或python函数，提供示例输入，然后运行该函数，记录在所有张量上执行的操作。</p>
+<p>由于跟踪仅记录张量上的操作，因此它不会记录任何控制流操作，如if语句或循环。 当这个控制流在你的模块中保持不变时，这很好，它通常只是内联配置决策。 但有时控制流实际上是模型本身的一部分。 例如，序列到序列转换中的波束搜索是输入的（变化的）序列长度上的循环。 在这种情况下，跟踪不合适，并且应使用脚本编写波束搜索。<br>        <strong>Scripting:</strong>可以使用Python语法直接编写Torch Script代码，以在ScriptModule的子类上使用torch.jit.script批注（对于函数）或torch.jit.script_method批注（对于方法）来执行此操作。</p>
+<p>为什么需要JIT(即时编译)？</p>
+<p>是一种程序优化的方法，JIT 到底带来了哪些好处。</p>
+<ol>
+<li><p>模型部署</p>
+<p>PyTorch 的 1.0 版本发布的最核心的两个新特性就是 JIT 和 C++ API，这两个特性一起发布不是没有道理的，JIT 是  Python 和 C++ 的桥梁，我们可以使用 Python 训练模型，然后通过 JIT 将模型转为语言无关的模块，从而让 C++  可以非常方便得调用，从此「使用 Python 训练模型，使用 C++ 将模型部署到生产环境」对 PyTorch  来说成为了一件很容易的事。而因为使用了 C++，我们现在几乎可以把 PyTorch 模型部署到任意平台和设备上：树莓派、iOS、Android  等等</p>
+</li>
+<li><p>性能提升</p>
+<p>既然是为部署生产所提供的特性，那免不了在性能上面做了极大的优化，如果推断的场景对性能要求高，则可以考虑将模型（torch.nn.Module）转换为 TorchScript Module，再进行推断。</p>
+</li>
+<li><p>模型可视化</p>
+<p>TensorFlow 或 Keras  对模型可视化工具（TensorBoard等）非常友好，因为本身就是静态图的编程模型，在模型定义好后整个模型的结构和正向逻辑就已经清楚了；但  PyTorch 本身是不支持的，所以 PyTorch 模型在可视化上一直表现得不好，但 JIT 改善了这一情况。现在可以使用 JIT 的  trace 功能来得到 PyTorch 模型针对某一输入的正向逻辑，通过正向逻辑可以得到模型大致的结构，但如果在 <code>forward</code>  方法中有很多条件控制语句，这依然不是一个好的方法，所以 PyTorch JIT 还提供了 Scripting 的方式。</p>
+</li>
+</ol>
+<p><a href="https://zhuanlan.zhihu.com/p/370455320" target="_blank" rel="noopener">优秀的参考</a></p>
+<h4 id="二、模型量化"><a href="#二、模型量化" class="headerlink" title="二、模型量化"></a>二、模型量化</h4><p><strong>一种有效降低模型大小和计算量的方法</strong></p>
+<p>模型量化就是将网络中的参数【weight、bias、activation value】从高精度转换成低精度的操作过程，同时我们期望转换后的模型准确率与转换前的相近。</p>
+<h5 id="1、-为什么量化有用？"><a href="#1、-为什么量化有用？" class="headerlink" title="1、 为什么量化有用？"></a>1、 为什么量化有用？</h5><p>网络模型在量化过程中会引入量化噪声，而CNN网络对噪声并不敏感，因此模型量化方法对CNN网络是有效的。</p>
+<h5 id="2、为什么用量化？"><a href="#2、为什么用量化？" class="headerlink" title="2、为什么用量化？"></a>2、为什么用量化？</h5><ul>
+<li>模型太大，比如alexnet就200MB，存储压力大</li>
+<li>每个层的weights范围基本都是确定的，且波动不大，适合量化压缩</li>
+<li>既减少访存又减少计算量</li>
+<li>降低设备的功耗</li>
+</ul>
+<h5 id="3、为什么不直接训练低精度的模型？"><a href="#3、为什么不直接训练低精度的模型？" class="headerlink" title="3、为什么不直接训练低精度的模型？"></a>3、为什么不直接训练低精度的模型？</h5><ul>
+<li>因为你训练是需要反向传播和梯度下降的，int8就非常不好做了，举个例子就是我们的学习率一般都是零点几零点几的，int8没法做。</li>
+<li>大部分模型都是浮点类型的，可以直接转换</li>
+</ul>
+<p><a href="https://github.com/Ewenwan/MVision/tree/master/CNN/Deep_Compression/quantization" target="_blank" rel="noopener">量化综述</a></p>
+<h5 id="4、int8量化原理"><a href="#4、int8量化原理" class="headerlink" title="4、int8量化原理"></a>4、int8量化原理</h5><p><img src="/2021/08/15/Model-Acceleration-Zero/quantified-0.jpg" alt="ML"></p>
+<p>非饱和量化是最本质也是最暴力的方法。即通过统计网络模型中每一个layer中weight或activation value的absmax value计算出缩放因子scale。然后使用线性映射的方式将原始的浮点数据转换到INT8的数据域中，量化公式如下所示：</p>
+<script type="math/tex; mode=display">
+R=scale*(q-z)</script><p>当模型数据分布不均匀的时候，使用这种量化方式，会导致量化后的模型精度与量化前的模型精度相差甚远，为了解决该问题，很多情况下是采用饱和方式进行量化：</p>
+<p><img src="/2021/08/15/Model-Acceleration-Zero/quantified-1.jpg" alt="ML"></p>
+<p>该量化方法是从浮点数据分布中寻找一个最优阈值T作为absmax value的值，然后采用上述公式进行量化。大概的最优阈值的选取过程如下：</p>
+<ul>
+<li>收集激活值得直方图</li>
+<li>基于不用的阈值产生不同的量化分布</li>
+<li>计算每个分布与元分布的相对熵，然后选择熵最少的一个</li>
+</ul>
+<p><a href="https://zhuanlan.zhihu.com/p/362976429" target="_blank" rel="noopener">参考资料</a></p>
+<p><a href="https://zhuanlan.zhihu.com/p/71881443" target="_blank" rel="noopener">参考资料</a></p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Model-Acceleration/" rel="tag"># Model Acceleration</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/08/15/Faster-R-CNN-Code-Analyse/" rel="prev" title="Faster-R-CNN-Code-Analyse">
+      <i class="fa fa-chevron-left"></i> Faster-R-CNN-Code-Analyse
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2021/08/15/Model-Acceleration-tools/" rel="next" title="Model-Acceleration-tools">
+      Model-Acceleration-tools <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+    <div class="comments" id="gitalk-container"></div>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#模型加速"><span class="nav-number">1.</span> <span class="nav-text">模型加速</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#一、pytorch-JIT浅解析"><span class="nav-number">1.0.1.</span> <span class="nav-text">一、pytorch JIT浅解析</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#二、模型量化"><span class="nav-number">1.0.2.</span> <span class="nav-text">二、模型量化</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1、-为什么量化有用？"><span class="nav-number">1.0.2.1.</span> <span class="nav-text">1、 为什么量化有用？</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2、为什么用量化？"><span class="nav-number">1.0.2.2.</span> <span class="nav-text">2、为什么用量化？</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3、为什么不直接训练低精度的模型？"><span class="nav-number">1.0.2.3.</span> <span class="nav-text">3、为什么不直接训练低精度的模型？</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#4、int8量化原理"><span class="nav-number">1.0.2.4.</span> <span class="nav-text">4、int8量化原理</span></a></li></ol></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Qiang Chen</p>
+  <div class="site-description" itemprop="description">记录是忘记的第一助手.</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">78</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">13</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">22</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/chenaing19" title="GitHub → https://github.com/chenaing19" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/765206494@qq.com" title="E-Mail → 765206494@qq.com"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Qiang Chen</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v4.0.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 �?<a href="https://mist.theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> v7.5.0
+  </div>
+    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+  
+  <script color='0,0,255' opacity='0.5' zIndex='-1' count='99' src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/muse.js"></script>
+<script src="/js/next-boot.js"></script>
+
+
+
+  
+
+
+
+
+  <script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+      
+<script type="text/x-mathjax-config">
+
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$', '$'], ['\\(', '\\)'] ],
+      processEscapes: true,
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {
+      equationNumbers: {
+        autoNumber: 'AMS'
+      }
+    }
+  });
+
+  MathJax.Hub.Register.StartupHook('TeX Jax Ready', function() {
+    MathJax.InputJax.TeX.prefilterHooks.Add(function(data) {
+      if (data.display) {
+        var next = data.script.nextSibling;
+        while (next && next.nodeName.toLowerCase() === '#text') {
+          next = next.nextSibling;
+        }
+        if (next && next.nodeName.toLowerCase() === 'br') {
+          next.parentNode.removeChild(next);
+        }
+      }
+    });
+  });
+
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for (i = 0; i < all.length; i += 1) {
+      element = document.getElementById(all[i].inputID + '-Frame').parentNode;
+      if (element.nodeName.toLowerCase() == 'li') {
+        element = element.parentNode;
+      }
+      element.classList.add('has-jax');
+    }
+  });
+</script>
+<script>
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/mathjax@2/MathJax.js?config=TeX-AMS-MML_HTMLorMML', () => {
+    MathJax.Hub.Typeset();
+  }, window.MathJax);
+</script>
+
+    
+
+  
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID: '9c00bb4a73071d490d0b',
+      clientSecret: '0466125432b53cefbd6002b7ea866f7e15bbd9c8',
+      repo: 'chenqiang19.github.io',
+      owner: 'chenqiang19',
+      admin: ['chenqiang19'],
+      id: '3d3d6d5af62a9ef66997822b4a345d4f',
+        language: '',
+      distractionFreeMode: 'true'
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+</script>
+
+  
+  <!-- ҳ����С���� -->
+  
+  
+    <script src="/js/cursor/love.min.js"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  
+
+
+
+</body>
+</html>

@@ -2,7 +2,7 @@
 <search>
   <entry>
     <title>Hello World</title>
-    <url>/2021/07/25/hello-world/</url>
+    <url>/2021/08/15/hello-world/</url>
     <content><![CDATA[<p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
 <h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post-location-source-gt-post-directory"><a href="#Create-a-new-post-location-source-gt-post-directory" class="headerlink" title="Create a new post, location: source-&gt;_post directory"></a>Create a new post, location: source-&gt;_post directory</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span></pre></td></tr></table></figure>
 <h3 id="Create-a-new-draft-location-source-gt-drafts-directory"><a href="#Create-a-new-draft-location-source-gt-drafts-directory" class="headerlink" title="Create a new draft, location: source-&gt;_drafts directory"></a>Create a new draft, location: source-&gt;_drafts directory</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo new  draft <span class="string">"My New Draft"</span></span></pre></td></tr></table></figure>
@@ -20,6 +20,1235 @@
 <p>More info: <a href="https://hexo.io/docs/one-command-deployment.html" target="_blank" rel="noopener">Deployment</a></p>
 <p>If you want to show Chinese, you must make sure md is saved with utf-8</p>
 ]]></content>
+  </entry>
+  <entry>
+    <title>Neural-Network</title>
+    <url>/2021/08/15/Neural-Network/</url>
+    <content><![CDATA[<h2 id="第五章-神经网络（西瓜书学习-笔记）"><a href="#第五章-神经网络（西瓜书学习-笔记）" class="headerlink" title="第五章 神经网络（西瓜书学习-笔记）"></a>第五章 神经网络（西瓜书学习-笔记）</h2><h4 id="一、神经元模型"><a href="#一、神经元模型" class="headerlink" title="一、神经元模型"></a>一、神经元模型</h4><p><img src="/2021/08/15/Neural-Network/M-P-0.png" alt="ML"></p>
+<p>在生物神经网络中，每个神经元与其他神经元相连，当它”兴奋”时，就会向相连的神经元发送化学物质，从而改变这些神经元内的电位；如果某神经元的电位超过了一个”阈值”，那么它就会被激活，即“兴奋”起来，向其他神经元发送化学物质。</p>
+<p>在M-P神经元模型中，神经元接收到来自n个其他神经元传递过来的输入信号，这些输入信号通过带权重的连接进行传递，神经元接收到的总输入值将于神经元的阈值进行比较，然后通过激活函数处理以产生神经元的输出。</p>
+<p>理想的激活函数是阶跃函数，它将输入值映射为输出值0和1，其中1对于神经元兴奋，0对于神经元抑制。然而，阶跃函数具有不连续、不光滑等不太好的性质。因此，常用sigmoid函数作为激活函数。</p>
+<p><img src="/2021/08/15/Neural-Network/M-P-1.png" alt="ML"></p>
+<h4 id="二、感知机与多层网络"><a href="#二、感知机与多层网络" class="headerlink" title="二、感知机与多层网络"></a>二、感知机与多层网络</h4><p>感知机由两层神经元组成，能容易地实现逻辑与、或、非运算。但是只能处理线性可分的问题，对于非线性可分问题，需要考虑使用多层功能神经元，即多层前馈神经网络。</p>
+<p><img src="/2021/08/15/Neural-Network/M-P-2.png" alt="ML"></p>
+<h4 id="三、误差逆传播算法"><a href="#三、误差逆传播算法" class="headerlink" title="三、误差逆传播算法"></a>三、误差逆传播算法</h4><script type="math/tex; mode=display">
+给定训练集D=\{(x_1,y_1),(x_2,y_2),...,(x_m,y_m)\},x_i\in R^d,y_i\in R^l\\
+即输入示例由d个属性描述，输出l维实值向量。</script><p><img src="/2021/08/15/Neural-Network/M-P-3.png" alt="ML"></p>
+<script type="math/tex; mode=display">
+\begin{align}&上图显示了一个拥有d个输入神经元，l个输出神经元，q个隐层神经元的多层前馈神经网络。\\&其中输出层第j个神经元的阈值为\theta_j,隐层第h个神经元的阈值用\gamma_h表示。\\
+&输入层第i个神经元与隐层第h个神经元之间的连接权为v_{ih},隐层第h个神经元与输出层第j个神经元之间的连接权为w_{hj}\\
+&记隐层第h个神经元接收到的输入为\alpha_h=\sum^{d}_{i=1}v_{ih}x_i,输出层第j个神经元接收到的输入为\beta_j=\sum^{q}_{h=1}w_{hj}b_h\\
+&其中b_h为隐层第h个神经元的输出。如果假设隐层和输出层神经元使用sigmoid函数\\
+&对训练例(x_k,y_k)，假定神经网络的输出为\hat{y}_k=(\hat{y}^k_1,\hat{y}^k_2,...,\hat{y}^k_l),即：\hat{y}^k_j=f(\beta_j-\theta_j)\\
+&则网络在(x_k,y_k)上的均方误差为：E_k=\frac{1}{2}\sum^{l}_{j=1}(\hat{y}^k_j-y^k_j)^2\\
+&上图共有d\times q(输入到隐层权值)+l\times q(隐层到输出层权值) + q(隐藏层阈值) + l(输出层阈值)个参数
+\end{align}</script><p>BP算法基于梯度下降(gradient descent)策略，以目标的负梯度方向对参数进行调整。</p>
+<script type="math/tex; mode=display">
+\begin{align}
+&给定误差E_k, 学习率\eta,则\Delta w_{hj}=-\eta\frac{\partial E_k}{\partial w_{hj}}\\
+&注意到w_{hj}先影响到第j个输出层的神经元的输入值\beta_j，再影响到输出值\hat{y}^k_j,然后影响到E_k\\
+&也就是根据链式法则有：\frac{\partial E_k}{\partial w_{hj}}=\frac{\partial E_k}{\partial \hat{y}^k_j}\cdot\frac{\partial \hat{y}^k_j}{\partial \beta_j}\cdot\frac{\partial \beta_j}{\partial w_{hj}}\\
+&\because Sigmoid函数有一个很好的性质：f'(x)=f(x)(1-f(x)),又\beta_j=\sum^{q}_{h=1}w_{hj}b_h \therefore \frac{\partial \beta_j}{\partial w_{hj}}=b_h\\
+&令g_j=-\frac{\partial E_k}{\partial \hat{y}^k_j}\cdot\frac{\partial \hat{y}^k_j}{\partial \beta_j}=-(\hat{y}^k_j-y^k_j)f'(\beta_j-\theta_j)=(y^k_j-\hat{y}^k_j)[f(\beta_j-\theta_j)(1-f(\beta_j-\theta_j))]=(y^k_j-\hat{y}^k_j)\hat{y}^k_j(1-\hat{y}^k_j) \\
+&由上式可得BP算法关于w_{hj}的更新公式\Delta w_{hj}=\eta g_j b_h\\
+&类似可得：\Delta\theta_j=-\eta g_j; \Delta v_{ih}=\eta e_hx_i;\Delta \gamma_h=-\eta e_h\\
+&e_h=-\frac{\partial E_k}{\partial b_k}\cdot\frac{\partial b_h}{\partial \alpha_h}=-\sum^{l}_{j=1}\frac{\partial E_k}{\partial \beta_j}\cdot\frac{\partial \beta_j}{\partial b_h}f'(\alpha_h-\gamma_h)=\sum^{l}_{j=1}w_{hj}g_jf'(\alpha_h-\gamma_h)=b_h(1-b_h)\sum^{l}_{j=1}w_{hj}g_j
+\end{align}</script><p><strong>如何缓解神经网络过拟合？</strong></p>
+<ol>
+<li>早停，将数据分成训练集和验证集，训练集用来计算梯度、更新连接权和阈值，验证集用来估计误差，若训练集误差降低，但验证集误差升高，则停止训练，同时返回具有最小验证集误差的连接权和阈值。</li>
+<li>正则化，在误差目标函数中增加一个用于描述网络复杂度的部分，例如，连接权和阈值的平方和。</li>
+</ol>
+<script type="math/tex; mode=display">
+E=\lambda\frac{1}{m}\sum^{m}_{k=1}E_k+(1-\lambda)\sum_{i}w^2_i</script><p>&lambda;&in;(0,1)用于对经验误差与网络复杂度这两项进行折中。</p>
+<p><strong>累积BP算法</strong>基于<strong>所有样本的累积误差</strong>进行权重更新，<strong>标准BP算法</strong>每次更新只针对<strong>单个样例</strong>，参数更新非常频繁，而且对不同样例进行更新的效果可能出现抵消现象。因此，为了达到同样的累积误差极小点，标准BP算法往往需进行更多次数的迭代。累积BP算法直接针对累积误差最小化，在读取整个训练集D一遍后才对参数进行更新，其参数更新的频率低得多。但在很多任务中，累积误差下降到一定程度之后，进一步下降会非常缓慢，这时标准BP往往会更快获得较好的解。</p>
+<h4 id="四、全局最小与局部极小"><a href="#四、全局最小与局部极小" class="headerlink" title="四、全局最小与局部极小"></a>四、全局最小与局部极小</h4><p>由于负梯度方向是函数值下降最快的方向，因此梯度下降法就是沿着负梯度方向搜索最优解。但误差函数如果到达局部极小，更新量将为零，则参数的迭代更新将在此停止。对于存在多个局部极小值点的情况，<strong>如何跳出局部极小，尽量向全局最小靠近呢？</strong></p>
+<ul>
+<li>以多组不同参数值初始化多个神经网络，按标准方法训练后，取其中误差最小的解作为最终参数。这相当于从多个不同的初始点开始搜索，这样就可能陷入不同的局部极小，从中进行选择有可能获得更接近全局最小的结果。</li>
+<li>使用“模拟退化”技术，模拟退火在每一步都以一定的概率接受比当前解更差的结果，从而有助于跳出局部极小。在每步迭代过程中，接受次优解的概率要随着时间的推移而逐渐降低，从而保证算法稳定。</li>
+<li>使用随机梯度下降。与标准梯度下降法精确计算梯度不同，随机梯度下降法在计算梯度时加入随机因素。于是，即便陷入局部极小点，它计算处的梯度仍可能不为零，这样就可能跳出局部极小值继续搜索。</li>
+</ul>
+<p>上述用于跳出局部极小的计算大多是启发式，理论上缺乏保证。</p>
+]]></content>
+  </entry>
+  <entry>
+    <title>Model-Acceleration-tools</title>
+    <url>/2021/08/15/Model-Acceleration-tools/</url>
+    <content><![CDATA[<h2 id="模型推理工具学习"><a href="#模型推理工具学习" class="headerlink" title="模型推理工具学习"></a>模型推理工具学习</h2><h4 id="一、MLPerf"><a href="#一、MLPerf" class="headerlink" title="一、MLPerf"></a>一、MLPerf</h4><p><strong>Benchmark</strong>在计算机领域应用最成功的就是性能测试，主要测试负载的<strong>执行时间、传输速度、吞吐量、资源占用率</strong>等。</p>
+<p>性能调优的两大利器是<strong>Benchmark和profile工具</strong>。<strong>Benchmark</strong>用压力测试挖掘整个系统的<strong>性能状况</strong>，而<strong>profile工具</strong>最大限度地呈现系统的运行状态和性能指标，方便用户诊断性能问题和进行调优。</p>
+<p><strong>Benchmark的组成</strong></p>
+<p>Benchmark中除了dataset，应该还包括做对比的基准算法，以及评估标准。有点像做对比实验的感觉。</p>
+<p>Benchmark的核心由3部分组成：数据集、 工作负载、度量指标。</p>
+<ul>
+<li><p>数据集：数据类型分为结构化数据、半结构化数据和非结构化数据。</p>
+<ul>
+<li>结构化数据：传统的关系数据模型</li>
+<li>半结构化数据：类似XML、HTML之类</li>
+<li>非结构化数据：各种文档、图片、视频和音频等</li>
+</ul>
+</li>
+<li><p>工作负载</p>
+<ul>
+<li>密集计算类型：CPU密集型计算、IO密集型计算、网络密集型计算</li>
+<li>计算范式：SQL、批处理、流计算、图计算、机器学习；</li>
+<li>计算延迟：在线计算、离线计算、实时计算</li>
+<li>应用领域：搜索引擎、社交网络、电子商务、地理位置、媒体、游戏</li>
+</ul>
+</li>
+<li><p>度量指标</p>
+<ul>
+<li>工具的使用：perf，nmon等工具和命令</li>
+<li>度量指标：浮点型操纵密度、整数型操纵密度、指令中断、cache命中率、TLB命中率</li>
+</ul>
+<p><a href="https://www.cnblogs.com/sddai/p/7642738.html" target="_blank" rel="noopener">参考资料</a></p>
+</li>
+</ul>
+<h5 id="一、介绍"><a href="#一、介绍" class="headerlink" title="一、介绍"></a>一、介绍</h5><p><code>MLPerf</code>是一套用于测量和提高机器学习软硬件性能的通用基准。主要用来测量<code>训练</code>和<code>推理</code>不同神经网络所需要的时间。<code>MLPerf</code>测试集包含了不同领域的Benchmark子项，主要包括图像分类、物体识别、翻译、推荐、语音识别、情感分析以及强化学习。</p>
+<h5 id="二、MLPerf-Training"><a href="#二、MLPerf-Training" class="headerlink" title="二、MLPerf Training"></a>二、MLPerf Training</h5><p><strong>对于MLPerf Training测试</strong>，每个Benchmark的评价标准是：在特定数据集上训练一个模型使其达到Quality Target时的Clock time。由于机器学习任务的训练时间有很大差异，因此，MLPerf 的最终训练结果是由指定次数的基准测试时间平均得出的，其中会去掉最低和最高的数字，一般是运行5次取平均值，Train测试时间包含了模型构建，数据预处理，训练以及质量测试等时间。</p>
+<p>MLPerf training可以分为封闭模型分区（Closed Model Division）和开放模型分区（Open Model Division）。</p>
+<p><strong>Closed Model Division</strong>具体要求如下：MLPerf为每个领域的Benchmark测试都提供了参考实例</p>
+<ol>
+<li><strong>预处理</strong>必须采用与参考实例相同的预处理步骤，图像必须与参考实现中的大小相同。</li>
+<li><strong>权重和偏差</strong>必须使用与参考实例相同的常数或随机值分布进行初始化。</li>
+<li><strong>损失函数</strong>必须使用与参考实例相同的损失函数。</li>
+<li><strong>优化器</strong>必须使用与参考实例相同的优化器。</li>
+<li>RL环境也需要与参考实例相同，参数相同。</li>
+<li>超参数是可以自己选择的。</li>
+</ol>
+<p><strong>Open Model Division</strong>：</p>
+<p>开放模型分区要求使用相同的数据集解决相同的问题，允许使用任意预处理，模型或训练方法。它旨在推进ML模型和优化的创新。</p>
+<p><strong>MLPerfTraining Result</strong>:</p>
+<p>MLPerf Result被定义为将模型训练到目标质量的时间，这个时间包括模型构建，数据预处理，训练以及质量测试等时间，它通常是数小时或数天。</p>
+<p>加速比: 加速比是当前测试结果和使用一块Pascal P100显卡在未进行任何优化情况下的测试结果的比值。即当前测试结果和参考基准的比值。</p>
+<p><strong>具体的步骤</strong>：</p>
+<ul>
+<li>环境构建</li>
+<li>准备数据</li>
+<li>运行Benchmark</li>
+</ul>
+<h5 id="三、MLPerf-Inference"><a href="#三、MLPerf-Inference" class="headerlink" title="三、MLPerf Inference"></a>三、MLPerf Inference</h5><p><strong>对于MLPerf Inference测试</strong>，每个Benchmark的评价标准是：<code>在特定数据集上测量模型的推理性能，包括延时和吞吐量。</code></p>
+<p>在MLPerf Inference中，主要分为三个部分：</p>
+<ul>
+<li><p>Load Generator: Load Generator是MLPerf的负载生成器，用于启动和控制Inference Benchmark测试。</p>
+<p>MLPerf Inference有三个基本概念: SUT(被测系统)、Sample(inference单位，图像或词)和query(一次推理的样本数)。</p>
+<p>在Inference测试中，LoadGen主要负责以下事情：</p>
+<ol>
+<li>根据测试某个场景生成query</li>
+<li>跟踪query的Latency</li>
+<li>验证结果的准确性</li>
+<li>计算最终的metric</li>
+</ol>
+</li>
+<li><p>Cloud: 云业务场景，MLPerf Inference计划为Cloud环境提供6个领域的Benchmark</p>
+</li>
+<li><p>Edge:  边缘端的业务场景，MLPerf Inference计划为Edge环境提供6个领域的Benchmark</p>
+</li>
+</ul>
+<p>MLPerf Inference也分为封闭分区（Closed Division）和开放分区（Open Division）。</p>
+<ul>
+<li><p>封闭分区需要使用等同于参考实现的预处理，后处理和模型。封闭分区允许校准量化，不允许任何再训练。</p>
+</li>
+<li><p>开放分区只限制使用相同的数据集，它允许使用任意的预处理或后处理和模型，包括再培训</p>
+</li>
+</ul>
+<p><a href="https://blog.csdn.net/han2529386161/article/details/102723482" target="_blank" rel="noopener">参考链接</a></p>
+<h4 id="二、MPI"><a href="#二、MPI" class="headerlink" title="二、MPI"></a>二、MPI</h4><p>在程序中，不同的进程需要相互的数据交换，特别是在科学计算中，需要大规模的计算与数据交换，集群可以很好解决单节点计算力不足的问题，但在集群中大规模的数据交换是很耗费时间的，因此需要一种在多节点的情况下能快速进行数据交流的标准，这就是MPI。</p>
+<p>MPI是一组用于多节点数据通信的标准，而非一种语言或者接口。具体的使用方法需要依赖它的具体实现(mpich or openmpi等)。</p>
+<p>mpi的目标是</p>
+<ol>
+<li>实现较高的通信性能</li>
+<li>好的程序移植性</li>
+<li>强大的功能</li>
+</ol>
+<p><strong>进程</strong></p>
+<p>通俗的说，进程就是运行的程序。一个程序可以含有多个进程，但一个进程不能同属于多个程序。进程拥有独立的运行环境(内存，寄存器，CPU执行时间等)，是操作系统中独立存在的可执行的基本单位。每个进程所占有的资源都是独立的，不与其他的进程共享，不能访问其他进程内存空间，其他进程也无法访问该进程内存空间。但可以通过消息传递来进行通信。</p>
+<p><strong>进程组</strong></p>
+<p>指一个mpi程序中的所有(n个)进程的集合。该程序中所有进程编号从0到n-1，主要是为了标识不同的进程，可以通过进程的编号来索引该进程。不同进程组的进程的编号可以相同。</p>
+<p><strong>通信器(MPI_Comm)</strong></p>
+<p>可以理解为一组进程间可以通信的进程组，通信函数必须在通信器内调用。</p>
+<p><strong>消息</strong></p>
+<p>需要通信的数据。</p>
+<p><strong>mpi对象</strong></p>
+<p>mpi内存的数据结构，包括数据类型(MPI_DOUBLE)，通信器(MPI_COMM)等</p>
+<p><a href="https://zhuanlan.zhihu.com/p/69497154" target="_blank" rel="noopener">参考资料</a></p>
+<h4 id="三、GPU-Director"><a href="#三、GPU-Director" class="headerlink" title="三、GPU Director"></a>三、GPU Director</h4><p>当前深度学习模型越来越复杂，计算数据量暴增，对于大规模深度学习训练任务，单机已经无法满足计算要求，多机多卡的分布式训练成为了必要的需求，这个时候多机间的通信成为了分布式训练性能的重要指标。</p>
+<p><strong>RDMA介绍</strong></p>
+<p>我们先来看看RDMA技术是什么？RDMA即Remote DMA，是Remote Direct Memory Access的英文缩写。</p>
+<p><strong>DMA原理</strong></p>
+<p>DMA（直接内存访问）技术是Offload CPU负载的一项重要技术。DMA的引入，使得原来设备内存与系统内存的数据交换必须要CPU参与，变为交给DMA控制来进行数据传输。</p>
+<p> 直接内存访问(DMA)方式，是一种完全由硬件执行I/O交换的工作方式。在这种方式中，  DMA控制器从CPU完全接管对总线的控制，数据交换不经过CPU，而直接在内存和IO设备之间进行。DMA工作时，由DMA  控制器向内存发出地址和控制信号，进行地址修改，对传送字的个数计数，并且以中断方式向CPU 报告传送操作的结束。</p>
+<p>使用DMA方式的目的是减少大批量数据传输时CPU 的开销。采用专用DMA控制器(DMAC) 生成访存地址并控制访存过程。优点有操作均由硬件电路实现，传输速度快；CPU 基本不干预，仅在初始化和结束时参与，CPU与外设并行工作，效率高。</p>
+<p>传统的TCP/IP协议，应用程序需要要经过多层复杂的协议栈解析，才能获取到网卡中的数据包，而使用RDMA协议，应用程序可以直接旁路内核获取到网卡中的数据包。</p>
+<p>RDMA可以简单理解为利用相关的硬件和网络技术，服务器1的网卡可以直接读写服务器2的内存，最终达到高带宽、低延迟和低资源利用率的效果。</p>
+<p>GPUDirect  RDMA，就是计算机1的GPU可以直接访问计算机2的GPU内存。而在没有这项技术之前，GPU需要先将数据从GPU内存搬移到系统内存，然后再利用RDMA传输到计算机2，计算机2的GPU还要做一次数据从系统内存到GPU内存的搬移动作。GPUDirect RDMA技术使得进一步减少了GPU通信的数据复制次数，通信延迟进一步降低。</p>
+<p><a href="https://blog.csdn.net/weixin_33709609/article/details/89687048" target="_blank" rel="noopener">参考资料</a></p>
+]]></content>
+      <categories>
+        <category>Model Acceleration</category>
+      </categories>
+      <tags>
+        <tag>Model Acceleration</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Model-Acceleration-Zero</title>
+    <url>/2021/08/15/Model-Acceleration-Zero/</url>
+    <content><![CDATA[<h2 id="模型加速"><a href="#模型加速" class="headerlink" title="模型加速"></a>模型加速</h2><h4 id="一、pytorch-JIT浅解析"><a href="#一、pytorch-JIT浅解析" class="headerlink" title="一、pytorch JIT浅解析"></a>一、pytorch JIT浅解析</h4><p>Torch脚本是一种从PyTorch代码创建可序列化和可优化模型的方法。用Torch脚本编写的代码可以从Python进程中保存，并在没有Python依赖的进程中加载。</p>
+<p>Torch Script中的核心数据结构是ScriptModule。 它是<strong>Torch的nn.Module的类似物</strong>，代表整个模型作为子模块树。 与普通模块一样，ScriptModule中的每个单独模块都可以包含子模块，参数和方法。 在nn.Modules中，方法是作为Python函数实现的，但在ScriptModules方法中通常实现为Torch Script函数，这是一个<strong>静态类型的Python子集</strong>，包含PyTorch的所有内置Tensor操作。 这种差异允许您运行ScriptModules代码而无需Python解释器。</p>
+<p><strong>ScriptModules和Torch Script函数可以通过两种方式创建：</strong></p>
+<p><strong>Tracing:</strong> 使用torch.jit.trace，可以获取现有模块或python函数，提供示例输入，然后运行该函数，记录在所有张量上执行的操作。</p>
+<p>由于跟踪仅记录张量上的操作，因此它不会记录任何控制流操作，如if语句或循环。 当这个控制流在你的模块中保持不变时，这很好，它通常只是内联配置决策。 但有时控制流实际上是模型本身的一部分。 例如，序列到序列转换中的波束搜索是输入的（变化的）序列长度上的循环。 在这种情况下，跟踪不合适，并且应使用脚本编写波束搜索。<br>        <strong>Scripting:</strong>可以使用Python语法直接编写Torch Script代码，以在ScriptModule的子类上使用torch.jit.script批注（对于函数）或torch.jit.script_method批注（对于方法）来执行此操作。</p>
+<p>为什么需要JIT(即时编译)？</p>
+<p>是一种程序优化的方法，JIT 到底带来了哪些好处。</p>
+<ol>
+<li><p>模型部署</p>
+<p>PyTorch 的 1.0 版本发布的最核心的两个新特性就是 JIT 和 C++ API，这两个特性一起发布不是没有道理的，JIT 是  Python 和 C++ 的桥梁，我们可以使用 Python 训练模型，然后通过 JIT 将模型转为语言无关的模块，从而让 C++  可以非常方便得调用，从此「使用 Python 训练模型，使用 C++ 将模型部署到生产环境」对 PyTorch  来说成为了一件很容易的事。而因为使用了 C++，我们现在几乎可以把 PyTorch 模型部署到任意平台和设备上：树莓派、iOS、Android  等等</p>
+</li>
+<li><p>性能提升</p>
+<p>既然是为部署生产所提供的特性，那免不了在性能上面做了极大的优化，如果推断的场景对性能要求高，则可以考虑将模型（torch.nn.Module）转换为 TorchScript Module，再进行推断。</p>
+</li>
+<li><p>模型可视化</p>
+<p>TensorFlow 或 Keras  对模型可视化工具（TensorBoard等）非常友好，因为本身就是静态图的编程模型，在模型定义好后整个模型的结构和正向逻辑就已经清楚了；但  PyTorch 本身是不支持的，所以 PyTorch 模型在可视化上一直表现得不好，但 JIT 改善了这一情况。现在可以使用 JIT 的  trace 功能来得到 PyTorch 模型针对某一输入的正向逻辑，通过正向逻辑可以得到模型大致的结构，但如果在 <code>forward</code>  方法中有很多条件控制语句，这依然不是一个好的方法，所以 PyTorch JIT 还提供了 Scripting 的方式。</p>
+</li>
+</ol>
+<p><a href="https://zhuanlan.zhihu.com/p/370455320" target="_blank" rel="noopener">优秀的参考</a></p>
+<h4 id="二、模型量化"><a href="#二、模型量化" class="headerlink" title="二、模型量化"></a>二、模型量化</h4><p><strong>一种有效降低模型大小和计算量的方法</strong></p>
+<p>模型量化就是将网络中的参数【weight、bias、activation value】从高精度转换成低精度的操作过程，同时我们期望转换后的模型准确率与转换前的相近。</p>
+<h5 id="1、-为什么量化有用？"><a href="#1、-为什么量化有用？" class="headerlink" title="1、 为什么量化有用？"></a>1、 为什么量化有用？</h5><p>网络模型在量化过程中会引入量化噪声，而CNN网络对噪声并不敏感，因此模型量化方法对CNN网络是有效的。</p>
+<h5 id="2、为什么用量化？"><a href="#2、为什么用量化？" class="headerlink" title="2、为什么用量化？"></a>2、为什么用量化？</h5><ul>
+<li>模型太大，比如alexnet就200MB，存储压力大</li>
+<li>每个层的weights范围基本都是确定的，且波动不大，适合量化压缩</li>
+<li>既减少访存又减少计算量</li>
+<li>降低设备的功耗</li>
+</ul>
+<h5 id="3、为什么不直接训练低精度的模型？"><a href="#3、为什么不直接训练低精度的模型？" class="headerlink" title="3、为什么不直接训练低精度的模型？"></a>3、为什么不直接训练低精度的模型？</h5><ul>
+<li>因为你训练是需要反向传播和梯度下降的，int8就非常不好做了，举个例子就是我们的学习率一般都是零点几零点几的，int8没法做。</li>
+<li>大部分模型都是浮点类型的，可以直接转换</li>
+</ul>
+<p><a href="https://github.com/Ewenwan/MVision/tree/master/CNN/Deep_Compression/quantization" target="_blank" rel="noopener">量化综述</a></p>
+<h5 id="4、int8量化原理"><a href="#4、int8量化原理" class="headerlink" title="4、int8量化原理"></a>4、int8量化原理</h5><p><img src="/2021/08/15/Model-Acceleration-Zero/quantified-0.jpg" alt="ML"></p>
+<p>非饱和量化是最本质也是最暴力的方法。即通过统计网络模型中每一个layer中weight或activation value的absmax value计算出缩放因子scale。然后使用线性映射的方式将原始的浮点数据转换到INT8的数据域中，量化公式如下所示：</p>
+<script type="math/tex; mode=display">
+R=scale*(q-z)</script><p>当模型数据分布不均匀的时候，使用这种量化方式，会导致量化后的模型精度与量化前的模型精度相差甚远，为了解决该问题，很多情况下是采用饱和方式进行量化：</p>
+<p><img src="/2021/08/15/Model-Acceleration-Zero/quantified-1.jpg" alt="ML"></p>
+<p>该量化方法是从浮点数据分布中寻找一个最优阈值T作为absmax value的值，然后采用上述公式进行量化。大概的最优阈值的选取过程如下：</p>
+<ul>
+<li>收集激活值得直方图</li>
+<li>基于不用的阈值产生不同的量化分布</li>
+<li>计算每个分布与元分布的相对熵，然后选择熵最少的一个</li>
+</ul>
+<p><a href="https://zhuanlan.zhihu.com/p/362976429" target="_blank" rel="noopener">参考资料</a></p>
+<p><a href="https://zhuanlan.zhihu.com/p/71881443" target="_blank" rel="noopener">参考资料</a></p>
+]]></content>
+      <categories>
+        <category>Model Acceleration</category>
+      </categories>
+      <tags>
+        <tag>Model Acceleration</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Faster-R-CNN-Code-Analyse</title>
+    <url>/2021/08/15/Faster-R-CNN-Code-Analyse/</url>
+    <content><![CDATA[<h2 id="Faster-R-CNN源码分析-1"><a href="#Faster-R-CNN源码分析-1" class="headerlink" title="Faster R-CNN源码分析(1)"></a>Faster R-CNN源码分析(1)</h2><h4 id="一、预备知识"><a href="#一、预备知识" class="headerlink" title="一、预备知识"></a>一、预备知识</h4><h5 id="1、Cython构建python的build-in模块"><a href="#1、Cython构建python的build-in模块" class="headerlink" title="1、Cython构建python的build-in模块"></a>1、Cython构建python的build-in模块</h5><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment">#Cython库可将已有的Python代码转化为C语言的代码，并作为Python的built-in模块扩展。</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">python setup.py build_ext --inplace</span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="comment">#build_ext把ext_modules指定的一些模块，编译和链接成动态库</span></span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="comment">#--inplace指示 将编译后的扩展模块直接放在与setup.py同级的目录中</span></span></pre></td></tr></table></figure>
+<p>目前Python代码的执行过程是将Python代码转变成一行行指令，然后解释器解释指令的执行，调用到C代码层。如果去掉指令解释这个阶段，直接进入C代码层，效率就比较高了。Cython 是 Python 编程语言和扩展 Cython 编程语言（基于 Pyrex）的优化静态编译器。 它使得为 Python 编写 C 扩展就像 Python 本身一样简单。 </p>
+<p><strong>整个Cython工作的流程分两步：</strong></p>
+<ol>
+<li>.py文件使用Cython被编译为.c文件；</li>
+<li>.c文件使用C编译器生成.pyd(windos)或.so(linux)文件。</li>
+</ol>
+<p><img src="/2021/08/15/Faster-R-CNN-Code-Analyse/Cython.png" alt="Cython"></p>
+<p>上图来自博客园<a href="https://home.cnblogs.com/u/SsoZhNO-1/" target="_blank" rel="noopener">SsoZh</a></p>
+<p><a href="https://www.jianshu.com/p/cfcc2c04a6f5" target="_blank" rel="noopener">Cythhon入门经典</a></p>
+<p><strong>构建Cython代码的几种方法：</strong></p>
+<ul>
+<li>写一个 distutils / setuptools setup.py。推荐的方式(下面主要学习这种方式)<ul>
+<li>如果您使用 setuptools 而不是 distutils，则需要注意，运行python setup.py install时的默认操作是创建一个压缩的egg文件，当您尝试从依赖包中使用它们时，这些文件无法与pxd文件一起用于pxd文件。为防止这种情况，请在setup()的参数中包含zip_safe=False。使用 setuptools 时，您应该在 Cython 之前导入它，因为 setuptools 可能会替换 distutils 中的Extension类</li>
+</ul>
+</li>
+<li>使用 Pyximport，导入 Cython .pyx文件就像它们是.py文件一样</li>
+<li>手动运行cython命令行实用程序，从.pyx文件生成.c文件，然后手动将.c文件编译成适合从 Python 导入的共享库或 DLL</li>
+<li>使用 [Jupyter] 笔记本或 [Sage] 笔记本，两者都允许 Cython 代码内联</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment">#distutils 构建 Cython 模块</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">setup(</span></pre></td></tr><tr><td class="code"><pre><span class="line">	name = <span class="string">""</span>,</span></pre></td></tr><tr><td class="code"><pre><span class="line">    ext_module = ext_modues,</span></pre></td></tr><tr><td class="code"><pre><span class="line">    cmdclass = &#123;&#125;</span></pre></td></tr><tr><td class="code"><pre><span class="line">)</span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="comment">#name: site-package安装文件夹下的egg文件。假设不指定，将会以UNKNOW命名：/usr/lib64/python2.6/site-packages/UNKNOWN-0.0.0-py3.8.egg-info</span></span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="comment">#ext_module: 是一个包括Extension实例的列表</span></span></pre></td></tr><tr><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="comment">#Extension实力列表</span></span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="comment">#1. name: 扩展包的名字，供python导入import时使用</span></span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="comment">#2. source: 源文件组成的列表，源文件能够是C，C++等特定的资源文件或其他有build_ext确定的Python扩展，如.pyx文件</span></span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="comment">#3. language：扩展语言名称，默认是c,如果要用C++，可以改成C++</span></span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="comment">#4. include_dirs： 提供搜索C/C++头文件的文件夹组成的列表（比方：*.h），gcc的-I参数</span></span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="comment">#5. library_dirs：提供搜索C/C++库文件的文件夹组成的列表（比方：*.a），gcc的-L参数</span></span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="comment">#6. libraries：库名组成的列表</span></span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="comment">#7. extra_cpmpile_args: 就是传给 gcc 的额外的编译参数，比方说你可以传一个 -std=c++11</span></span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="comment">#8. extra_link_args: 就是传给 gcc 的额外的链接参数,如：-pthread</span></span></pre></td></tr><tr><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="comment">#cmdclass: 定制化命令，通过继承 setuptools.command 下的命令类来进行定制化</span></span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">UploadCommand</span><span class="params">(Command)</span>:</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">    <span class="string">"""Support setup.py upload."""</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">    ...</span></pre></td></tr><tr><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="code"><pre><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">run</span><span class="params">(self)</span>:</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">        <span class="keyword">try</span>:</span></pre></td></tr><tr><td class="code"><pre><span class="line">            self.status(<span class="string">'Removing previous builds…'</span>)</span></pre></td></tr><tr><td class="code"><pre><span class="line">            rmtree(os.path.join(here, <span class="string">'dist'</span>))</span></pre></td></tr><tr><td class="code"><pre><span class="line">        <span class="keyword">except</span> OSError:</span></pre></td></tr><tr><td class="code"><pre><span class="line">            <span class="keyword">pass</span></span></pre></td></tr><tr><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="code"><pre><span class="line">        self.status(<span class="string">'Building Source and Wheel (universal) distribution…'</span>)</span></pre></td></tr><tr><td class="code"><pre><span class="line">        os.system(<span class="string">'&#123;0&#125; setup.py sdist bdist_wheel --universal'</span>.format(sys.executable))</span></pre></td></tr><tr><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="code"><pre><span class="line">        self.status(<span class="string">'Uploading the package to PyPI via Twine…'</span>)</span></pre></td></tr><tr><td class="code"><pre><span class="line">        os.system(<span class="string">'twine upload dist/*'</span>)</span></pre></td></tr><tr><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="code"><pre><span class="line">        self.status(<span class="string">'Pushing git tags…'</span>)</span></pre></td></tr><tr><td class="code"><pre><span class="line">        os.system(<span class="string">'git tag v&#123;0&#125;'</span>.format(about[<span class="string">'__version__'</span>]))</span></pre></td></tr><tr><td class="code"><pre><span class="line">        os.system(<span class="string">'git push --tags'</span>)</span></pre></td></tr><tr><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="code"><pre><span class="line">        sys.exit()</span></pre></td></tr><tr><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="code"><pre><span class="line">setup(</span></pre></td></tr><tr><td class="code"><pre><span class="line">    ...</span></pre></td></tr><tr><td class="code"><pre><span class="line">    <span class="comment"># $ setup.py publish support.</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">    cmdclass=&#123;</span></pre></td></tr><tr><td class="code"><pre><span class="line">        <span class="string">'upload'</span>: UploadCommand,</span></pre></td></tr><tr><td class="code"><pre><span class="line">    &#125;,</span></pre></td></tr><tr><td class="code"><pre><span class="line">)</span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="comment">#这样可以通过 python setup.py upload 运行打包上传代码</span></span></pre></td></tr><tr><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="comment">#如果您需要指定编译器选项、要链接的库或其他链接器选项，您将需要手动创建扩展实例Extension（请注意，仍然可以使用 glob 语法在一行中指定多个扩展）： </span></span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> setuptools <span class="keyword">import</span> Extension, setup</span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> Cython.Build <span class="keyword">import</span> cythonize</span></pre></td></tr><tr><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="code"><pre><span class="line">extensions = [</span></pre></td></tr><tr><td class="code"><pre><span class="line">    Extension(<span class="string">"primes"</span>, [<span class="string">"primes.pyx"</span>],</span></pre></td></tr><tr><td class="code"><pre><span class="line">        include_dirs=[...],</span></pre></td></tr><tr><td class="code"><pre><span class="line">        libraries=[...],</span></pre></td></tr><tr><td class="code"><pre><span class="line">        library_dirs=[...]),</span></pre></td></tr><tr><td class="code"><pre><span class="line">    <span class="comment"># Everything but primes.pyx is included here.</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">    Extension(<span class="string">"*"</span>, [<span class="string">"*.pyx"</span>],</span></pre></td></tr><tr><td class="code"><pre><span class="line">        include_dirs=[...],</span></pre></td></tr><tr><td class="code"><pre><span class="line">        libraries=[...],</span></pre></td></tr><tr><td class="code"><pre><span class="line">        library_dirs=[...]),</span></pre></td></tr><tr><td class="code"><pre><span class="line">]</span></pre></td></tr><tr><td class="code"><pre><span class="line">setup(</span></pre></td></tr><tr><td class="code"><pre><span class="line">    name=<span class="string">"My hello app"</span>,</span></pre></td></tr><tr><td class="code"><pre><span class="line">    ext_modules=cythonize(extensions),</span></pre></td></tr><tr><td class="code"><pre><span class="line">)</span></pre></td></tr><tr><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="comment">#from Cython.Distutils import build_ext</span></span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="comment">#通过自定义类继承build_ext，来自定义distutils构建方式,如下：</span></span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">custom_build_ext</span><span class="params">(build_ext)</span>:</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">build_extensions</span><span class="params">(self)</span>:</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">        <span class="comment">#self.compiler是Cython.Distutils-》build_ext中的属性</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">        customize_compiler_for_nvcc(self.compiler)</span></pre></td></tr><tr><td class="code"><pre><span class="line">        build_ext.build_extensions(self)</span></pre></td></tr><tr><td class="code"><pre><span class="line">        </span></pre></td></tr><tr><td class="code"><pre><span class="line">setup(</span></pre></td></tr><tr><td class="code"><pre><span class="line">    name=<span class="string">'faster_rcnn'</span>,</span></pre></td></tr><tr><td class="code"><pre><span class="line">    ext_modules=ext_modules,</span></pre></td></tr><tr><td class="code"><pre><span class="line">    <span class="comment"># inject our custom trigger</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">    cmdclass=&#123;<span class="string">'build_ext'</span>: custom_build_ext&#125;,</span></pre></td></tr><tr><td class="code"><pre><span class="line">)</span></pre></td></tr></table></figure>
+<p><a href="https://zhuanlan.zhihu.com/p/24311879" target="_blank" rel="noopener">优秀的参考资料</a></p>
+<p><a href="https://www.bookstack.cn/read/cython-doc-zh/docs-29.md" target="_blank" rel="noopener">Cython 3.0中文文档</a></p>
+<p><a href="https://stackoverflow.com/questions/41169711/python-setuptools-distutils-custom-build-for-the-extra-package-with-makefile" target="_blank" rel="noopener">具有非常大的参考价值的链接</a></p>
+<p><a href="https://github.com/python/cpython/blob/main/Lib/distutils/command/build_ext.py" target="_blank" rel="noopener">Distutils-Cammond源码</a></p>
+<h5 id="2、NVCC编译学习"><a href="#2、NVCC编译学习" class="headerlink" title="2、NVCC编译学习"></a>2、NVCC编译学习</h5><p>下图给出了NVCC支持的编译阶段的命令以及输出的文件格式</p>
+<p><img src="/2021/08/15/Faster-R-CNN-Code-Analyse/nvcc-0.png" alt="NVCC"></p>
+<p>CUDA 编译的工作原理如下：输入程序经过预处理以供Device编译器编译，并编译为 CUDA 二进制（cubin）和/或 PTX 中间代码，这些代码放在一个 fatbinary 中。 输入程序再次预处理以供HOST编译，并与嵌入的fatbinary合成在一起，并将 CUDA 特定 C++ 扩展转换为标准 C++ 构造。 然后 C++ 主机编译器将带有嵌入的 fatbinary 的合成主机代码编译成主机Object。 为实现这一目标所遵循的确切步骤如图 1 所示。 </p>
+<p><img src="/2021/08/15/Faster-R-CNN-Code-Analyse/nvcc-1.png" alt="NVCC"></p>
+<p>上图来自于Nvidia官网<a href="https://docs.nvidia.com/cuda/cuda-compiler-driver-nvcc/index.html" target="_blank" rel="noopener">入口</a></p>
+<p>每个 <strong>nvcc 选项</strong>都有一个<strong>长名称</strong>和一个<strong>短名称</strong>，它们可以相互互换。 这两种变体的区别在于选项名称前面必须有多少个连字符：长名称前面必须有两个连字符，而短名称前面必须有一个连字符。 例如，-I 是 —include-path 的简称。长名称描述性价值更高，短名称交互性价值更高。</p>
+<p><strong>nvcc</strong> 识别<strong>三种类型的命令选项</strong>：布尔选项、单值选项和列表选项。 </p>
+<p>布尔选项没有参数； 它们要么在命令行上指定，要么不指定(就是要么有这个选项或者没有，如：加—verbosse或不加)。 单值选项最多只能指定一次(不能出现多次，如：—output-file xxx —output-file xxx)，列表选项可以重复。 每个选项类型的示例分别是：—verbose（切换到详细模式）、—output-file（指定输出文件）和—include-path（指定包含路径）。 </p>
+<p><strong>单值选项</strong>和<strong>列表选项</strong>必须有参数，该参数必须跟在选项本身的名称后面，后面是多个空格之一或等号字符。 当使用<strong>单字符短名称</strong>（例如 -I、-l 和 -L）时，<strong>选项的值也可以紧跟在选项本身之后，而不用空格或等号字符分隔</strong>。 列表选项的各个值可以在选项的单个实例中用逗号分隔，或者选项可以重复，或者这两种情况的任意组合。 </p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">合法的例子</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">-o file</span></pre></td></tr><tr><td class="code"><pre><span class="line">-o=file</span></pre></td></tr><tr><td class="code"><pre><span class="line">-Idir1,dir2 -I=dir3 -I dir4,dir5</span></pre></td></tr></table></figure>
+<p><strong>File and Path Specifications</strong></p>
+<ol>
+<li>—output-file <em>file</em> (-o)：指定输出文件的名称和位置。 </li>
+<li>—pre-include file,…,(-include): 指定在预处理期间必须预先包含的头文件。</li>
+<li>—library library,… (-l): 指定要在链接阶段使用的库，不带库文件扩展名。 在使用选项 —library-path 指定的库搜索路径上搜索库。</li>
+<li>—define-macro def,… (-D): 定义要在预处理期间使用的宏。 def 可以是 name 或 name=definition。 </li>
+<li>—undefine-macro def,… (-D): 在预处理或编译期间取消定义现有宏。 </li>
+<li>—include-path path,… (-I): 指定包含搜索路径。 </li>
+<li>—system-include path,… (isystem): 指定系统包含搜索路径。 </li>
+<li>—library-path path,… (-L): 指定库搜索路径。</li>
+<li>—cudart {none | shared | static} (-cudart): 指定要使用的 CUDA 运行时库的类型：无 CUDA 运行时库、共享/动态 CUDA 运行时库或静态 CUDA 运行时库。 </li>
+<li>—cudadevrt {none | static } {-cudadevrt}: 指定要使用的 CUDA 设备运行时库的类型：无 CUDA 设备运行时库或静态 CUDA 设备运行时库。 </li>
+</ol>
+<p><strong>Options for Specifying the Compilation Phase</strong></p>
+<p>此类别的选项指定输入文件必须编译到哪个阶段。 </p>
+<ol>
+<li>—link (-link): 指定默认行为：编译并链接所有输入文件。 </li>
+<li>—lib (-lib): 如有必要，将所有输入文件编译为目标文件，并将结果添加到指定的库输出文件中。 </li>
+<li>—device-link (-dlink): 将具有可重定位设备代码的目标文件和 .ptx、.cubin 和 .fatbin 文件链接到具有可执行设备代码的目标文件中，该目标文件可以传递给主机链接器。 </li>
+<li>—device-c (-dc): 将每个 .c、.cc、.cpp、.cxx 和 .cu 输入文件编译为包含可重定位设备代码的目标文件。 </li>
+<li>—device-w (-dw): 将每个 .c、.cc、.cpp、.cxx 和 .cu 输入文件编译为包含可执行设备代码的目标文件。 </li>
+<li>—cuda (-cuda): 将每个 .cu 输入文件编译为 .cu.cpp.ii 文件。 </li>
+<li>—compile (-c): 将每个 .c、.cc、.cpp、.cxx 和 .cu 输入文件编译为目标文件。 </li>
+<li>—fatbin (-fatbin): 将所有 .cu、.ptx 和 .cubin 输入文件编译为仅限设备的 .fatbin 文件。 。nvcc 使用此选项丢弃每个 .cu 输入文件的主机代码。</li>
+<li>—cubin (-cubin): 将所有 .cu 和 .ptx 输入文件编译为仅限设备的 .cubin 文件。 nvcc 使用此选项丢弃每个 .cu 输入文件的主机代码。 </li>
+<li>—ptx (-ptx): 将所有 .cu 输入文件编译为仅限设备的 .ptx 文件。 nvcc 使用此选项丢弃每个 .cu 输入文件的主机代码。</li>
+<li>—preprocess (-E): 预处理所有 .c、.cc、.cpp、.cxx 和 .cu 输入文件。 </li>
+<li>—generate-dependencies (-M): 为 .c、.cc、.cpp、.cxx 和 .cu 输入文件生成可包含在 Makefile 中的依赖文件。 </li>
+<li>—run (-run): 将所有输入文件编译并链接到一个可执行文件中，然后执行它。 </li>
+</ol>
+<p><strong>Options for Passing Specific Phase Options(用于传递特定阶段选项的选项 )</strong></p>
+<p>说白了就是，比如nvcc中没有的一些执行，但要使用的话可以通过该选项中的一些参数进行传递。这些允许将特定选项直接传递给 nvcc 封装的内部编译工具，而不会给 nvcc 带来关于这些工具的过于详细的知识。</p>
+<ol>
+<li>—compiler-options options,… (-Xcompiler): 直接向编译器/预处理器指定选项。 如：-Xcompiler -fPIC</li>
+<li>—linker-options options,… (-Xlinker): 直接为主机链接器指定选项。 </li>
+<li>—archive-options options,… (-Xarchive): 直接向库管理器指定选项。 </li>
+<li>—ptxas-options options,… (-Xptxas): 直接为 PTX 优化汇编器 ptxas 指定选项。 </li>
+<li>—nvlink-options options,… (-Xnvlink): 直接为设备链接器 nvlink 指定选项。 </li>
+</ol>
+<p><strong>Option for Specifying Behavior of Compiler/Linker(用于指定编译器/链接器行为的选项 )</strong></p>
+<ol>
+<li>—profile (-pg): 仪器生成的代码/可执行文件供 gprof 使用。 </li>
+<li>—debug (-g): 为主机代码生成调试信息。 </li>
+<li>—device-debug (-G): 为设备代码生成调试信息。 此选项关闭对设备代码的所有优化。 它不用于分析； 使用 —generate-line-info 代替分析。 </li>
+<li>—optimize level (-O): 指定主机代码的优化级别。 </li>
+<li>—shared (-shared): 在链接期间生成共享库。 </li>
+<li>—x {c | c++ | cu} (-x): 明确指定输入文件的语言，而不是让编译器根据文件名后缀选择默认语言。 </li>
+<li>—std {c++03 | c++11 | c++14 | c++17} (-std): 选择一个特定的C++ Dialect。</li>
+<li>—machine {32 | 64} (-m): 指定 32 位与 64 位架构。 </li>
+</ol>
+<p><strong>Options for Guiding the Compiler Driver(引导编译器驱动程序的选项 )</strong></p>
+<ol>
+<li>—dont-use-profile (-noprof): 不要使用 nvcc.profile 文件中的配置进行编译。 </li>
+<li>—threads number (-t): 指定用于并行执行编译步骤的最大线程数。 多架构编译时，该选项可用于提高编译速度。 编译器创建多个线程来并行执行编译步骤。 如果 number 为=1，则忽略此选项。 如果 number = 0，则使用的线程数是机器上的 CPU 数。 </li>
+<li>—dryrun (-dryrun): 列出编译子命令而不执行它们。</li>
+<li>—verbose (-v): 在执行时列出编译子命令。 </li>
+<li>—keep (-keep): 保留在内部编译步骤中生成的所有中间文件。 </li>
+<li>—keep-dir directory (-keep-dir): 将内部编译步骤中生成的所有中间文件保存在此目录中。 </li>
+</ol>
+<p><strong>Opetions for Steering GPU Code Generation(用于引导 GPU 代码生成的选项 )</strong></p>
+<ol>
+<li>—gpu-architecture arch (-arch): 指定编译 CUDA 输入文件的 NVIDIA 虚拟 GPU 架构类的名称。通常，单独使用此选项不会触发为真实架构组装生成的 PTX，它的目的是控制 PTX 输入的预处理和编译。如果未指定选项 —gpu-code 的值，则此选项的值默认为 —gpu-architecture 的值。 在这种情况下，作为上述描述的唯一例外，为 —gpu-architecture 指定的值可能是真实架构（例如 sm_50），在这种情况下，nvcc 使用指定的真实架构及其最接近的虚拟架构作为有效架构 值。 例如，nvcc —gpu-architecture=sm_50 等价于 nvcc —gpu-architecture=compute_50 —gpu-code=sm_50,compute_50。 </li>
+<li>—gpu-code code,… (-code): 指定要为其组装和优化 PTX 的 NVIDIA GPU 的名称。 nvcc 在生成的每个指定代码架构的可执行文件中嵌入一个编译后的代码映像，它是每个真实架构（例如 sm_50）的真正二进制加载映像，以及虚拟架构（例如 compute_50）的 PTX 代码。 在运行时，如果没有找到当前 GPU 的二进制加载图像，则 CUDA 运行时系统会动态编译此类嵌入式 PTX 代码。 </li>
+<li>—generate-code specification (-gencode): 此选项提供了 —gpu-architecture=arch —gpu-code=code,… 选项组合的概括，用于指定与代码生成相关的 nvcc 行为。 使用前面的选项为不同的真实架构生成代码，而 PTX 用于相同的虚拟架构，选项 —generate-code 允许为不同的虚拟架构生成多个 PTX。 事实上， —gpu-architecture=arch —gpu-code=code,… 等价于 —generate-code=arch=arch,code=code,… 。 </li>
+</ol>
+<p><strong>Generic Tool Options</strong></p>
+<ol>
+<li>—disable-warnings (-w): 禁止所有警告消息。 </li>
+<li>—Wno-deprecated-gpu-targets (-Wno-deprecated-gpu-targets): 禁止有关已弃用的 GPU 目标架构的警告。 </li>
+<li>—Wno-deprecated-declarations (-Wno-deprecated-declarations): 禁止在使用已弃用实体时发出警告。 </li>
+</ol>
+<p><strong>NVCC Environment Variables</strong></p>
+<p>如果设置了以下环境变量，可以使用以下环境变量来扩充 nvcc 命令行标志： </p>
+<p>NVCC_PREPEND_FLAGS: 在正常 nvcc 命令行之前注入的标志。 </p>
+<p>NVCC_APPEND_FLAGS: 在正常 nvcc 命令行之后注入的标志。 </p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">export NVCC_PREPEND_FLAGS='-G -keep -arch=sm_60'</span></pre></td></tr><tr><td class="code"><pre><span class="line">export NVCC_APPEND_FLAGS='-DNAME=" foo "'</span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">The following invocation(以下调用): </span></span></pre></td></tr><tr><td class="code"><pre><span class="line">nvcc foo.cu -o foo</span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">Becomes equivalent to:</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">nvcc -G -keep -arch=sm_60 foo.cu -o foo -DNAME=" foo "</span></pre></td></tr></table></figure>
+<p><strong>兼容性</strong></p>
+<p>CPU各代之间的二进制代码兼容性，以及已发布的指令集体系结构，是确保该领域的分布式应用程序在新版本CPU成为主流时继续运行的常用机制。</p>
+<p>这种情况对于 GPU 来说是不同的，因为 NVIDIA 无法在不牺牲 GPU 改进的常规机会的情况下保证二进制兼容性。 相反，正如图形编程领域的常规做法，nvcc 依赖于两阶段编译模型来确保应用程序与未来 GPU 代的兼容性。 </p>
+<p><img src="/2021/08/15/Faster-R-CNN-Code-Analyse/nvcc-2.png" alt="NVCC"></p>
+<p><strong>Further Mechanisms</strong></p>
+<ul>
+<li>Just-in-Time Compilation(即时编译)</li>
+<li>Fatbinaries</li>
+</ul>
+<p><strong>NVCC Example</strong></p>
+<p>nvcc 提供选项 —gpu-architecture 和 —gpu-code 用于指定两个转换阶段的目标架构。 除了下面描述的允许的简写外，—gpu-architecture 选项采用单个值，该值必须是虚拟计算架构的名称，而选项 —gpu-code 则采用一个值列表，这些值都必须是虚拟计算架构的名称 实际的 GPU。 nvcc 为这些 GPU 中的每一个执行阶段 2 转换，并将结果嵌入到编译结果中（通常是主机目标文件或可执行文件）。 </p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">nvcc x.cu --gpu-architecture=compute_50 --gpu-code=sm_50,sm_52</span></pre></td></tr></table></figure>
+<h5 id="3、Pytorch扩展"><a href="#3、Pytorch扩展" class="headerlink" title="3、Pytorch扩展"></a>3、Pytorch扩展</h5><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">torch.utils.ffi.create_extension(name, headers, sources, verbose&#x3D;True, with_cuda&#x3D;False, package&#x3D;False, relative_to&#x3D;&#39;.&#39;, **kwargs)</span></pre></td></tr></table></figure>
+<p>创建并配置一个cffi.FFI对象,用于PyTorch的扩展。参数解析如下：</p>
+<ul>
+<li><strong>name</strong> (<em>str</em>) – 包名。可以是嵌套模块，例如 <code>.ext.my_lib</code>。</li>
+<li><strong>headers</strong> (<em>str</em> or List[<em>str</em>]) – 只包含导出函数的头文件列表</li>
+<li><strong>sources</strong> (List[<em>str</em>]) – 用于编译的sources列表</li>
+<li><strong>verbose</strong> (<em>bool</em>, optional) – 如果设置为False，则不会打印输出（默认值：<code>True</code>）。</li>
+<li><strong>with_cuda</strong> (<em>bool</em>, optional) – 设置为True以使用CUDA头文件进行编译（默认值：<code>False</code>）。</li>
+<li><strong>package</strong> (<em>bool</em>, optional) – 设置为True以在程序包模式下构建（对于要作为pip程序包安装的模块）（默认值：<code>False</code>）。</li>
+<li><strong>relative_to</strong> (<em>str</em>, optional) –构建文件的路径。<code>package</code>为<code>True</code>时需要。最好使用<code>__file__</code>作为参数。</li>
+<li><strong>kwargs</strong> – 传递给ffi以声明扩展的附加参数。有关详细信息，请参阅<a href="https://docs.python.org/3/distutils/apiref.html#distutils.core.Extension" target="_blank" rel="noopener">Extension API reference</a>。</li>
+</ul>
+<p><a href="https://blog.csdn.net/manong_wxd/article/details/78720182" target="_blank" rel="noopener">参考示例</a></p>
+]]></content>
+      <categories>
+        <category>Deep Learning</category>
+      </categories>
+      <tags>
+        <tag>Deep Learning</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Mask-R-CNN</title>
+    <url>/2021/08/15/Mask-R-CNN/</url>
+    <content><![CDATA[<h2 id="Mask-RCNN论文学习笔记"><a href="#Mask-RCNN论文学习笔记" class="headerlink" title="Mask-RCNN论文学习笔记"></a>Mask-RCNN论文学习笔记</h2><h4 id="一、概述"><a href="#一、概述" class="headerlink" title="一、概述"></a>一、概述</h4><p><img src="/2021/08/15/Mask-R-CNN/Mask-RCNN-0.png" alt="Mask-R-CNN"></p>
+<p>Mask R-CNN是一个概念上简单、灵活和通用的对象实例分割框架。该框架有效地检测图像中的对象，同时为每个实例生成高质量的分割掩码。其通过添加一个分支来与现有的边界框识别分支并行预测对象掩码，从而扩展了 Faster R-CNN。</p>
+<p> Mask R-CNN，通过添加用于预测每个感兴趣区域 (RoI) 上的分割掩码的分支来扩展 Faster R-CNN，与用于分类和边界框回归的现有分支并行（图 1） . 掩码分支是应用于每个 RoI 的小 FCN，以像素到像素的方式预测分割掩码。</p>
+<p>Faster R-CNN 并不是为网络输入和输出之间的像素到像素对齐而设计的。这在<code>RoIPool</code>如何为特征提取执行粗略的空间量化中最为明显。为了修复错位，我们提出了一个简单的、无量化的层，称为<code>RoIAlign</code>，它忠实地保留了精确的空间位置。尽管看似很小的变化，<code>RoIAlign</code>却产生了巨大的影响：它将掩码准确度提高了 10% 到 50%。其次，作者发现将<strong>掩码和类别预测解耦</strong>至关重要：他们独立地为每个类别预测一个二元掩码，类别之间没有竞争，并依靠网络的 RoI 分类分支来预测类别。</p>
+<h4 id="二、Mask-R-CNN"><a href="#二、Mask-R-CNN" class="headerlink" title="二、Mask R-CNN"></a>二、Mask R-CNN</h4><p>在训练期间，作者将每个采样的 RoI 上的多任务损失定义为 L = L<sub>cls</sub> + L<sub>box</sub> + L<sub>mask</sub>。 分类损失 L<sub>cls</sub>和边界框损失 L<sub>box与 <code>Faster R-CNN</code> 中定义的相同。 掩码分支对每个 RoI 都有一个 Km<sup>2</sup> 维的输出，它编码 K 个分辨率为 m ×m 的二进制掩码，K为类别数。同时，为每像素应用了 sigmoid，并将 L<sub>mask</sub>定义为平均二元交叉熵损失。对于与真实类别 k 相关联的 RoI，L<sub>mask</sub>仅在第 k 个掩码上定义（其他掩码输出对损失没有贡献）。 </sub></p>
+<p>其次，作者对 L<sub>mask</sub>的定义允许网络为每个类生成掩码，而无需类之间的竞争； 依靠专用的分类分支来预测用于选择输出掩码的类标签。 这将掩码和类别预测解耦。并得出这种方式是获得良好实例分割结果的关键。</p>
+<p><code>Mask R-CNN</code> 的关键要素，包括像素到像素对齐，这是 Fast/Faster R-CNN 的主要缺失部分。 mask分支使用 <code>FCN</code>从每个 RoI 预测 m ×m 掩码，这种像素到像素的行为要求RoI特征（它们本身是小特征图）能够很好地对齐(因为<code>RoI Pooling</code>，将feature map分成7&times;7的时候，如果不能整除，那么余数将被下取整，但是下取整的部分对应回原图可能有几十个像素的偏差，这对分割任务极为不利)，以忠实地保留明确的每像素空间对应关系。 这促使了<code>RoIAlign</code>层的开发，它在掩码预测中起着关键作用。 </p>
+<h4 id="三、ROIAlign"><a href="#三、ROIAlign" class="headerlink" title="三、ROIAlign"></a>三、ROIAlign</h4><p><code>RoIPool</code>是从每个 RoI 中提取小特征图（例如，7×7）的标准操作。 <code>RoIPool</code> 首先将一个浮点数的 RoI 量化为特征图的离散粒度，然后将这个量化的 RoI 细分为自己量化的空间 bin，最后聚合每个 bin 覆盖的特征值（通常通过最大池化）。 例如，通过计算 [x/16] 在<strong>连续坐标</strong> x 上执行量化，其中 16 是特征图步幅，[·] 是舍入； 同样，在划分为 bin 时执行量化（例如，7×7）。 这些量化会在 RoI 和提取的特征之间<strong>引入错位</strong>。 虽然这可能不会影响分类，这对小平移具有鲁棒性，但它对预测像素准确的掩码有很大的负面影响。 </p>
+<p>为了解决这个问题，作者提出了一个<code>RoIAlign</code>层，它去除了<code>RoIPool</code>的粗糙量化，正确地将提取的<strong>特征</strong>与<strong>输入</strong>对齐。在这里作者提出了一个简单的方案，即避免对 RoI 边界或 bin 进行任何量化（用使用 x/16 代替 [x/16]）。 并且二使用双线性插值来计算每个 <code>RoI bin</code> 中四个定期采样位置的输入特征的精确值，并聚合结果（使用最大值或平均值），详情参见图 3。 注意到，只要不执行量化，结果对确切的采样位置或采样的点数并不敏感。 </p>
+<p><img src="/2021/08/15/Mask-R-CNN/Mask-RCNN-1.png" alt="Mask-R-CNN"></p>
+<p>虚线网格表示特征图，实线表示 RoI（在本例中为 2×2 个 bin），点表示每个 bin 中的 4 个采样点。 <code>RoIAlign</code> 从特征图上的附近网格点通过<strong>双线性插值计算每个采样点的值</strong>。 不对 RoI、其 bin 或采样点中涉及的任何坐标执行量化。 </p>
+<h4 id="四、网络的HEAD"><a href="#四、网络的HEAD" class="headerlink" title="四、网络的HEAD"></a>四、网络的HEAD</h4><p><img src="/2021/08/15/Mask-R-CNN/Mask-RCNN-2.png" alt="Mask-R-CNN"></p>
+<p> 上图左/右面板分别显示了 <code>ResNet C4</code> 和 <code>FPN</code> 主干的头部，其中添加了掩码分支。</p>
+<h4 id="五、Training"><a href="#五、Training" class="headerlink" title="五、Training"></a>五、Training</h4><p>就像在 <code>Fast R-CNN</code> 中一样，如果 RoI 具有至少 0.5 的真实值框的 IoU，则它被认为是正的，否则被认为是负的。 掩码损失 L<sub>mask</sub>仅在正 RoI 上定义。 掩码目标是 RoI 与其关联的真实掩码之间的<strong>交集</strong>。 </p>
+<p><a href="https://arxiv.org/pdf/1703.06870.pdf" target="_blank" rel="noopener">论文链接</a></p>
+<p><a href="https://zhuanlan.zhihu.com/p/73138740#:~:text=ROI%20Pooling%20%E4%B8%8E%20ROI%20Align%20ROI%20Pooling%20%E6%98%AF%E5%9C%A8Faster,Align%E6%98%AF%E5%9C%A8Mask%20RCNN%E4%B8%AD%E6%8F%90%E5%87%BA%E6%9D%A5%E7%9A%84%E7%94%A8%E4%BA%8E%E6%94%B9%E8%BF%9BROI%20Pooling%E7%9A%84%E7%BC%BA%E9%99%B7%E3%80%82%20%E5%81%87%E8%AE%BE%E5%8E%9F%E5%9B%BE%E5%B0%BA%E5%AF%B8%E5%A4%A7%E5%B0%8F%E4%B8%BA256%C3%97256%EF%BC%8C%E9%A2%84%E6%B5%8BROI%E7%9A%84%E5%9D%90%E6%A0%87%E4%B8%BA%20%286.4%2C%2012.8%2C%20153.6%2C%20172.8%29%2C%E7%89%B9%E5%BE%81%E5%9B%BE%E2%80%A6" target="_blank" rel="noopener">ROI Align</a></p>
+<p><a href="https://www.aiuai.cn/aifarm1404.html" target="_blank" rel="noopener">待参考链接</a></p>
+]]></content>
+      <categories>
+        <category>Deep Learning</category>
+      </categories>
+      <tags>
+        <tag>Deep Learning</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>R-FCN</title>
+    <url>/2021/08/15/R-FCN/</url>
+    <content><![CDATA[<h2 id="R-FCN-论文学习"><a href="#R-FCN-论文学习" class="headerlink" title="R-FCN:论文学习"></a>R-FCN:论文学习</h2><h4 id="一、概述"><a href="#一、概述" class="headerlink" title="一、概述"></a>一、概述</h4><p>R-FCN，基于区域的全卷积网络框架，用于目标检测。该网络由共享的、完全卷积的架构组成。<a href="https://papers.nips.cc/paper/2016/file/577ef1154f3240ad5b9b413aa7346a1e-Paper.pdf" target="_blank" rel="noopener">论文链接</a></p>
+<h4 id="二、为什么要提出该网络？"><a href="#二、为什么要提出该网络？" class="headerlink" title="二、为什么要提出该网络？"></a>二、为什么要提出该网络？</h4><p>因为，像Faster RCNN类的目标检测算法，在第一阶段得到RoIs和对应的scores后，会从原图和feature map上mapping每一个RoI，并做RoI Pooling，最后用两个全连接层去对每个类别分类和边界框回归(也就是资料中说的<strong>RoI-wise subnetwork</strong>)。作者认为这种使用全连接层的做法丢掉了对于目标位置信息的敏感性，会降低检测精度，并且对检测速度也有影响。所以，作者希望通过<strong>全卷积的方式</strong>去<strong>共享</strong>整个图像的<strong>计算</strong>，并且加强对<strong>位置的敏感性</strong>。</p>
+<h4 id="三、如何修正已有网络的缺陷？"><a href="#三、如何修正已有网络的缺陷？" class="headerlink" title="三、如何修正已有网络的缺陷？"></a>三、如何修正已有网络的缺陷？</h4><p><strong>起源：</strong>在开创性的分类网络中如AlexNet, VGG中在卷积层后加一层最大池化层，然后后接几层全连接层。</p>
+<p><strong>进展：</strong>最近最先进的分类网络中，已经开始设计全卷积网络，如ResNets-101、GoogLeNets。</p>
+<p><strong>引入检测网络存在的问题：</strong>实验得出直接使用全卷积网络后，检测进度相当低，与网络卓越的分类精度不匹配。</p>
+<p><strong>已有的修正方法：</strong>ResNet论文中，将Faster R-CNN检测器的RoI池化层被不自然地插入到两组卷积层之间，创建了一个更深的RoI-wise子网络。尽管提高了精度，但是降低了计算速度(由于per-ROI不共享)。</p>
+<p><strong>对ResNet中不自然的设计如何解释？</strong></p>
+<p>作者们认为，将RoI Pooling插入到两组卷积层之间是为了照顾物体检测时对平移变化的响应。但这种操作打破了图像分类的平移不变性(图像内目标的移动对分类结果应该是无差别的)。</p>
+<p>同时，根据全卷积网络在ImageNet分类的领先结果表明，尽可能具有平移不变性在深度全卷积架构更可取(即，不论物体位置如何变化都能分类正确)。但目标检测任务需要在一定程度上具有平移可变的定位表示。例如：候选框内对象的平移应获得有意义的响应。</p>
+<p><strong>那么如何在分类任务的平移不变性和检测任务中的平移可变性之间做出权衡呢？</strong></p>
+<p>在ResNet中，假设越深的分类网络对于平移的敏感性越低(个人感觉有两个原因，第一是感受野变大，窗口大了看的东西多了，在哪里对分类任务无所谓；第二是越深的网络拟合的特征越细，辨识性越高)。所以较深的卷积层后可以损失分类对平移不变性的关注度，而提升检测任务对定位的敏感度。因此，ResNet论文在检测管道中，在RoI层后多了一组卷积层。当跨不同区域评估是，post-RoI卷积层不在具有平移不变性(这个可能与边界回归smootL1损失函数有关系，就是多个mapping后的RoI区域有共有部分是在统计边界回归是会累计误差，<strong>待确认</strong>)。</p>
+<p><strong>那么R-FCN中是怎么做的呢？</strong></p>
+<p>作者为了将目标检测中对位置的敏感性加入FCN中，设计了一组专门的卷积层作为FCN输出来构建一组位置敏感的分数图(score map)。这些分数图中的每一个都对相对空间位置信息进行编码。如：在对象的左侧。在FCN之后，附加了一个位置敏感的RoI池化层，让它从这些分数图中引导信息，后面没有权重(卷积/fc)层。该架构是端到端学习的。所有可学习层都是卷积层，并在整个图像上共享，但对目标检测所需的空间信息进行编码。</p>
+<p><img src="/2021/08/15/R-FCN/R-FCN-0.png" alt="R-FCN"></p>
+<p>R-FCN还是采用了两阶段的目标检测策略，先用RPN提取候选区域，并且RPN和R-FCN之间共享特征。系统的概览如下图所示(文本的图都来自于R-FCN<a href="https://papers.nips.cc/paper/2016/file/577ef1154f3240ad5b9b413aa7346a1e-Paper.pdf" target="_blank" rel="noopener">论文</a>)：</p>
+<p><img src="/2021/08/15/R-FCN/F-RCN-1.png" alt="R-FCN"></p>
+<p>对于RPN给出的RoIs，R-FCN架构旨在将RoI分类为目标类别和背景。在R-FCN中，所有可学习的权重层都是卷积层，并在整个图像上计算。最后一个卷积层为每个类别生成一组k<sup>2</sup>位置敏感分数图，因此具有k<sup>2</sup>(C+1)个输出通道，其中包含C个目标类别+一个背景类。k<sup>2</sup>得分图库对应于描述相对位置的k&times;k的空间网格。例如，当k&times;k=3&times;3时，9个分数图对目标的类别{左上、中上、右上、…、右下}的情况进行编码。</p>
+<p>上面的讲法有点晕，其实，R-FCN的核心思想就是<strong>Position-sensitive score maps</strong>和<strong>Position-sensitive RoI pooling</strong>。那么简单来说<strong>Position-sensitive score maps</strong>就是要对RoI中的某些子区域定位的同时，学习子区域中的内容。比如将RoI划分成3&times;3=9个子区域，用左上、中上、右上、左中、中、右中、右左、右中、右下9个区域表示，每个区域可以看作目标的不同部位。那么假设C+1个类别，每个类别都会在9个子区域上去学习，这样就会生成9&times;(C+1)个channel，如图1所示，9个score maps，每个中有C+1个类。<strong>那么如何取定位每个子区域呢</strong>？这就需要用到<strong>Position-sensitive RoI pooling</strong>了，比如9个子区域中第i个子区域对应的是第i个score map，而第i个score map同样也有3&times;3=9个区域，那么RoI中第i个子区域对应的就是第i个score map中的第i个子区域(每个类有一个子区域，C+1各类有C+1个子区域)，对每个子区域取平均池化得到C+1个value，那么RoI中k&times;k个子区域就有k&times;k&times;(C+1)个value。</p>
+<h4 id="四、具体的Position-sensitive-score-maps-amp-Position-sensitive-RoI-pooling如何做的？"><a href="#四、具体的Position-sensitive-score-maps-amp-Position-sensitive-RoI-pooling如何做的？" class="headerlink" title="四、具体的Position-sensitive score maps &amp; Position-sensitive RoI pooling如何做的？"></a>四、具体的Position-sensitive score maps &amp; Position-sensitive RoI pooling如何做的？</h4><p>R-FCN在共享卷积层的最后再接上一层卷积层，也就是位置敏感得分图(Position-sensitive score maps)，它其实是一层卷积层，他的height和width和共享卷积层的一样，但是它的channel=k<sup>2</sup>(C+1)。</p>
+<p>为了将位置信息显式地编码到每个 RoI 中，将每个 RoI 矩形通过规则网格划分为 k ×k 个 bin。 对于大小为 w×h 的 RoI 矩形， 一个bin的尺寸大致为w/k&times;h/k。R-FCN构造最后一个卷积层来为每个类别生成 k<sup>2</sup> 得分图，也就对应到了k&times;k个区域。在第 (i,j) 个 bin (0 ≤i,j ≤k −1) 内，定义了一个<strong>位置敏感的 RoI 池化操作</strong>，该操作仅在第 (i,j) 个得分图上进行池化(Position-sensitive RoI pooling)： </p>
+<script type="math/tex; mode=display">
+r_c(i,j|\Theta)=\sum_{(x,y)\in bin(i,j)}z_{i,j,c}(x+x_0,y+y_0|\Theta)/n\\
+r_c(i,j)是第 (i,j) 个 bin 中第 c 个类别的池化响应，z_{i,j,c} 是 k^2(C + 1) 个得分图中的一个得分图 \\
+(x0,y0) 表示 RoI 的左上角，n 是 bin 中的像素数， Θ 表示网络的所有可学习参数 \\
+第i个bin的跨度为\lfloor i\frac{w}{k} \rfloor\le x\le \lfloor (i+1)\frac{w}{k} \rfloor,\lfloor j\frac{h}{k} \rfloor\le y\le \lfloor (j+1)\frac{h}{k} \rfloor</script><p><img src="/2021/08/15/R-FCN/R-FCN-2.png" alt="R-FCN"></p>
+<p>对于每个类别，它都有k<sup>2</sup>个score maps，那么按照上述的池化方式，可以RoI针对该类别可以得到k<sup>2</sup>个值，那么一共有C+1个类别，那么一个RoI就得到 k<sup>2</sup>(C+1)个值。那么对于每个类别，该类别的 k<sup>2</sup> 个值都表示该RoI属于该类别的响应值，那么将这 k<sup>2</sup>个数相加求平均就得到该类别的score(论文中的术语是对k<sup>2</sup>进行vote，averaging the score)，那么一共有C+1个scores，那么将这C+1个数使用简单的softmax函数就可以得到属于各个类别的概率了。</p>
+<script type="math/tex; mode=display">
+r_c(\Theta)=\sum_{i,j}r_c(i,j|\Theta),S_c(\Theta)=e^{r_c(\Theta)}/\sum^{C}_{c'=0}e^{r_c(\Theta)}</script><p>上述概率用于评估训练期间的交叉熵损失和推理期间的 RoI 排名。 </p>
+<p><img src="/2021/08/15/R-FCN/R-FCN-4.png" alt="R-FCN"></p>
+<h4 id="五、如何回归边框？"><a href="#五、如何回归边框？" class="headerlink" title="五、如何回归边框？"></a>五、如何回归边框？</h4><p>按照“position-sensitive score map”+“Position-sensitive RoI pooling”思路，其会让每一个RoI得到 C+1 个数作为每个类别的score，那么现在每个RoI还需要 4 个数作为”回归的偏移量”，也就是“坐标和长宽”的偏移量，所以仿照分类设计的思想，还需要一个类似于position-sensitive  score map的用于回归的score  map。那么现在就这样设计：在ResNet的共享卷积层的最后一层上，接上一个与position-sensitive score  map并行的（sibling）score maps，该score maps用于regression，而该regression score map的维度应当是4k<sup>2</sup>，那么在经过Position-sensitive RoI pooling操作后还是4k<sup>2</sup>维的向量，通过平均投票将其聚合为一个4维向量(k<sup>2</sup>个t<sub>x</sub>,t<sub>y</sub>,t<sub>w</sub>,t<sub>h</sub>，每个t<sub>*</sub>求和/k<sup>2</sup>，*表示x,y,w,h)。每一个RoI就会得到4个数作为该RoI的坐标和长宽的偏移量(这里执行了与类无关的边界框回归)。</p>
+<h4 id="六、网络的训练"><a href="#六、网络的训练" class="headerlink" title="六、网络的训练"></a>六、网络的训练</h4><p>在每个 RoI 上定义的损失函数是交叉熵损失和框回归损失的总和：</p>
+<script type="math/tex; mode=display">
+L(s,t_{x,y,w,h})=L_{cls}(S_{c^*})+\lambda[c^*\gt0]L_{reg}(t,t^*)\\
+c^*是RoI的ground-truth标签，L_{cls}(S_{c^*})=-log(S_{c^*})是分类的cross-entropy \,\,loss\\
+L_{reg}是边界回归损失，t^*表示ground \,\,truth \,\,box,[c^*\gt1]是指示函数条件满足为1，否则为0\\
+平衡参数\lambda设置为1，定义正样本为RoI与GT的IoU\ge0.5</script><p>在训练的时候不会对所有的RoI进行处理，而是评估所有N个RoI的损失。然后按损失对所有正负RoI进行排序，并选择具有最高损失的B=128个RoIs。</p>
+<p><a href="https://zhuanlan.zhihu.com/p/30867916" target="_blank" rel="noopener">参考链接</a></p>
+<p><a href="https://zhuanlan.zhihu.com/p/24780433" target="_blank" rel="noopener">扩展链接</a></p>
+]]></content>
+      <categories>
+        <category>Deep Learning</category>
+      </categories>
+      <tags>
+        <tag>Deep Learning</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Faster-R-CNN</title>
+    <url>/2021/08/15/Faster-R-CNN/</url>
+    <content><![CDATA[<h2 id="Faster-RCNN"><a href="#Faster-RCNN" class="headerlink" title="Faster RCNN"></a>Faster RCNN</h2><h4 id="一、概述"><a href="#一、概述" class="headerlink" title="一、概述"></a>一、概述</h4><p>在测试阶段，使用选择性搜索获取区域提议成为了算法的性能瓶颈。其次，卷积等处理在GPU上运行，而选择性搜索在CPU上运行，导致了运行时比较并不公平 。</p>
+<p>一种可以想到的解决策略是将selective search通过GPU实现一遍，但是这种实现方式忽略了接下来的检测网络可以与区域建议方法共享计算的问题。因此Faster RCNN从提高区域建议的速度出发提出了region proposal network 用以通过GPU实现快速的区域建议。</p>
+<p>作者观察到，基于区域的检测器（如 Fast RCNN）使用的卷积特征图也可用于生成区域提议。 在这些卷积特征之上，我们通过添加一些额外的卷积层来构建 RPN，这些卷积层同时回归常规网格上每个位置的区域边界和目标分数。 因此，RPN 是一种全卷积网络 (FCN) ，可以专门针对生成检测建议的任务进行端到端的训练。 Faster RCNN的整体结构如下：</p>
+<h4 id="二、Faster-RCNN"><a href="#二、Faster-RCNN" class="headerlink" title="二、Faster RCNN"></a>二、Faster RCNN</h4><p>Faster R-CNN，由两个模块组成。 第一个模块是提取区域的深度全卷积网络，第二个模块是使用建议区域的 Fast R-CNN 检测器。 </p>
+<p><img src="/2021/08/15/Faster-R-CNN/Faster-RCNN.png" alt="Faster-R-CNN"></p>
+<ul>
+<li><p>输入图片</p>
+</li>
+<li><p>backbone: 卷积特征提取，共享基础卷积层。例如VGG16，或Resnet101，去除其中的全连接层，只留下卷基层，输出下采样后的特征图。</p>
+</li>
+<li><p>RPN产生proposals</p>
+<p>利用最后卷积层的feature map外接几个卷积层构成全卷积网络，通过softmax判断anchors属于positive或者negative，再利用bounding box regression修正anchors获得精确的proposals。</p>
+</li>
+<li><p>Fast RCNN分类proposals: 利用卷积提取到的特征+RPN提取出的region proposals</p>
+<ul>
+<li>Roi Pooling：该层收集输入的feature maps和proposals，综合这些信息后提取proposal feature maps，送入后续全连接层判定目标类别。</li>
+<li>Classification：利用proposal feature maps计算proposal的类别，同时再次bounding box regression获得检测框最终的精确位置。</li>
+</ul>
+</li>
+</ul>
+<h4 id="三、Region-Proposal-Networks"><a href="#三、Region-Proposal-Networks" class="headerlink" title="三、Region Proposal Networks"></a>三、Region Proposal Networks</h4><p>区域提议网络 (RPN) 将图像（任意大小）作为输入并输出一组矩形对象提议，每个提议都有一个目标得分。 整个RPN过程使用全卷积网络进行建模，由于为了与Fast RCNN目标检测网络进行共享计算，所以RPN和Fast RCNN共享一组公共卷积层。</p>
+<p><strong>如何产生区域提议？</strong></p>
+<ul>
+<li>在最后的共享卷积层输出的卷积feature map上滑动一个小网络n*n</li>
+<li>将n*n 空间窗口作为输入映射到一个低维特征(ZF为256维，VGG为512维，后面接ReLU)</li>
+<li>低维特征被输入到两个子全连接层：一个边界框回归层（reg）和一个边界框分类层（cls）</li>
+</ul>
+<p><img src="/2021/08/15/Faster-R-CNN/Faster-RCNN-1.png" alt="Faster-R-CNN"></p>
+<p><img src="/2021/08/15/Faster-R-CNN/Faster-RCNN-2.png" alt="Faster-R-CNN"></p>
+<p>从上图中可以看到，n为3的卷积核对最后一层feature map做卷积后生成1*256 / 1*512维的特征，经过Relu后，使用两个1*1的卷积层生成两个子网络，分别用于分类anchor获得正类或负类。另一个子网络用于回归anchor的bounding box，已获得较精准的proposal。最后的Proposal层负责综合position anchors和对应的bounding box regression偏移量获取proposals。此时已完成了目标定位的功能。</p>
+<h5 id="3-1-Anchors"><a href="#3-1-Anchors" class="headerlink" title="3.1 Anchors"></a>3.1 Anchors</h5><p>在每个滑动窗口位置，同时预测多个区域提议，其中每个位置的最大可能提议数表示为 k。 因此，reg 层有 4k 个输出编码用于表示k个框的坐标，cls 层输出 2k 个分数，用于估计区域提议是目标或背景的概率 。</p>
+<p> 锚点位于相关滑动窗口的中心，并与缩放尺度和纵横比相关联。 默认情况下，我们使用 3 个缩放尺度和 3 个纵横比，在每个滑动位置产生 k = 9 个锚点。 对于大小为 W × H的卷积特征图，总共有 WHk 个锚点。 </p>
+<p><strong>Translation-Invariant Anchors</strong></p>
+<p>由于采用RPN去获取anchors，所以保证了待定位物体的平移不变性。同时，因为anchors是以滑动窗口的位置(针对最后一层feature map)去产生固定尺度和纵横比的anchor，所以减少了模型的大小。稳重例举了MultiBox中的例子，其中MultiBox需要(4+1)*800维全连接输出层。而基于anchors的方法，因为k=9，每个anchor有4+2个输出，所以总共(4+2)&times;9维的卷积输出。</p>
+<p><strong>Multi-Scale Anchors as Regression References</strong></p>
+<p>由于目标检测的目标尺度可能相差很大，因此我们需要尽可能产生不同尺寸的region proposals，常见的有两种方法，加上本文的一共三种方法：</p>
+<ul>
+<li>图像金字塔：通过将图像放缩到不同的尺寸，然后提取特征去做或先对于图像提取卷积特征，然后将卷积特征放缩到不同的尺寸。</li>
+<li>滤波器金字塔：在特征图上使用多个尺度（和/或纵横比）的滑动窗口。 例如：DPM中使用不同的过滤器尺寸分别训练不同纵横比的模型(5&times;7 and 7&times;5)。</li>
+<li>anchor金字塔：多个尺度和纵横比的锚框对边界框进行分类和回归。 它只依赖单一尺度的图像和特征图，并使用单一尺寸的过滤器（特征图上的滑动窗口）。</li>
+</ul>
+<p><img src="/2021/08/15/Faster-R-CNN/Faster-RCNN-3.png" alt="Faster-R-CNN"></p>
+<h5 id="3-2-Loss-Function"><a href="#3-2-Loss-Function" class="headerlink" title="3.2 Loss Function"></a>3.2 Loss Function</h5><p>RPN包含两个网络分支，分类层以及回归层。分类层给出一个二分类label，也就是这个region是否包含目标，回归层产生目标的位置。其中与任意ground-truth box的IOU大于0.7即认为是包含目标的或anchor与真实的box重叠的IoU最大(论文中说如果只考虑IoU&gt;0.7有些情况找不到正样例)。如果anchor与所有真值框的 IoU 比率低于 0.3，为anchor分配负标签。 既不是正面也不是负面的锚点对训练目标没有贡献。 (这里相当于给anchor生成label，为了与之后的预测值计算损失)</p>
+<p><strong>RPN还是采用多任务损失：</strong></p>
+<script type="math/tex; mode=display">
+L(\{p_i\},\{t_i\})=\frac{1}{N_{cls}}\sum_{i}L_{cls}(p_i,p^*_i)+\lambda\frac{1}{N_{reg}}\sum_ip^*_iL_{reg}(t_i,t^*_i)\\
+i是mini-batch中anchor的索引，p_i是anchor_i预测的目标概率，p^*_i是groud\quad truth\\
+t_i是预测边界框的坐标(也就是anchor放大16倍后在原图中对应的坐标)，t^*_i是groud \quad truth\\
+p^*_iL_{reg}指出回归损失仅仅对正的anchors有用，即p^*_i=1\\
+N_{cls}是正则化项，等于mini-batch的大小，N_{reg}也是正则化项，等于anchor的数量</script><p>L<sub>cls</sub>用的是log loss用于区分目标或背景。L<sub>reg</sub>用的是smooth L<sub>1</sub>损失。</p>
+<p><strong>边界回归使用下面四个参数：</strong></p>
+<script type="math/tex; mode=display">
+t_x=(x-x_a)/w_a,t_y=(y-y_a)/h_a\\
+t_w=\log(w/w_a),t_h=\log(h/h_a)\\
+t^*_x=(x^*-x_a)/w_a,t^*_y=(y^*-y_a)/h_a\\
+t^*_w=\log(w^*/w_a),t^*_h=\log(h^*/h_a)\\
+其中，x，y,w,h分别代表box的中心坐标和它的宽、高\\
+x对应的是预测框，x_a对应的是anchor框，x^*对应的是真实框\\
+从回归框的损失函数看出，以anchor框为参照物(t_i^a)，让t_x，t_y,t_h,t_w接近t_i^*</script><p>下面摘录<a href="https://zhuanlan.zhihu.com/p/31426458" target="_blank" rel="noopener">知乎白裳</a>给出的bounding box regression原理介绍</p>
+<p><img src="/2021/08/15/Faster-R-CNN/Faster-RCNN-6.png" alt="Faster-R-CNN"></p>
+<p>上图来自<a href="https://www.zhihu.com/people/george-zhang-84" target="_blank" rel="noopener">白裳</a>，图中绿色框为飞机的Ground Truth(GT)，红色为提取的positive  anchors，即便红色的框被分类器识别为飞机，但是由于红色的框定位不准，这张图相当于没有正确的检测出飞机。所以我们希望采用一种方法对红色的框进行微调，使得positive anchors和GT更加接近。</p>
+<p>对于窗口一般使用四维向量(x,y,w,h)表示，分别表示窗口的中心点坐标和宽高。对于上图，红色的框A代表原始的positive Anchors，绿色的框G代表目标的GT，我们的目标是寻找一种关系，使得<strong>输入原始的anchor A</strong>经过<strong>映射</strong>得到一个跟<strong>真实窗口G更接近的回归窗口G’</strong>，即：</p>
+<p><img src="/2021/08/15/Faster-R-CNN/Faster-RCNN-4.png" alt="Faster-R-CNN"></p>
+<ul>
+<li><p>给定anchor A=(A<sub>x</sub>，A<sub>y</sub>，A<sub>w</sub>，A<sub>h</sub>)和GT=[G<sub>x</sub>，G<sub>y</sub>，G<sub>w</sub>，G<sub>h</sub>]</p>
+</li>
+<li><p>寻找一种变换F，使得：F(A<sub>x</sub>，A<sub>y</sub>，A<sub>w</sub>，A<sub>h</sub>)=(G’<sub>x</sub>，G’<sub>y</sub>，G’<sub>w</sub>，G’<sub>h</sub>)，其中</p>
+<p>(G’<sub>x</sub>，G’<sub>y</sub>，G’<sub>w</sub>，G’<sub>h</sub>)&approx;(G<sub>x</sub>，G<sub>y</sub>，G<sub>w</sub>，G<sub>h</sub>)</p>
+</li>
+</ul>
+<p><strong>那么如何变换呢？</strong></p>
+<script type="math/tex; mode=display">
+先平移：G'_x=A_w\cdot d_x(A)+A_x;G'_y=A_h\cdot d_y(A)+A_y\\
+再缩放：G'_w=A_w\cdot exp(d_x(A));G'_y=A_h\cdot exp(d_y(A))</script><p>注意：当输入的Proposal和Groud Truth相差较小时(RCNN设置的是IoU&gt;0.6)，可以认为这种变幻是一种线性变幻，那么可以用线性回归来建模对窗口进行微调。否则就变成了复杂的非线性问题(可以查看G-CNN:an iterative Grid Based Object Detector来定位)</p>
+<p><strong>那么如何使用线性回归获得d<sub>x</sub>(A),d<sub>y</sub>(A),d<sub>w</sub>(A),d<sub>h</sub>(A)?</strong></p>
+<p>线性回归就是给定输入的特征向量X，学习一组参数W，使得经过线性回归后的值跟真实值Y非常接近。即：Y=WX</p>
+<p>对于上述的问题，输入为：</p>
+<ol>
+<li>cnn feature map, 定义为&Phi;</li>
+<li>anchors和groud Truth，用于计算gt与anchor的变换量(t<em><sub>x</sub>,t\</em><sub>y</sub>,t*<sub>w</sub>,t*<sub>h</sub>)作为监督信号</li>
+</ol>
+<p>输出为：d<sub>x</sub>(A),d<sub>y</sub>(A),d<sub>w</sub>(A),d<sub>h</sub>(A)</p>
+<p><strong>目标函数：</strong></p>
+<script type="math/tex; mode=display">
+d_*(A)=W^T_*\cdot \phi(A),\phi(A)是对应anchor的feature\,\,map组成的特征向量,W_*是需要学习的参数\\
+d_*(A)是得到的预测值，*表示x,y,w,h,说明每一个变换对应一个上述的目标函数\\
+为了让预测值d_x(A)与真实值t_x差距最小，设计L1损失函数：Loss=\sum^{N}_{i}|t^i_*-W^T_*\cdot \phi(A^i)|\\
+函数优化的目标为:\hat{W_x}=argmin_{W*}\sum^{n}_{i}|t^i_x-W^T_*\cdot\phi(A^i)|+\lambda||W_x||</script><h5 id="3-3-Proposal-Layer"><a href="#3-3-Proposal-Layer" class="headerlink" title="3.3 Proposal Layer"></a>3.3 Proposal Layer</h5><p>Proposal Layer负责综合所有d<sub>x</sub>(A),d<sub>y</sub>(A),d<sub>w</sub>(A),d<sub>h</sub>(A)变换量和positive anchors，计算出精准的proposal，送入后续RoI Pooling Layer。</p>
+<p>输入：1.分类器结果；2、边界回归d<sub>x</sub>(A),d<sub>y</sub>(A),d<sub>w</sub>(A),d<sub>h</sub>(A)；3、im_info；4、feat_stride=16</p>
+<p>im_info=[M,N,scale_factor]保存了Faster RCNN传入reshape到固定M&times;N时缩放的所有信息</p>
+<p>处理顺序：</p>
+<ol>
+<li>生成anchors，利用d<sub>x</sub>(A),d<sub>y</sub>(A),d<sub>w</sub>(A),d<sub>h</sub>(A)对所有的anchors做bbox regression回归（这里的anchors生成和训练时完全一致)</li>
+<li>按照输入的positive softmax scores由大到小排序anchors，提取前pre_nms_topN(e.g. 6000)个anchors，即提取修正位置后的positive anchors</li>
+<li>限定超出图像边界的positive anchors为图像边界，防止后续roi pooling时proposal超出图像边界</li>
+<li>剔除尺寸非常小的positive anchors</li>
+<li>对剩余的positive anchors进行NMS（nonmaximum suppression）</li>
+</ol>
+<h5 id="3-4-训练RPNs"><a href="#3-4-训练RPNs" class="headerlink" title="3.4 训练RPNs"></a>3.4 训练RPNs</h5><p>首先，读取RBG提供的预训练好的model（本文使用VGG），开始迭代训练。如stage1_rpn_train.pt网络结构</p>
+<p><img src="/2021/08/15/Faster-R-CNN/0.jpg" alt="Faster-R-CNN"></p>
+<p>与检测网络类似的是，依然使用Conv Layers提取feature maps。整个网络使用的Loss如下：</p>
+<script type="math/tex; mode=display">
+L(\{p_i\},\{t_i\})=\frac{1}{N_{cls}}\sum_{i}L_{cls}(p_i,p^*_i)+\lambda\frac{1}{N_{reg}}\sum_ip^*_iL_{reg}(t_i,t^*_i)\\
+i是anchor的索引，p_i表示positive\,\,softmax\,\,probability就是anchors中有的不会被用到，有的是negative,有的是positive。\\
+p^*_i代表对应的GT \,\,predict概率即当第i个anchor与GT间IoU\gt0.7时，认为该anchor为positive,p^*_i=1；反之IoU\lt0.3时，认为该anchor是negative,p^*_i=0;\\
+那些0.3\lt IoU\lt0.7的anchor不参与训练。t代表predict\,\,bounding\,\,box,t^*_i代表对应的positive\,\,anchor对应的GT\,\,box。可以看到，整个Loss分为2个部分：\\
+cls-loss，即rpn_cls_loss层计算的softmax loss，用于分类anchors为positive与negative的网络训练;\\
+reg-loss，即rpn_loss_bbox层计算的soomth L1 loss，用于bounding box regression网络训练。该loss中乘了p^*_i，相当于只关心positive\,\,anchors的回归\\
+由于在实际过程中，N_{cls}和N_{reg}差距过大，用参数λ平衡二者（如N_{cls}=256，N_{reg}=2400时,设置\lambda=\frac{N_{reg}}{N_{cls}}\approx10）</script><h5 id="3-5-收集Proposals"><a href="#3-5-收集Proposals" class="headerlink" title="3.5 收集Proposals"></a>3.5 收集Proposals</h5><p><img src="/2021/08/15/Faster-R-CNN/1.jpg" alt="Faster-R-CNN"></p>
+<p>利用之前的RPN网络，获取proposal rois，同时获取positive softmax probability，然后将获取的信息保存在python pickle文件中。</p>
+<h4 id="四、训练Faster-RCNN网络"><a href="#四、训练Faster-RCNN网络" class="headerlink" title="四、训练Faster RCNN网络"></a>四、训练Faster RCNN网络</h4><ol>
+<li>在已经训练好的model上，训练RPN网络，对应stage1_rpn_train.pt</li>
+<li>利用步骤1中训练好的RPN网络，收集proposals，对应rpn_test.pt</li>
+<li>第一次训练Fast RCNN网络，对应stage1_fast_rcnn_train.pt</li>
+<li>第二训练RPN网络，对应stage2_rpn_train.pt</li>
+<li>再次利用步骤4中训练好的RPN网络，收集proposals，对应rpn_test.pt</li>
+<li>第二次训练Fast RCNN网络，对应stage2_fast_rcnn_train.pt</li>
+</ol>
+<p>可以看到训练过程类似于一种“迭代”的过程，不过只循环了2次。至于只循环了2次的原因是应为作者提到：”A similar alternating  training can be run for more iterations, but we have observed negligible improvements”，即循环更多次没有提升了。</p>
+<p><img src="/2021/08/15/Faster-R-CNN/2.jpg" alt="Faster-R-CNN"></p>
+<p>读取之前保存的pickle文件，获取proposals与positive probability。从data层输入网络，然后：</p>
+<ol>
+<li>将提取的proposals作为rois传入网络</li>
+<li>计算bbox_inside_weights+bbox_outside_weights，作用与RPN一样，传入soomth_L1_loss layer</li>
+</ol>
+<p>​    <a href="https://zhuanlan.zhihu.com/p/31426458" target="_blank" rel="noopener">推荐阅读知乎-白裳</a></p>
+]]></content>
+      <categories>
+        <category>Deep Learning</category>
+      </categories>
+      <tags>
+        <tag>Deep Learning</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Fast-R-CNN</title>
+    <url>/2021/08/15/Fast-R-CNN/</url>
+    <content><![CDATA[<h2 id="Fast-R-CNN学习笔记"><a href="#Fast-R-CNN学习笔记" class="headerlink" title="Fast R-CNN学习笔记"></a>Fast R-CNN学习笔记</h2><p><strong>目标检测主要需要解决两个问题：1、必须处理大量候选框；2、必须对候选框进行细化以实现精确定位。</strong></p>
+<h4 id="一、R-CNN和SPPnet的问题"><a href="#一、R-CNN和SPPnet的问题" class="headerlink" title="一、R-CNN和SPPnet的问题"></a>一、R-CNN和SPPnet的问题</h4><p>1、R-CNN有如下明显的缺陷：</p>
+<ul>
+<li>训练一个多阶段的pipeline</li>
+<li>训练在空间和时间上都是昂贵的。</li>
+<li>物体检测很慢 </li>
+</ul>
+<p>2、SPPnet有如下缺陷：</p>
+<ul>
+<li>训练一个多阶段的pipeline<ul>
+<li>特征提取</li>
+<li>使用log loss微调一个网络</li>
+<li>训练SVMs</li>
+<li>拟合回归边界框</li>
+</ul>
+</li>
+<li>论文中提出的fine-tune很难更新spatial pyramid pooling层之前的卷据层，对于更深的网络不适用</li>
+</ul>
+<h4 id="二、Fast-RCNN的架构和训练"><a href="#二、Fast-RCNN的架构和训练" class="headerlink" title="二、Fast RCNN的架构和训练"></a>二、Fast RCNN的架构和训练</h4><ol>
+<li>输入为一整个图像和一组候选框</li>
+<li>网络首先使用卷积和最大池化层处理整个图像，生成一组特征图</li>
+<li>将每个候选框(region of interest)映射到特征图中，使用特征图中的RoI做RoI pooling，生成一个固定尺寸的特征向量(每个RoI对应一个特征向量)</li>
+<li>每个特征向量后面接一系列的全连接层</li>
+<li>全连接层后分两个子分支输出层：一个分支用softmax概率估计K+1个目标的类别，K个目标加一个背景类；另一个分支对于K个目标中的每个输出4个实数，每组 4 个值编码 K 个类别之一的精细边界框位置 。</li>
+</ol>
+<p><img src="/2021/08/15/Fast-R-CNN/FastRCNN-1.png" alt="Fast-R-CNN"></p>
+<h4 id="2-1-The-RoI-pooling-layer"><a href="#2-1-The-RoI-pooling-layer" class="headerlink" title="2.1 The RoI pooling layer"></a>2.1 The RoI pooling layer</h4><p>RoI 池化层使用最大池化将任何有效感兴趣区域内的特征转换为具有固定空间范围 H × W（例如，7 × 7）的小特征图，其中 H 和 W 是层超参数，它们是 独立于任何特定的RoI。论文中指出每个感兴趣区域被定义为一个四元组(r,c,h,w)，指出长方形窗口的左上角坐标，宽和高。</p>
+<ul>
+<li>划分特征图中hxw的RoI窗口为HxW个子窗口网格，共有h/h x w/W个子窗口</li>
+<li>每个子窗口运用最大池化，相当于吧h x w尺寸的图像缩放为H x W</li>
+<li>每个RoI根据网络有多个channel，对每个channel分别进行网格的划分和最大池化</li>
+</ul>
+<h4 id="2-2-Initializing-from-pre-trained-networks"><a href="#2-2-Initializing-from-pre-trained-networks" class="headerlink" title="2.2  Initializing from pre-trained networks"></a>2.2  Initializing from pre-trained networks</h4><ul>
+<li>使用ImageNet预训练的网络初始化Fast R-CNN网络</li>
+<li>最后一层池化层用RoI池化层代替，并根据第一层全连接层的输入，设置H和W的值以便于池化操作</li>
+<li>网络的最后的全连接层和softmax用两个兄弟层代替，分别用于分类和回归</li>
+<li>网络的输入修改为两个：一个为图像的列表，一个为每个图像对应的RoIs列表 </li>
+</ul>
+<h4 id="2-3-Fine-tuning-for-detection"><a href="#2-3-Fine-tuning-for-detection" class="headerlink" title="2.3  Fine-tuning for detection"></a>2.3  Fine-tuning for detection</h4><p>用反向传播训练所有网络权重是 Fast R-CNN 的一个重要能力。 首先，让我们阐明为什么 SPPnet 无法更新空间金字塔池化层以下的权重。 </p>
+<p>根本原因是当每个训练样本（即 RoI）来自不同的图像时，通过 SPP 层的反向传播效率非常低，这正是 R-CNN 和 SPPnet 网络的训练方式。 </p>
+<p>作者在这里提出了更有效的训练方法，在Fast R-CNN训练时，采用分层mini-batch的随机梯度下降法。首先，选取N张图像，然后从N张图像中每张选取R/N个RoIs。<strong>来自同一图像的 RoI 在前向和后向传递中共享计算和内存。 使 N 小会减少小批量计算。</strong> 例如：N=2，R=128。选取两张图像每张图像选取64个RoIs的效率要比选取128张不同的图像在训练时更快。(作者实验得出同一张图像的RoI并不影响训练的收敛速度，反而效果更好)</p>
+<p>除了分层采样之外，Fast R-CNN 还使用了带有微调阶段的简化训练过程，该阶段<strong>联合优化</strong>了 softmax 分类器和边界框回归器，而不是在三个单独的阶段训练 softmax 分类器、SVM 和回归器。</p>
+<h5 id="Multi-task-loss"><a href="#Multi-task-loss" class="headerlink" title="Multi-task loss"></a>Multi-task loss</h5><p>Fast R-CNN有两个兄弟输出层。</p>
+<ul>
+<li>一个针对每个RoI输出K+1个类别离散的概率分布。p=(p<sub>0</sub>,…,p<sub>K</sub>)。像往常一样，p由全连接层的 K +1 个输出上的 softmax 计算得到。</li>
+<li>第二个兄弟层为K个目标类中的每个输出边界框回归偏移量</li>
+</ul>
+<script type="math/tex; mode=display">
+t^k=(t^k_x,t^k_y,t^k_w,t^k_h)，索引为k(其中 t_k 指定相对于对象提议的尺度不变平移和对数空间高度/宽度偏移。 )</script><p>每个训练 RoI 都标有真实类别 u 和真实边界框回归目标 v。在每个标记的 RoI 上使用多任务损失 L 来联合训练分类和边界框回归： </p>
+<script type="math/tex; mode=display">
+L(p,u,t^u,v)=L_{cls}(p,u)+\lambda[\mu\ge1]L_{loc}(t^u,v)\\
+L_{cls}(p,u)=-logp_u是真实类u的log损失；\\
+L_{loc}被定义为回归目标u类上真实边界框的一个元组，v=(v_x,v_y,v_w,v_h),t^u=(t^k_x,t^k_y,t^k_w,t^k_h)是对类u预测的元组\\
+[u\ge1]是Iverson\quad bracket\quad indicator\quad function,当u\ge 时，为1；否则为0\\</script><p>按照惯例，所有被预测的背景类标记为 u = 0。对于背景 RoI，没有真实边界框的概念，因此忽略 L<sub>loc</sub>。对于边界回归使用如下损失：</p>
+<script type="math/tex; mode=display">
+L_{loc}(t^u,v)=\sum_{i\in{x,y,w,h}}smooth_{L1}(t^u_i-v_i),其中\\
+smooth_{L1}(x)=\begin{cases}
+0.5\cdot x^2\quad \quad if |x|\lt1\\
+|x|-0.5\quad otherwise.
+\end{cases}</script><p>论文中指出smooth<sub>L1</sub>一个稳健的 L1 损失，对异常值的敏感度低于 R-CNN 和 SPPnet 中使用的 L2 损失。 当回归目标无界时，使用 L2 损失进行训练可能需要仔细调整学习率，以防止梯度爆炸。 smooth<sub>L1</sub>消除了这种敏感性。 </p>
+<p>方程中的超参数λ控制两个任务损失之间的平衡。由于作者将真实回归目标 v<sub>i</sub> 归一化为具有零均值和单位方差。 所有实验都使用 λ = 1。</p>
+<h5 id="Mini-batch-sampling"><a href="#Mini-batch-sampling" class="headerlink" title="Mini-batch sampling"></a>Mini-batch sampling</h5><p>在微调期间，每个 SGD mini-batch 由 N = 2 个图像构成，随机均匀选择（按照惯例，实际上迭代数据集的排列）。 我们使用大小为 R = 128 的小批量，从每个图像中采样 64 个 RoI。与论文Rich feature hierarchies for accurate object detection and semantic segmentation中一样，我们从与真实边界框重叠IoU&ge; 0.5 的对象提议中获取 25% 的 RoI。 这些 RoI 包括标有前景对象类的示例，即 u ≥ 1。其余的 RoI 是从目标建议与真实边界框IoU在区间[0.1,0.5)的最大值中采样，与SPPNet一致。 这些是背景示例，并用 u = 0 标记。 0.1 的较低阈值似乎充当了启发式的困难示例挖掘(ject detection with discriminatively trained part based models.)。 在训练期间，图像以 0.5 的概率水平翻转。 没有使用其他数据增强。 <strong>来自相同图像的RoI在向前和向后传播中共享计算和内存。</strong></p>
+<h5 id="Back-propagation-through-RoI-pooling-layers"><a href="#Back-propagation-through-RoI-pooling-layers" class="headerlink" title="Back-propagation through RoI pooling layers"></a>Back-propagation through RoI pooling layers</h5><p>为清楚起见，作者假设每个小批量（N = 1）只有一张图像，但对 N &gt; 1 的扩展很简单，因为前向传递独立处理所有图像。 设 x<sub>i</sub> ∈ R 是输入到 RoI 池化层的第 i 个激活输入(这里有点晕，网上查了很多解释，应该是整个feature map中的输入层节点)，让 y<sub>rj</sub> 是来自第 r 个 RoI 的第 j 个输出(也就是候选区域中的第j个输出层节点)。 RoI 池化层计算使用下面的式子获取RoI Pooling层的输出：</p>
+<script type="math/tex; mode=display">
+y_{rj}=x_{i*(r,j)},其中，i*(r,j)=argmax_{i'\in R(r,j)}x_{i'}</script><p>R(r, j) 是输出单元 y<sub>rj</sub> 最大池化所对应的输入子窗口中的索引集(指示那个候选区域的那个最大值点被选中作为输出)。 单个 x<sub>i</sub> 可以分配给几个不同的输出 y<sub>rj</sub>(就是多个候选区域有重叠的时候，x<sub>i</sub> 为重叠的像素点集) 。 </p>
+<p>首先看看，普通的max pooling层如何求导？</p>
+<script type="math/tex; mode=display">
+设x_i为输入层节点，y_i为输出层节点，那么损失函数L对输入层节点x_i的梯度为：\\
+\frac{\partial L}{\partial x_i}=\begin{cases}
+0,\quad \quad \delta(i,j)=false\\
+\frac{\partial L}{\partial y},\quad \delta(i,j)=true
+\end{cases}\\
+判决函数\delta(i,j)表示输入i节点是否被输出j节点选为最大值输出\\
+不选中有两种可能\delta(i,j)=false;x_i不在y_i范围内，或者x_i不是最大值\\
+选中\delta(i,j)=true;由链式规则可知损失函数L相对 x_i的梯度等于损失函数L相对 y_i的梯度\times y_i对x_i的梯度(y_i对x_i的梯度恒等于1)</script><p><img src="/2021/08/15/Fast-R-CNN/fast-rcnn.png" alt="Fast-R-CNN"></p>
+<p>对于RoI max pooling层，设 x<sub>i</sub>为输入层的节点， y<sub>rj</sub> 为第r个候选区域的第j个输出节点，一个输入节点可能和多个输出节点相关连，如下图所示，输入节点7和两个候选区域输出节点相关连；</p>
+<p><img src="/2021/08/15/Fast-R-CNN/ROI-Pooling1.png" alt="Fast-R-CNN"></p>
+<p>对于输出节点<strong>7</strong>的反向传播如下图所示：</p>
+<p><img src="/2021/08/15/Fast-R-CNN/ROI-Pooling2.png" alt="Fast-R-CNN"></p>
+<p>对于同一个feature map中不同的候选区域，节点7都存在梯度。所以反向传播中损失函数L对输入节点x<sub>i</sub>的梯度为损失函数L对各个<strong>有可能的</strong>候选区域r输出y<sub>rj</sub>[x<sub>i</sub>中候选区域r的第j个输出节点被选为最大值 ]梯度的累加。</p>
+<p>RoI 池化层的向后函数通过计算损失函数关于每个输入变量 xi 及通过下式argmax所选择的值偏导数： </p>
+<script type="math/tex; mode=display">
+\frac{\partial L}{\partial x_i}=\sum_{r}\sum_{j},[i=i*(r,j)]指示函数\frac{\partial L}{\partial y_{rj}},[i=i*(r,j)]上文提到的指示函数</script><p>判决函数  [i=i∗(r,j)] 表示  <strong>i</strong> 节点是否被候选区域 <strong>r</strong> 的第 <strong>j</strong> 个输出节点选为最大值输出，若是，则由链式规则可知损失函数L相对  xi 的梯度等于(损失函数 L 相对 yri 的梯度)&times;( yrj 对 xi 的梯度),其中， yrj 对 xi 的梯度恒等于1。</p>
+<p><a href="https://blog.csdn.net/Wonder233/article/details/53671018" target="_blank" rel="noopener">参考链接</a></p>
+<h5 id="SGD-hyper-parameters"><a href="#SGD-hyper-parameters" class="headerlink" title="SGD hyper-parameters"></a>SGD hyper-parameters</h5><ul>
+<li>除了修改增加的层，原有的层参数已经通过预训练方式初始化；</li>
+<li>用于分类的全连接层以均值为0、标准差为0.01的高斯分布初始化，用于回归的全连接层以均值为0、标准差为0.001的高斯分布初始化，偏置都初始化为0；</li>
+<li>针对PASCAL VOC 2007和2012训练集，前30k次迭代全局学习率为0.001，每层权重学习率为1倍，偏置学习率为2倍(这里就是说明权重和偏置设置的学习率分别为0.001和0.002，至于为什么，网上说是偏置的学习率设为2倍能够使网络收敛)，后10k次迭代全局学习率更新为0.0001；</li>
+<li>动量设置为0.9，权重衰减设置为0.0005。</li>
+</ul>
+<h5 id="Scale-invariance"><a href="#Scale-invariance" class="headerlink" title="Scale invariance"></a>Scale invariance</h5><p>作者探索了两种实现尺度不变目标检测的方法：</p>
+<ul>
+<li><p>通过brute-force(单一尺度)</p>
+<p>在单一尺度中，每个图像在训练和测试期间都以预定义的像素大小进行处理。 期望网络能够直接从训练数据中学习尺度不变性。 </p>
+</li>
+<li><p>通过image pyramids(多尺度)</p>
+<p>1、多尺度在<strong>训练阶段</strong>期间，随机从图像中采样金字塔尺寸的一些图像进行训练[缩放图片的scale得到，得到多尺度图片，相当于扩充数据集]，通过一个图像金字塔向网络提供一个近似的尺度不变。训练阶段每次采样一个图像就随机采样一个金字塔尺度。</p>
+<p>2、在<strong>测试阶段</strong>图像金字塔用来对每个object proposal近似尺度归一化</p>
+</li>
+</ul>
+<h5 id="Fast-R-CNN-detection"><a href="#Fast-R-CNN-detection" class="headerlink" title="Fast R-CNN detection"></a>Fast R-CNN detection</h5><p> 一旦Fast R-CNN网络被微调，检测相当于运行正向传播（假设对象建议框object proposal是预先计算的）。网络将图像（或图像金字塔，编码为图像列表）和待给得分的 R 对象建议框（object proposal）列表作为输入。</p>
+<p>在测试阶段，R 大约为 2K个，但作者会考虑它更大（≈ 45k）的情况。当使用图像金字塔的时候，每个RoI被指定尺度使得接近 224*224。对于每个测试 RoI r，前向传递输出一个类后验概率分布 p 和一组相对于 r 的预测边界框bbox偏移量（K 个类中的每一个都有自己的细化边界框预测）。</p>
+<script type="math/tex; mode=display">
+然后使用估计概率:Pr(class=k|r)\triangleq p_k给 r 赋予关于 k 个对象类的检测置信度</script><p>最后给每个类都实施一个非极大值抑制。</p>
+<h5 id="Truncated-SVD-for-faster-detection-截断SVD以加快检测速度"><a href="#Truncated-SVD-for-faster-detection-截断SVD以加快检测速度" class="headerlink" title="Truncated SVD for faster detection(截断SVD以加快检测速度)"></a>Truncated SVD for faster detection(截断SVD以加快检测速度)</h5><p>对于全图像分类，与卷积层相比，计算全连接层所花费的时间很小。 相反，为了检测，要处理的 RoI 数量很大，前向传递时间的近一半用于计算全连接层（见图 2）。 通过使用截断的 SVD 压缩它们，可以轻松地加速大型完全连接层。 </p>
+<p><img src="/2021/08/15/Fast-R-CNN/SVD.png" alt="Fast-R-CNN"></p>
+<p>上图来源于Fast R-CNN论文<a href="https://blog.csdn.net/Wonder233/article/details/53671018" target="_blank" rel="noopener">论文链接</a></p>
+<p>具体的实现方式：</p>
+<ol>
+<li><p>物体分类和bbox回归都是通过全连接层实现的，假设全连接层输入数据为X，输出数据为Y，全连接层权值矩阵为W，尺寸为 u × v ，那么该层全连接计算为:Y=W &times; X</p>
+</li>
+<li><p>若将W进行SVD分解（奇异值分解），并用前t个特征值近似代替，即:</p>
+<script type="math/tex; mode=display">
+W\approx U\Sigma_tV^T</script></li>
+</ol>
+<p>U是 u × t 的左奇异矩阵， Σ<sub>t</sub>是 t × t 的对角矩阵 ，V是 v × t 的右奇异矩阵。 截断SVD将参数量由原来的 u × v 减少到 t × (u + v) ，当 t 远小于 min(u,v) 的时候降低了很大的计算量。</p>
+<p>在实现时，相当于把一个全连接层拆分为两个全连接层，第一个全连接层使用权值矩阵&Sigma;<sub>t</sub>V<sup>T</sup>（不含偏置），第二个全连接层使用矩阵U（含偏置)；当RoI的数量大时，这种简单的压缩方法有很好的加速。 </p>
+<p><a href="https://blog.csdn.net/Wonder233/article/details/53671018" target="_blank" rel="noopener">部分内容：参考博客</a></p>
+<h5 id="Which-layers-to-fine-tune-那些层需要被微调"><a href="#Which-layers-to-fine-tune-那些层需要被微调" class="headerlink" title="Which layers to fine-tune?(那些层需要被微调)"></a>Which layers to fine-tune?(那些层需要被微调)</h5><p>作者实验得出，仅仅向SPPNet一样，微调全连接层的话，mAP的减少了很多。证明通过 RoI 池化层进行训练对于非常深的网络很重要。 </p>
+<p><strong>那么所有的卷积层都应被为微调吗？</strong></p>
+<p>实验得出：</p>
+<ul>
+<li>在较小的网络（S 和 M）中，作者发现 conv1 是通用的且与任务无关（ ImageNet clas-<br>sification with deep convolutional neural networks.）。 允许 conv1 学习与否对 mAP 没有有意义的影响。 </li>
+<li>与从 conv3 1 学习相比，从 conv2 1 更新使训练速度降低了 1.3 倍（12.5 对 9.5 小时）；     </li>
+<li>从 conv1 1 更新超过 GPU 内存。 从 conv2 1 开始学习时，mAP 的差异仅为 +0.3 分（表 5，最后一列）。 </li>
+</ul>
+<p>所以论文推荐所有 Fast R-CNN 结果均使用 VGG16 微调层 conv3 1 及以上。</p>
+<h5 id="Scale-invariance-to-brute-force-or-finesse"><a href="#Scale-invariance-to-brute-force-or-finesse" class="headerlink" title="Scale invariance: to brute force or finesse?"></a>Scale invariance: to brute force or finesse?</h5><p>实验发现：深度卷积网络擅长直接学习尺度不变性。 多尺度方法仅提供少量的 mAP 增加，但计算时间成本很高 。</p>
+<h5 id="Are-more-proposals-always-better"><a href="#Are-more-proposals-always-better" class="headerlink" title="Are more proposals always better?"></a>Are more proposals always better?</h5><p>广义上，有两种类型的对象检测器</p>
+<ul>
+<li>那些使用稀疏对象提议集（例如，选择性搜索）<ul>
+<li>是cascade的一种类型：其中提议机制首先拒绝大量候选，让分类器留下一个小的集合进行评估</li>
+</ul>
+</li>
+<li>使用密集集和（例如，DPM）的对象检测器</li>
+</ul>
+<p><a href="https://www.jianshu.com/p/fbbb21e1e390" target="_blank" rel="noopener">部分参考链接</a></p>
+]]></content>
+      <categories>
+        <category>Deep Learning</category>
+      </categories>
+      <tags>
+        <tag>Deep Learning</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Connected-Component-Analysis-Labeling</title>
+    <url>/2021/08/15/Connected-Component-Analysis-Labeling/</url>
+    <content><![CDATA[<h2 id="图像处理学习笔记"><a href="#图像处理学习笔记" class="headerlink" title="图像处理学习笔记"></a>图像处理学习笔记</h2><h4 id="一、连通域提取"><a href="#一、连通域提取" class="headerlink" title="一、连通域提取"></a>一、连通域提取</h4><p><img src="/2021/08/15/Connected-Component-Analysis-Labeling/connect.png" alt="Connect-Extract"></p>
+<p>如上图所示，需要将连通域提取出来。用不同的数字标记。</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;vector&gt;</span></span></span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span></pre></td></tr><tr><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">define</span> XDIM 10</span></span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">define</span> YDIM 10</span></span></pre></td></tr><tr><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="code"><pre><span class="line">#深度优先搜索</span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">dfs</span><span class="params">(<span class="keyword">int</span> arr[XDIM][YDIM], <span class="built_in">std</span>::<span class="built_in">vector</span>&lt;<span class="built_in">std</span>::<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; &gt; &amp;visited, <span class="keyword">int</span> row, <span class="keyword">int</span> col, <span class="keyword">int</span> label)</span></span>&#123;</span></pre></td></tr><tr><td class="code"><pre><span class="line">    visited[row][col] = label;</span></pre></td></tr><tr><td class="code"><pre><span class="line">    <span class="keyword">int</span> xLeft = col<span class="number">-1</span>;</span></pre></td></tr><tr><td class="code"><pre><span class="line">    <span class="keyword">int</span> xRight = col+<span class="number">1</span>;</span></pre></td></tr><tr><td class="code"><pre><span class="line">    <span class="keyword">int</span> yTop = row<span class="number">-1</span>;</span></pre></td></tr><tr><td class="code"><pre><span class="line">    <span class="keyword">int</span> yBottom = row+<span class="number">1</span>;</span></pre></td></tr><tr><td class="code"><pre><span class="line">    <span class="keyword">if</span>(xLeft&gt;<span class="number">0</span> &amp;&amp; arr[row][xLeft]==<span class="number">1</span>  &amp;&amp; visited[row][xLeft]==<span class="number">0</span>)&#123;</span></pre></td></tr><tr><td class="code"><pre><span class="line">        dfs(arr, visited, row, xLeft, label);</span></pre></td></tr><tr><td class="code"><pre><span class="line">    &#125;</span></pre></td></tr><tr><td class="code"><pre><span class="line">    <span class="keyword">if</span>(xRight&lt;XDIM &amp;&amp; arr[row][xRight]==<span class="number">1</span> &amp;&amp; visited[row][xRight]==<span class="number">0</span>)&#123;</span></pre></td></tr><tr><td class="code"><pre><span class="line">        dfs(arr, visited, row, xRight, label);</span></pre></td></tr><tr><td class="code"><pre><span class="line">    &#125;</span></pre></td></tr><tr><td class="code"><pre><span class="line">    <span class="keyword">if</span>(yTop&gt;<span class="number">0</span> &amp;&amp; arr[yTop][col]==<span class="number">1</span> &amp;&amp; visited[yTop][col]==<span class="number">0</span>)&#123;</span></pre></td></tr><tr><td class="code"><pre><span class="line">        dfs(arr, visited, yTop, col, label);</span></pre></td></tr><tr><td class="code"><pre><span class="line">    &#125;</span></pre></td></tr><tr><td class="code"><pre><span class="line">    <span class="keyword">if</span>(yBottom&lt;YDIM &amp;&amp; arr[yBottom][col]==<span class="number">1</span> &amp;&amp; visited[yBottom][col]==<span class="number">0</span>)&#123;</span></pre></td></tr><tr><td class="code"><pre><span class="line">        dfs(arr, visited, yBottom, col, label);</span></pre></td></tr><tr><td class="code"><pre><span class="line">    &#125;</span></pre></td></tr><tr><td class="code"><pre><span class="line">    <span class="keyword">return</span>;</span></pre></td></tr><tr><td class="code"><pre><span class="line">&#125;</span></pre></td></tr><tr><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">print</span><span class="params">(<span class="built_in">std</span>::<span class="built_in">vector</span>&lt;<span class="built_in">std</span>::<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; &gt; &amp;outVec)</span></span>&#123;</span></pre></td></tr><tr><td class="code"><pre><span class="line">  </span></pre></td></tr><tr><td class="code"><pre><span class="line">  <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>; i&lt;outVec.<span class="built_in">size</span>(); ++ i)&#123;</span></pre></td></tr><tr><td class="code"><pre><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">0</span>; j&lt;outVec[<span class="number">0</span>].<span class="built_in">size</span>(); ++j)&#123;</span></pre></td></tr><tr><td class="code"><pre><span class="line">      <span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; outVec[i][j] &lt;&lt; <span class="string">" "</span>;</span></pre></td></tr><tr><td class="code"><pre><span class="line">    &#125;</span></pre></td></tr><tr><td class="code"><pre><span class="line">    <span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; <span class="string">"\n"</span>;</span></pre></td></tr><tr><td class="code"><pre><span class="line">  &#125;</span></pre></td></tr><tr><td class="code"><pre><span class="line">&#125;</span></pre></td></tr><tr><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">char</span>** argv)</span></span>&#123;</span></pre></td></tr><tr><td class="code"><pre><span class="line">    <span class="keyword">int</span> type=<span class="number">1</span>; <span class="comment">//type=1表示4领域，type=2表示8领域</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">    <span class="keyword">int</span> <span class="built_in">array</span>[XDIM][YDIM]=&#123;<span class="number">0</span>,<span class="number">0</span>,<span class="number">1</span>,<span class="number">1</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>,</span></pre></td></tr><tr><td class="code"><pre><span class="line">                           <span class="number">0</span>,<span class="number">1</span>,<span class="number">1</span>,<span class="number">1</span>,<span class="number">0</span>,<span class="number">1</span>,<span class="number">1</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>,</span></pre></td></tr><tr><td class="code"><pre><span class="line">                       	   <span class="number">0</span>,<span class="number">0</span>,<span class="number">1</span>,<span class="number">1</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">1</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>,</span></pre></td></tr><tr><td class="code"><pre><span class="line">                       	   <span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">1</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">1</span>,<span class="number">0</span>,</span></pre></td></tr><tr><td class="code"><pre><span class="line">                           <span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">1</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">1</span>,<span class="number">0</span>,</span></pre></td></tr><tr><td class="code"><pre><span class="line">                           <span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">1</span>,<span class="number">1</span>,<span class="number">1</span>,</span></pre></td></tr><tr><td class="code"><pre><span class="line">                           <span class="number">1</span>,<span class="number">1</span>,<span class="number">1</span>,<span class="number">0</span>,<span class="number">1</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">1</span>,</span></pre></td></tr><tr><td class="code"><pre><span class="line">                           <span class="number">1</span>,<span class="number">1</span>,<span class="number">1</span>,<span class="number">0</span>,<span class="number">1</span>,<span class="number">1</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>,</span></pre></td></tr><tr><td class="code"><pre><span class="line">                           <span class="number">1</span>,<span class="number">1</span>,<span class="number">0</span>,<span class="number">1</span>,<span class="number">1</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">1</span>,<span class="number">0</span>,<span class="number">0</span>,</span></pre></td></tr><tr><td class="code"><pre><span class="line">                           <span class="number">1</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">1</span>,<span class="number">1</span>,<span class="number">0</span>,<span class="number">1</span>,<span class="number">1</span>,<span class="number">0</span>&#125;;</span></pre></td></tr><tr><td class="code"><pre><span class="line">    <span class="keyword">int</span> rows = XDIM;</span></pre></td></tr><tr><td class="code"><pre><span class="line">    <span class="keyword">int</span> cols = YDIM;</span></pre></td></tr><tr><td class="code"><pre><span class="line">    <span class="comment">//std::vector&lt;int*&gt; input;</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">    <span class="comment">//for(int i=0; i&lt;rows; ++i)&#123;</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">    <span class="comment">//    input.push_back(array[i]);</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">    <span class="comment">//&#125;</span></span></pre></td></tr><tr><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="code"><pre><span class="line">    <span class="comment">//打标记的输出</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">    <span class="function"><span class="built_in">std</span>::<span class="built_in">vector</span>&lt;<span class="built_in">std</span>::<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; &gt; <span class="title">out</span><span class="params">(rows,<span class="built_in">std</span>::<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;(cols,<span class="number">0</span>))</span></span>;</span></pre></td></tr><tr><td class="code"><pre><span class="line">    <span class="keyword">int</span> label=<span class="number">1</span>;</span></pre></td></tr><tr><td class="code"><pre><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> r=<span class="number">0</span>; r&lt;rows; ++r)&#123;</span></pre></td></tr><tr><td class="code"><pre><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> c=<span class="number">0</span>; c&lt;cols; ++c)&#123;</span></pre></td></tr><tr><td class="code"><pre><span class="line">            <span class="keyword">if</span>(<span class="built_in">array</span>[r][c]!=<span class="number">0</span> &amp;&amp; out[r][c]==<span class="number">0</span>)&#123;</span></pre></td></tr><tr><td class="code"><pre><span class="line">                dfs(<span class="built_in">array</span>, out, r, c, label);</span></pre></td></tr><tr><td class="code"><pre><span class="line">                label++;</span></pre></td></tr><tr><td class="code"><pre><span class="line">            &#125;<span class="keyword">else</span>&#123;</span></pre></td></tr><tr><td class="code"><pre><span class="line">                <span class="keyword">continue</span>;</span></pre></td></tr><tr><td class="code"><pre><span class="line">            &#125;</span></pre></td></tr><tr><td class="code"><pre><span class="line">        &#125;</span></pre></td></tr><tr><td class="code"><pre><span class="line">    &#125;</span></pre></td></tr><tr><td class="code"><pre><span class="line">    </span></pre></td></tr><tr><td class="code"><pre><span class="line">    <span class="built_in">print</span>(out);</span></pre></td></tr><tr><td class="code"><pre><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span></pre></td></tr><tr><td class="code"><pre><span class="line">&#125;</span></pre></td></tr><tr><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="comment">//编译</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">g++ ./test.cpp -o test</span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="comment">//执行</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">./test</span></pre></td></tr></table></figure>
+<p>结果如下：</p>
+<p><img src="/2021/08/15/Connected-Component-Analysis-Labeling/connect-component.png" alt="Connect-Component"></p>
+<h4 id="二、连通性分析法"><a href="#二、连通性分析法" class="headerlink" title="二、连通性分析法"></a>二、连通性分析法</h4><p>一个连通区域是由具有相同像素值的相邻像素组成像素集合，指将图像中的各个连通区域找出并标记。连通区域分析是一种在CVPR和图像分析处理的众多应用领域中较为常用和基本的方法。例如：OCR识别中字符分割提取（车牌识别、文本识别、字幕识别等）、视觉跟踪中的运动前景目标分割与提取（行人入侵检测、遗留物体检测、基于视觉的车辆检测与跟踪等）、医学图像处理（感兴趣目标区域提取）等等。也就是说，在需要将前景目标提取出来以便后续进行处理的应用场景中都能够用到连通区域分析方法，通常连通区域分析处理的对象是一张二值化后的图像。<a href="https://blog.csdn.net/icvpr/article/details/10259577" target="_blank" rel="noopener">参考文档</a></p>
+<h5 id="1、Two-pass-相当于广度搜索"><a href="#1、Two-pass-相当于广度搜索" class="headerlink" title="1、Two-pass(相当于广度搜索)"></a>1、Two-pass(相当于广度搜索)</h5><p>两遍扫描法，指的就是通过扫描两遍图像，就可以将图像中存在的所有连通区域找出并标记。第一遍扫描时赋予每个像素位置一个label，扫描过程中同一个连通区域内的像素集合中可能会被赋予一个或多个不同label，因此需要将这些属于同一个连通区域但具有不同值的label合并，也就是记录它们之间的相等关系；第二遍扫描就是将具有相等关系的equal_labels所标记的像素归为一个连通区域并赋予一个相同的label（通常这个label是equal_labels中的最小值）。</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;string&gt;</span></span></span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;list&gt;</span></span></span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;vector&gt;</span></span></span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;map&gt;</span></span></span></pre></td></tr><tr><td class="code"><pre><span class="line"> </span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;opencv2/imgproc/imgproc.hpp&gt;</span></span></span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;opencv2/highgui/highgui.hpp&gt;</span></span></span></pre></td></tr><tr><td class="code"><pre><span class="line"> </span></pre></td></tr><tr><td class="code"><pre><span class="line"> </span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">icvprCcaByTwoPass</span><span class="params">(<span class="keyword">const</span> cv::Mat&amp; _binImg, cv::Mat&amp; _lableImg)</span></span></span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="function"></span>&#123;</span></pre></td></tr><tr><td class="code"><pre><span class="line">	<span class="comment">// connected component analysis (4-component)</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">	<span class="comment">// use two-pass algorithm</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">	<span class="comment">// 1. first pass: label each foreground pixel with a label</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">	<span class="comment">// 2. second pass: visit each labeled pixel and merge neighbor labels</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">	<span class="comment">// </span></span></pre></td></tr><tr><td class="code"><pre><span class="line">	<span class="comment">// foreground pixel: _binImg(x,y) = 1</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">	<span class="comment">// background pixel: _binImg(x,y) = 0</span></span></pre></td></tr><tr><td class="code"><pre><span class="line"> </span></pre></td></tr><tr><td class="code"><pre><span class="line">	<span class="keyword">if</span> (_binImg.empty() || _binImg.type() != CV_8UC1)&#123;</span></pre></td></tr><tr><td class="code"><pre><span class="line">		<span class="keyword">return</span> ;</span></pre></td></tr><tr><td class="code"><pre><span class="line">	&#125;</span></pre></td></tr><tr><td class="code"><pre><span class="line"> </span></pre></td></tr><tr><td class="code"><pre><span class="line">	<span class="comment">// 1. first pass</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">	_lableImg.<span class="built_in">release</span>() ;</span></pre></td></tr><tr><td class="code"><pre><span class="line">	_binImg.convertTo(_lableImg, CV_32SC1) ;</span></pre></td></tr><tr><td class="code"><pre><span class="line"> </span></pre></td></tr><tr><td class="code"><pre><span class="line">	<span class="keyword">int</span> label = <span class="number">1</span> ;  <span class="comment">// start by 2</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">	<span class="built_in">std</span>::<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; labelSet ;</span></pre></td></tr><tr><td class="code"><pre><span class="line">	labelSet.push_back(<span class="number">0</span>) ;   <span class="comment">// background: 0</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">	labelSet.push_back(<span class="number">1</span>) ;   <span class="comment">// foreground: 1</span></span></pre></td></tr><tr><td class="code"><pre><span class="line"> </span></pre></td></tr><tr><td class="code"><pre><span class="line">	<span class="keyword">int</span> rows = _binImg.rows - <span class="number">1</span> ;</span></pre></td></tr><tr><td class="code"><pre><span class="line">	<span class="keyword">int</span> cols = _binImg.cols - <span class="number">1</span> ;</span></pre></td></tr><tr><td class="code"><pre><span class="line">	<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt; rows; i++)</span></pre></td></tr><tr><td class="code"><pre><span class="line">	&#123;</span></pre></td></tr><tr><td class="code"><pre><span class="line">		<span class="keyword">int</span>* data_preRow = _lableImg.ptr&lt;<span class="keyword">int</span>&gt;(i<span class="number">-1</span>) ;</span></pre></td></tr><tr><td class="code"><pre><span class="line">		<span class="keyword">int</span>* data_curRow = _lableImg.ptr&lt;<span class="keyword">int</span>&gt;(i) ;</span></pre></td></tr><tr><td class="code"><pre><span class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">1</span>; j &lt; cols; j++)</span></pre></td></tr><tr><td class="code"><pre><span class="line">		&#123;</span></pre></td></tr><tr><td class="code"><pre><span class="line">			<span class="keyword">if</span> (data_curRow[j] == <span class="number">1</span>)</span></pre></td></tr><tr><td class="code"><pre><span class="line">			&#123;</span></pre></td></tr><tr><td class="code"><pre><span class="line">				<span class="built_in">std</span>::<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; neighborLabels ;</span></pre></td></tr><tr><td class="code"><pre><span class="line">				neighborLabels.reserve(<span class="number">2</span>) ;</span></pre></td></tr><tr><td class="code"><pre><span class="line">				<span class="keyword">int</span> leftPixel = data_curRow[j<span class="number">-1</span>] ;</span></pre></td></tr><tr><td class="code"><pre><span class="line">				<span class="keyword">int</span> upPixel = data_preRow[j] ;</span></pre></td></tr><tr><td class="code"><pre><span class="line">				<span class="keyword">if</span> ( leftPixel &gt; <span class="number">1</span>)</span></pre></td></tr><tr><td class="code"><pre><span class="line">				&#123;</span></pre></td></tr><tr><td class="code"><pre><span class="line">					neighborLabels.push_back(leftPixel) ;</span></pre></td></tr><tr><td class="code"><pre><span class="line">				&#125;</span></pre></td></tr><tr><td class="code"><pre><span class="line">				<span class="keyword">if</span> (upPixel &gt; <span class="number">1</span>)</span></pre></td></tr><tr><td class="code"><pre><span class="line">				&#123;</span></pre></td></tr><tr><td class="code"><pre><span class="line">					neighborLabels.push_back(upPixel) ;</span></pre></td></tr><tr><td class="code"><pre><span class="line">				&#125;</span></pre></td></tr><tr><td class="code"><pre><span class="line"> </span></pre></td></tr><tr><td class="code"><pre><span class="line">				<span class="keyword">if</span> (neighborLabels.empty())</span></pre></td></tr><tr><td class="code"><pre><span class="line">				&#123;</span></pre></td></tr><tr><td class="code"><pre><span class="line">					labelSet.push_back(++label) ;  <span class="comment">// assign to a new label</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">					data_curRow[j] = label ;</span></pre></td></tr><tr><td class="code"><pre><span class="line">					labelSet[label] = label ;</span></pre></td></tr><tr><td class="code"><pre><span class="line">				&#125;</span></pre></td></tr><tr><td class="code"><pre><span class="line">				<span class="keyword">else</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">				&#123;</span></pre></td></tr><tr><td class="code"><pre><span class="line">					<span class="built_in">std</span>::sort(neighborLabels.<span class="built_in">begin</span>(), neighborLabels.<span class="built_in">end</span>()) ;</span></pre></td></tr><tr><td class="code"><pre><span class="line">					<span class="keyword">int</span> smallestLabel = neighborLabels[<span class="number">0</span>] ;  </span></pre></td></tr><tr><td class="code"><pre><span class="line">					data_curRow[j] = smallestLabel ;</span></pre></td></tr><tr><td class="code"><pre><span class="line"> </span></pre></td></tr><tr><td class="code"><pre><span class="line">					<span class="comment">// save equivalence</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">					<span class="keyword">for</span> (<span class="keyword">size_t</span> k = <span class="number">1</span>; k &lt; neighborLabels.<span class="built_in">size</span>(); k++)</span></pre></td></tr><tr><td class="code"><pre><span class="line">					&#123;</span></pre></td></tr><tr><td class="code"><pre><span class="line">						<span class="keyword">int</span> tempLabel = neighborLabels[k] ;</span></pre></td></tr><tr><td class="code"><pre><span class="line">						<span class="keyword">int</span>&amp; oldSmallestLabel = labelSet[tempLabel] ;</span></pre></td></tr><tr><td class="code"><pre><span class="line">						<span class="keyword">if</span> (oldSmallestLabel &gt; smallestLabel)</span></pre></td></tr><tr><td class="code"><pre><span class="line">						&#123;							</span></pre></td></tr><tr><td class="code"><pre><span class="line">							labelSet[oldSmallestLabel] = smallestLabel ;</span></pre></td></tr><tr><td class="code"><pre><span class="line">							oldSmallestLabel = smallestLabel ;</span></pre></td></tr><tr><td class="code"><pre><span class="line">						&#125;						</span></pre></td></tr><tr><td class="code"><pre><span class="line">						<span class="keyword">else</span> <span class="keyword">if</span> (oldSmallestLabel &lt; smallestLabel)</span></pre></td></tr><tr><td class="code"><pre><span class="line">						&#123;</span></pre></td></tr><tr><td class="code"><pre><span class="line">							labelSet[smallestLabel] = oldSmallestLabel ;</span></pre></td></tr><tr><td class="code"><pre><span class="line">						&#125;</span></pre></td></tr><tr><td class="code"><pre><span class="line">					&#125;</span></pre></td></tr><tr><td class="code"><pre><span class="line">				&#125;				</span></pre></td></tr><tr><td class="code"><pre><span class="line">			&#125;</span></pre></td></tr><tr><td class="code"><pre><span class="line">		&#125;</span></pre></td></tr><tr><td class="code"><pre><span class="line">	&#125;</span></pre></td></tr><tr><td class="code"><pre><span class="line"> </span></pre></td></tr><tr><td class="code"><pre><span class="line">	<span class="comment">// update equivalent labels</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">	<span class="comment">// assigned with the smallest label in each equivalent label set</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">	<span class="keyword">for</span> (<span class="keyword">size_t</span> i = <span class="number">2</span>; i &lt; labelSet.<span class="built_in">size</span>(); i++)</span></pre></td></tr><tr><td class="code"><pre><span class="line">	&#123;</span></pre></td></tr><tr><td class="code"><pre><span class="line">		<span class="keyword">int</span> curLabel = labelSet[i] ;</span></pre></td></tr><tr><td class="code"><pre><span class="line">		<span class="keyword">int</span> preLabel = labelSet[curLabel] ;</span></pre></td></tr><tr><td class="code"><pre><span class="line">		<span class="keyword">while</span> (preLabel != curLabel)</span></pre></td></tr><tr><td class="code"><pre><span class="line">		&#123;</span></pre></td></tr><tr><td class="code"><pre><span class="line">			curLabel = preLabel ;</span></pre></td></tr><tr><td class="code"><pre><span class="line">			preLabel = labelSet[preLabel] ;</span></pre></td></tr><tr><td class="code"><pre><span class="line">		&#125;</span></pre></td></tr><tr><td class="code"><pre><span class="line">		labelSet[i] = curLabel ;</span></pre></td></tr><tr><td class="code"><pre><span class="line">	&#125;</span></pre></td></tr><tr><td class="code"><pre><span class="line"> </span></pre></td></tr><tr><td class="code"><pre><span class="line"> </span></pre></td></tr><tr><td class="code"><pre><span class="line">	<span class="comment">// 2. second pass</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">	<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; rows; i++)</span></pre></td></tr><tr><td class="code"><pre><span class="line">	&#123;</span></pre></td></tr><tr><td class="code"><pre><span class="line">		<span class="keyword">int</span>* data = _lableImg.ptr&lt;<span class="keyword">int</span>&gt;(i) ;</span></pre></td></tr><tr><td class="code"><pre><span class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; cols; j++)</span></pre></td></tr><tr><td class="code"><pre><span class="line">		&#123;</span></pre></td></tr><tr><td class="code"><pre><span class="line">			<span class="keyword">int</span>&amp; pixelLabel = data[j] ;</span></pre></td></tr><tr><td class="code"><pre><span class="line">			pixelLabel = labelSet[pixelLabel] ;	</span></pre></td></tr><tr><td class="code"><pre><span class="line">		&#125;</span></pre></td></tr><tr><td class="code"><pre><span class="line">	&#125;</span></pre></td></tr><tr><td class="code"><pre><span class="line">&#125;</span></pre></td></tr></table></figure>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> max_size = <span class="number">1000</span>;</span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="keyword">int</span> parent[max_size] = &#123; <span class="number">0</span> &#125;;</span></pre></td></tr><tr><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="comment">// 找到label x的根节点</span></span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">Find</span><span class="params">(<span class="keyword">int</span> x, <span class="keyword">int</span> parent[])</span></span></span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="function"></span>&#123;</span></pre></td></tr><tr><td class="code"><pre><span class="line">    assert(x &lt; max_size);</span></pre></td></tr><tr><td class="code"><pre><span class="line">    <span class="keyword">int</span> i = x;</span></pre></td></tr><tr><td class="code"><pre><span class="line">    <span class="keyword">while</span> (<span class="number">0</span> != parent[i])</span></pre></td></tr><tr><td class="code"><pre><span class="line">        i = parent[i];</span></pre></td></tr><tr><td class="code"><pre><span class="line">    <span class="keyword">return</span> i;</span></pre></td></tr><tr><td class="code"><pre><span class="line">&#125;</span></pre></td></tr><tr><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="comment">// 将label x 和 label y合并到同一个连通域</span></span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Union</span><span class="params">(<span class="keyword">int</span> x, <span class="keyword">int</span> y, <span class="keyword">int</span> parent[])</span></span></span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="function"></span>&#123;</span></pre></td></tr><tr><td class="code"><pre><span class="line">    assert(x &lt; max_size &amp;&amp; y &lt; max_size);</span></pre></td></tr><tr><td class="code"><pre><span class="line">    <span class="keyword">int</span> i = x;</span></pre></td></tr><tr><td class="code"><pre><span class="line">    <span class="keyword">int</span> j = y;</span></pre></td></tr><tr><td class="code"><pre><span class="line">    <span class="keyword">while</span> (<span class="number">0</span> != parent[i])</span></pre></td></tr><tr><td class="code"><pre><span class="line">        i = parent[i];</span></pre></td></tr><tr><td class="code"><pre><span class="line">    <span class="keyword">while</span> (<span class="number">0</span> != parent[j])</span></pre></td></tr><tr><td class="code"><pre><span class="line">        j = parent[j];</span></pre></td></tr><tr><td class="code"><pre><span class="line">    <span class="keyword">if</span> (i != j)</span></pre></td></tr><tr><td class="code"><pre><span class="line">        parent[i] = j;</span></pre></td></tr><tr><td class="code"><pre><span class="line">&#125;</span></pre></td></tr><tr><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="function">cv::Mat <span class="title">twoPassConnectComponent</span><span class="params">(cv::Mat &amp;binaryImg)</span></span></span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="function"></span>&#123;</span></pre></td></tr><tr><td class="code"><pre><span class="line">    <span class="keyword">int</span> imgW = binaryImg.cols;</span></pre></td></tr><tr><td class="code"><pre><span class="line">    <span class="keyword">int</span> imgH = binaryImg.rows;</span></pre></td></tr><tr><td class="code"><pre><span class="line">    <span class="keyword">int</span> channel = binaryImg.channels();</span></pre></td></tr><tr><td class="code"><pre><span class="line">    <span class="keyword">int</span> type = binaryImg.type();</span></pre></td></tr><tr><td class="code"><pre><span class="line">    <span class="comment">// first pass</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">    <span class="keyword">int</span> label = <span class="number">0</span>;</span></pre></td></tr><tr><td class="code"><pre><span class="line">  </span></pre></td></tr><tr><td class="code"><pre><span class="line">    cv::Mat dst = cv::Mat::zeros(cv::Size(imgW, imgH), CV_32SC1);</span></pre></td></tr><tr><td class="code"><pre><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> y = <span class="number">0</span>; y &lt; imgH; y++)</span></pre></td></tr><tr><td class="code"><pre><span class="line">    &#123;</span></pre></td></tr><tr><td class="code"><pre><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> x = <span class="number">0</span>; x &lt; imgW; x++)</span></pre></td></tr><tr><td class="code"><pre><span class="line">        &#123;</span></pre></td></tr><tr><td class="code"><pre><span class="line">            <span class="keyword">if</span> (binaryImg.at&lt;uchar&gt;(y, x) != <span class="number">0</span>)</span></pre></td></tr><tr><td class="code"><pre><span class="line">            &#123;</span></pre></td></tr><tr><td class="code"><pre><span class="line">                <span class="keyword">int</span> left = (x - <span class="number">1</span> &lt; <span class="number">0</span>) ? <span class="number">0</span> : dst.at&lt;<span class="keyword">int</span>&gt;(y, x - <span class="number">1</span>);</span></pre></td></tr><tr><td class="code"><pre><span class="line">                <span class="keyword">int</span> up = (y - <span class="number">1</span> &lt; <span class="number">0</span>) ? <span class="number">0</span> : dst.at&lt;<span class="keyword">int</span>&gt;(y - <span class="number">1</span>, x);</span></pre></td></tr><tr><td class="code"><pre><span class="line">                 <span class="keyword">if</span> (left != <span class="number">0</span> || up != <span class="number">0</span>)</span></pre></td></tr><tr><td class="code"><pre><span class="line">                 &#123;</span></pre></td></tr><tr><td class="code"><pre><span class="line">                     <span class="keyword">if</span> (left != <span class="number">0</span> &amp;&amp; up != <span class="number">0</span>)</span></pre></td></tr><tr><td class="code"><pre><span class="line">                     &#123;</span></pre></td></tr><tr><td class="code"><pre><span class="line">                         dst.at&lt;<span class="keyword">int</span>&gt;(y, x) = <span class="built_in">min</span>(left, up);</span></pre></td></tr><tr><td class="code"><pre><span class="line">                         <span class="keyword">if</span> (left &lt;= up)</span></pre></td></tr><tr><td class="code"><pre><span class="line">                             Union(up, left, parent);</span></pre></td></tr><tr><td class="code"><pre><span class="line">                         <span class="keyword">else</span> <span class="keyword">if</span> (up&lt;left)</span></pre></td></tr><tr><td class="code"><pre><span class="line">                             Union(left, up, parent);</span></pre></td></tr><tr><td class="code"><pre><span class="line">                     &#125;</span></pre></td></tr><tr><td class="code"><pre><span class="line">                     <span class="keyword">else</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">                         dst.at&lt;<span class="keyword">int</span>&gt;(y, x) = <span class="built_in">max</span>(left, up);</span></pre></td></tr><tr><td class="code"><pre><span class="line">                 &#125;</span></pre></td></tr><tr><td class="code"><pre><span class="line">                 <span class="keyword">else</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">                 &#123;</span></pre></td></tr><tr><td class="code"><pre><span class="line">                     dst.at&lt;<span class="keyword">int</span>&gt;(y, x) = ++label;</span></pre></td></tr><tr><td class="code"><pre><span class="line">                 &#125;</span></pre></td></tr><tr><td class="code"><pre><span class="line">             &#125;</span></pre></td></tr><tr><td class="code"><pre><span class="line">         &#125;</span></pre></td></tr><tr><td class="code"><pre><span class="line">     &#125;</span></pre></td></tr><tr><td class="code"><pre><span class="line"> </span></pre></td></tr><tr><td class="code"><pre><span class="line">     <span class="comment">//second pass </span></span></pre></td></tr><tr><td class="code"><pre><span class="line">     <span class="keyword">for</span> (<span class="keyword">int</span> y = <span class="number">0</span>; y &lt; imgH; y++)</span></pre></td></tr><tr><td class="code"><pre><span class="line">     &#123;</span></pre></td></tr><tr><td class="code"><pre><span class="line">         <span class="keyword">for</span> (<span class="keyword">int</span> x = <span class="number">0</span>; x &lt; imgW; x++)</span></pre></td></tr><tr><td class="code"><pre><span class="line">         &#123;</span></pre></td></tr><tr><td class="code"><pre><span class="line">             <span class="keyword">if</span> (binaryImg.at&lt;uchar&gt;(y, x) != <span class="number">0</span>)</span></pre></td></tr><tr><td class="code"><pre><span class="line">                 dst.at&lt;<span class="keyword">int</span>&gt;(y, x) = Find(dst.at&lt;<span class="keyword">int</span>&gt;(y, x), parent);</span></pre></td></tr><tr><td class="code"><pre><span class="line">         &#125;</span></pre></td></tr><tr><td class="code"><pre><span class="line">     &#125;</span></pre></td></tr><tr><td class="code"><pre><span class="line"> </span></pre></td></tr><tr><td class="code"><pre><span class="line">     <span class="keyword">return</span> dst;</span></pre></td></tr><tr><td class="code"><pre><span class="line">&#125;</span></pre></td></tr></table></figure>
+<p><a href="https://blog.csdn.net/icvpr/article/details/10259577" target="_blank" rel="noopener">第一个代码一不容易看懂: 来源</a></p>
+<p><a href="https://www.cnblogs.com/riddick/p/8280883.html" target="_blank" rel="noopener">第二个代码教委清晰: 来源</a></p>
+<p><a href="http://www.cse.msu.edu/~stockman/Book/2002/Chapters/ch3.pdf" target="_blank" rel="noopener">可参考的书籍</a></p>
+<h5 id="2、Seed-Filling-相当于深度搜索"><a href="#2、Seed-Filling-相当于深度搜索" class="headerlink" title="2、Seed-Filling(相当于深度搜索)"></a>2、Seed-Filling(相当于深度搜索)</h5><p>种子填充方法来源于计算机图形学，常用于对某个图形进行填充。思路：选取一个前景像素点作为种子，然后根据连通区域的两个基本条件（像素值相同、位置相邻）将与种子相邻的前景像素合并到同一个像素集合中，最后得到的该像素集合则为一个连通区域。</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;string&gt;</span></span></span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;list&gt;</span></span></span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;vector&gt;</span></span></span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;map&gt;</span></span></span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stack&gt;</span></span></span></pre></td></tr><tr><td class="code"><pre><span class="line"> </span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;opencv2/imgproc/imgproc.hpp&gt;</span></span></span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;opencv2/highgui/highgui.hpp&gt;</span></span></span></pre></td></tr><tr><td class="code"><pre><span class="line"> </span></pre></td></tr><tr><td class="code"><pre><span class="line"> </span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">icvprCcaBySeedFill</span><span class="params">(<span class="keyword">const</span> cv::Mat&amp; _binImg, cv::Mat&amp; _lableImg)</span></span></span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="function"></span>&#123;</span></pre></td></tr><tr><td class="code"><pre><span class="line">	<span class="comment">// connected component analysis (4-component)</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">	<span class="comment">// use seed filling algorithm</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">	<span class="comment">// 1. begin with a foreground pixel and push its foreground neighbors into a stack;</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">	<span class="comment">// 2. pop the top pixel on the stack and label it with the same label until the stack is empty</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">	<span class="comment">// </span></span></pre></td></tr><tr><td class="code"><pre><span class="line">	<span class="comment">// foreground pixel: _binImg(x,y) = 1</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">	<span class="comment">// background pixel: _binImg(x,y) = 0</span></span></pre></td></tr><tr><td class="code"><pre><span class="line"> </span></pre></td></tr><tr><td class="code"><pre><span class="line"> </span></pre></td></tr><tr><td class="code"><pre><span class="line">	<span class="keyword">if</span> (_binImg.empty() || _binImg.type() != CV_8UC1)&#123;</span></pre></td></tr><tr><td class="code"><pre><span class="line">		<span class="keyword">return</span> ;</span></pre></td></tr><tr><td class="code"><pre><span class="line">	&#125;</span></pre></td></tr><tr><td class="code"><pre><span class="line"> </span></pre></td></tr><tr><td class="code"><pre><span class="line">	_lableImg.<span class="built_in">release</span>() ;</span></pre></td></tr><tr><td class="code"><pre><span class="line">	_binImg.convertTo(_lableImg, CV_32SC1) ;</span></pre></td></tr><tr><td class="code"><pre><span class="line"> </span></pre></td></tr><tr><td class="code"><pre><span class="line">	<span class="keyword">int</span> label = <span class="number">1</span> ;  <span class="comment">// start by 2</span></span></pre></td></tr><tr><td class="code"><pre><span class="line"> </span></pre></td></tr><tr><td class="code"><pre><span class="line">	<span class="keyword">int</span> rows = _binImg.rows - <span class="number">1</span> ;</span></pre></td></tr><tr><td class="code"><pre><span class="line">	<span class="keyword">int</span> cols = _binImg.cols - <span class="number">1</span> ;</span></pre></td></tr><tr><td class="code"><pre><span class="line">	<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt; rows<span class="number">-1</span>; i++)</span></pre></td></tr><tr><td class="code"><pre><span class="line">	&#123;</span></pre></td></tr><tr><td class="code"><pre><span class="line">		<span class="keyword">int</span>* data= _lableImg.ptr&lt;<span class="keyword">int</span>&gt;(i) ;</span></pre></td></tr><tr><td class="code"><pre><span class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">1</span>; j &lt; cols<span class="number">-1</span>; j++)</span></pre></td></tr><tr><td class="code"><pre><span class="line">		&#123;</span></pre></td></tr><tr><td class="code"><pre><span class="line">			<span class="keyword">if</span> (data[j] == <span class="number">1</span>)</span></pre></td></tr><tr><td class="code"><pre><span class="line">			&#123;</span></pre></td></tr><tr><td class="code"><pre><span class="line">				<span class="built_in">std</span>::<span class="built_in">stack</span>&lt;<span class="built_in">std</span>::pair&lt;<span class="keyword">int</span>,<span class="keyword">int</span>&gt;&gt; neighborPixels ;   </span></pre></td></tr><tr><td class="code"><pre><span class="line">				neighborPixels.push(<span class="built_in">std</span>::pair&lt;<span class="keyword">int</span>,<span class="keyword">int</span>&gt;(i,j)) ;     <span class="comment">// pixel position: &lt;i,j&gt;</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">				++label ;  <span class="comment">// begin with a new label</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">				<span class="keyword">while</span> (!neighborPixels.empty())</span></pre></td></tr><tr><td class="code"><pre><span class="line">				&#123;</span></pre></td></tr><tr><td class="code"><pre><span class="line">					<span class="comment">// get the top pixel on the stack and label it with the same label</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">					<span class="built_in">std</span>::pair&lt;<span class="keyword">int</span>,<span class="keyword">int</span>&gt; curPixel = neighborPixels.top() ;</span></pre></td></tr><tr><td class="code"><pre><span class="line">					<span class="keyword">int</span> curX = curPixel.first ;</span></pre></td></tr><tr><td class="code"><pre><span class="line">					<span class="keyword">int</span> curY = curPixel.second ;</span></pre></td></tr><tr><td class="code"><pre><span class="line">					_lableImg.at&lt;<span class="keyword">int</span>&gt;(curX, curY) = label ;</span></pre></td></tr><tr><td class="code"><pre><span class="line"> </span></pre></td></tr><tr><td class="code"><pre><span class="line">					<span class="comment">// pop the top pixel</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">					neighborPixels.pop() ;</span></pre></td></tr><tr><td class="code"><pre><span class="line"> </span></pre></td></tr><tr><td class="code"><pre><span class="line">					<span class="comment">// push the 4-neighbors (foreground pixels)</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">					<span class="keyword">if</span> (_lableImg.at&lt;<span class="keyword">int</span>&gt;(curX, curY<span class="number">-1</span>) == <span class="number">1</span>)</span></pre></td></tr><tr><td class="code"><pre><span class="line">					&#123;<span class="comment">// left pixel</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">						neighborPixels.push(<span class="built_in">std</span>::pair&lt;<span class="keyword">int</span>,<span class="keyword">int</span>&gt;(curX, curY<span class="number">-1</span>)) ;</span></pre></td></tr><tr><td class="code"><pre><span class="line">					&#125;</span></pre></td></tr><tr><td class="code"><pre><span class="line">					<span class="keyword">if</span> (_lableImg.at&lt;<span class="keyword">int</span>&gt;(curX, curY+<span class="number">1</span>) == <span class="number">1</span>)</span></pre></td></tr><tr><td class="code"><pre><span class="line">					&#123;<span class="comment">// right pixel</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">						neighborPixels.push(<span class="built_in">std</span>::pair&lt;<span class="keyword">int</span>,<span class="keyword">int</span>&gt;(curX, curY+<span class="number">1</span>)) ;</span></pre></td></tr><tr><td class="code"><pre><span class="line">					&#125;</span></pre></td></tr><tr><td class="code"><pre><span class="line">					<span class="keyword">if</span> (_lableImg.at&lt;<span class="keyword">int</span>&gt;(curX<span class="number">-1</span>, curY) == <span class="number">1</span>)</span></pre></td></tr><tr><td class="code"><pre><span class="line">					&#123;<span class="comment">// up pixel</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">						neighborPixels.push(<span class="built_in">std</span>::pair&lt;<span class="keyword">int</span>,<span class="keyword">int</span>&gt;(curX<span class="number">-1</span>, curY)) ;</span></pre></td></tr><tr><td class="code"><pre><span class="line">					&#125;</span></pre></td></tr><tr><td class="code"><pre><span class="line">					<span class="keyword">if</span> (_lableImg.at&lt;<span class="keyword">int</span>&gt;(curX+<span class="number">1</span>, curY) == <span class="number">1</span>)</span></pre></td></tr><tr><td class="code"><pre><span class="line">					&#123;<span class="comment">// down pixel</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">						neighborPixels.push(<span class="built_in">std</span>::pair&lt;<span class="keyword">int</span>,<span class="keyword">int</span>&gt;(curX+<span class="number">1</span>, curY)) ;</span></pre></td></tr><tr><td class="code"><pre><span class="line">					&#125;</span></pre></td></tr><tr><td class="code"><pre><span class="line">				&#125;		</span></pre></td></tr><tr><td class="code"><pre><span class="line">			&#125;</span></pre></td></tr><tr><td class="code"><pre><span class="line">		&#125;</span></pre></td></tr><tr><td class="code"><pre><span class="line">	&#125;</span></pre></td></tr><tr><td class="code"><pre><span class="line">&#125;</span></pre></td></tr></table></figure>
+<p><a href="https://blog.csdn.net/icvpr/article/details/10259577" target="_blank" rel="noopener">第一个代码一不容易看懂</a></p>
+]]></content>
+      <categories>
+        <category>Image Processing</category>
+      </categories>
+      <tags>
+        <tag>Image Processing</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Support-Vector-Machine</title>
+    <url>/2021/08/15/Support-Vector-Machine/</url>
+    <content><![CDATA[<h2 id="第六章-支持向量机（西瓜书学习-笔记）"><a href="#第六章-支持向量机（西瓜书学习-笔记）" class="headerlink" title="第六章 支持向量机（西瓜书学习-笔记）"></a>第六章 支持向量机（西瓜书学习-笔记）</h2><p>假设输入空间与特征空间为两个不同的空间。输入空间为欧式空间或离散集合，特征空间为欧式空间或希尔伯特空间。线性可分支持向量机、线性支持向量机假设这两个空间的元素一一对应，并将输入空间中的输入映射为特征空间中的特征向量。<strong>非线性支持向量机</strong>利用一个<strong>从输入空间</strong>到<strong>特征空间</strong>的<strong>非线性映射</strong>将<strong>输入映射为特征向量</strong>。<strong>所以，输入都由输入空间转换到特征空间，支持向量机的学习是在特征空间进行的。</strong>[参考：统计学习方法-李航]</p>
+<h4 id="6-1-间隔与支持向量"><a href="#6-1-间隔与支持向量" class="headerlink" title="6.1 间隔与支持向量"></a>6.1 间隔与支持向量</h4><p>给定训练样本集D={(x<sub>1</sub>, y<sub>1</sub>)，(x<sub>2</sub>, y<sub>2</sub>),…, (x<sub>m</sub>, y<sub>m</sub>)}，y<sub>i</sub>&in;{-1,+1}，分类学习最基本的想法就是基于训练集D在样本空间中找到一个划分超平面，将不同类别的样本分开。但能将训练样本分开的划分超平面可能有很多。如下图所示，<strong>那么如何找到最合适的超平面呢？</strong></p>
+<p><img src="/2021/08/15/Support-Vector-Machine/SVM.png" alt="ML"></p>
+<p>上图中，中间那根粗线这个划分超平面所产生的分类结果是最鲁邦的，对未见示例的泛化能力最高。</p>
+<p>在样本空间中，划分超平面可通过如下线性方程来描述：w<sup>T</sup>x+b=0，其中w=(w<sub>1</sub>;w<sub>2</sub>;…;w<sub>d</sub>)为法向量，决定了超平面的方向；b为位移项，决定了超平面与原点之间的距离。</p>
+<p>由于超平面可由法向量w和位移b确定，记为(w,b)。则样本空间中任意点x到超平面(w,b)的距离可写为：</p>
+<script type="math/tex; mode=display">
+r=\frac{|w^Tx+b|}{||w||}\\
+\begin{align}&在n维空间中，设任意点坐标为:x=[x^{(1)},x^{(2)},...,x^{(n)}]\in R^n,超平面参数为w=[w^{(1)}，w^{(2)},...,w^{(n)}]\in R^n,b\in R\\
+&则超平面方程可表示为w^Tx+b=0。超平面的法向量满足：超平面中任意向量都与该法向量垂直\\
+&设超平面上的两个点x_1,x_2,分别满足：w^Tx_1+b=0;w^Tx_2+b=0,两式相减，得：\\
+&w^T(x_1-x_2)=0,记\vec v=(x_1-x_2),由于x_1,x_2是任意两点，所以\vec v表示超平面上的任意向量\\
+&\because w^T\cdot\vec v=\vec 0,\therefore w是w^Tx+b=0的法向量\\
+&记超平面外一点x_0,其在超平面w^Tx+b=0上的投影点为x'_0,满足w^Tx'_0+b=0\\
+&则有向量\vec u=(x_0-x'_0)与平面w^Tx+b=0的法向量w互相平行，则两者的数量级为：\\&w^T(x_0-x'_0)=w\cdot (x_0-x'_0)=|w|*|x_0-x'_0|*\cos(0\,or\,\pi)=\pm|w|*d，d=|x_0-x'_0|即为待求点到超平面间的距离\\
+&又w^T(x_0-x'_0)=w^Tx_0-w^Tx'_0=w^Tx_0-(-b)=w^Tx_0+b,\because d \ge0,\therefore d=\frac{|w^Tx_0+b|}{|w|}\\
+&这里上式中的 ∣ w ∣ w 的模长，模长作为绝对值概念的推广,在欧式空间中，模长常常称为L2范数\\&（也称为Euclidean范数或者Frobenius范数）：
+||w||_F=\sqrt{(w^{1})^2+(w^{2})^2+...+(w^{n})^2}
+\end{align}</script><p>通过|wx+b|近似表示点x距离超平面的远近(因为还要除以模)，而wx+b的符号与类标记y的符号是否一致来表示分类是否正确。那么可用y(wx+b)来表示分类的正确性与确定度。这就是函数间隔：</p>
+<script type="math/tex; mode=display">
+\hat\gamma_i=y_i(w\cdot x_i+b)</script><p>但由于函数间隔中，如果成比例的改变w和b，那么即便x<sub>i</sub>距离平面的距离没有变化，函数间隔也将随着w和b而改变。所以需要对分离超平面的法向量w增加约束，如令|w|=1。从而引出了几何间隔：</p>
+<script type="math/tex; mode=display">
+\gamma_i=y_i\Big(\frac{w}{||w||}\cdot x_i+\frac{b}{||w||}\Big),||w||为w的L_2范数</script><p><strong>支持向量机学习</strong>的<strong>基本思想</strong>是求解能够正确划分训练数据集并且几何间隔最大的分离超平面。那么如何寻找几何间隔最大的分离超平面呢？即为求解下面的约束最优化问题：</p>
+<script type="math/tex; mode=display">
+\max_{w,b}\quad\gamma\\
+s.t.\quad y_i\Big(\frac{w}{||w||}\cdot x_i+\frac{b}{||w||}\Big)\ge\gamma,i=1,2,...,N\\
+约束条件表示超平面(w,b)关于每个训练样本点的几何间隔至少为\gamma,转化为函数间隔：\\
+\max_{w,b}\quad\frac{\hat \gamma}{||w||}\\
+s.t.\quad y_i(w\cdot x_i+b)\ge\hat \gamma,i=1,2,...,N\\
+因为函数间隔\hat \gamma 的取值并不影响优化问题的解(同时放大w和b对解没有影响)。\\
+令\hat \gamma=1,则上式的最优化问题变成：最大化\frac{1}{||w||}和\frac{1}{2}||w||^2,于是得到下式最优化问题：\\
+\min_{w,b}\quad \frac{1}{2}||w||^2\\
+s.t.\quad y_i(w\cdot x_i+b)-1\ge0,i=1,2,...,N</script><p>在线性可分的情况下，训练数据集的样本点中与分离超平面距离最近的样本点的实例称为<strong>支持向量</strong>。两个异类支持向量到超平面的距离称为<strong>间隔</strong>：</p>
+<script type="math/tex; mode=display">
+\gamma=\frac{2}{||w||}</script><p><img src="/2021/08/15/Support-Vector-Machine/SVM-0.png" alt="SVM"></p>
+<h4 id="6-2-对偶问题"><a href="#6-2-对偶问题" class="headerlink" title="6.2 对偶问题"></a>6.2 对偶问题</h4><p>对于上式凸二次规划问题，可以利用拉格朗日乘子的对偶性进行求解。先求出对偶问题的解a<sup>*</sup>，在求原始问题的解w<sub>*</sub>和b。对于拉格朗日乘子&alpha;<sub>i</sub>&ge;0，则拉格朗日函数可写为：</p>
+<script type="math/tex; mode=display">
+L(w,b,\alpha)=\frac{1}{2}||w||^2+\sum^{m}_{i=1}\alpha_i(1-y_i(w^Tx_i+b)),m为样本数</script><p>根据拉格朗日对偶性，原始问题的对偶问题是极大极小问题：</p>
+<script type="math/tex; mode=display">
+\max_{a}\min_{w,b} L(w,b,\alpha)</script><p>所以先求L(w,b,&alpha;)对w,b的极小，再求&alpha;的极大。</p>
+<script type="math/tex; mode=display">
+(1)\quad求\min_{w,b}L(w,b,\alpha),分别对w,b求偏导并令其等于0\\
+\bigtriangledown_wL(w,b,\alpha)=w-\sum^{m}_{i=1}\alpha_iy_ix_i=0, w=\sum^{m}_{i=1}\alpha_iy_ix_i\\
+\bigtriangledown_bL(w,b,\alpha)=\sum^{m}_{i=1}\alpha_iy_i=0,将w和\sum^{m}_{im=1}\alpha_iy_i=0带入L(w,b,\alpha)\\
+\begin{align}
+L(w,b,\alpha)=&\frac{1}{2}\sum^{m}_{i=1}\sum^{m}_{j=1}\alpha_i\alpha_jy_iy_j(x_i\cdot x_j)-\sum^{m}_{i=1}\alpha_iy_i\Big(\big(\sum^{m}_{j=1}\alpha_jy_jx_j\big)\cdot x_i+b\Big)+\sum^{m}_{i=1}\alpha_i\\
+=&-\frac{1}{2}\sum^{m}_{i=1}\sum^{m}_{j=1}\alpha_i\alpha_jy_iy_j(x_i\cdot x_j)+\sum^{m}_{i=1}\alpha_i\\
+\end{align}\\
+上式中，\sum^{m}_{i=1}\alpha_iy_ib=0,所以，\min_{w,b}L(w,b,\alpha)=-\frac{1}{2}\sum^{m}_{i=1}\sum^{m}_{j=1}\alpha_i\alpha_jy_iy_j(x_i\cdot x_j)+\sum^{m}_{i=1}\alpha_i\\
+(2)\quad 求\min_{w,b}L(w,b,\alpha)对\alpha的极大，即是对偶问题\\
+\max_{\alpha}-\frac{1}{2}\sum^{m}_{i=1}\sum^{m}_{j=1}\alpha_i\alpha_jy_iy_j(x_i\cdot x_j)+\sum^{m}_{i=1}\alpha_i\\
+s.t.\quad \sum^{m}_{i=1}\alpha_iy_i=0\\
+\alpha_i\gt0,i=1,2,...,m\\
+等价于：\min_{\alpha}\frac{1}{2}\sum^{m}_{i=1}\sum^{m}_{j=1}\alpha_i\alpha_jy_iy_j(x_i\cdot x_j)-\sum^{m}_{i=1}\alpha_i\\
+s.t.\quad \sum^{m}_{i=1}\alpha_iy_i=0\\
+\alpha_i\gt0,i=1,2,...,m\\
+对于线性可分训练数据集，假设对偶最优化问题对\alpha^*=(\alpha^*_u1r,\alpha^*_2,...,\alpha^*_m),那么如何求原始最优化问题的解w^*,b^*</script><p>因为原始最优化问题，满足KKT条件，所以：</p>
+<script type="math/tex; mode=display">
+\begin{align}
+&\bigtriangledown_wL(w^*,b^*,\alpha^*)=w^*-\sum^{m}_{i=1}\alpha^*_iy_ix_i=0\\
+&\bigtriangledown_bL(w^*,b^*,\alpha^*)=-\sum^{m}_{i=1}\alpha^*_iy_i=0\\
+&\alpha^*_i(y_i(w^*\cdot x_i+b^*)-1)=0,i=1,2,...,m\\
+&y_i(w^*\cdot x_i+b^*)-1=0,i=1,2,...,m\\
+&a^*_i\ge0,i=1,2,...,m\\
+&可得：w^*=\sum_{i}\alpha^*_iy_ix_i\\
+&由于其中至少有一个\alpha^*_j\gt0,否则，利用反证法得，w^*=0，矛盾\\
+&所以对于\alpha^*_j\gt0得j,y_i(w^*\cdot x_j+b^*)-1=0,将w^*代入:\\
+&y_jb^*=1-y^*\sum^{m}_{i=1}\alpha^*_iy_i(x_i\cdot x_j),两边同乘y_j,因为y\in\{1,-1\},y^2_j=1\\
+&所以，b^*=y_j-\sum^{m}_{i=1}\alpha^*_iy_i(x_i\cdot x_j)
+\end{align}</script><p><strong>那么如何求出&alpha;<sup>*</sup>的值呢？</strong></p>
+<p>可以利用SMO (Sequential Minimal Optimization)算法。SMO的基本思路是先固定&alpha;<sub>i</sub>之外的所有参数，然后求&alpha;<sub>i</sub>上的极值。由于存在约束sum&alpha;<sub>i</sub>y<sub>i</sub>=0 i=1,…,m，所以如果固定&alpha;<sub>i</sub>之外的变量，则&alpha;<sub>i</sub>可由其他变量导出。</p>
+<p>SMO不断执行一下步骤，直至收敛：</p>
+<ul>
+<li>选取一对需要更新的变量&alpha;<sub>i</sub>,&alpha;<sub>j</sub>;</li>
+<li>固定&alpha;<sub>i</sub>和&alpha;<sub>j</sub>以外的参数，求解下式，获得更新后的&alpha;<sub>i</sub>和&alpha;<sub>j</sub>:</li>
+</ul>
+<script type="math/tex; mode=display">
+\min_{\alpha}\frac{1}{2}\sum^{m}_{i=1}\sum^{m}_{j=1}\alpha_i\alpha_jy_iy_j(x_i\cdot x_j)-\sum^{m}_{i=1}\alpha_i</script><h4 id="6-3-核函数"><a href="#6-3-核函数" class="headerlink" title="6.3 核函数"></a>6.3 核函数</h4><p>之前假设训练样本线性可分，但实现任务中，原始样本空间内也许并不存在一个能正确划分两类样本的超平面。例如：异或问 题。</p>
+<p>解决办法是：可将样本从原始空间映射到一个更高维的特征空间，使样本在这个特征空间内线性可分。幸运的是，如果原始空间是有限维，那么一定存在一个高维特征空间使样本可分。</p>
+<p><img src="/2021/08/15/Support-Vector-Machine/SVM-1.png" alt="SVM"></p>
+<p>令&Phi;(x)表示将x映射后的特征向量，则在特征空间中划分超平面所对应的模型可表示为：</p>
+<script type="math/tex; mode=display">
+f(x)=w^T\phi(x)+b,w和b是模型参数，有；\\
+\min_{w,b}\frac{1}{2}||w||^2\\
+s.t.\quad y_i(w^T\phi(x_i)+b)\ge1,i=1,2,...,m\\
+对偶问题为：\max_{\alpha}\sum^{m}_{i=1}\alpha_i-\frac{1}{2}\sum^{m}_{i=1}\sum^{m}_{i=1}\alpha_i\alpha_jy_iy_j\phi(x_i)^T\phi(x_j)\\
+s.t.\quad\sum^{m}_{i=1}\alpha_iy_i=0,\alpha_i\ge1,i=1,2,...,m\\
+\phi(x_i)^T\phi(x_j)是样本x_i与x_j映射到特征空间之后的内积。当特征空间维度过高时，求解很困难。\\
+所以设想一个函数：k(x_i,x_j)=\langle\phi(x_i),\phi(x_j)\rangle=\phi(x_i)^T\phi(x_j)\\
+x_i与x_j在特征空间的内积等于它们在原始样本空间中通过函数k(\cdot,\cdot)计算的结果</script><p><strong>那么核函数一定存在吗？什么样的函数能做核函数？</strong></p>
+<script type="math/tex; mode=display">
+令\chi为输入空间，k(\cdot,\cdot)是定义在\chi\times\chi上的对称函数，\\则k是核函数当且仅当对于任意数据D=\{x_1,x_2,...,x_m\},核矩阵K总是半正定的：\\
+\left[
+\begin{matrix}
+k(x_1,x_1) \cdots & k(x_1,x_k) & \cdots & k(x_1,x_m)\\
+\vdots & \vdots & \ddots & \vdots\\
+k(x_i,x_1) & k(x_i,x_j) & \cdots & k(x_i,x_m)\\
+\vdots & \vdots & \ddots & \vdots\\
+k(x_m,x_1) & k(x_m,x_j) & \cdots & k(x_m,x_m)
+\end{matrix}
+\right]
+\tag{5}</script><p><img src="/2021/08/15/Support-Vector-Machine/SVM-2.png" alt="SVM"></p>
+<p>此外，还可以通过函数组合得到。</p>
+<h4 id="6-4-软间隔与正则化"><a href="#6-4-软间隔与正则化" class="headerlink" title="6.4 软间隔与正则化"></a>6.4 软间隔与正则化</h4><p>由于在现实任务中，往往很难确定合适的核函数使得训练样本在特征空间中线性可分。即便，使用的核函数使训练样本在特征空间线性可分，但是不确定是不是由于过拟合造成的。缓解该问题的一个办法是允许支持向量在一些样本上出错，即引入软间隔：</p>
+<p><img src="/2021/08/15/Support-Vector-Machine/SVM-3.png" alt="SVM"></p>
+<p>软间隔则是允许某些样本不满足约束：</p>
+<script type="math/tex; mode=display">
+y_i(w^Tx_i+b)\ge1</script><p>但是，在最大间隔的同时，不满足约束的样本应尽可能少，于是优化目标写为：</p>
+<script type="math/tex; mode=display">
+\min_{w,b}\frac{1}{2}||w||^2+C\sum^{m}_{i=1}l_{0/1}(y_i(w^Tx_i+b)-1 )</script><p>其中C&gt;0是一个常数，l<sub>0/1</sub>是0/1损失函数。</p>
+<script type="math/tex; mode=display">
+l_{0/1}(z)=
+\begin{cases}
+1,\quad z\lt 0;\\
+0, \quad otherwise
+\end{cases}
+\tag{1}</script><p>由于，l<sub>0/1</sub>非凸、非连续、数学性质不好。于是，通常用其他一些函数来代替l<sub>0/1</sub>称为替代损失。如下给出三种常用的替代损失函数：</p>
+<script type="math/tex; mode=display">
+hinge损失：l_{hinge}(z)=max(0,1-z)\\
+指数损失(exponential\,\,loss):l_{exp}(z)=exp(-z)\\
+对率损失(logistic\,\,loss):l_{log}(z)=log(1+exp(-z))</script><p>若采用hinge损失，则优化目标为：</p>
+<script type="math/tex; mode=display">
+\min_{w,b}\frac{1}{2}||w||^2+C\sum^{m}_{i=1}max(0,1-y_i(w^Tx_i+b))</script><p>引入松弛变量&xi;<sub>i</sub>&ge;0，则上式重写为：</p>
+<script type="math/tex; mode=display">
+\min_{w,b,\xi_i}\frac{1}{2}||w||^2+C\sum^{m}_{i=1}\xi_i\\
+s.t.\quad y_i(w^Tx_i+b)\ge1-\xi_i\\
+\xi_i\ge0,i=1,2,...,m</script><p>上面中每个样本都有一个对应的松弛变量，用以表征样本不满足约束的程度。但仍然是一个二次规划问题，通过拉格朗日乘子法可得如下的拉格朗日函数：</p>
+<script type="math/tex; mode=display">
+L(w,b,\xi,\mu)=\frac{1}{2}||w||^2+C\sum^{m}_{i=1}\xi_i+\sum^{m}_{i=1}\alpha_i(1-\xi_i-y_i(w^Tx_i+b))-\sum^{m}_{i=1}\mu_i\xi_i,其中\alpha_i\ge0,\mu_i\ge0</script><p><img src="/2021/08/15/Support-Vector-Machine/SVM-4.png" alt="SVM"></p>
+<p>上面的0/1损失函数可以换成别的替代损失函数，但它们具有一个共性：优化目标中的第一项用来描述划分超平面的间隔大小，另一项用来表述训练集上的误差，可写为更一般的形式：</p>
+<script type="math/tex; mode=display">
+\min_{f}\Omega(f)+C\sum^{m}_{i=1}l(f(x_i),y_i),\Omega(f)为结构风险，\sum^{m}_{i=1}l(f(x_i),y_i)称为经验风险，C对二者进行折中</script>]]></content>
+      <categories>
+        <category>Machine Learning</category>
+      </categories>
+      <tags>
+        <tag>Machine Learning</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Machine-Learning-Desision-Tree</title>
+    <url>/2021/08/15/Machine-Learning-Desision-Tree/</url>
+    <content><![CDATA[<h2 id="第四章-决策树（西瓜书学习-笔记）"><a href="#第四章-决策树（西瓜书学习-笔记）" class="headerlink" title="第四章 决策树（西瓜书学习-笔记）"></a>第四章 决策树（西瓜书学习-笔记）</h2><h4 id="一、基本流程"><a href="#一、基本流程" class="headerlink" title="一、基本流程"></a>一、基本流程</h4><p>决策树学习的目的是为了产生一颗泛化能力强的决策树。一般，一颗决策树包含一个根结点、若干个内部结点和若干个叶结点；叶结点对应于决策结果，其他每个结点则对应于一个属性测试；每个结点包含的样本集合根据属性测试的结果被划分到子结点中；根结点包含样本全集。从根结点到每个叶节点的路径对应了一个判定测试序列。</p>
+<p><img src="/2021/08/15/Machine-Learning-Desision-Tree/DesisionTree_0.png" alt="ML"></p>
+<h4 id="二、划分选择"><a href="#二、划分选择" class="headerlink" title="二、划分选择"></a>二、划分选择</h4><p>一般而言，随着划分过程的不断进行，希望决策树的分支结点所包含的样本尽可能属于同一类，即结点的”纯度”越来越高。</p>
+<h5 id="2-1-信息增益"><a href="#2-1-信息增益" class="headerlink" title="2.1 信息增益"></a>2.1 信息增益</h5><p>“信息熵”是度量样本集合纯度最常用的一种指标。假设当前样本集合D中第k类样本所占的比例为p<sub>k</sub>(k=1,2,…,|y|),则D的信息熵定义为：</p>
+<script type="math/tex; mode=display">
+Ent(D)=-\sum^{|y|}_{k=1}p_k\log_2p_k,Ent(D)的值越小，D的纯度越高</script><p>假定离散属性a有V个可能的取值{a<sup>1</sup>,a<sup>2</sup>,…,a<sup>V</sup>}，若使用a来对样本集D进行划分，则会产生V个分支结点，其中第v个分支结点包含了D中所有在属性a上取值为a<sup>v</sup>的样本，记为D<sup>v</sup>。划分步骤如下：</p>
+<ol>
+<li>计算出D<sup>v</sup>的信息熵</li>
+<li>不同分支结点包含不同的样本数，给分支结点赋予权重|D<sup>v</sup>|/D</li>
+<li>计算属性a对样本集D进行划分所获得的”信息增益”</li>
+</ol>
+<script type="math/tex; mode=display">
+Gain(D,a)=Ent(D)-\sum^{V}_{v=1}\frac{|D^v|}{|D|}Ent(D^v)</script><p>一般，信息增益越大，则意味着使用属性a来进行划分所获得的“纯度提升”越大。所以上面选择属性时使用下式选择最佳属性(ID3)：</p>
+<script type="math/tex; mode=display">
+a_*=arg\,\max_{a\in A}Gain(D,a)</script><p><img src="/2021/08/15/Machine-Learning-Desision-Tree/Desision-Tree-2.png" alt="ML"></p>
+<p><strong>如何选择最优划分属性？</strong></p>
+<p>上图中共包含17个样本，因为是二分类，所以|y|=2。</p>
+<ol>
+<li>根结点包含D中所有的样例，计算根结点的信息熵：</li>
+</ol>
+<script type="math/tex; mode=display">
+Ent(D)=-\sum^{2}_{k=1}p_k\log_2p_k=-(\frac{8}{17}\log_2\frac{8}{17}+\frac{9}{17}\log_2\frac{9}{17})=0.998,其中，正例占p_1=\frac{8}{17},反例占p_2=\frac{9}{17}</script><ol>
+<li><p>计算当前属性集合{色泽，根蒂，敲声，纹理，脐部，触感}中每个属性的信息增益。以属性”色泽”为例。色泽有三个取值：{青绿色，乌黑，浅白}，使用这三个取值对D进行划分，得到3个子集，分别记为：D<sup>1</sup>(色泽=青绿),D<sup>2</sup>(色泽=乌黑)，D<sup>3</sup>(色泽=浅白)。</p>
+<p>D<sub>1</sub>包含6个样例，正例占比p<sub>1</sub>=4/6，反例占比p<sub>2</sub>=2/6。D<sub>3</sub>包含5个样例，正例占比p<sub>1</sub>=1/5，反例占比p<sub>2</sub>=4/5。</p>
+</li>
+</ol>
+<script type="math/tex; mode=display">
+Ent(D^1)=-(\frac{3}{6}\log_2\frac{3}{6}+\frac{3}{6}\log_2\frac{3}{6})=1.000,\\
+Ent(D^2)=-(\frac{4}{6}\log_2\frac{4}{6}+\frac{2}{6}\log_2\frac{2}{6})=0.918,\\
+Ent(D^3)=-(\frac{1}{5}\log_2\frac{1}{5}+\frac{4}{5}\log_2\frac{4}{5})=0.772,\\</script><ol>
+<li>计算”色泽”的信息增益为：</li>
+</ol>
+<script type="math/tex; mode=display">
+Gain(D,色泽)=Ent(D)-\sum^{3}_{v=1}\frac{|D^v|}{|D|}Ent(D^v)=0.998-(\frac{6}{17}\times1.000+\frac{6}{17}\times0.918+\frac{5}{17}\times0.772)=0.109</script><ol>
+<li>类似的，计算出其他属性的信息增益：</li>
+</ol>
+<script type="math/tex; mode=display">
+Gain(D,根蒂)=0.143，Gain(D,敲声)=0.141，Gain(D,纹理)=0.381，Gain(D,脐部)=0.289，Gain(D,触感)=0.006，</script><ol>
+<li>选取信息增益最大的属性，上例中为”纹理”</li>
+</ol>
+<p><img src="/2021/08/15/Machine-Learning-Desision-Tree/Desision-Tree-3.png" alt="ML"></p>
+<ol>
+<li>根据选取的最大增益的属性划分数据集，如上图纹理=清晰有9个样例。可用属性集合为{色泽，根蒂，敲声，脐部，触感}</li>
+<li>基于清晰划分的新集合的D<sub>1</sub>计算各属性的信息增益：</li>
+</ol>
+<script type="math/tex; mode=display">
+Gain(D^1,色泽)=0.043，Gain(D^1,根蒂)=0.458，Gain(D^1,敲声)=0.331，Gain(D^1,脐部)=0.458，Gain(D^1,触感)=0.458，</script><p>若有多个属性均取得了最大的信息增益，可任选其中之一作为划分属性</p>
+<ol>
+<li>对每个结点进行上述操作</li>
+</ol>
+<h5 id="2-2-增益率"><a href="#2-2-增益率" class="headerlink" title="2.2 增益率"></a>2.2 增益率</h5><p>由于信息增益准则对可取值数目较多的属性有所偏好(属性可选的值的数量，如色泽、纹理等)，为了减少这种偏好带来的不利影响，著名的C4.5决策树算法不直接使用信息增益，而是使用”增益率”来选择最优划分属性。增益率定义为：</p>
+<script type="math/tex; mode=display">
+Gain_ratio(D,a)=\frac{Gain(D,a)}{IV(a)},其中，IV(A)=-\sum^{V}_{v=1}\frac{|D|^v}{|D|}\log_2\frac{|D^v|}{|D|},称为属性a的固有值。</script><p>上式中属性a的可能取值数目越多，比如，纹理中清晰的样例越多，则IV(a)的值通常会越大。</p>
+<p>注意：增益率准则对可取值数目较少的属性有所偏好，因此，C4.5算法并不是直接选择增益率UI大的候选划分属性，而是使用一个启发式：先从候选划分属性中找出信息增益高于平均水平的属性，再从中选择信息增益最高的。</p>
+<h4 id="2-3-基尼指数"><a href="#2-3-基尼指数" class="headerlink" title="2.3 基尼指数"></a>2.3 基尼指数</h4><p>CART决策树使用”基尼指数”(Gini index)来选择划分属性。数据集D的纯度可用基尼值来度量：</p>
+<script type="math/tex; mode=display">
+Gini(D)=\sum^{|y|}_{k=1}\sum_{k'\ne k}p_kp_k'=1-\sum^{|y|}_{k=1}p_k^2</script><p>直观来说，Gini(D)反映了从数据集D中随机抽取两个样本，其类别标记不一致的概率。因此，Gini(D)越小，则数据集D的纯度越高。</p>
+<script type="math/tex; mode=display">
+属性a的基尼指数定义为：Gini_index(D,a)=\sum^{V}_{v=1}\frac{|D^v|}{|D|}Gini(D^v)</script><p>所以，最优划分属性选取基尼指数最小的属性：</p>
+<script type="math/tex; mode=display">
+a_*=arg\,\max_{a\in A}Gini_index(D,a)</script><h4 id="三、剪枝处理"><a href="#三、剪枝处理" class="headerlink" title="三、剪枝处理"></a>三、剪枝处理</h4><p>剪枝(pruning)是决策树学习算法对付“过拟合”的主要手段。在决策树学习中，为了尽可能正确分类训练样本，结点划分过程将不断重复，有时造成决策树分支过多，从而可能因训练样本学得“太好”了，以致于把训练集自身的一些特点当作所有数据都具有的一般性质而导致过拟合。所以，可通过主动去掉一些分支来降低过拟合的分险。</p>
+<p>决策树剪枝的基本策略有“预剪枝”(prepruning)和“后剪枝”(post-pruning)。</p>
+<ul>
+<li>预剪枝：在决策树生成过程中，对每个结点在划分前先进行评估。若当前结点的划分不能带来决策树泛化性能提升，则停止划分并将当前结点标记为叶结点。</li>
+<li>后剪枝：先从训练集生成一颗完整的决策树，然后自底向上地对非叶结点进行考察，若将该结点对应的子树替换为叶结点能带来决策树泛化性能提升，则将该子树替换为叶结点。</li>
+</ul>
+<p>预剪枝优点：使决策树的很多分支没有展开，不仅减低了过拟合的风险，而且显著减少了决策树的训练时间开销和测试时间开销。</p>
+<p>预剪枝确定：基于贪心本质禁止这些分支展开，给预剪枝决策树带来了欠拟合的风险。</p>
+<p>后剪枝优点：欠拟合风险小，泛化性能往往优于预剪枝决策树。</p>
+<p>后剪枝缺点：在生成完全决策树之后进行的，并且要自底向上进行考察，因此训练时间开销要大得多。</p>
+<h4 id="四、连续和缺失值"><a href="#四、连续和缺失值" class="headerlink" title="四、连续和缺失值"></a>四、连续和缺失值</h4><h5 id="4-1-连续值处理"><a href="#4-1-连续值处理" class="headerlink" title="4,1 连续值处理"></a>4,1 连续值处理</h5><p>对于要处理的连续属性，需要使用连续属性离散化技术。最简单的策略是采用二分法对连续属性进行处理。 </p>
+<p>给定样本集D和连续属性a，假定a在D上出现了n个不同的取值：</p>
+<ol>
+<li>将这些值从小到大排序，记为{a<sup>1</sup>, a<sup>2</sup>，a<sup>3</sup>，… ，a<sup>n</sup>}</li>
+<li>基于划分点t可将D分为子集D<sup>-</sup><sub>t</sub>和D<sup>+</sup><sub>t</sub>，分别表示在属性a上取值不大于t的样本，和取值大于t的样本</li>
+<li>在区间[a<sup>i</sup>，a<sup>i+1</sup>)中取任意值所产生的划分结果相同，所以对连续属性a，可以考察包含n-1个元素的候选划分点集合</li>
+</ol>
+<script type="math/tex; mode=display">
+T_a=\{\frac{a^i+a^{i+1}}{2}|1\le i\le n-1\}</script><ol>
+<li>把区域[a<sup>i</sup>，a<sup>i+1</sup>)的中心点作为候选划分点。然后可像离散属性值一样来考察这些划分点</li>
+</ol>
+<script type="math/tex; mode=display">
+Gain(D,a)=\max_{t\in T_a}\,Gain(D,a,t)=\max_{t\in T_a}\,Ent(D)-\sum_{\lambda\in\{-,+\}}\frac{|D^{\lambda}_t|}{|D|}Ent(D^{\lambda}_t)\\
+Gain(D,a,t)是样本集D基于划分点t二分后的信息增益，可选择使Gain(D,a,t)最大化的划分点</script><p>与离散值不同，当前结点划分属性为连续属性，该属性还可作为其后代结点的划分属性。</p>
+<h5 id="4-2-缺失值处理"><a href="#4-2-缺失值处理" class="headerlink" title="4.2 缺失值处理"></a>4.2 缺失值处理</h5><p>任务中会遇到一些不完整的样本，即样本的某些属性值缺失。如果简单地放弃不完整样本，仅使用无缺失的样本进行学习，显然造成了数据信息的浪费。对于缺失值需要处理两个问题：</p>
+<ol>
+<li>如何在属性值缺失的情况下进行划分属性选择</li>
+<li>给定划分属性，若样本在该属性上的值缺失，该如何对样本进行划分</li>
+</ol>
+<script type="math/tex; mode=display">
+给定训练集D和属性a，令\tilde{D}表示D中在属性a上没有缺失值的样本子集。假定属性a有V个可取值\{a^1,a^2,...,a^V\}\\
+令\tilde{D}^v表示\tilde{D}中在属性a上取值为a^v的样本子集，\tilde{D}_k表示\tilde{D}中属于第k类(k=1,2,...,|y|)的样本子集\\
+则,\tilde{D}=\bigcup^{|y|}_{k=1}\tilde{D}_k,\tilde{D}=\bigcup^{|V|}_{v=1}\tilde{D}^v,假定给每一个样本x赋予一个权重w_x，并定义如下：\\
+\rho=\frac{\sum_{x\in\tilde{D}}w_x}{\sum_{x\in D}w_x},\tilde{p}_k=\frac{\sum_{x\in\tilde{D}_k}w_x}{\sum_{x\in \tilde{D}}w_x}\,(1\le k\le|y|),\tilde{r}_v=\frac{\sum_{x\in\tilde{D}^v}w_x}{\sum_{x\in \tilde{D}}w_x}\,(1\le v\le|V|)\\
+对属性a，\rho表示无缺失样本所占的比例，\tilde{p}_k表示无缺失样本中第k类所占的比例，\\\tilde{r}_v则表示无缺失样本中在属性a上取值为a^v的样本所占的比例，显然，\sum^{|y|}_{k=1}\tilde{p}_k=1,\sum^{V}_{v=1}\tilde{r}_v=1\\
+则，信息增益可推广为：Gain(D,a)=\rho\times Gain(\tilde{D},a)=\rho\times (Ent(\tilde{D})-\sum^{V}_{k-1}\tilde{r}_vEnt(\tilde{D}^v))\\
+其中，Ent(\tilde{D})=-\sum^{|y|}_{k=1}\tilde{p}_k\log_2\tilde{p}_k</script><p>对于属性a，如果划分属性已知，则将x划入对应的子结点，保持样本权值为w<sub>x</sub>，对于划分属性缺失的情况，则将x同时划入所有子结点，且样本权值在对应的子结点中调整为tilde r<sub>v</sub> &times; w<sub>x</sub>；直观地看，就是让同一个样本的概率划入到不同的子结点中去。</p>
+<h4 id="五、多变量决策树"><a href="#五、多变量决策树" class="headerlink" title="五、多变量决策树"></a>五、多变量决策树</h4><p>决策树形成的分类边界有一个明显的特点：轴平行，即它的分类边界由若干个与坐标轴平行的分段组成。在学习任务的真实分类边界比较复杂时，必须使用很多划分才能获得较好的近似。</p>
+<p>多变量决策树，是为了实现斜划分，对非叶结点不再是仅对某个属性，而是对属性的线性组合进行测试。</p>
+<script type="math/tex; mode=display">
+每个非叶结点是一个\sum^d_{i=1}w_ia_i=t的线性分类器，其中w_i和t可在该结点所含的样本集合属性集上学得</script><p>与单变量决策树不同，多变量决策树的学习过程中，不是为每个非叶结点寻找一个最优划分属性，而是试图建立一个合适的线性分类器。</p>
+<p><img src="/2021/08/15/Machine-Learning-Desision-Tree/Desision-Tree-4.png" alt="ML"></p>
+]]></content>
+      <categories>
+        <category>Machine Learning</category>
+      </categories>
+      <tags>
+        <tag>Machine Learning</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Linear-Model</title>
+    <url>/2021/08/15/Linear-Model/</url>
+    <content><![CDATA[<h2 id="第三章-线性模型（西瓜书学习-笔记）"><a href="#第三章-线性模型（西瓜书学习-笔记）" class="headerlink" title="第三章 线性模型（西瓜书学习-笔记）"></a>第三章 线性模型（西瓜书学习-笔记）</h2><h4 id="一、基本形式"><a href="#一、基本形式" class="headerlink" title="一、基本形式"></a>一、基本形式</h4><p>线性模型(linear model)试图学得一个通过属性的线性组合来进行预测的函数，即：</p>
+<script type="math/tex; mode=display">
+下面是由d个属性x=(x_1;x_2;...;x_d)，其中x_i是在第i个属性上的取值
+\\f(x)=w_1x_1+w_2x_2+...+w_dx_d+b,一般写成f(x)=w^Tx+b\\
+其中w=(w_1;w_2;...;w_d),w和b学得之后，模型就得以确定\\
+权重w直观表达了各属性在预测中的重要性</script><p>许多功能更为强大的非线性模型(nonlinear model)可在线性模型的基础上，通过引入层级结构或高维映射得到。<strong>疑问：如何引入？</strong></p>
+<h4 id="二、线性回归"><a href="#二、线性回归" class="headerlink" title="二、线性回归"></a>二、线性回归</h4><script type="math/tex; mode=display">
+给定数据集D=\{(x1,y1),(x_2,y_2),...,(x_m,y_m)\},其中x_i=(x_{i1};x_{i2};...;x_{id}),y_i\in R\\
+线性回归(linear regression)试图学得一个线性模型以尽可能准确地预测实值输出标记。\\
+对于只有一个输入属性的简单场景，线性回归试图学得：f(x_i)=wx_i+b,使得f(x_i)\approx y_i\\
+如何确定w和b呢？关键在于使预测值和真实值差别最小，使用性能度量方法\\
+回归中常用均方误差：(w*,b*)=arg\,\min_{(w,b)}\sum^{m}_{i=1}(f(x_i)-y_i)^2=arg\,\min_{(w,b)}\sum^{m}_{i=1}(y_i-wx_i-b)^2</script><p><strong>基于均方误差最小化来进行模型求解的方法称为”最小二乘法”</strong>。在线性回归中，最小二乘法就是试图找到一条直线，使所有样本到直线上的欧式距离之和最小。</p>
+<script type="math/tex; mode=display">
+求解w和b使E_{(w,b)}=\Sigma^{m}_{i=1}(y_i-wx_i-b)^2最小化的过程，称为线性回归模型的最小二乘参数估计(parameter estimation)\\
+将E_{(w,b)}分别对w和b求导，得到：\frac{\partial E(w,b)}{\partial w}=2(w\sum^{m}_{i=1}x_i^2-\sum^{m}_{i=1}(y_i-b)x_i),\frac{\partial E_{(w,b)}}{\partial b}=2(mb-\sum^{m}_{i=1}(y_i-wx_i))\\
+令上面的\frac{\partial E(w,b)}{\partial w}=0，\frac{\partial E_{(w,b)}}{\partial b}=0，可以求得w和b最优解得闭式。</script><p>对于更一般的情形，即样本由d个属性描述。此时，试图学得</p>
+<script type="math/tex; mode=display">
+f(x_i)=w^Tx_i+b,使得f(x_i)\approx y_i,这称为多元线性回归</script><p>类似的，也可以利用最小二乘来对w和b进行估计。为了简便，把w和b吸收入向量形式：</p>
+<script type="math/tex; mode=display">
+\hat w=(w;b)\\
+数据集D表示一个m\times(d+1)维大小的矩阵X\\
+X=\begin{pmatrix}
+x_{11}&x_{12}&\cdots&x_{1d}&1\\
+x_{21}&x_{22}&\cdots&x_{2d}&1\\
+\vdots&\vdots&\vdots&\ddots&\vdots
+\\x_{m1}&x_{m2}&\cdots&x_{md}&1\\
+\end{pmatrix}
+=
+\begin{pmatrix}x_1^T&1\\
+x_2^T&1\\
+\vdots&\vdots\\
+x_m^T&1
+\end{pmatrix}\\
+把标记写成向量形式y=(y_1;y_2;...;y_m)\\
+类似有 \hat w^*=arg\,\min_{\hat w}(y-X\hat w)^T(y-X\hat w)\\
+令E_{\hat w}=(y-X\hat w)^T(y-X\hat w),对\hat w求导得：\\
+\frac{\partial E_{\hat w}}{\partial\hat w}=2X^T(X\hat w-y)，令该式等于0,可得\hat w最优闭式解\\
+由于涉及到矩阵求逆，当X^TX是满秩矩阵或正定矩阵是，可得\hat w^*=(X^TX)^{-1}X^Ty\\
+对于不是满秩矩阵，那么会得到多个\hat w,选择哪个作为输出，由学习算法的归纳偏好决定，通常引入正则化项</script><p>更一般的，考虑单调可微函数g(.)，令</p>
+<script type="math/tex; mode=display">
+y=g^{-1}(w^Tx+b),得到的模型称为广义线性模型，g(\cdot)称为联系函数</script><h4 id="三、对数几率回归"><a href="#三、对数几率回归" class="headerlink" title="三、对数几率回归"></a>三、对数几率回归</h4><p><strong>线性模型如何进行分类任务？</strong>找一个单调可微函数将分类任务的真实标记y与线性回归模型的预测值联系起来。</p>
+<script type="math/tex; mode=display">
+对于二分类任务，输出标记y\in \{0,1\},需将线性回归模型产生的实值预测值z=w^Tx+b，转换为0/1。\\
+最理想的是单位阶跃函数\quad 
+y=\begin{cases}
+0, & \text{z < 0}  \\
+0.5, & \text{z = 0} \\
+1, & \text{z > 0}
+\end{cases}</script><p><img src="/2021/08/15/Linear-Model/ML-1.png" alt="ML"></p>
+<p>因为单位阶跃函数不连续，所以希望找到一个在一定程度上近似单位阶跃函数的”替代函数”，并希望它单调可微。而对数几率函数(logistic function)就是常用的一个替代函数：</p>
+<script type="math/tex; mode=display">
+y=\frac{1}{1+e^{-z}}</script><p><strong>为什么看上去已经做了非线性变换，仍然称为线性模型呢？</strong></p>
+<script type="math/tex; mode=display">
+z=w^Tx+b,带入上式，y=\frac{1}{1+e^{-(w^Tx+b)}}\\
+\frac{y}{1-y}=e^{w^Tx+b},则\ln\frac{y}{1-y}=w^Tx+b\\
+上式只是对预测值做了相应的对数变换，而模型仍然是线性模型\\
+若者y视为样本x的可能性，则1-y视为反例的可能性，两者比值称为几率，取对数得对数几率(log odds,简称logit)\\
+y=\frac{1}{1+e^{-(w^Tx+b)}}实际在用线性回归模型的预测结果去逼近真实标记的对数几率。\\
+对应模型为对数几率回归，实际为分类任务</script><p>如何求取上式中的<strong>w</strong>和<strong>b</strong>?</p>
+<script type="math/tex; mode=display">
+将y视为类的后验概率估计p(y=1|x),则\ln\frac{p(y=1|x)}{p(y=0|x)}=w^Tx+b\\
+其中，p(y=1|x)=\frac{e^{w^Tx+b}}{1+e^{w^Tx+b}},p(y=0|x)=\frac{1}{1+e^{w^Tx+b}}\\
+后验概率：事情已经发生了，导致事件发生的原因有很多，判断结果的发生是由哪个原因引起的概率\\
+p(y=1|x)=\frac{p(x(y=1))}{p(x)}=\frac{p(y=1)p(x|y=1)}{p(x)}</script><p>对于上式，可以通过极大似然法来估计未知参数<strong>w</strong>和<strong>b</strong>。</p>
+<h4 id="四、线性判别分析"><a href="#四、线性判别分析" class="headerlink" title="四、线性判别分析"></a>四、线性判别分析</h4><p>线性判别分析(Linear Discriminant Analysis,简称LDA),是一种经典的线性学习方法。</p>
+<p>LDA的思想非常朴素：给定训练样例集，设法将样例投影到一条直线上，使得同类样例的投影点尽可能接近、异类样例的投影点尽可能远离。对新样本进行分类时，将其投影到同样的这条直线上，再根据投影点的位置来确定样本的类别。</p>
+<p><img src="/2021/08/15/Linear-Model/ML-2.png" alt="ML"></p>
+<script type="math/tex; mode=display">
+给定数据集D=\{(x_i,y_i)\}^m_{i=1},y_i\in \{0,1\}。\\令X_i、\mu_i、\Sigma_i分别表示第i\in \{0,1\}类实例的集合、均值向量、协方差矩阵。\\
+若将所有样本投影到直线上，则两类的协方差分别为w^T\Sigma_0w和w^T\Sigma_1w</script><p>想要让同类样例的投影点尽可能接近，可以让同类样例投影点的协方差尽可能小，即w<sup>T</sup>&Sigma;<sub>0</sub>w+w<sup>T</sup>&Sigma;<sub>1</sub>w尽可能小；而欲使异类样例的投影点尽可能远离，可以让类中心之间的距离尽可能大，即||w<sup>T</sup>&Sigma;<sub>0</sub>w-w<sup>T</sup>&Sigma;<sub>1</sub>w||尽可能大。同时考虑两者，则可得到最大化的目标：</p>
+<script type="math/tex; mode=display">
+\begin{align}J=&\frac{\|w^T\mu_0-w^T\mu_1\|^2_2}{w^T\Sigma_0w+w^T\Sigma_1w}\\
+=&\frac{\|(w^T\mu_0-w^T\mu_1)^T\|^2_2}{w^T(\Sigma_0+\Sigma_1)w}\\
+=&\frac{\|(\mu_0-\mu_1)^Tw\|^2_2}{w^T(\Sigma_0+\Sigma_1)w}\\
+=&\frac{[(\mu_0-\mu_1)^Tw]^T(\mu_0-\mu_1)^Tw}{w^T(\Sigma_0+\Sigma_1)w} \\
+=&\frac{w^T(\mu_0-\mu_1)(\mu_0-\mu_1)^Tw}{w^T(\Sigma_0+\Sigma_1)w}
+\end{align}</script><script type="math/tex; mode=display">
+定义类内散度矩阵:S_w=\Sigma_0+\Sigma_1=\sum_{x\in X_0}(x-\mu_0)(x-\mu_0)^T+\sum_{x\in X_1}(x-\mu_1)(x-\mu_1)^T\\
+类间散度矩阵:S_b=(\mu_0-\mu_1)(\mu_0-\mu_1)^T\\
+则上式J可以重写为：J=\frac{w^TS_bw}{w^TS_ww}</script><h4 id="五、多分类学习"><a href="#五、多分类学习" class="headerlink" title="五、多分类学习"></a>五、多分类学习</h4><p>这里利用二分类学习器来解决多分类问题。考虑N个类别C<sub>1</sub>，C<sub>2</sub>，…，C<sub>N</sub>，多分类学习的基本思路是”拆解法”，即将多分类任务拆为若干个二分类任务求解。具体做法如下：</p>
+<ul>
+<li>先对问题进行拆分，然后为拆出的每个二分类任务训练一个分类器；<strong>如何拆分？</strong></li>
+<li>在测试时，对这些分类器的结果进行集成以获得最终的多分类结果。<strong>如何集成？</strong></li>
+</ul>
+<p>给定数据集D={(x<sub>1</sub>,y<sub>1</sub>)，(x<sub>2</sub>,y<sub>2</sub>),…, (x<sub>m</sub>,y<sub>m</sub>)},y<sub>i</sub>&in;{C<sub>1</sub>,C<sub>2</sub>,…,C<sub>N</sub>}</p>
+<p>5.1 拆分：一对一(One vs. One)</p>
+<p>​    将N个类别两两配对，从而产生N(N-1)/2个二分类任务。如为区分C<sub>i</sub>和C<sub>j</sub>&gt;训练一个分类器，该分类器把D中的C<sub>i</sub>类样例作为正例C<sub>j</sub>样例作为反例。</p>
+<p>​    在测试阶段，新样本将同时提交给所有分类器，于是能够获得N(N-1)/2个分类结果，最终结果可通过投票产生。即将预测得最多的类别作为最终的分类结果。</p>
+<p>5.2 拆分：一对其余(One vs. Rest)</p>
+<p>​    每次将一个类的样例作为正例，所有其他类的样例作为反例来训练N个分类器。</p>
+<p>​    测试时，如果只有一个分类器预测为正类，则对应的类标记作为最终分类结果。若有多个分类器预测为正类，则通常考虑各分类器的预测置性度，选择置信度最大的类别标记作为分类结果。</p>
+<p>5.3 拆分：多对多(Many vs. Many)</p>
+<p>每次将若干个类作为正类，若干个其他类作为反类。其中，对于正反类的构造必须有特殊的设计，不能随意选取。一种最常用的是MvM技术：”纠错输出码”(ECOC)。主要分为两步：编码和解码。</p>
+<h4 id="六、类别不平衡问题"><a href="#六、类别不平衡问题" class="headerlink" title="六、类别不平衡问题"></a>六、类别不平衡问题</h4><p>类别不平衡问题(class-imbalance)是指分类任务中不同类别的训练样例数目差别很大的情况。</p>
+<p>解决类别不平衡现有的三类做法：</p>
+<ol>
+<li>直接对训练集里的反类样例进行”欠采样”(undersampling),即去除一些反例使得正、反例数目接近，然后再进行学习。不能随机丢弃反例，可能丢失一些重要信息。代表算法EasyEnsemble，采用集成学习机制，将反例分成若干个集合供不同学习器使用。</li>
+<li>对训练集里的正类样例进行”过采样”(oversampling),即增加一些正例使得正、反例数目接近，然后再进行学习。过采样不能简单重复初始的正样本，这会招致严重过拟合。过采样的代表算法是SMOTE算法，通过对正例插值产生额外的正样本。</li>
+<li>直接基于原始训练集进行学习，但在用训练好的分类器进行预测时，需要进行“阈值移动”</li>
+</ol>
+<script type="math/tex; mode=display">
+一般的分类器以0.5作为阈值，来判别样本是正例还是反例\\
+因此，y\gt\frac{1}{2}\Rightarrow 2y\gt 1\Rightarrow y\gt 1-y\Rightarrow \frac{y}{1-y}\gt 1\\
+当训练集中，正反例数目不同时，令m^+表示正例数目，m^-表示反例数据，观测几率是\frac{m^+}{m^-}\\
+如果假设训练集是真实样本总体的无偏采样，那么观测几率就代表了真实几率\\
+当分类器的预测几率高于观测几率就应判断为正例，即\frac{y}{1-y}\gt\frac{m^+}{m^-},则预测为正例\\
+相应的对预测值再做缩放，可以得到类似于y'\gt ?\Rightarrow\frac{y'}{1-y'}=\frac{y}{1-y}\times\frac{m^-}{m^+}\gt1</script>]]></content>
+      <categories>
+        <category>Machine Learning</category>
+      </categories>
+      <tags>
+        <tag>Machine Learning</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Model-Evaluation-And-Selection</title>
+    <url>/2021/08/15/Model-Evaluation-And-Selection/</url>
+    <content><![CDATA[<h2 id="第二章-模型评估与选择（西瓜书学习-笔记）"><a href="#第二章-模型评估与选择（西瓜书学习-笔记）" class="headerlink" title="第二章 模型评估与选择（西瓜书学习-笔记）"></a>第二章 模型评估与选择（西瓜书学习-笔记）</h2><p><strong>为什么需要模型评估与选择？</strong></p>
+<p>1、学习器的实际预测输出与样本的真实输出之间的差异称为”误差”；</p>
+<p>2、学习器在训练数据集上的误差称为”训练误差”，或”经验误差”；</p>
+<p>3、在新样本上的误差称为”泛化误差”，学习的最终目的是得到泛化误差小的学习器，而非训练误差小的学习器。因为训练误差小可能已经过拟合了，导致不能用。</p>
+<p>4、但实际中，并不知道新样本，所以只能从训练样本中尽可能学出适用于所有潜在样本的“普遍规律“，努力使经验误差最小化的同时，寻找泛化误差最小的模型。</p>
+<p><strong>那么过拟合能够完全避免吗？</strong></p>
+<p>在书中说无法彻底避免，只能缓解。讲到机器学习是NP难问题，而学习算法必须在多项式时间内运行完。因为P&ne;NP,所以过拟合不可避免。</p>
+<h4 id="一、评估方法"><a href="#一、评估方法" class="headerlink" title="一、评估方法"></a>一、评估方法</h4><p><strong>用什么方法评估学习器的泛化误差？</strong></p>
+<p>需要一个”测试集”来测试学习器对新样本的判别能力，以测试误差作为泛化误差的近似。假设测试样本与训练样本独立同分布。但要求尽量测试集与训练集互斥。</p>
+<p><strong>对于包含m个样例的数据集D，如何分数据？</strong></p>
+<p>1.1 留出法(hold-out): 直接将数据集D划分为两个互斥的集合，其中一个作为训练集S，另一个作为测试集T。D=S&cup;T, S&cap;T=&varnothing;。在S上训练处模型后，用T来评估其测试误差。</p>
+<p>注意：一、训练/测试集的划分要尽可能保持数据分布的一致性，避免因数据划分过程引入额外的偏差而对最终结果产生影响。比如，D包含500个正样本，500个负样本。S分到了70%的样本，其中要保持正负样本的比例，即正样本350例，负样本350例。T分到了30%的样本，其中正样本150例，负样本150例。</p>
+<p>二、样本的数量给定后，对于数据集D的分割也有不同的方式，比如：把D中样本排序，是取前面的350个，还是中间的350个，还是最后的350个样例作为训练集的正/负样本。一般需要采用若干次随机划分，重复进行试验评估后取平均值作为留出法的评估结果。</p>
+<p>为了评估整体数据集D的性能，常见做法是将大约2/3~4/5的样本用于训练，剩余样本用于测试。</p>
+<p>1.2 交叉验证法：先将数据集D划分为k个大小相似的互斥子集，即D=D<sub>1</sub>&cup;D<sub>2</sub>&cup;…&cup;D<sub>k</sub>，D<sub>i</sub>&cap;D<sub>j</sub>=&varnothing;（i&ne;j）,每个自己D<sub>i</sub>都尽可能保持数据分布的一致性。然后，每次用k-1个子集的并集作为训练集，余下的那个子集作为测试集；这样就可获得k组训练/测试集。从而可进行k次训练和测试，最终返回的是k个测试结果的均值。又称”k折交叉验证”，其中k的取值很大程度上，决定了评估结果的稳定性和保真性(fidelity)。k最常用的取值是10.</p>
+<p><img src="/2021/08/15/Model-Evaluation-And-Selection/ImageProcessing100Wen-master/hexo/source/_post/ML-0.png" alt="Machine-Learn"></p>
+<p>交叉验证法同样存在将数据集D划分为k个子集同样存在多种划分方式。</p>
+<p>1.3 自助法</p>
+<p>以自助采样为基础。给定包含m个样本的数据集D，对它进行采样产生数据集D’：每次随机从D中挑选一个样本，将其拷贝放入D’，然后又放回的重复执行m次，得到包含m个样本的数据集D‘。</p>
+<h4 id="二、性能度量"><a href="#二、性能度量" class="headerlink" title="二、性能度量"></a>二、性能度量</h4><p>为了评估模型的泛化性能，不仅需要有效可行的实验估计方法，如留出法、K折交叉验证法等。还需要有衡量模型泛化能力的评价标准，即性能度量。在做模型评估的时候，对于什么样的模型是好的，不仅取决于算法和数据，还决定于任务需求。</p>
+<h5 id="2-1-均方误差"><a href="#2-1-均方误差" class="headerlink" title="2.1 均方误差"></a>2.1 均方误差</h5><p>1.1 针对离散的数据</p>
+<script type="math/tex; mode=display">
+E(f;D) = \frac{1}{m}(f(x_i)-y_i)^2</script><p>1.2 针对连续的数据</p>
+<script type="math/tex; mode=display">
+E(f;D) = \int_{x\sim D} (f(x)-y)^2p(x){\rm d}x</script><h5 id="2-2-查全率、查准率与F1"><a href="#2-2-查全率、查准率与F1" class="headerlink" title="2.2 查全率、查准率与F1"></a>2.2 查全率、查准率与F1</h5><p>对于二分类问题，可将样例根据真实类别与学习器预测类别的组合划分为真正例(TP)，假正例(FP)，真反例(TN)和假反例(FN)，用混淆矩阵表示如下：</p>
+<p><img src="/2021/08/15/Model-Evaluation-And-Selection/ImageProcessing100Wen-master/hexo/source/_post/ConfusionMatrix.png" alt="ML"></p>
+<script type="math/tex; mode=display">
+查准率P： P=\frac{TP}{TP+FP}\\
+查全率R： R=\frac{TP}{TP+FN}</script><h5 id="2-3-P-R曲线"><a href="#2-3-P-R曲线" class="headerlink" title="2.3 P-R曲线"></a>2.3 P-R曲线</h5><p>如何画PR曲线，找一组样本，根据学习器的预测结果对样例进行排序，排在前面的是学习器认为”最可能”是正例的样本，排在最后的则是学习器认为”最不可能”是正例的样本。按此顺序逐个把样本作为正例进行预测，每次可以计算出当前的查全率、查准率。以查准率为纵轴、查全率为横轴作图。<br>举例：比如有20个样本，10个正例，10个反例。将20个样例用学习器预测一遍，得到20个预测结果，对20个样例根据预测结果排序。排好序后从预测值最大的开始，第一次取第一个为预测的正样本，其余为预测的负样本，计算查全率和查准率。第二次取前两个为预测的正样本，其余为预测的负样本，计算查全率和查准率。依次进行，直到取全部20个样本都作为预测的正样本，负样本为零。得到20组查全率和查准率的预测值，就可以作图了。<br><img src="/2021/08/15/Model-Evaluation-And-Selection/1.png" alt="ML"></p>
+<p><strong>如何比较不同学习器的优劣？</strong></p>
+<p>看P-R曲线，如上图如果A完全将C包住则A的性能优于学习器C的性能。如果有交叉，则一般可用P-R曲线下面的面积作为评判标准。但是面积不好求，所以有人提出要综合考虑了查全率和查准率的性能度量。这就出现了F1度量：</p>
+<script type="math/tex; mode=display">
+F1=\frac{2\times P\times R}{P+R}=\frac{2\times TP}{样例总是+TP-TN}</script><p>在一些应用中，对查准率和查全率的重视程度有所不同，此时，可以使用F1、F<sub>&beta;</sub>作为查准率/查全率不同偏好的度量值。</p>
+<script type="math/tex; mode=display">
+F_\beta=\frac{(1+\beta^2)\times P\times R}{\beta^2\times P+R}   \quad \beta =1是即为F1,\beta>1时对查全率有更大的影响，\beta<1时，对查准率有更大的影响。</script><p>在实际应用中，往往需要进行多次训练/测试，每次都会得到一个混淆矩阵；或对于多分类任务，每两两类别的组合都对应一个混淆矩阵。<strong>那么如何在n个二分类混淆矩阵上综合考察查准率和查全率呢？</strong></p>
+<ol>
+<li>直接现在各混淆矩阵上分别计算处查准率和查全率，记为(P<sub>1</sub>,R<sub>1</sub>),(P<sub>2</sub>,R<sub>2</sub>),…,(P<sub>n</sub>,R<sub>n</sub>)。在计算平均值，得到宏查准率(macro-P)，宏查全率(macro-R)和宏F1(macro-F1)</li>
+<li>可先将各混淆矩阵的对应元素进行平均，得到TP,FP,TN,FN的平均值TP’,FP’,TN’,FN’,在基于这些平均值计算出微查准率(micro-P)，微查全率(micro-R)和微F1(micro-F1)</li>
+</ol>
+<h5 id="2-4、ROC曲线"><a href="#2-4、ROC曲线" class="headerlink" title="2.4、ROC曲线"></a>2.4、ROC曲线</h5><p>ROC全称：（Receiver Operating Characteristic(受试者工作特征)）</p>
+<p>学习器为测试样本产生一个实值或概率预测，然后将预测值于一个分类阈值进行比较。若大于阈值则分为正类，否则为反类。实际上，根据这个实值或概率预测结果，可以将测试样本进行排序，”最可能”是正例的排在最前面，”最不可能”是正例排在最后面。这样分类相当于在这个排序中以某个截断点将样本分为两部分，前一部分为正例，后一部分为反例。<br>在不同的应用任务中，可根据任务需求来采用不同的截断点；如重视”查准率”，则可选择排序中靠前的位置进行截断；若重视”查全率”，则可选择靠后的位置进行截断。而ROC曲线就是根据不同截断画出的判断泛化性能的有利工具。<br>ROC曲线和PR曲线的计算过程是一样的，但使用的指标不一样，ROC曲线<strong>纵轴</strong>使用”真正例率(TPR)”,<strong>横轴</strong>使用”假正例率(FPR)”</p>
+<script type="math/tex; mode=display">
+TPR=\frac{TP}{TP+FN}, FPR=\frac{FP}{TN+FP}</script><p><strong>如何比较多个学习器的优劣：</strong>1、查看ROC曲线时候能完全包住另一个，2、看ROC曲线下面的面积AUC(Area Under ROC Curve)</p>
+<h5 id="2-5、代价敏感错误率与代价曲线"><a href="#2-5、代价敏感错误率与代价曲线" class="headerlink" title="2.5、代价敏感错误率与代价曲线"></a>2.5、代价敏感错误率与代价曲线</h5><p>由于不同类型的错误所造成的后果不同，所以机器学习器如果出现了错误的预测，那么也应该会造成不同的代价。为了权衡不同类型错误所造成的不同损失，可以使用”非均等代价”。</p>
+<script type="math/tex; mode=display">
+代价敏感错误率：E(f;D;cost)=\frac{1}{m}(\sum_{x_i\in D^+}I(f(x_i)\ne y_i)\times cost_{01}+\sum_{x_i\in D^-}I(f(x_i)\ne y_i\times cost_{10}))</script><p>在非均等代价下，ROC曲线不能直接反映出学习器的期望总体代价，而”代价曲线图”可以达到这个目的。(P2.3.4节)</p>
+<h4 id="三、比较检验"><a href="#三、比较检验" class="headerlink" title="三、比较检验"></a>三、比较检验</h4><p>如何正确的比较性能度量得到的值？是比大小吗？<br>由于机器学习中性能比较比实际复杂的多，由于多种因素的作用，所以需要使用<strong>统计假设检验</strong>。</p>
+<p>3.1 假设检验</p>
+<p>3.2 交叉验证t检验</p>
+<h4 id="四、偏差和方差"><a href="#四、偏差和方差" class="headerlink" title="四、偏差和方差"></a>四、偏差和方差</h4><p>“偏差-方差分解”是解释学习算法泛化性能的一种重要工具。</p>
+<p>假设测试样本为x，令yD为x在数据集中的标记，y为x的真实标记，f(x;D)为训练集D上学得模型f在x上的预测输出。以回归任务为例，学习算法的期望预测为：</p>
+<script type="math/tex; mode=display">
+\overline f(x)=E_D[f(x;D)]\\使用相同样本的不同训练集产生的方差为：
+var(x)=E_D[(f(x;D)-\overline f(x))^2]\\
+噪声为：\epsilon^2=E_D[(y_D-y)^2]\\
+期望输出与真实标记的差别称为偏差，即：bias^2(x)=(\overline f(x)-y)^2</script><p>假定噪声期望为零，即E<sub>D</sub>[y<sub>D</sub>-y]=0。通过简单的多项式展开合并，可对算法的期望泛化误差进行分解：</p>
+<script type="math/tex; mode=display">
+\begin{align}
+E(f;D)=&E_D[(f(x;D)-y_D)^2]\\
+=&E_D[(f(x;D)-\overline f(x)+\overline f(x)-y_D)^2]\quad 减一个，加一个\overline f(x)\\
+=&E_D[(f(x;D)-\overline f(x))^2+(\overline f(x)-y_D)^2+2(f(x;D)-\overline f(x))(\overline f(x)-y_D)]\because E[X+Y]=E[X]+E[Y]\\
+=&E_D[(f(x;D)-\overline f(x))^2]+E_D[(\overline f(x)-y_D)^2]+E_D[2(f(x;D)-\overline f(x))(\overline f(x)-y_D)]\\
+\because &E_D[2(f(x;D)-\overline f(x))(\overline f(x)-y_D)]=E_D[2(f(x;D)-\overline f(x))\cdot\overline f(x)]-E_D[2(f(x;D)-\overline f(x))\cdot y_D]\\
+展开第一项&E_D[2(f(x;D)-\overline f(x))\cdot\overline f(x)]=E_D[2f(x;D)\cdot\overline f(x)-2\overline f(x)\cdot \overline f(x)] \\
+\because& \overline f(x)是常数，E[AX+B]=AE[X]+B\\
+\therefore &E_D[2(f(x;D)-\overline f(x))\cdot\overline f(x)]=2\overline f(x)\cdot E_D[f(x;D)]-2\overline f(x)\cdot \overline f(x)\\
+\because& E_D[f(x;D)]=\overline f(x),\therefore E_D[2(f(x;D)-\overline f(x))\cdot\overline f(x)]=0\\
+展开第二项&E_D[2(f(x;D)-\overline f(x))\cdot y_D]=2E_D[f(x;D)\cdot y_D]-2\overline f(x)\cdot E_D[y_D]\\
+由于噪声和&f无关，所以f(x;D)和y_D是两个相互独立的随机变量，根据期望性质E[XY]=E[X]E[Y](X,Y独立)\\
+E_D[2(f&(x;D)-\overline f(x))\cdot y_D]=2E_D[f(x;D)\cdot y_D]-2\overline f(x)\cdot E_D[y_D]=2E_D[f(x;D)]\cdot E_D[y_D]-2\overline f(x)E_D[y_D]\\
+\because& E_D[f(x;D)]=\overline f(x),\therefore E_D[2(f(x;D)-\overline f(x))\cdot y_D]=0\\
+\end{align}</script><script type="math/tex; mode=display">
+\begin{align}
+\therefore E_D[(f(x;D)-y_D)^2]=&E_D[(f(x;D)-\overline f(x))^2]+E_D[(\overline f(x)-y_D)^2]\\
+=&E_D[(f(x;D)-\overline f(x))^2]+E_D[(\overline f(x)-y+y+y_D)^2]\\
+=&E_D[(f(x;D)-\overline f(x))^2]+E_D[(\overline f(x)-y)^2]+E_D[(y-y_D)^2]+2E_D[(\overline f(x)-y)(y-y_D)]\\
+\because& \overline f(x)和y都为常量，\therefore E_D[(\overline f(x)-y)^2]=(\overline f(x)-y)^2\\
+同理&2E_D[(\overline f(x)-y)(y-y_D)]=2(\overline f(x)-y)\cdot E_D[(y-y_D)]\\
+又假&设噪声期望为0,E_D[(y-y_D)]=0,\therefore 2E_D[(\overline f(x)-y)(y-y_D)]=0\\
+因此&，E_D[(f(x;D)-y_D)^2]=E_D[(f(x;D)-\overline f(x))^2]+E_D[(\overline f(x)-y)^2]+E_D[(y-y_D)^2]\\
+于是&，E[f;D]=bias^2(x)+var(x)+\epsilon^2
+\end{align}</script><p>由上式可得：泛化误差可分解为偏差、方差与噪声之和。</p>
+<p>偏差：度量了学习算法的期望预测与真实结果的偏离程度，即刻画了学习算法本身的拟合能力。</p>
+<p>方差：度量了同样大小的训练集的变动所导致的学习性能的变化，即刻画了数据扰动所造成的影响。</p>
+<p>噪声：表达了在当前任务上任何学习算法所能达到的期望泛化误差的下界，即刻画了学习问题本身的难度。</p>
+<p>由于泛化误差可分解为偏差、方差与噪声之和，所以泛化性能由学习算法的能力、数据的充分性以及学习任务本身的难度所共同决定。</p>
+]]></content>
+      <categories>
+        <category>Machine Learning</category>
+      </categories>
+      <tags>
+        <tag>Machine Learning</tag>
+      </tags>
   </entry>
   <entry>
     <title>SPPNet</title>
@@ -740,11 +1969,6 @@ B=&Y+(Cb-128)\cdot1.7718\end{align}</script><figure class="highlight python"><ta
   </entry>
   <entry>
     <title>Cloud-Paas-Learn</title>
-    <url>/2021/07/25/Cloud-Paas-Learn/</url>
-    <content><![CDATA[]]></content>
-  </entry>
-  <entry>
-    <title>Cloud-Paas-Learn</title>
     <url>/2021/07/25/Cloud-PaaS-Learn/</url>
     <content><![CDATA[<h2 id="云计算Paas学习"><a href="#云计算Paas学习" class="headerlink" title="云计算Paas学习"></a>云计算Paas学习</h2><h4 id="一、如何使用postman进行登录"><a href="#一、如何使用postman进行登录" class="headerlink" title="一、如何使用postman进行登录"></a>一、如何使用postman进行登录</h4><ol>
 <li>找到登录的<strong>login-processing-url</strong>：/api/v1/auth/login/verify。</li>
@@ -801,6 +2025,11 @@ B=&Y+(Cb-128)\cdot1.7718\end{align}</script><figure class="highlight python"><ta
       <tags>
         <tag>Cloud Compute</tag>
       </tags>
+  </entry>
+  <entry>
+    <title>Cloud-Paas-Learn</title>
+    <url>/2021/07/25/Cloud-Paas-Learn/</url>
+    <content><![CDATA[]]></content>
   </entry>
   <entry>
     <title>Image-Process-Pattern-Recognition</title>

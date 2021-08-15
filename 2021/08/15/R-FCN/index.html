@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    hostname: new URL('http://yoursite.com').hostname,
+    root: '/',
+    scheme: 'Mist',
+    version: '7.5.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    sidebarPadding: 40
+  };
+</script>
+
+  <meta name="description" content="R-FCN:论文学习一、概述R-FCN，基于区域的全卷积网络框架，用于目标检测。该网络由共享的、完全卷积的架构组成。论文链接 二、为什么要提出该网络？因为，像Faster RCNN类的目标检测算法，在第一阶段得到RoIs和对应的scores后，会从原图和feature map上mapping每一个RoI，并做RoI Pooling，最后用两个全连接层去对每个类别分类和边界框回归(也就是资料中说的R">
+<meta name="keywords" content="Deep Learning">
+<meta property="og:type" content="article">
+<meta property="og:title" content="R-FCN">
+<meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2021&#x2F;08&#x2F;15&#x2F;R-FCN&#x2F;index.html">
+<meta property="og:site_name" content="编辑尼撑">
+<meta property="og:description" content="R-FCN:论文学习一、概述R-FCN，基于区域的全卷积网络框架，用于目标检测。该网络由共享的、完全卷积的架构组成。论文链接 二、为什么要提出该网络？因为，像Faster RCNN类的目标检测算法，在第一阶段得到RoIs和对应的scores后，会从原图和feature map上mapping每一个RoI，并做RoI Pooling，最后用两个全连接层去对每个类别分类和边界框回归(也就是资料中说的R">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2021&#x2F;08&#x2F;15&#x2F;R-FCN&#x2F;R-FCN-0.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2021&#x2F;08&#x2F;15&#x2F;R-FCN&#x2F;F-RCN-1.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2021&#x2F;08&#x2F;15&#x2F;R-FCN&#x2F;R-FCN-2.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2021&#x2F;08&#x2F;15&#x2F;R-FCN&#x2F;R-FCN-4.png">
+<meta property="og:updated_time" content="2021-08-15T12:22:16.513Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2021&#x2F;08&#x2F;15&#x2F;R-FCN&#x2F;R-FCN-0.png">
+
+<link rel="canonical" href="http://yoursite.com/2021/08/15/R-FCN/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>R-FCN | 编辑尼撑</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="编辑尼撑" type="application/atom+xml"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">编辑尼撑</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">学无止境</p>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-schedule">
+
+    <a href="/schedule/" rel="section"><i class="fa fa-fw fa-calendar"></i>日程表</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="搜索..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/08/15/R-FCN/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Qiang Chen">
+      <meta itemprop="description" content="记录是忘记的第一助手.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="编辑尼撑">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          R-FCN
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2021-08-15 20:19:17 / 修改时间：20:22:16" itemprop="dateCreated datePublished" datetime="2021-08-15T20:19:17+08:00">2021-08-15</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Deep-Learning/" itemprop="url" rel="index">
+                    <span itemprop="name">Deep Learning</span>
+                  </a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="R-FCN-论文学习"><a href="#R-FCN-论文学习" class="headerlink" title="R-FCN:论文学习"></a>R-FCN:论文学习</h2><h4 id="一、概述"><a href="#一、概述" class="headerlink" title="一、概述"></a>一、概述</h4><p>R-FCN，基于区域的全卷积网络框架，用于目标检测。该网络由共享的、完全卷积的架构组成。<a href="https://papers.nips.cc/paper/2016/file/577ef1154f3240ad5b9b413aa7346a1e-Paper.pdf" target="_blank" rel="noopener">论文链接</a></p>
+<h4 id="二、为什么要提出该网络？"><a href="#二、为什么要提出该网络？" class="headerlink" title="二、为什么要提出该网络？"></a>二、为什么要提出该网络？</h4><p>因为，像Faster RCNN类的目标检测算法，在第一阶段得到RoIs和对应的scores后，会从原图和feature map上mapping每一个RoI，并做RoI Pooling，最后用两个全连接层去对每个类别分类和边界框回归(也就是资料中说的<strong>RoI-wise subnetwork</strong>)。作者认为这种使用全连接层的做法丢掉了对于目标位置信息的敏感性，会降低检测精度，并且对检测速度也有影响。所以，作者希望通过<strong>全卷积的方式</strong>去<strong>共享</strong>整个图像的<strong>计算</strong>，并且加强对<strong>位置的敏感性</strong>。</p>
+<h4 id="三、如何修正已有网络的缺陷？"><a href="#三、如何修正已有网络的缺陷？" class="headerlink" title="三、如何修正已有网络的缺陷？"></a>三、如何修正已有网络的缺陷？</h4><p><strong>起源：</strong>在开创性的分类网络中如AlexNet, VGG中在卷积层后加一层最大池化层，然后后接几层全连接层。</p>
+<p><strong>进展：</strong>最近最先进的分类网络中，已经开始设计全卷积网络，如ResNets-101、GoogLeNets。</p>
+<p><strong>引入检测网络存在的问题：</strong>实验得出直接使用全卷积网络后，检测进度相当低，与网络卓越的分类精度不匹配。</p>
+<p><strong>已有的修正方法：</strong>ResNet论文中，将Faster R-CNN检测器的RoI池化层被不自然地插入到两组卷积层之间，创建了一个更深的RoI-wise子网络。尽管提高了精度，但是降低了计算速度(由于per-ROI不共享)。</p>
+<p><strong>对ResNet中不自然的设计如何解释？</strong></p>
+<p>作者们认为，将RoI Pooling插入到两组卷积层之间是为了照顾物体检测时对平移变化的响应。但这种操作打破了图像分类的平移不变性(图像内目标的移动对分类结果应该是无差别的)。</p>
+<p>同时，根据全卷积网络在ImageNet分类的领先结果表明，尽可能具有平移不变性在深度全卷积架构更可取(即，不论物体位置如何变化都能分类正确)。但目标检测任务需要在一定程度上具有平移可变的定位表示。例如：候选框内对象的平移应获得有意义的响应。</p>
+<p><strong>那么如何在分类任务的平移不变性和检测任务中的平移可变性之间做出权衡呢？</strong></p>
+<p>在ResNet中，假设越深的分类网络对于平移的敏感性越低(个人感觉有两个原因，第一是感受野变大，窗口大了看的东西多了，在哪里对分类任务无所谓；第二是越深的网络拟合的特征越细，辨识性越高)。所以较深的卷积层后可以损失分类对平移不变性的关注度，而提升检测任务对定位的敏感度。因此，ResNet论文在检测管道中，在RoI层后多了一组卷积层。当跨不同区域评估是，post-RoI卷积层不在具有平移不变性(这个可能与边界回归smootL1损失函数有关系，就是多个mapping后的RoI区域有共有部分是在统计边界回归是会累计误差，<strong>待确认</strong>)。</p>
+<p><strong>那么R-FCN中是怎么做的呢？</strong></p>
+<p>作者为了将目标检测中对位置的敏感性加入FCN中，设计了一组专门的卷积层作为FCN输出来构建一组位置敏感的分数图(score map)。这些分数图中的每一个都对相对空间位置信息进行编码。如：在对象的左侧。在FCN之后，附加了一个位置敏感的RoI池化层，让它从这些分数图中引导信息，后面没有权重(卷积/fc)层。该架构是端到端学习的。所有可学习层都是卷积层，并在整个图像上共享，但对目标检测所需的空间信息进行编码。</p>
+<p><img src="/2021/08/15/R-FCN/R-FCN-0.png" alt="R-FCN"></p>
+<p>R-FCN还是采用了两阶段的目标检测策略，先用RPN提取候选区域，并且RPN和R-FCN之间共享特征。系统的概览如下图所示(文本的图都来自于R-FCN<a href="https://papers.nips.cc/paper/2016/file/577ef1154f3240ad5b9b413aa7346a1e-Paper.pdf" target="_blank" rel="noopener">论文</a>)：</p>
+<p><img src="/2021/08/15/R-FCN/F-RCN-1.png" alt="R-FCN"></p>
+<p>对于RPN给出的RoIs，R-FCN架构旨在将RoI分类为目标类别和背景。在R-FCN中，所有可学习的权重层都是卷积层，并在整个图像上计算。最后一个卷积层为每个类别生成一组k<sup>2</sup>位置敏感分数图，因此具有k<sup>2</sup>(C+1)个输出通道，其中包含C个目标类别+一个背景类。k<sup>2</sup>得分图库对应于描述相对位置的k&times;k的空间网格。例如，当k&times;k=3&times;3时，9个分数图对目标的类别{左上、中上、右上、…、右下}的情况进行编码。</p>
+<p>上面的讲法有点晕，其实，R-FCN的核心思想就是<strong>Position-sensitive score maps</strong>和<strong>Position-sensitive RoI pooling</strong>。那么简单来说<strong>Position-sensitive score maps</strong>就是要对RoI中的某些子区域定位的同时，学习子区域中的内容。比如将RoI划分成3&times;3=9个子区域，用左上、中上、右上、左中、中、右中、右左、右中、右下9个区域表示，每个区域可以看作目标的不同部位。那么假设C+1个类别，每个类别都会在9个子区域上去学习，这样就会生成9&times;(C+1)个channel，如图1所示，9个score maps，每个中有C+1个类。<strong>那么如何取定位每个子区域呢</strong>？这就需要用到<strong>Position-sensitive RoI pooling</strong>了，比如9个子区域中第i个子区域对应的是第i个score map，而第i个score map同样也有3&times;3=9个区域，那么RoI中第i个子区域对应的就是第i个score map中的第i个子区域(每个类有一个子区域，C+1各类有C+1个子区域)，对每个子区域取平均池化得到C+1个value，那么RoI中k&times;k个子区域就有k&times;k&times;(C+1)个value。</p>
+<h4 id="四、具体的Position-sensitive-score-maps-amp-Position-sensitive-RoI-pooling如何做的？"><a href="#四、具体的Position-sensitive-score-maps-amp-Position-sensitive-RoI-pooling如何做的？" class="headerlink" title="四、具体的Position-sensitive score maps &amp; Position-sensitive RoI pooling如何做的？"></a>四、具体的Position-sensitive score maps &amp; Position-sensitive RoI pooling如何做的？</h4><p>R-FCN在共享卷积层的最后再接上一层卷积层，也就是位置敏感得分图(Position-sensitive score maps)，它其实是一层卷积层，他的height和width和共享卷积层的一样，但是它的channel=k<sup>2</sup>(C+1)。</p>
+<p>为了将位置信息显式地编码到每个 RoI 中，将每个 RoI 矩形通过规则网格划分为 k ×k 个 bin。 对于大小为 w×h 的 RoI 矩形， 一个bin的尺寸大致为w/k&times;h/k。R-FCN构造最后一个卷积层来为每个类别生成 k<sup>2</sup> 得分图，也就对应到了k&times;k个区域。在第 (i,j) 个 bin (0 ≤i,j ≤k −1) 内，定义了一个<strong>位置敏感的 RoI 池化操作</strong>，该操作仅在第 (i,j) 个得分图上进行池化(Position-sensitive RoI pooling)： </p>
+<script type="math/tex; mode=display">
+r_c(i,j|\Theta)=\sum_{(x,y)\in bin(i,j)}z_{i,j,c}(x+x_0,y+y_0|\Theta)/n\\
+r_c(i,j)是第 (i,j) 个 bin 中第 c 个类别的池化响应，z_{i,j,c} 是 k^2(C + 1) 个得分图中的一个得分图 \\
+(x0,y0) 表示 RoI 的左上角，n 是 bin 中的像素数， Θ 表示网络的所有可学习参数 \\
+第i个bin的跨度为\lfloor i\frac{w}{k} \rfloor\le x\le \lfloor (i+1)\frac{w}{k} \rfloor,\lfloor j\frac{h}{k} \rfloor\le y\le \lfloor (j+1)\frac{h}{k} \rfloor</script><p><img src="/2021/08/15/R-FCN/R-FCN-2.png" alt="R-FCN"></p>
+<p>对于每个类别，它都有k<sup>2</sup>个score maps，那么按照上述的池化方式，可以RoI针对该类别可以得到k<sup>2</sup>个值，那么一共有C+1个类别，那么一个RoI就得到 k<sup>2</sup>(C+1)个值。那么对于每个类别，该类别的 k<sup>2</sup> 个值都表示该RoI属于该类别的响应值，那么将这 k<sup>2</sup>个数相加求平均就得到该类别的score(论文中的术语是对k<sup>2</sup>进行vote，averaging the score)，那么一共有C+1个scores，那么将这C+1个数使用简单的softmax函数就可以得到属于各个类别的概率了。</p>
+<script type="math/tex; mode=display">
+r_c(\Theta)=\sum_{i,j}r_c(i,j|\Theta),S_c(\Theta)=e^{r_c(\Theta)}/\sum^{C}_{c'=0}e^{r_c(\Theta)}</script><p>上述概率用于评估训练期间的交叉熵损失和推理期间的 RoI 排名。 </p>
+<p><img src="/2021/08/15/R-FCN/R-FCN-4.png" alt="R-FCN"></p>
+<h4 id="五、如何回归边框？"><a href="#五、如何回归边框？" class="headerlink" title="五、如何回归边框？"></a>五、如何回归边框？</h4><p>按照“position-sensitive score map”+“Position-sensitive RoI pooling”思路，其会让每一个RoI得到 C+1 个数作为每个类别的score，那么现在每个RoI还需要 4 个数作为”回归的偏移量”，也就是“坐标和长宽”的偏移量，所以仿照分类设计的思想，还需要一个类似于position-sensitive  score map的用于回归的score  map。那么现在就这样设计：在ResNet的共享卷积层的最后一层上，接上一个与position-sensitive score  map并行的（sibling）score maps，该score maps用于regression，而该regression score map的维度应当是4k<sup>2</sup>，那么在经过Position-sensitive RoI pooling操作后还是4k<sup>2</sup>维的向量，通过平均投票将其聚合为一个4维向量(k<sup>2</sup>个t<sub>x</sub>,t<sub>y</sub>,t<sub>w</sub>,t<sub>h</sub>，每个t<sub>*</sub>求和/k<sup>2</sup>，*表示x,y,w,h)。每一个RoI就会得到4个数作为该RoI的坐标和长宽的偏移量(这里执行了与类无关的边界框回归)。</p>
+<h4 id="六、网络的训练"><a href="#六、网络的训练" class="headerlink" title="六、网络的训练"></a>六、网络的训练</h4><p>在每个 RoI 上定义的损失函数是交叉熵损失和框回归损失的总和：</p>
+<script type="math/tex; mode=display">
+L(s,t_{x,y,w,h})=L_{cls}(S_{c^*})+\lambda[c^*\gt0]L_{reg}(t,t^*)\\
+c^*是RoI的ground-truth标签，L_{cls}(S_{c^*})=-log(S_{c^*})是分类的cross-entropy \,\,loss\\
+L_{reg}是边界回归损失，t^*表示ground \,\,truth \,\,box,[c^*\gt1]是指示函数条件满足为1，否则为0\\
+平衡参数\lambda设置为1，定义正样本为RoI与GT的IoU\ge0.5</script><p>在训练的时候不会对所有的RoI进行处理，而是评估所有N个RoI的损失。然后按损失对所有正负RoI进行排序，并选择具有最高损失的B=128个RoIs。</p>
+<p><a href="https://zhuanlan.zhihu.com/p/30867916" target="_blank" rel="noopener">参考链接</a></p>
+<p><a href="https://zhuanlan.zhihu.com/p/24780433" target="_blank" rel="noopener">扩展链接</a></p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Deep-Learning/" rel="tag"># Deep Learning</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/08/15/Faster-R-CNN/" rel="prev" title="Faster-R-CNN">
+      <i class="fa fa-chevron-left"></i> Faster-R-CNN
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2021/08/15/Mask-R-CNN/" rel="next" title="Mask-R-CNN">
+      Mask-R-CNN <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+    <div class="comments" id="gitalk-container"></div>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#R-FCN-论文学习"><span class="nav-number">1.</span> <span class="nav-text">R-FCN:论文学习</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#一、概述"><span class="nav-number">1.0.1.</span> <span class="nav-text">一、概述</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#二、为什么要提出该网络？"><span class="nav-number">1.0.2.</span> <span class="nav-text">二、为什么要提出该网络？</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#三、如何修正已有网络的缺陷？"><span class="nav-number">1.0.3.</span> <span class="nav-text">三、如何修正已有网络的缺陷？</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#四、具体的Position-sensitive-score-maps-amp-Position-sensitive-RoI-pooling如何做的？"><span class="nav-number">1.0.4.</span> <span class="nav-text">四、具体的Position-sensitive score maps &amp; Position-sensitive RoI pooling如何做的？</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#五、如何回归边框？"><span class="nav-number">1.0.5.</span> <span class="nav-text">五、如何回归边框？</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#六、网络的训练"><span class="nav-number">1.0.6.</span> <span class="nav-text">六、网络的训练</span></a></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Qiang Chen</p>
+  <div class="site-description" itemprop="description">记录是忘记的第一助手.</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">78</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">13</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">22</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/chenaing19" title="GitHub → https://github.com/chenaing19" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/765206494@qq.com" title="E-Mail → 765206494@qq.com"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Qiang Chen</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v4.0.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 �?<a href="https://mist.theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> v7.5.0
+  </div>
+    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+  
+  <script color='0,0,255' opacity='0.5' zIndex='-1' count='99' src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/muse.js"></script>
+<script src="/js/next-boot.js"></script>
+
+
+
+  
+
+
+
+
+  <script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+      
+<script type="text/x-mathjax-config">
+
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$', '$'], ['\\(', '\\)'] ],
+      processEscapes: true,
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {
+      equationNumbers: {
+        autoNumber: 'AMS'
+      }
+    }
+  });
+
+  MathJax.Hub.Register.StartupHook('TeX Jax Ready', function() {
+    MathJax.InputJax.TeX.prefilterHooks.Add(function(data) {
+      if (data.display) {
+        var next = data.script.nextSibling;
+        while (next && next.nodeName.toLowerCase() === '#text') {
+          next = next.nextSibling;
+        }
+        if (next && next.nodeName.toLowerCase() === 'br') {
+          next.parentNode.removeChild(next);
+        }
+      }
+    });
+  });
+
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for (i = 0; i < all.length; i += 1) {
+      element = document.getElementById(all[i].inputID + '-Frame').parentNode;
+      if (element.nodeName.toLowerCase() == 'li') {
+        element = element.parentNode;
+      }
+      element.classList.add('has-jax');
+    }
+  });
+</script>
+<script>
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/mathjax@2/MathJax.js?config=TeX-AMS-MML_HTMLorMML', () => {
+    MathJax.Hub.Typeset();
+  }, window.MathJax);
+</script>
+
+    
+
+  
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID: '9c00bb4a73071d490d0b',
+      clientSecret: '0466125432b53cefbd6002b7ea866f7e15bbd9c8',
+      repo: 'chenqiang19.github.io',
+      owner: 'chenqiang19',
+      admin: ['chenqiang19'],
+      id: 'ebbbc9f2906428da9b23655fd53916ab',
+        language: '',
+      distractionFreeMode: 'true'
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+</script>
+
+  
+  <!-- ҳ����С���� -->
+  
+  
+    <script src="/js/cursor/love.min.js"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  
+
+
+
+</body>
+</html>

@@ -1,0 +1,665 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    hostname: new URL('http://yoursite.com').hostname,
+    root: '/',
+    scheme: 'Mist',
+    version: '7.5.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    sidebarPadding: 40
+  };
+</script>
+
+  <meta name="description" content="第三章 线性模型（西瓜书学习-笔记）一、基本形式线性模型(linear model)试图学得一个通过属性的线性组合来进行预测的函数，即：  下面是由d个属性x&#x3D;(x_1;x_2;...;x_d)，其中x_i是在第i个属性上的取值 \\f(x)&#x3D;w_1x_1+w_2x_2+...+w_dx_d+b,一般写成f(x)&#x3D;w^Tx+b\\ 其中w&#x3D;(w_1;w_2;...;w_d),w和b学得之后，模型就">
+<meta name="keywords" content="Machine Learning">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Linear-Model">
+<meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2021&#x2F;08&#x2F;15&#x2F;Linear-Model&#x2F;index.html">
+<meta property="og:site_name" content="编辑尼撑">
+<meta property="og:description" content="第三章 线性模型（西瓜书学习-笔记）一、基本形式线性模型(linear model)试图学得一个通过属性的线性组合来进行预测的函数，即：  下面是由d个属性x&#x3D;(x_1;x_2;...;x_d)，其中x_i是在第i个属性上的取值 \\f(x)&#x3D;w_1x_1+w_2x_2+...+w_dx_d+b,一般写成f(x)&#x3D;w^Tx+b\\ 其中w&#x3D;(w_1;w_2;...;w_d),w和b学得之后，模型就">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2021&#x2F;08&#x2F;15&#x2F;Linear-Model&#x2F;ML-1.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2021&#x2F;08&#x2F;15&#x2F;Linear-Model&#x2F;ML-2.png">
+<meta property="og:updated_time" content="2021-08-15T10:09:06.936Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2021&#x2F;08&#x2F;15&#x2F;Linear-Model&#x2F;ML-1.png">
+
+<link rel="canonical" href="http://yoursite.com/2021/08/15/Linear-Model/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>Linear-Model | 编辑尼撑</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="编辑尼撑" type="application/atom+xml"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">编辑尼撑</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">学无止境</p>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-schedule">
+
+    <a href="/schedule/" rel="section"><i class="fa fa-fw fa-calendar"></i>日程表</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="搜索..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/08/15/Linear-Model/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Qiang Chen">
+      <meta itemprop="description" content="记录是忘记的第一助手.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="编辑尼撑">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Linear-Model
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2021-08-15 18:07:04 / 修改时间：18:09:06" itemprop="dateCreated datePublished" datetime="2021-08-15T18:07:04+08:00">2021-08-15</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Machine-Learning/" itemprop="url" rel="index">
+                    <span itemprop="name">Machine Learning</span>
+                  </a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="第三章-线性模型（西瓜书学习-笔记）"><a href="#第三章-线性模型（西瓜书学习-笔记）" class="headerlink" title="第三章 线性模型（西瓜书学习-笔记）"></a>第三章 线性模型（西瓜书学习-笔记）</h2><h4 id="一、基本形式"><a href="#一、基本形式" class="headerlink" title="一、基本形式"></a>一、基本形式</h4><p>线性模型(linear model)试图学得一个通过属性的线性组合来进行预测的函数，即：</p>
+<script type="math/tex; mode=display">
+下面是由d个属性x=(x_1;x_2;...;x_d)，其中x_i是在第i个属性上的取值
+\\f(x)=w_1x_1+w_2x_2+...+w_dx_d+b,一般写成f(x)=w^Tx+b\\
+其中w=(w_1;w_2;...;w_d),w和b学得之后，模型就得以确定\\
+权重w直观表达了各属性在预测中的重要性</script><p>许多功能更为强大的非线性模型(nonlinear model)可在线性模型的基础上，通过引入层级结构或高维映射得到。<strong>疑问：如何引入？</strong></p>
+<h4 id="二、线性回归"><a href="#二、线性回归" class="headerlink" title="二、线性回归"></a>二、线性回归</h4><script type="math/tex; mode=display">
+给定数据集D=\{(x1,y1),(x_2,y_2),...,(x_m,y_m)\},其中x_i=(x_{i1};x_{i2};...;x_{id}),y_i\in R\\
+线性回归(linear regression)试图学得一个线性模型以尽可能准确地预测实值输出标记。\\
+对于只有一个输入属性的简单场景，线性回归试图学得：f(x_i)=wx_i+b,使得f(x_i)\approx y_i\\
+如何确定w和b呢？关键在于使预测值和真实值差别最小，使用性能度量方法\\
+回归中常用均方误差：(w*,b*)=arg\,\min_{(w,b)}\sum^{m}_{i=1}(f(x_i)-y_i)^2=arg\,\min_{(w,b)}\sum^{m}_{i=1}(y_i-wx_i-b)^2</script><p><strong>基于均方误差最小化来进行模型求解的方法称为”最小二乘法”</strong>。在线性回归中，最小二乘法就是试图找到一条直线，使所有样本到直线上的欧式距离之和最小。</p>
+<script type="math/tex; mode=display">
+求解w和b使E_{(w,b)}=\Sigma^{m}_{i=1}(y_i-wx_i-b)^2最小化的过程，称为线性回归模型的最小二乘参数估计(parameter estimation)\\
+将E_{(w,b)}分别对w和b求导，得到：\frac{\partial E(w,b)}{\partial w}=2(w\sum^{m}_{i=1}x_i^2-\sum^{m}_{i=1}(y_i-b)x_i),\frac{\partial E_{(w,b)}}{\partial b}=2(mb-\sum^{m}_{i=1}(y_i-wx_i))\\
+令上面的\frac{\partial E(w,b)}{\partial w}=0，\frac{\partial E_{(w,b)}}{\partial b}=0，可以求得w和b最优解得闭式。</script><p>对于更一般的情形，即样本由d个属性描述。此时，试图学得</p>
+<script type="math/tex; mode=display">
+f(x_i)=w^Tx_i+b,使得f(x_i)\approx y_i,这称为多元线性回归</script><p>类似的，也可以利用最小二乘来对w和b进行估计。为了简便，把w和b吸收入向量形式：</p>
+<script type="math/tex; mode=display">
+\hat w=(w;b)\\
+数据集D表示一个m\times(d+1)维大小的矩阵X\\
+X=\begin{pmatrix}
+x_{11}&x_{12}&\cdots&x_{1d}&1\\
+x_{21}&x_{22}&\cdots&x_{2d}&1\\
+\vdots&\vdots&\vdots&\ddots&\vdots
+\\x_{m1}&x_{m2}&\cdots&x_{md}&1\\
+\end{pmatrix}
+=
+\begin{pmatrix}x_1^T&1\\
+x_2^T&1\\
+\vdots&\vdots\\
+x_m^T&1
+\end{pmatrix}\\
+把标记写成向量形式y=(y_1;y_2;...;y_m)\\
+类似有 \hat w^*=arg\,\min_{\hat w}(y-X\hat w)^T(y-X\hat w)\\
+令E_{\hat w}=(y-X\hat w)^T(y-X\hat w),对\hat w求导得：\\
+\frac{\partial E_{\hat w}}{\partial\hat w}=2X^T(X\hat w-y)，令该式等于0,可得\hat w最优闭式解\\
+由于涉及到矩阵求逆，当X^TX是满秩矩阵或正定矩阵是，可得\hat w^*=(X^TX)^{-1}X^Ty\\
+对于不是满秩矩阵，那么会得到多个\hat w,选择哪个作为输出，由学习算法的归纳偏好决定，通常引入正则化项</script><p>更一般的，考虑单调可微函数g(.)，令</p>
+<script type="math/tex; mode=display">
+y=g^{-1}(w^Tx+b),得到的模型称为广义线性模型，g(\cdot)称为联系函数</script><h4 id="三、对数几率回归"><a href="#三、对数几率回归" class="headerlink" title="三、对数几率回归"></a>三、对数几率回归</h4><p><strong>线性模型如何进行分类任务？</strong>找一个单调可微函数将分类任务的真实标记y与线性回归模型的预测值联系起来。</p>
+<script type="math/tex; mode=display">
+对于二分类任务，输出标记y\in \{0,1\},需将线性回归模型产生的实值预测值z=w^Tx+b，转换为0/1。\\
+最理想的是单位阶跃函数\quad 
+y=\begin{cases}
+0, & \text{z < 0}  \\
+0.5, & \text{z = 0} \\
+1, & \text{z > 0}
+\end{cases}</script><p><img src="/2021/08/15/Linear-Model/ML-1.png" alt="ML"></p>
+<p>因为单位阶跃函数不连续，所以希望找到一个在一定程度上近似单位阶跃函数的”替代函数”，并希望它单调可微。而对数几率函数(logistic function)就是常用的一个替代函数：</p>
+<script type="math/tex; mode=display">
+y=\frac{1}{1+e^{-z}}</script><p><strong>为什么看上去已经做了非线性变换，仍然称为线性模型呢？</strong></p>
+<script type="math/tex; mode=display">
+z=w^Tx+b,带入上式，y=\frac{1}{1+e^{-(w^Tx+b)}}\\
+\frac{y}{1-y}=e^{w^Tx+b},则\ln\frac{y}{1-y}=w^Tx+b\\
+上式只是对预测值做了相应的对数变换，而模型仍然是线性模型\\
+若者y视为样本x的可能性，则1-y视为反例的可能性，两者比值称为几率，取对数得对数几率(log odds,简称logit)\\
+y=\frac{1}{1+e^{-(w^Tx+b)}}实际在用线性回归模型的预测结果去逼近真实标记的对数几率。\\
+对应模型为对数几率回归，实际为分类任务</script><p>如何求取上式中的<strong>w</strong>和<strong>b</strong>?</p>
+<script type="math/tex; mode=display">
+将y视为类的后验概率估计p(y=1|x),则\ln\frac{p(y=1|x)}{p(y=0|x)}=w^Tx+b\\
+其中，p(y=1|x)=\frac{e^{w^Tx+b}}{1+e^{w^Tx+b}},p(y=0|x)=\frac{1}{1+e^{w^Tx+b}}\\
+后验概率：事情已经发生了，导致事件发生的原因有很多，判断结果的发生是由哪个原因引起的概率\\
+p(y=1|x)=\frac{p(x(y=1))}{p(x)}=\frac{p(y=1)p(x|y=1)}{p(x)}</script><p>对于上式，可以通过极大似然法来估计未知参数<strong>w</strong>和<strong>b</strong>。</p>
+<h4 id="四、线性判别分析"><a href="#四、线性判别分析" class="headerlink" title="四、线性判别分析"></a>四、线性判别分析</h4><p>线性判别分析(Linear Discriminant Analysis,简称LDA),是一种经典的线性学习方法。</p>
+<p>LDA的思想非常朴素：给定训练样例集，设法将样例投影到一条直线上，使得同类样例的投影点尽可能接近、异类样例的投影点尽可能远离。对新样本进行分类时，将其投影到同样的这条直线上，再根据投影点的位置来确定样本的类别。</p>
+<p><img src="/2021/08/15/Linear-Model/ML-2.png" alt="ML"></p>
+<script type="math/tex; mode=display">
+给定数据集D=\{(x_i,y_i)\}^m_{i=1},y_i\in \{0,1\}。\\令X_i、\mu_i、\Sigma_i分别表示第i\in \{0,1\}类实例的集合、均值向量、协方差矩阵。\\
+若将所有样本投影到直线上，则两类的协方差分别为w^T\Sigma_0w和w^T\Sigma_1w</script><p>想要让同类样例的投影点尽可能接近，可以让同类样例投影点的协方差尽可能小，即w<sup>T</sup>&Sigma;<sub>0</sub>w+w<sup>T</sup>&Sigma;<sub>1</sub>w尽可能小；而欲使异类样例的投影点尽可能远离，可以让类中心之间的距离尽可能大，即||w<sup>T</sup>&Sigma;<sub>0</sub>w-w<sup>T</sup>&Sigma;<sub>1</sub>w||尽可能大。同时考虑两者，则可得到最大化的目标：</p>
+<script type="math/tex; mode=display">
+\begin{align}J=&\frac{\|w^T\mu_0-w^T\mu_1\|^2_2}{w^T\Sigma_0w+w^T\Sigma_1w}\\
+=&\frac{\|(w^T\mu_0-w^T\mu_1)^T\|^2_2}{w^T(\Sigma_0+\Sigma_1)w}\\
+=&\frac{\|(\mu_0-\mu_1)^Tw\|^2_2}{w^T(\Sigma_0+\Sigma_1)w}\\
+=&\frac{[(\mu_0-\mu_1)^Tw]^T(\mu_0-\mu_1)^Tw}{w^T(\Sigma_0+\Sigma_1)w} \\
+=&\frac{w^T(\mu_0-\mu_1)(\mu_0-\mu_1)^Tw}{w^T(\Sigma_0+\Sigma_1)w}
+\end{align}</script><script type="math/tex; mode=display">
+定义类内散度矩阵:S_w=\Sigma_0+\Sigma_1=\sum_{x\in X_0}(x-\mu_0)(x-\mu_0)^T+\sum_{x\in X_1}(x-\mu_1)(x-\mu_1)^T\\
+类间散度矩阵:S_b=(\mu_0-\mu_1)(\mu_0-\mu_1)^T\\
+则上式J可以重写为：J=\frac{w^TS_bw}{w^TS_ww}</script><h4 id="五、多分类学习"><a href="#五、多分类学习" class="headerlink" title="五、多分类学习"></a>五、多分类学习</h4><p>这里利用二分类学习器来解决多分类问题。考虑N个类别C<sub>1</sub>，C<sub>2</sub>，…，C<sub>N</sub>，多分类学习的基本思路是”拆解法”，即将多分类任务拆为若干个二分类任务求解。具体做法如下：</p>
+<ul>
+<li>先对问题进行拆分，然后为拆出的每个二分类任务训练一个分类器；<strong>如何拆分？</strong></li>
+<li>在测试时，对这些分类器的结果进行集成以获得最终的多分类结果。<strong>如何集成？</strong></li>
+</ul>
+<p>给定数据集D={(x<sub>1</sub>,y<sub>1</sub>)，(x<sub>2</sub>,y<sub>2</sub>),…, (x<sub>m</sub>,y<sub>m</sub>)},y<sub>i</sub>&in;{C<sub>1</sub>,C<sub>2</sub>,…,C<sub>N</sub>}</p>
+<p>5.1 拆分：一对一(One vs. One)</p>
+<p>​    将N个类别两两配对，从而产生N(N-1)/2个二分类任务。如为区分C<sub>i</sub>和C<sub>j</sub>&gt;训练一个分类器，该分类器把D中的C<sub>i</sub>类样例作为正例C<sub>j</sub>样例作为反例。</p>
+<p>​    在测试阶段，新样本将同时提交给所有分类器，于是能够获得N(N-1)/2个分类结果，最终结果可通过投票产生。即将预测得最多的类别作为最终的分类结果。</p>
+<p>5.2 拆分：一对其余(One vs. Rest)</p>
+<p>​    每次将一个类的样例作为正例，所有其他类的样例作为反例来训练N个分类器。</p>
+<p>​    测试时，如果只有一个分类器预测为正类，则对应的类标记作为最终分类结果。若有多个分类器预测为正类，则通常考虑各分类器的预测置性度，选择置信度最大的类别标记作为分类结果。</p>
+<p>5.3 拆分：多对多(Many vs. Many)</p>
+<p>每次将若干个类作为正类，若干个其他类作为反类。其中，对于正反类的构造必须有特殊的设计，不能随意选取。一种最常用的是MvM技术：”纠错输出码”(ECOC)。主要分为两步：编码和解码。</p>
+<h4 id="六、类别不平衡问题"><a href="#六、类别不平衡问题" class="headerlink" title="六、类别不平衡问题"></a>六、类别不平衡问题</h4><p>类别不平衡问题(class-imbalance)是指分类任务中不同类别的训练样例数目差别很大的情况。</p>
+<p>解决类别不平衡现有的三类做法：</p>
+<ol>
+<li>直接对训练集里的反类样例进行”欠采样”(undersampling),即去除一些反例使得正、反例数目接近，然后再进行学习。不能随机丢弃反例，可能丢失一些重要信息。代表算法EasyEnsemble，采用集成学习机制，将反例分成若干个集合供不同学习器使用。</li>
+<li>对训练集里的正类样例进行”过采样”(oversampling),即增加一些正例使得正、反例数目接近，然后再进行学习。过采样不能简单重复初始的正样本，这会招致严重过拟合。过采样的代表算法是SMOTE算法，通过对正例插值产生额外的正样本。</li>
+<li>直接基于原始训练集进行学习，但在用训练好的分类器进行预测时，需要进行“阈值移动”</li>
+</ol>
+<script type="math/tex; mode=display">
+一般的分类器以0.5作为阈值，来判别样本是正例还是反例\\
+因此，y\gt\frac{1}{2}\Rightarrow 2y\gt 1\Rightarrow y\gt 1-y\Rightarrow \frac{y}{1-y}\gt 1\\
+当训练集中，正反例数目不同时，令m^+表示正例数目，m^-表示反例数据，观测几率是\frac{m^+}{m^-}\\
+如果假设训练集是真实样本总体的无偏采样，那么观测几率就代表了真实几率\\
+当分类器的预测几率高于观测几率就应判断为正例，即\frac{y}{1-y}\gt\frac{m^+}{m^-},则预测为正例\\
+相应的对预测值再做缩放，可以得到类似于y'\gt ?\Rightarrow\frac{y'}{1-y'}=\frac{y}{1-y}\times\frac{m^-}{m^+}\gt1</script>
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Machine-Learning/" rel="tag"># Machine Learning</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/08/15/Model-Evaluation-And-Selection/" rel="prev" title="Model-Evaluation-And-Selection">
+      <i class="fa fa-chevron-left"></i> Model-Evaluation-And-Selection
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2021/08/15/Machine-Learning-Desision-Tree/" rel="next" title="Machine-Learning-Desision-Tree">
+      Machine-Learning-Desision-Tree <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+    <div class="comments" id="gitalk-container"></div>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#第三章-线性模型（西瓜书学习-笔记）"><span class="nav-number">1.</span> <span class="nav-text">第三章 线性模型（西瓜书学习-笔记）</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#一、基本形式"><span class="nav-number">1.0.1.</span> <span class="nav-text">一、基本形式</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#二、线性回归"><span class="nav-number">1.0.2.</span> <span class="nav-text">二、线性回归</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#三、对数几率回归"><span class="nav-number">1.0.3.</span> <span class="nav-text">三、对数几率回归</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#四、线性判别分析"><span class="nav-number">1.0.4.</span> <span class="nav-text">四、线性判别分析</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#五、多分类学习"><span class="nav-number">1.0.5.</span> <span class="nav-text">五、多分类学习</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#六、类别不平衡问题"><span class="nav-number">1.0.6.</span> <span class="nav-text">六、类别不平衡问题</span></a></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Qiang Chen</p>
+  <div class="site-description" itemprop="description">记录是忘记的第一助手.</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">78</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">13</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">22</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/chenaing19" title="GitHub → https://github.com/chenaing19" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/765206494@qq.com" title="E-Mail → 765206494@qq.com"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Qiang Chen</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v4.0.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 �?<a href="https://mist.theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> v7.5.0
+  </div>
+    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+  
+  <script color='0,0,255' opacity='0.5' zIndex='-1' count='99' src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/muse.js"></script>
+<script src="/js/next-boot.js"></script>
+
+
+
+  
+
+
+
+
+  <script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+      
+<script type="text/x-mathjax-config">
+
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$', '$'], ['\\(', '\\)'] ],
+      processEscapes: true,
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {
+      equationNumbers: {
+        autoNumber: 'AMS'
+      }
+    }
+  });
+
+  MathJax.Hub.Register.StartupHook('TeX Jax Ready', function() {
+    MathJax.InputJax.TeX.prefilterHooks.Add(function(data) {
+      if (data.display) {
+        var next = data.script.nextSibling;
+        while (next && next.nodeName.toLowerCase() === '#text') {
+          next = next.nextSibling;
+        }
+        if (next && next.nodeName.toLowerCase() === 'br') {
+          next.parentNode.removeChild(next);
+        }
+      }
+    });
+  });
+
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for (i = 0; i < all.length; i += 1) {
+      element = document.getElementById(all[i].inputID + '-Frame').parentNode;
+      if (element.nodeName.toLowerCase() == 'li') {
+        element = element.parentNode;
+      }
+      element.classList.add('has-jax');
+    }
+  });
+</script>
+<script>
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/mathjax@2/MathJax.js?config=TeX-AMS-MML_HTMLorMML', () => {
+    MathJax.Hub.Typeset();
+  }, window.MathJax);
+</script>
+
+    
+
+  
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID: '9c00bb4a73071d490d0b',
+      clientSecret: '0466125432b53cefbd6002b7ea866f7e15bbd9c8',
+      repo: 'chenqiang19.github.io',
+      owner: 'chenqiang19',
+      admin: ['chenqiang19'],
+      id: 'bb02c671195616e9de7aab46a86ff5c5',
+        language: '',
+      distractionFreeMode: 'true'
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+</script>
+
+  
+  <!-- ҳ����С���� -->
+  
+  
+    <script src="/js/cursor/love.min.js"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  
+
+
+
+</body>
+</html>

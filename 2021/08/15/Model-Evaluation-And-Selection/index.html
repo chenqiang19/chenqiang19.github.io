@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    hostname: new URL('http://yoursite.com').hostname,
+    root: '/',
+    scheme: 'Mist',
+    version: '7.5.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    sidebarPadding: 40
+  };
+</script>
+
+  <meta name="description" content="第二章 模型评估与选择（西瓜书学习-笔记）为什么需要模型评估与选择？ 1、学习器的实际预测输出与样本的真实输出之间的差异称为”误差”； 2、学习器在训练数据集上的误差称为”训练误差”，或”经验误差”； 3、在新样本上的误差称为”泛化误差”，学习的最终目的是得到泛化误差小的学习器，而非训练误差小的学习器。因为训练误差小可能已经过拟合了，导致不能用。 4、但实际中，并不知道新样本，所以只能从训练样本中">
+<meta name="keywords" content="Machine Learning">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Model-Evaluation-And-Selection">
+<meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2021&#x2F;08&#x2F;15&#x2F;Model-Evaluation-And-Selection&#x2F;index.html">
+<meta property="og:site_name" content="编辑尼撑">
+<meta property="og:description" content="第二章 模型评估与选择（西瓜书学习-笔记）为什么需要模型评估与选择？ 1、学习器的实际预测输出与样本的真实输出之间的差异称为”误差”； 2、学习器在训练数据集上的误差称为”训练误差”，或”经验误差”； 3、在新样本上的误差称为”泛化误差”，学习的最终目的是得到泛化误差小的学习器，而非训练误差小的学习器。因为训练误差小可能已经过拟合了，导致不能用。 4、但实际中，并不知道新样本，所以只能从训练样本中">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2021&#x2F;08&#x2F;15&#x2F;Model-Evaluation-And-Selection&#x2F;ImageProcessing100Wen-master&#x2F;hexo&#x2F;source&#x2F;_post&#x2F;ML-0.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2021&#x2F;08&#x2F;15&#x2F;Model-Evaluation-And-Selection&#x2F;ImageProcessing100Wen-master&#x2F;hexo&#x2F;source&#x2F;_post&#x2F;ConfusionMatrix.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2021&#x2F;08&#x2F;15&#x2F;Model-Evaluation-And-Selection&#x2F;1.png">
+<meta property="og:updated_time" content="2021-08-15T10:05:21.547Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2021&#x2F;08&#x2F;15&#x2F;Model-Evaluation-And-Selection&#x2F;ImageProcessing100Wen-master&#x2F;hexo&#x2F;source&#x2F;_post&#x2F;ML-0.png">
+
+<link rel="canonical" href="http://yoursite.com/2021/08/15/Model-Evaluation-And-Selection/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>Model-Evaluation-And-Selection | 编辑尼撑</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="编辑尼撑" type="application/atom+xml"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">编辑尼撑</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">学无止境</p>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-schedule">
+
+    <a href="/schedule/" rel="section"><i class="fa fa-fw fa-calendar"></i>日程表</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="搜索..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/08/15/Model-Evaluation-And-Selection/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Qiang Chen">
+      <meta itemprop="description" content="记录是忘记的第一助手.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="编辑尼撑">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Model-Evaluation-And-Selection
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2021-08-15 18:01:19 / 修改时间：18:05:21" itemprop="dateCreated datePublished" datetime="2021-08-15T18:01:19+08:00">2021-08-15</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Machine-Learning/" itemprop="url" rel="index">
+                    <span itemprop="name">Machine Learning</span>
+                  </a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="第二章-模型评估与选择（西瓜书学习-笔记）"><a href="#第二章-模型评估与选择（西瓜书学习-笔记）" class="headerlink" title="第二章 模型评估与选择（西瓜书学习-笔记）"></a>第二章 模型评估与选择（西瓜书学习-笔记）</h2><p><strong>为什么需要模型评估与选择？</strong></p>
+<p>1、学习器的实际预测输出与样本的真实输出之间的差异称为”误差”；</p>
+<p>2、学习器在训练数据集上的误差称为”训练误差”，或”经验误差”；</p>
+<p>3、在新样本上的误差称为”泛化误差”，学习的最终目的是得到泛化误差小的学习器，而非训练误差小的学习器。因为训练误差小可能已经过拟合了，导致不能用。</p>
+<p>4、但实际中，并不知道新样本，所以只能从训练样本中尽可能学出适用于所有潜在样本的“普遍规律“，努力使经验误差最小化的同时，寻找泛化误差最小的模型。</p>
+<p><strong>那么过拟合能够完全避免吗？</strong></p>
+<p>在书中说无法彻底避免，只能缓解。讲到机器学习是NP难问题，而学习算法必须在多项式时间内运行完。因为P&ne;NP,所以过拟合不可避免。</p>
+<h4 id="一、评估方法"><a href="#一、评估方法" class="headerlink" title="一、评估方法"></a>一、评估方法</h4><p><strong>用什么方法评估学习器的泛化误差？</strong></p>
+<p>需要一个”测试集”来测试学习器对新样本的判别能力，以测试误差作为泛化误差的近似。假设测试样本与训练样本独立同分布。但要求尽量测试集与训练集互斥。</p>
+<p><strong>对于包含m个样例的数据集D，如何分数据？</strong></p>
+<p>1.1 留出法(hold-out): 直接将数据集D划分为两个互斥的集合，其中一个作为训练集S，另一个作为测试集T。D=S&cup;T, S&cap;T=&varnothing;。在S上训练处模型后，用T来评估其测试误差。</p>
+<p>注意：一、训练/测试集的划分要尽可能保持数据分布的一致性，避免因数据划分过程引入额外的偏差而对最终结果产生影响。比如，D包含500个正样本，500个负样本。S分到了70%的样本，其中要保持正负样本的比例，即正样本350例，负样本350例。T分到了30%的样本，其中正样本150例，负样本150例。</p>
+<p>二、样本的数量给定后，对于数据集D的分割也有不同的方式，比如：把D中样本排序，是取前面的350个，还是中间的350个，还是最后的350个样例作为训练集的正/负样本。一般需要采用若干次随机划分，重复进行试验评估后取平均值作为留出法的评估结果。</p>
+<p>为了评估整体数据集D的性能，常见做法是将大约2/3~4/5的样本用于训练，剩余样本用于测试。</p>
+<p>1.2 交叉验证法：先将数据集D划分为k个大小相似的互斥子集，即D=D<sub>1</sub>&cup;D<sub>2</sub>&cup;…&cup;D<sub>k</sub>，D<sub>i</sub>&cap;D<sub>j</sub>=&varnothing;（i&ne;j）,每个自己D<sub>i</sub>都尽可能保持数据分布的一致性。然后，每次用k-1个子集的并集作为训练集，余下的那个子集作为测试集；这样就可获得k组训练/测试集。从而可进行k次训练和测试，最终返回的是k个测试结果的均值。又称”k折交叉验证”，其中k的取值很大程度上，决定了评估结果的稳定性和保真性(fidelity)。k最常用的取值是10.</p>
+<p><img src="/2021/08/15/Model-Evaluation-And-Selection/ImageProcessing100Wen-master/hexo/source/_post/ML-0.png" alt="Machine-Learn"></p>
+<p>交叉验证法同样存在将数据集D划分为k个子集同样存在多种划分方式。</p>
+<p>1.3 自助法</p>
+<p>以自助采样为基础。给定包含m个样本的数据集D，对它进行采样产生数据集D’：每次随机从D中挑选一个样本，将其拷贝放入D’，然后又放回的重复执行m次，得到包含m个样本的数据集D‘。</p>
+<h4 id="二、性能度量"><a href="#二、性能度量" class="headerlink" title="二、性能度量"></a>二、性能度量</h4><p>为了评估模型的泛化性能，不仅需要有效可行的实验估计方法，如留出法、K折交叉验证法等。还需要有衡量模型泛化能力的评价标准，即性能度量。在做模型评估的时候，对于什么样的模型是好的，不仅取决于算法和数据，还决定于任务需求。</p>
+<h5 id="2-1-均方误差"><a href="#2-1-均方误差" class="headerlink" title="2.1 均方误差"></a>2.1 均方误差</h5><p>1.1 针对离散的数据</p>
+<script type="math/tex; mode=display">
+E(f;D) = \frac{1}{m}(f(x_i)-y_i)^2</script><p>1.2 针对连续的数据</p>
+<script type="math/tex; mode=display">
+E(f;D) = \int_{x\sim D} (f(x)-y)^2p(x){\rm d}x</script><h5 id="2-2-查全率、查准率与F1"><a href="#2-2-查全率、查准率与F1" class="headerlink" title="2.2 查全率、查准率与F1"></a>2.2 查全率、查准率与F1</h5><p>对于二分类问题，可将样例根据真实类别与学习器预测类别的组合划分为真正例(TP)，假正例(FP)，真反例(TN)和假反例(FN)，用混淆矩阵表示如下：</p>
+<p><img src="/2021/08/15/Model-Evaluation-And-Selection/ImageProcessing100Wen-master/hexo/source/_post/ConfusionMatrix.png" alt="ML"></p>
+<script type="math/tex; mode=display">
+查准率P： P=\frac{TP}{TP+FP}\\
+查全率R： R=\frac{TP}{TP+FN}</script><h5 id="2-3-P-R曲线"><a href="#2-3-P-R曲线" class="headerlink" title="2.3 P-R曲线"></a>2.3 P-R曲线</h5><p>如何画PR曲线，找一组样本，根据学习器的预测结果对样例进行排序，排在前面的是学习器认为”最可能”是正例的样本，排在最后的则是学习器认为”最不可能”是正例的样本。按此顺序逐个把样本作为正例进行预测，每次可以计算出当前的查全率、查准率。以查准率为纵轴、查全率为横轴作图。<br>举例：比如有20个样本，10个正例，10个反例。将20个样例用学习器预测一遍，得到20个预测结果，对20个样例根据预测结果排序。排好序后从预测值最大的开始，第一次取第一个为预测的正样本，其余为预测的负样本，计算查全率和查准率。第二次取前两个为预测的正样本，其余为预测的负样本，计算查全率和查准率。依次进行，直到取全部20个样本都作为预测的正样本，负样本为零。得到20组查全率和查准率的预测值，就可以作图了。<br><img src="/2021/08/15/Model-Evaluation-And-Selection/1.png" alt="ML"></p>
+<p><strong>如何比较不同学习器的优劣？</strong></p>
+<p>看P-R曲线，如上图如果A完全将C包住则A的性能优于学习器C的性能。如果有交叉，则一般可用P-R曲线下面的面积作为评判标准。但是面积不好求，所以有人提出要综合考虑了查全率和查准率的性能度量。这就出现了F1度量：</p>
+<script type="math/tex; mode=display">
+F1=\frac{2\times P\times R}{P+R}=\frac{2\times TP}{样例总是+TP-TN}</script><p>在一些应用中，对查准率和查全率的重视程度有所不同，此时，可以使用F1、F<sub>&beta;</sub>作为查准率/查全率不同偏好的度量值。</p>
+<script type="math/tex; mode=display">
+F_\beta=\frac{(1+\beta^2)\times P\times R}{\beta^2\times P+R}   \quad \beta =1是即为F1,\beta>1时对查全率有更大的影响，\beta<1时，对查准率有更大的影响。</script><p>在实际应用中，往往需要进行多次训练/测试，每次都会得到一个混淆矩阵；或对于多分类任务，每两两类别的组合都对应一个混淆矩阵。<strong>那么如何在n个二分类混淆矩阵上综合考察查准率和查全率呢？</strong></p>
+<ol>
+<li>直接现在各混淆矩阵上分别计算处查准率和查全率，记为(P<sub>1</sub>,R<sub>1</sub>),(P<sub>2</sub>,R<sub>2</sub>),…,(P<sub>n</sub>,R<sub>n</sub>)。在计算平均值，得到宏查准率(macro-P)，宏查全率(macro-R)和宏F1(macro-F1)</li>
+<li>可先将各混淆矩阵的对应元素进行平均，得到TP,FP,TN,FN的平均值TP’,FP’,TN’,FN’,在基于这些平均值计算出微查准率(micro-P)，微查全率(micro-R)和微F1(micro-F1)</li>
+</ol>
+<h5 id="2-4、ROC曲线"><a href="#2-4、ROC曲线" class="headerlink" title="2.4、ROC曲线"></a>2.4、ROC曲线</h5><p>ROC全称：（Receiver Operating Characteristic(受试者工作特征)）</p>
+<p>学习器为测试样本产生一个实值或概率预测，然后将预测值于一个分类阈值进行比较。若大于阈值则分为正类，否则为反类。实际上，根据这个实值或概率预测结果，可以将测试样本进行排序，”最可能”是正例的排在最前面，”最不可能”是正例排在最后面。这样分类相当于在这个排序中以某个截断点将样本分为两部分，前一部分为正例，后一部分为反例。<br>在不同的应用任务中，可根据任务需求来采用不同的截断点；如重视”查准率”，则可选择排序中靠前的位置进行截断；若重视”查全率”，则可选择靠后的位置进行截断。而ROC曲线就是根据不同截断画出的判断泛化性能的有利工具。<br>ROC曲线和PR曲线的计算过程是一样的，但使用的指标不一样，ROC曲线<strong>纵轴</strong>使用”真正例率(TPR)”,<strong>横轴</strong>使用”假正例率(FPR)”</p>
+<script type="math/tex; mode=display">
+TPR=\frac{TP}{TP+FN}, FPR=\frac{FP}{TN+FP}</script><p><strong>如何比较多个学习器的优劣：</strong>1、查看ROC曲线时候能完全包住另一个，2、看ROC曲线下面的面积AUC(Area Under ROC Curve)</p>
+<h5 id="2-5、代价敏感错误率与代价曲线"><a href="#2-5、代价敏感错误率与代价曲线" class="headerlink" title="2.5、代价敏感错误率与代价曲线"></a>2.5、代价敏感错误率与代价曲线</h5><p>由于不同类型的错误所造成的后果不同，所以机器学习器如果出现了错误的预测，那么也应该会造成不同的代价。为了权衡不同类型错误所造成的不同损失，可以使用”非均等代价”。</p>
+<script type="math/tex; mode=display">
+代价敏感错误率：E(f;D;cost)=\frac{1}{m}(\sum_{x_i\in D^+}I(f(x_i)\ne y_i)\times cost_{01}+\sum_{x_i\in D^-}I(f(x_i)\ne y_i\times cost_{10}))</script><p>在非均等代价下，ROC曲线不能直接反映出学习器的期望总体代价，而”代价曲线图”可以达到这个目的。(P2.3.4节)</p>
+<h4 id="三、比较检验"><a href="#三、比较检验" class="headerlink" title="三、比较检验"></a>三、比较检验</h4><p>如何正确的比较性能度量得到的值？是比大小吗？<br>由于机器学习中性能比较比实际复杂的多，由于多种因素的作用，所以需要使用<strong>统计假设检验</strong>。</p>
+<p>3.1 假设检验</p>
+<p>3.2 交叉验证t检验</p>
+<h4 id="四、偏差和方差"><a href="#四、偏差和方差" class="headerlink" title="四、偏差和方差"></a>四、偏差和方差</h4><p>“偏差-方差分解”是解释学习算法泛化性能的一种重要工具。</p>
+<p>假设测试样本为x，令yD为x在数据集中的标记，y为x的真实标记，f(x;D)为训练集D上学得模型f在x上的预测输出。以回归任务为例，学习算法的期望预测为：</p>
+<script type="math/tex; mode=display">
+\overline f(x)=E_D[f(x;D)]\\使用相同样本的不同训练集产生的方差为：
+var(x)=E_D[(f(x;D)-\overline f(x))^2]\\
+噪声为：\epsilon^2=E_D[(y_D-y)^2]\\
+期望输出与真实标记的差别称为偏差，即：bias^2(x)=(\overline f(x)-y)^2</script><p>假定噪声期望为零，即E<sub>D</sub>[y<sub>D</sub>-y]=0。通过简单的多项式展开合并，可对算法的期望泛化误差进行分解：</p>
+<script type="math/tex; mode=display">
+\begin{align}
+E(f;D)=&E_D[(f(x;D)-y_D)^2]\\
+=&E_D[(f(x;D)-\overline f(x)+\overline f(x)-y_D)^2]\quad 减一个，加一个\overline f(x)\\
+=&E_D[(f(x;D)-\overline f(x))^2+(\overline f(x)-y_D)^2+2(f(x;D)-\overline f(x))(\overline f(x)-y_D)]\because E[X+Y]=E[X]+E[Y]\\
+=&E_D[(f(x;D)-\overline f(x))^2]+E_D[(\overline f(x)-y_D)^2]+E_D[2(f(x;D)-\overline f(x))(\overline f(x)-y_D)]\\
+\because &E_D[2(f(x;D)-\overline f(x))(\overline f(x)-y_D)]=E_D[2(f(x;D)-\overline f(x))\cdot\overline f(x)]-E_D[2(f(x;D)-\overline f(x))\cdot y_D]\\
+展开第一项&E_D[2(f(x;D)-\overline f(x))\cdot\overline f(x)]=E_D[2f(x;D)\cdot\overline f(x)-2\overline f(x)\cdot \overline f(x)] \\
+\because& \overline f(x)是常数，E[AX+B]=AE[X]+B\\
+\therefore &E_D[2(f(x;D)-\overline f(x))\cdot\overline f(x)]=2\overline f(x)\cdot E_D[f(x;D)]-2\overline f(x)\cdot \overline f(x)\\
+\because& E_D[f(x;D)]=\overline f(x),\therefore E_D[2(f(x;D)-\overline f(x))\cdot\overline f(x)]=0\\
+展开第二项&E_D[2(f(x;D)-\overline f(x))\cdot y_D]=2E_D[f(x;D)\cdot y_D]-2\overline f(x)\cdot E_D[y_D]\\
+由于噪声和&f无关，所以f(x;D)和y_D是两个相互独立的随机变量，根据期望性质E[XY]=E[X]E[Y](X,Y独立)\\
+E_D[2(f&(x;D)-\overline f(x))\cdot y_D]=2E_D[f(x;D)\cdot y_D]-2\overline f(x)\cdot E_D[y_D]=2E_D[f(x;D)]\cdot E_D[y_D]-2\overline f(x)E_D[y_D]\\
+\because& E_D[f(x;D)]=\overline f(x),\therefore E_D[2(f(x;D)-\overline f(x))\cdot y_D]=0\\
+\end{align}</script><script type="math/tex; mode=display">
+\begin{align}
+\therefore E_D[(f(x;D)-y_D)^2]=&E_D[(f(x;D)-\overline f(x))^2]+E_D[(\overline f(x)-y_D)^2]\\
+=&E_D[(f(x;D)-\overline f(x))^2]+E_D[(\overline f(x)-y+y+y_D)^2]\\
+=&E_D[(f(x;D)-\overline f(x))^2]+E_D[(\overline f(x)-y)^2]+E_D[(y-y_D)^2]+2E_D[(\overline f(x)-y)(y-y_D)]\\
+\because& \overline f(x)和y都为常量，\therefore E_D[(\overline f(x)-y)^2]=(\overline f(x)-y)^2\\
+同理&2E_D[(\overline f(x)-y)(y-y_D)]=2(\overline f(x)-y)\cdot E_D[(y-y_D)]\\
+又假&设噪声期望为0,E_D[(y-y_D)]=0,\therefore 2E_D[(\overline f(x)-y)(y-y_D)]=0\\
+因此&，E_D[(f(x;D)-y_D)^2]=E_D[(f(x;D)-\overline f(x))^2]+E_D[(\overline f(x)-y)^2]+E_D[(y-y_D)^2]\\
+于是&，E[f;D]=bias^2(x)+var(x)+\epsilon^2
+\end{align}</script><p>由上式可得：泛化误差可分解为偏差、方差与噪声之和。</p>
+<p>偏差：度量了学习算法的期望预测与真实结果的偏离程度，即刻画了学习算法本身的拟合能力。</p>
+<p>方差：度量了同样大小的训练集的变动所导致的学习性能的变化，即刻画了数据扰动所造成的影响。</p>
+<p>噪声：表达了在当前任务上任何学习算法所能达到的期望泛化误差的下界，即刻画了学习问题本身的难度。</p>
+<p>由于泛化误差可分解为偏差、方差与噪声之和，所以泛化性能由学习算法的能力、数据的充分性以及学习任务本身的难度所共同决定。</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Machine-Learning/" rel="tag"># Machine Learning</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/07/25/SPPNet/" rel="prev" title="SPPNet">
+      <i class="fa fa-chevron-left"></i> SPPNet
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2021/08/15/Linear-Model/" rel="next" title="Linear-Model">
+      Linear-Model <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+    <div class="comments" id="gitalk-container"></div>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#第二章-模型评估与选择（西瓜书学习-笔记）"><span class="nav-number">1.</span> <span class="nav-text">第二章 模型评估与选择（西瓜书学习-笔记）</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#一、评估方法"><span class="nav-number">1.0.1.</span> <span class="nav-text">一、评估方法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#二、性能度量"><span class="nav-number">1.0.2.</span> <span class="nav-text">二、性能度量</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#2-1-均方误差"><span class="nav-number">1.0.2.1.</span> <span class="nav-text">2.1 均方误差</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-2-查全率、查准率与F1"><span class="nav-number">1.0.2.2.</span> <span class="nav-text">2.2 查全率、查准率与F1</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-3-P-R曲线"><span class="nav-number">1.0.2.3.</span> <span class="nav-text">2.3 P-R曲线</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-4、ROC曲线"><span class="nav-number">1.0.2.4.</span> <span class="nav-text">2.4、ROC曲线</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-5、代价敏感错误率与代价曲线"><span class="nav-number">1.0.2.5.</span> <span class="nav-text">2.5、代价敏感错误率与代价曲线</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#三、比较检验"><span class="nav-number">1.0.3.</span> <span class="nav-text">三、比较检验</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#四、偏差和方差"><span class="nav-number">1.0.4.</span> <span class="nav-text">四、偏差和方差</span></a></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Qiang Chen</p>
+  <div class="site-description" itemprop="description">记录是忘记的第一助手.</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">78</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">13</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">22</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/chenaing19" title="GitHub → https://github.com/chenaing19" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/765206494@qq.com" title="E-Mail → 765206494@qq.com"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Qiang Chen</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v4.0.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 �?<a href="https://mist.theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> v7.5.0
+  </div>
+    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+  
+  <script color='0,0,255' opacity='0.5' zIndex='-1' count='99' src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/muse.js"></script>
+<script src="/js/next-boot.js"></script>
+
+
+
+  
+
+
+
+
+  <script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+      
+<script type="text/x-mathjax-config">
+
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$', '$'], ['\\(', '\\)'] ],
+      processEscapes: true,
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {
+      equationNumbers: {
+        autoNumber: 'AMS'
+      }
+    }
+  });
+
+  MathJax.Hub.Register.StartupHook('TeX Jax Ready', function() {
+    MathJax.InputJax.TeX.prefilterHooks.Add(function(data) {
+      if (data.display) {
+        var next = data.script.nextSibling;
+        while (next && next.nodeName.toLowerCase() === '#text') {
+          next = next.nextSibling;
+        }
+        if (next && next.nodeName.toLowerCase() === 'br') {
+          next.parentNode.removeChild(next);
+        }
+      }
+    });
+  });
+
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for (i = 0; i < all.length; i += 1) {
+      element = document.getElementById(all[i].inputID + '-Frame').parentNode;
+      if (element.nodeName.toLowerCase() == 'li') {
+        element = element.parentNode;
+      }
+      element.classList.add('has-jax');
+    }
+  });
+</script>
+<script>
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/mathjax@2/MathJax.js?config=TeX-AMS-MML_HTMLorMML', () => {
+    MathJax.Hub.Typeset();
+  }, window.MathJax);
+</script>
+
+    
+
+  
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID: '9c00bb4a73071d490d0b',
+      clientSecret: '0466125432b53cefbd6002b7ea866f7e15bbd9c8',
+      repo: 'chenqiang19.github.io',
+      owner: 'chenqiang19',
+      admin: ['chenqiang19'],
+      id: '207f33b32d99e01b13071418988e5eae',
+        language: '',
+      distractionFreeMode: 'true'
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+</script>
+
+  
+  <!-- ҳ����С���� -->
+  
+  
+    <script src="/js/cursor/love.min.js"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  
+
+
+
+</body>
+</html>

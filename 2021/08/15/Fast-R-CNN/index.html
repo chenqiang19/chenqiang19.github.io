@@ -1,0 +1,699 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    hostname: new URL('http://yoursite.com').hostname,
+    root: '/',
+    scheme: 'Mist',
+    version: '7.5.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    sidebarPadding: 40
+  };
+</script>
+
+  <meta name="description" content="Fast R-CNN学习笔记目标检测主要需要解决两个问题：1、必须处理大量候选框；2、必须对候选框进行细化以实现精确定位。 一、R-CNN和SPPnet的问题1、R-CNN有如下明显的缺陷：  训练一个多阶段的pipeline 训练在空间和时间上都是昂贵的。 物体检测很慢   2、SPPnet有如下缺陷：  训练一个多阶段的pipeline 特征提取 使用log loss微调一个网络 训练SVMs">
+<meta name="keywords" content="Deep Learning">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Fast-R-CNN">
+<meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2021&#x2F;08&#x2F;15&#x2F;Fast-R-CNN&#x2F;index.html">
+<meta property="og:site_name" content="编辑尼撑">
+<meta property="og:description" content="Fast R-CNN学习笔记目标检测主要需要解决两个问题：1、必须处理大量候选框；2、必须对候选框进行细化以实现精确定位。 一、R-CNN和SPPnet的问题1、R-CNN有如下明显的缺陷：  训练一个多阶段的pipeline 训练在空间和时间上都是昂贵的。 物体检测很慢   2、SPPnet有如下缺陷：  训练一个多阶段的pipeline 特征提取 使用log loss微调一个网络 训练SVMs">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2021&#x2F;08&#x2F;15&#x2F;Fast-R-CNN&#x2F;FastRCNN-1.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2021&#x2F;08&#x2F;15&#x2F;Fast-R-CNN&#x2F;fast-rcnn.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2021&#x2F;08&#x2F;15&#x2F;Fast-R-CNN&#x2F;ROI-Pooling1.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2021&#x2F;08&#x2F;15&#x2F;Fast-R-CNN&#x2F;ROI-Pooling2.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2021&#x2F;08&#x2F;15&#x2F;Fast-R-CNN&#x2F;SVD.png">
+<meta property="og:updated_time" content="2021-08-15T11:37:22.815Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2021&#x2F;08&#x2F;15&#x2F;Fast-R-CNN&#x2F;FastRCNN-1.png">
+
+<link rel="canonical" href="http://yoursite.com/2021/08/15/Fast-R-CNN/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>Fast-R-CNN | 编辑尼撑</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="编辑尼撑" type="application/atom+xml"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">编辑尼撑</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">学无止境</p>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-schedule">
+
+    <a href="/schedule/" rel="section"><i class="fa fa-fw fa-calendar"></i>日程表</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="搜索..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/08/15/Fast-R-CNN/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Qiang Chen">
+      <meta itemprop="description" content="记录是忘记的第一助手.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="编辑尼撑">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Fast-R-CNN
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2021-08-15 19:26:06 / 修改时间：19:37:22" itemprop="dateCreated datePublished" datetime="2021-08-15T19:26:06+08:00">2021-08-15</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Deep-Learning/" itemprop="url" rel="index">
+                    <span itemprop="name">Deep Learning</span>
+                  </a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="Fast-R-CNN学习笔记"><a href="#Fast-R-CNN学习笔记" class="headerlink" title="Fast R-CNN学习笔记"></a>Fast R-CNN学习笔记</h2><p><strong>目标检测主要需要解决两个问题：1、必须处理大量候选框；2、必须对候选框进行细化以实现精确定位。</strong></p>
+<h4 id="一、R-CNN和SPPnet的问题"><a href="#一、R-CNN和SPPnet的问题" class="headerlink" title="一、R-CNN和SPPnet的问题"></a>一、R-CNN和SPPnet的问题</h4><p>1、R-CNN有如下明显的缺陷：</p>
+<ul>
+<li>训练一个多阶段的pipeline</li>
+<li>训练在空间和时间上都是昂贵的。</li>
+<li>物体检测很慢 </li>
+</ul>
+<p>2、SPPnet有如下缺陷：</p>
+<ul>
+<li>训练一个多阶段的pipeline<ul>
+<li>特征提取</li>
+<li>使用log loss微调一个网络</li>
+<li>训练SVMs</li>
+<li>拟合回归边界框</li>
+</ul>
+</li>
+<li>论文中提出的fine-tune很难更新spatial pyramid pooling层之前的卷据层，对于更深的网络不适用</li>
+</ul>
+<h4 id="二、Fast-RCNN的架构和训练"><a href="#二、Fast-RCNN的架构和训练" class="headerlink" title="二、Fast RCNN的架构和训练"></a>二、Fast RCNN的架构和训练</h4><ol>
+<li>输入为一整个图像和一组候选框</li>
+<li>网络首先使用卷积和最大池化层处理整个图像，生成一组特征图</li>
+<li>将每个候选框(region of interest)映射到特征图中，使用特征图中的RoI做RoI pooling，生成一个固定尺寸的特征向量(每个RoI对应一个特征向量)</li>
+<li>每个特征向量后面接一系列的全连接层</li>
+<li>全连接层后分两个子分支输出层：一个分支用softmax概率估计K+1个目标的类别，K个目标加一个背景类；另一个分支对于K个目标中的每个输出4个实数，每组 4 个值编码 K 个类别之一的精细边界框位置 。</li>
+</ol>
+<p><img src="/2021/08/15/Fast-R-CNN/FastRCNN-1.png" alt="Fast-R-CNN"></p>
+<h4 id="2-1-The-RoI-pooling-layer"><a href="#2-1-The-RoI-pooling-layer" class="headerlink" title="2.1 The RoI pooling layer"></a>2.1 The RoI pooling layer</h4><p>RoI 池化层使用最大池化将任何有效感兴趣区域内的特征转换为具有固定空间范围 H × W（例如，7 × 7）的小特征图，其中 H 和 W 是层超参数，它们是 独立于任何特定的RoI。论文中指出每个感兴趣区域被定义为一个四元组(r,c,h,w)，指出长方形窗口的左上角坐标，宽和高。</p>
+<ul>
+<li>划分特征图中hxw的RoI窗口为HxW个子窗口网格，共有h/h x w/W个子窗口</li>
+<li>每个子窗口运用最大池化，相当于吧h x w尺寸的图像缩放为H x W</li>
+<li>每个RoI根据网络有多个channel，对每个channel分别进行网格的划分和最大池化</li>
+</ul>
+<h4 id="2-2-Initializing-from-pre-trained-networks"><a href="#2-2-Initializing-from-pre-trained-networks" class="headerlink" title="2.2  Initializing from pre-trained networks"></a>2.2  Initializing from pre-trained networks</h4><ul>
+<li>使用ImageNet预训练的网络初始化Fast R-CNN网络</li>
+<li>最后一层池化层用RoI池化层代替，并根据第一层全连接层的输入，设置H和W的值以便于池化操作</li>
+<li>网络的最后的全连接层和softmax用两个兄弟层代替，分别用于分类和回归</li>
+<li>网络的输入修改为两个：一个为图像的列表，一个为每个图像对应的RoIs列表 </li>
+</ul>
+<h4 id="2-3-Fine-tuning-for-detection"><a href="#2-3-Fine-tuning-for-detection" class="headerlink" title="2.3  Fine-tuning for detection"></a>2.3  Fine-tuning for detection</h4><p>用反向传播训练所有网络权重是 Fast R-CNN 的一个重要能力。 首先，让我们阐明为什么 SPPnet 无法更新空间金字塔池化层以下的权重。 </p>
+<p>根本原因是当每个训练样本（即 RoI）来自不同的图像时，通过 SPP 层的反向传播效率非常低，这正是 R-CNN 和 SPPnet 网络的训练方式。 </p>
+<p>作者在这里提出了更有效的训练方法，在Fast R-CNN训练时，采用分层mini-batch的随机梯度下降法。首先，选取N张图像，然后从N张图像中每张选取R/N个RoIs。<strong>来自同一图像的 RoI 在前向和后向传递中共享计算和内存。 使 N 小会减少小批量计算。</strong> 例如：N=2，R=128。选取两张图像每张图像选取64个RoIs的效率要比选取128张不同的图像在训练时更快。(作者实验得出同一张图像的RoI并不影响训练的收敛速度，反而效果更好)</p>
+<p>除了分层采样之外，Fast R-CNN 还使用了带有微调阶段的简化训练过程，该阶段<strong>联合优化</strong>了 softmax 分类器和边界框回归器，而不是在三个单独的阶段训练 softmax 分类器、SVM 和回归器。</p>
+<h5 id="Multi-task-loss"><a href="#Multi-task-loss" class="headerlink" title="Multi-task loss"></a>Multi-task loss</h5><p>Fast R-CNN有两个兄弟输出层。</p>
+<ul>
+<li>一个针对每个RoI输出K+1个类别离散的概率分布。p=(p<sub>0</sub>,…,p<sub>K</sub>)。像往常一样，p由全连接层的 K +1 个输出上的 softmax 计算得到。</li>
+<li>第二个兄弟层为K个目标类中的每个输出边界框回归偏移量</li>
+</ul>
+<script type="math/tex; mode=display">
+t^k=(t^k_x,t^k_y,t^k_w,t^k_h)，索引为k(其中 t_k 指定相对于对象提议的尺度不变平移和对数空间高度/宽度偏移。 )</script><p>每个训练 RoI 都标有真实类别 u 和真实边界框回归目标 v。在每个标记的 RoI 上使用多任务损失 L 来联合训练分类和边界框回归： </p>
+<script type="math/tex; mode=display">
+L(p,u,t^u,v)=L_{cls}(p,u)+\lambda[\mu\ge1]L_{loc}(t^u,v)\\
+L_{cls}(p,u)=-logp_u是真实类u的log损失；\\
+L_{loc}被定义为回归目标u类上真实边界框的一个元组，v=(v_x,v_y,v_w,v_h),t^u=(t^k_x,t^k_y,t^k_w,t^k_h)是对类u预测的元组\\
+[u\ge1]是Iverson\quad bracket\quad indicator\quad function,当u\ge 时，为1；否则为0\\</script><p>按照惯例，所有被预测的背景类标记为 u = 0。对于背景 RoI，没有真实边界框的概念，因此忽略 L<sub>loc</sub>。对于边界回归使用如下损失：</p>
+<script type="math/tex; mode=display">
+L_{loc}(t^u,v)=\sum_{i\in{x,y,w,h}}smooth_{L1}(t^u_i-v_i),其中\\
+smooth_{L1}(x)=\begin{cases}
+0.5\cdot x^2\quad \quad if |x|\lt1\\
+|x|-0.5\quad otherwise.
+\end{cases}</script><p>论文中指出smooth<sub>L1</sub>一个稳健的 L1 损失，对异常值的敏感度低于 R-CNN 和 SPPnet 中使用的 L2 损失。 当回归目标无界时，使用 L2 损失进行训练可能需要仔细调整学习率，以防止梯度爆炸。 smooth<sub>L1</sub>消除了这种敏感性。 </p>
+<p>方程中的超参数λ控制两个任务损失之间的平衡。由于作者将真实回归目标 v<sub>i</sub> 归一化为具有零均值和单位方差。 所有实验都使用 λ = 1。</p>
+<h5 id="Mini-batch-sampling"><a href="#Mini-batch-sampling" class="headerlink" title="Mini-batch sampling"></a>Mini-batch sampling</h5><p>在微调期间，每个 SGD mini-batch 由 N = 2 个图像构成，随机均匀选择（按照惯例，实际上迭代数据集的排列）。 我们使用大小为 R = 128 的小批量，从每个图像中采样 64 个 RoI。与论文Rich feature hierarchies for accurate object detection and semantic segmentation中一样，我们从与真实边界框重叠IoU&ge; 0.5 的对象提议中获取 25% 的 RoI。 这些 RoI 包括标有前景对象类的示例，即 u ≥ 1。其余的 RoI 是从目标建议与真实边界框IoU在区间[0.1,0.5)的最大值中采样，与SPPNet一致。 这些是背景示例，并用 u = 0 标记。 0.1 的较低阈值似乎充当了启发式的困难示例挖掘(ject detection with discriminatively trained part based models.)。 在训练期间，图像以 0.5 的概率水平翻转。 没有使用其他数据增强。 <strong>来自相同图像的RoI在向前和向后传播中共享计算和内存。</strong></p>
+<h5 id="Back-propagation-through-RoI-pooling-layers"><a href="#Back-propagation-through-RoI-pooling-layers" class="headerlink" title="Back-propagation through RoI pooling layers"></a>Back-propagation through RoI pooling layers</h5><p>为清楚起见，作者假设每个小批量（N = 1）只有一张图像，但对 N &gt; 1 的扩展很简单，因为前向传递独立处理所有图像。 设 x<sub>i</sub> ∈ R 是输入到 RoI 池化层的第 i 个激活输入(这里有点晕，网上查了很多解释，应该是整个feature map中的输入层节点)，让 y<sub>rj</sub> 是来自第 r 个 RoI 的第 j 个输出(也就是候选区域中的第j个输出层节点)。 RoI 池化层计算使用下面的式子获取RoI Pooling层的输出：</p>
+<script type="math/tex; mode=display">
+y_{rj}=x_{i*(r,j)},其中，i*(r,j)=argmax_{i'\in R(r,j)}x_{i'}</script><p>R(r, j) 是输出单元 y<sub>rj</sub> 最大池化所对应的输入子窗口中的索引集(指示那个候选区域的那个最大值点被选中作为输出)。 单个 x<sub>i</sub> 可以分配给几个不同的输出 y<sub>rj</sub>(就是多个候选区域有重叠的时候，x<sub>i</sub> 为重叠的像素点集) 。 </p>
+<p>首先看看，普通的max pooling层如何求导？</p>
+<script type="math/tex; mode=display">
+设x_i为输入层节点，y_i为输出层节点，那么损失函数L对输入层节点x_i的梯度为：\\
+\frac{\partial L}{\partial x_i}=\begin{cases}
+0,\quad \quad \delta(i,j)=false\\
+\frac{\partial L}{\partial y},\quad \delta(i,j)=true
+\end{cases}\\
+判决函数\delta(i,j)表示输入i节点是否被输出j节点选为最大值输出\\
+不选中有两种可能\delta(i,j)=false;x_i不在y_i范围内，或者x_i不是最大值\\
+选中\delta(i,j)=true;由链式规则可知损失函数L相对 x_i的梯度等于损失函数L相对 y_i的梯度\times y_i对x_i的梯度(y_i对x_i的梯度恒等于1)</script><p><img src="/2021/08/15/Fast-R-CNN/fast-rcnn.png" alt="Fast-R-CNN"></p>
+<p>对于RoI max pooling层，设 x<sub>i</sub>为输入层的节点， y<sub>rj</sub> 为第r个候选区域的第j个输出节点，一个输入节点可能和多个输出节点相关连，如下图所示，输入节点7和两个候选区域输出节点相关连；</p>
+<p><img src="/2021/08/15/Fast-R-CNN/ROI-Pooling1.png" alt="Fast-R-CNN"></p>
+<p>对于输出节点<strong>7</strong>的反向传播如下图所示：</p>
+<p><img src="/2021/08/15/Fast-R-CNN/ROI-Pooling2.png" alt="Fast-R-CNN"></p>
+<p>对于同一个feature map中不同的候选区域，节点7都存在梯度。所以反向传播中损失函数L对输入节点x<sub>i</sub>的梯度为损失函数L对各个<strong>有可能的</strong>候选区域r输出y<sub>rj</sub>[x<sub>i</sub>中候选区域r的第j个输出节点被选为最大值 ]梯度的累加。</p>
+<p>RoI 池化层的向后函数通过计算损失函数关于每个输入变量 xi 及通过下式argmax所选择的值偏导数： </p>
+<script type="math/tex; mode=display">
+\frac{\partial L}{\partial x_i}=\sum_{r}\sum_{j},[i=i*(r,j)]指示函数\frac{\partial L}{\partial y_{rj}},[i=i*(r,j)]上文提到的指示函数</script><p>判决函数  [i=i∗(r,j)] 表示  <strong>i</strong> 节点是否被候选区域 <strong>r</strong> 的第 <strong>j</strong> 个输出节点选为最大值输出，若是，则由链式规则可知损失函数L相对  xi 的梯度等于(损失函数 L 相对 yri 的梯度)&times;( yrj 对 xi 的梯度),其中， yrj 对 xi 的梯度恒等于1。</p>
+<p><a href="https://blog.csdn.net/Wonder233/article/details/53671018" target="_blank" rel="noopener">参考链接</a></p>
+<h5 id="SGD-hyper-parameters"><a href="#SGD-hyper-parameters" class="headerlink" title="SGD hyper-parameters"></a>SGD hyper-parameters</h5><ul>
+<li>除了修改增加的层，原有的层参数已经通过预训练方式初始化；</li>
+<li>用于分类的全连接层以均值为0、标准差为0.01的高斯分布初始化，用于回归的全连接层以均值为0、标准差为0.001的高斯分布初始化，偏置都初始化为0；</li>
+<li>针对PASCAL VOC 2007和2012训练集，前30k次迭代全局学习率为0.001，每层权重学习率为1倍，偏置学习率为2倍(这里就是说明权重和偏置设置的学习率分别为0.001和0.002，至于为什么，网上说是偏置的学习率设为2倍能够使网络收敛)，后10k次迭代全局学习率更新为0.0001；</li>
+<li>动量设置为0.9，权重衰减设置为0.0005。</li>
+</ul>
+<h5 id="Scale-invariance"><a href="#Scale-invariance" class="headerlink" title="Scale invariance"></a>Scale invariance</h5><p>作者探索了两种实现尺度不变目标检测的方法：</p>
+<ul>
+<li><p>通过brute-force(单一尺度)</p>
+<p>在单一尺度中，每个图像在训练和测试期间都以预定义的像素大小进行处理。 期望网络能够直接从训练数据中学习尺度不变性。 </p>
+</li>
+<li><p>通过image pyramids(多尺度)</p>
+<p>1、多尺度在<strong>训练阶段</strong>期间，随机从图像中采样金字塔尺寸的一些图像进行训练[缩放图片的scale得到，得到多尺度图片，相当于扩充数据集]，通过一个图像金字塔向网络提供一个近似的尺度不变。训练阶段每次采样一个图像就随机采样一个金字塔尺度。</p>
+<p>2、在<strong>测试阶段</strong>图像金字塔用来对每个object proposal近似尺度归一化</p>
+</li>
+</ul>
+<h5 id="Fast-R-CNN-detection"><a href="#Fast-R-CNN-detection" class="headerlink" title="Fast R-CNN detection"></a>Fast R-CNN detection</h5><p> 一旦Fast R-CNN网络被微调，检测相当于运行正向传播（假设对象建议框object proposal是预先计算的）。网络将图像（或图像金字塔，编码为图像列表）和待给得分的 R 对象建议框（object proposal）列表作为输入。</p>
+<p>在测试阶段，R 大约为 2K个，但作者会考虑它更大（≈ 45k）的情况。当使用图像金字塔的时候，每个RoI被指定尺度使得接近 224*224。对于每个测试 RoI r，前向传递输出一个类后验概率分布 p 和一组相对于 r 的预测边界框bbox偏移量（K 个类中的每一个都有自己的细化边界框预测）。</p>
+<script type="math/tex; mode=display">
+然后使用估计概率:Pr(class=k|r)\triangleq p_k给 r 赋予关于 k 个对象类的检测置信度</script><p>最后给每个类都实施一个非极大值抑制。</p>
+<h5 id="Truncated-SVD-for-faster-detection-截断SVD以加快检测速度"><a href="#Truncated-SVD-for-faster-detection-截断SVD以加快检测速度" class="headerlink" title="Truncated SVD for faster detection(截断SVD以加快检测速度)"></a>Truncated SVD for faster detection(截断SVD以加快检测速度)</h5><p>对于全图像分类，与卷积层相比，计算全连接层所花费的时间很小。 相反，为了检测，要处理的 RoI 数量很大，前向传递时间的近一半用于计算全连接层（见图 2）。 通过使用截断的 SVD 压缩它们，可以轻松地加速大型完全连接层。 </p>
+<p><img src="/2021/08/15/Fast-R-CNN/SVD.png" alt="Fast-R-CNN"></p>
+<p>上图来源于Fast R-CNN论文<a href="https://blog.csdn.net/Wonder233/article/details/53671018" target="_blank" rel="noopener">论文链接</a></p>
+<p>具体的实现方式：</p>
+<ol>
+<li><p>物体分类和bbox回归都是通过全连接层实现的，假设全连接层输入数据为X，输出数据为Y，全连接层权值矩阵为W，尺寸为 u × v ，那么该层全连接计算为:Y=W &times; X</p>
+</li>
+<li><p>若将W进行SVD分解（奇异值分解），并用前t个特征值近似代替，即:</p>
+<script type="math/tex; mode=display">
+W\approx U\Sigma_tV^T</script></li>
+</ol>
+<p>U是 u × t 的左奇异矩阵， Σ<sub>t</sub>是 t × t 的对角矩阵 ，V是 v × t 的右奇异矩阵。 截断SVD将参数量由原来的 u × v 减少到 t × (u + v) ，当 t 远小于 min(u,v) 的时候降低了很大的计算量。</p>
+<p>在实现时，相当于把一个全连接层拆分为两个全连接层，第一个全连接层使用权值矩阵&Sigma;<sub>t</sub>V<sup>T</sup>（不含偏置），第二个全连接层使用矩阵U（含偏置)；当RoI的数量大时，这种简单的压缩方法有很好的加速。 </p>
+<p><a href="https://blog.csdn.net/Wonder233/article/details/53671018" target="_blank" rel="noopener">部分内容：参考博客</a></p>
+<h5 id="Which-layers-to-fine-tune-那些层需要被微调"><a href="#Which-layers-to-fine-tune-那些层需要被微调" class="headerlink" title="Which layers to fine-tune?(那些层需要被微调)"></a>Which layers to fine-tune?(那些层需要被微调)</h5><p>作者实验得出，仅仅向SPPNet一样，微调全连接层的话，mAP的减少了很多。证明通过 RoI 池化层进行训练对于非常深的网络很重要。 </p>
+<p><strong>那么所有的卷积层都应被为微调吗？</strong></p>
+<p>实验得出：</p>
+<ul>
+<li>在较小的网络（S 和 M）中，作者发现 conv1 是通用的且与任务无关（ ImageNet clas-<br>sification with deep convolutional neural networks.）。 允许 conv1 学习与否对 mAP 没有有意义的影响。 </li>
+<li>与从 conv3 1 学习相比，从 conv2 1 更新使训练速度降低了 1.3 倍（12.5 对 9.5 小时）；     </li>
+<li>从 conv1 1 更新超过 GPU 内存。 从 conv2 1 开始学习时，mAP 的差异仅为 +0.3 分（表 5，最后一列）。 </li>
+</ul>
+<p>所以论文推荐所有 Fast R-CNN 结果均使用 VGG16 微调层 conv3 1 及以上。</p>
+<h5 id="Scale-invariance-to-brute-force-or-finesse"><a href="#Scale-invariance-to-brute-force-or-finesse" class="headerlink" title="Scale invariance: to brute force or finesse?"></a>Scale invariance: to brute force or finesse?</h5><p>实验发现：深度卷积网络擅长直接学习尺度不变性。 多尺度方法仅提供少量的 mAP 增加，但计算时间成本很高 。</p>
+<h5 id="Are-more-proposals-always-better"><a href="#Are-more-proposals-always-better" class="headerlink" title="Are more proposals always better?"></a>Are more proposals always better?</h5><p>广义上，有两种类型的对象检测器</p>
+<ul>
+<li>那些使用稀疏对象提议集（例如，选择性搜索）<ul>
+<li>是cascade的一种类型：其中提议机制首先拒绝大量候选，让分类器留下一个小的集合进行评估</li>
+</ul>
+</li>
+<li>使用密集集和（例如，DPM）的对象检测器</li>
+</ul>
+<p><a href="https://www.jianshu.com/p/fbbb21e1e390" target="_blank" rel="noopener">部分参考链接</a></p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Deep-Learning/" rel="tag"># Deep Learning</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/08/15/Connected-Component-Analysis-Labeling/" rel="prev" title="Connected-Component-Analysis-Labeling">
+      <i class="fa fa-chevron-left"></i> Connected-Component-Analysis-Labeling
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2021/08/15/Faster-R-CNN/" rel="next" title="Faster-R-CNN">
+      Faster-R-CNN <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+    <div class="comments" id="gitalk-container"></div>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Fast-R-CNN学习笔记"><span class="nav-number">1.</span> <span class="nav-text">Fast R-CNN学习笔记</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#一、R-CNN和SPPnet的问题"><span class="nav-number">1.0.1.</span> <span class="nav-text">一、R-CNN和SPPnet的问题</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#二、Fast-RCNN的架构和训练"><span class="nav-number">1.0.2.</span> <span class="nav-text">二、Fast RCNN的架构和训练</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-1-The-RoI-pooling-layer"><span class="nav-number">1.0.3.</span> <span class="nav-text">2.1 The RoI pooling layer</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-2-Initializing-from-pre-trained-networks"><span class="nav-number">1.0.4.</span> <span class="nav-text">2.2  Initializing from pre-trained networks</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-3-Fine-tuning-for-detection"><span class="nav-number">1.0.5.</span> <span class="nav-text">2.3  Fine-tuning for detection</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#Multi-task-loss"><span class="nav-number">1.0.5.1.</span> <span class="nav-text">Multi-task loss</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Mini-batch-sampling"><span class="nav-number">1.0.5.2.</span> <span class="nav-text">Mini-batch sampling</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Back-propagation-through-RoI-pooling-layers"><span class="nav-number">1.0.5.3.</span> <span class="nav-text">Back-propagation through RoI pooling layers</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#SGD-hyper-parameters"><span class="nav-number">1.0.5.4.</span> <span class="nav-text">SGD hyper-parameters</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Scale-invariance"><span class="nav-number">1.0.5.5.</span> <span class="nav-text">Scale invariance</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Fast-R-CNN-detection"><span class="nav-number">1.0.5.6.</span> <span class="nav-text">Fast R-CNN detection</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Truncated-SVD-for-faster-detection-截断SVD以加快检测速度"><span class="nav-number">1.0.5.7.</span> <span class="nav-text">Truncated SVD for faster detection(截断SVD以加快检测速度)</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Which-layers-to-fine-tune-那些层需要被微调"><span class="nav-number">1.0.5.8.</span> <span class="nav-text">Which layers to fine-tune?(那些层需要被微调)</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Scale-invariance-to-brute-force-or-finesse"><span class="nav-number">1.0.5.9.</span> <span class="nav-text">Scale invariance: to brute force or finesse?</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Are-more-proposals-always-better"><span class="nav-number">1.0.5.10.</span> <span class="nav-text">Are more proposals always better?</span></a></li></ol></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Qiang Chen</p>
+  <div class="site-description" itemprop="description">记录是忘记的第一助手.</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">78</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">13</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">22</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/chenaing19" title="GitHub → https://github.com/chenaing19" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/765206494@qq.com" title="E-Mail → 765206494@qq.com"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Qiang Chen</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v4.0.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 �?<a href="https://mist.theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> v7.5.0
+  </div>
+    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+  
+  <script color='0,0,255' opacity='0.5' zIndex='-1' count='99' src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/muse.js"></script>
+<script src="/js/next-boot.js"></script>
+
+
+
+  
+
+
+
+
+  <script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+      
+<script type="text/x-mathjax-config">
+
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$', '$'], ['\\(', '\\)'] ],
+      processEscapes: true,
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {
+      equationNumbers: {
+        autoNumber: 'AMS'
+      }
+    }
+  });
+
+  MathJax.Hub.Register.StartupHook('TeX Jax Ready', function() {
+    MathJax.InputJax.TeX.prefilterHooks.Add(function(data) {
+      if (data.display) {
+        var next = data.script.nextSibling;
+        while (next && next.nodeName.toLowerCase() === '#text') {
+          next = next.nextSibling;
+        }
+        if (next && next.nodeName.toLowerCase() === 'br') {
+          next.parentNode.removeChild(next);
+        }
+      }
+    });
+  });
+
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for (i = 0; i < all.length; i += 1) {
+      element = document.getElementById(all[i].inputID + '-Frame').parentNode;
+      if (element.nodeName.toLowerCase() == 'li') {
+        element = element.parentNode;
+      }
+      element.classList.add('has-jax');
+    }
+  });
+</script>
+<script>
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/mathjax@2/MathJax.js?config=TeX-AMS-MML_HTMLorMML', () => {
+    MathJax.Hub.Typeset();
+  }, window.MathJax);
+</script>
+
+    
+
+  
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID: '9c00bb4a73071d490d0b',
+      clientSecret: '0466125432b53cefbd6002b7ea866f7e15bbd9c8',
+      repo: 'chenqiang19.github.io',
+      owner: 'chenqiang19',
+      admin: ['chenqiang19'],
+      id: 'b692672af62eed439ee53530bf3a879b',
+        language: '',
+      distractionFreeMode: 'true'
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+</script>
+
+  
+  <!-- ҳ����С���� -->
+  
+  
+    <script src="/js/cursor/love.min.js"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  
+
+
+
+</body>
+</html>

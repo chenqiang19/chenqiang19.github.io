@@ -1,0 +1,697 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    hostname: new URL('http://yoursite.com').hostname,
+    root: '/',
+    scheme: 'Mist',
+    version: '7.5.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    sidebarPadding: 40
+  };
+</script>
+
+  <meta name="description" content="Faster R-CNN源码分析(1)一、预备知识1、Cython构建python的build-in模块1#Cython库可将已有的Python代码转化为C语言的代码，并作为Python的built-in模块扩展。2python setup.py build_ext --inplace3#build_ext把ext_modules指定的一些模块，编译和链接成动态库4#--inplace指示 将编译">
+<meta name="keywords" content="Deep Learning">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Faster-R-CNN-Code-Analyse">
+<meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2021&#x2F;08&#x2F;15&#x2F;Faster-R-CNN-Code-Analyse&#x2F;index.html">
+<meta property="og:site_name" content="编辑尼撑">
+<meta property="og:description" content="Faster R-CNN源码分析(1)一、预备知识1、Cython构建python的build-in模块1#Cython库可将已有的Python代码转化为C语言的代码，并作为Python的built-in模块扩展。2python setup.py build_ext --inplace3#build_ext把ext_modules指定的一些模块，编译和链接成动态库4#--inplace指示 将编译">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2021&#x2F;08&#x2F;15&#x2F;Faster-R-CNN-Code-Analyse&#x2F;Cython.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2021&#x2F;08&#x2F;15&#x2F;Faster-R-CNN-Code-Analyse&#x2F;nvcc-0.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2021&#x2F;08&#x2F;15&#x2F;Faster-R-CNN-Code-Analyse&#x2F;nvcc-1.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2021&#x2F;08&#x2F;15&#x2F;Faster-R-CNN-Code-Analyse&#x2F;nvcc-2.png">
+<meta property="og:updated_time" content="2021-08-15T12:28:30.671Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2021&#x2F;08&#x2F;15&#x2F;Faster-R-CNN-Code-Analyse&#x2F;Cython.png">
+
+<link rel="canonical" href="http://yoursite.com/2021/08/15/Faster-R-CNN-Code-Analyse/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>Faster-R-CNN-Code-Analyse | 编辑尼撑</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="编辑尼撑" type="application/atom+xml"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">编辑尼撑</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">学无止境</p>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-schedule">
+
+    <a href="/schedule/" rel="section"><i class="fa fa-fw fa-calendar"></i>日程表</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="搜索..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/08/15/Faster-R-CNN-Code-Analyse/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Qiang Chen">
+      <meta itemprop="description" content="记录是忘记的第一助手.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="编辑尼撑">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Faster-R-CNN-Code-Analyse
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2021-08-15 20:25:30 / 修改时间：20:28:30" itemprop="dateCreated datePublished" datetime="2021-08-15T20:25:30+08:00">2021-08-15</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Deep-Learning/" itemprop="url" rel="index">
+                    <span itemprop="name">Deep Learning</span>
+                  </a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="Faster-R-CNN源码分析-1"><a href="#Faster-R-CNN源码分析-1" class="headerlink" title="Faster R-CNN源码分析(1)"></a>Faster R-CNN源码分析(1)</h2><h4 id="一、预备知识"><a href="#一、预备知识" class="headerlink" title="一、预备知识"></a>一、预备知识</h4><h5 id="1、Cython构建python的build-in模块"><a href="#1、Cython构建python的build-in模块" class="headerlink" title="1、Cython构建python的build-in模块"></a>1、Cython构建python的build-in模块</h5><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line"><span class="comment">#Cython库可将已有的Python代码转化为C语言的代码，并作为Python的built-in模块扩展。</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">python setup.py build_ext --inplace</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line"><span class="comment">#build_ext把ext_modules指定的一些模块，编译和链接成动态库</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line"><span class="comment">#--inplace指示 将编译后的扩展模块直接放在与setup.py同级的目录中</span></span></pre></td></tr></table></figure>
+<p>目前Python代码的执行过程是将Python代码转变成一行行指令，然后解释器解释指令的执行，调用到C代码层。如果去掉指令解释这个阶段，直接进入C代码层，效率就比较高了。Cython 是 Python 编程语言和扩展 Cython 编程语言（基于 Pyrex）的优化静态编译器。 它使得为 Python 编写 C 扩展就像 Python 本身一样简单。 </p>
+<p><strong>整个Cython工作的流程分两步：</strong></p>
+<ol>
+<li>.py文件使用Cython被编译为.c文件；</li>
+<li>.c文件使用C编译器生成.pyd(windos)或.so(linux)文件。</li>
+</ol>
+<p><img src="/2021/08/15/Faster-R-CNN-Code-Analyse/Cython.png" alt="Cython"></p>
+<p>上图来自博客园<a href="https://home.cnblogs.com/u/SsoZhNO-1/" target="_blank" rel="noopener">SsoZh</a></p>
+<p><a href="https://www.jianshu.com/p/cfcc2c04a6f5" target="_blank" rel="noopener">Cythhon入门经典</a></p>
+<p><strong>构建Cython代码的几种方法：</strong></p>
+<ul>
+<li>写一个 distutils / setuptools setup.py。推荐的方式(下面主要学习这种方式)<ul>
+<li>如果您使用 setuptools 而不是 distutils，则需要注意，运行python setup.py install时的默认操作是创建一个压缩的egg文件，当您尝试从依赖包中使用它们时，这些文件无法与pxd文件一起用于pxd文件。为防止这种情况，请在setup()的参数中包含zip_safe=False。使用 setuptools 时，您应该在 Cython 之前导入它，因为 setuptools 可能会替换 distutils 中的Extension类</li>
+</ul>
+</li>
+<li>使用 Pyximport，导入 Cython .pyx文件就像它们是.py文件一样</li>
+<li>手动运行cython命令行实用程序，从.pyx文件生成.c文件，然后手动将.c文件编译成适合从 Python 导入的共享库或 DLL</li>
+<li>使用 [Jupyter] 笔记本或 [Sage] 笔记本，两者都允许 Cython 代码内联</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line"><span class="comment">#distutils 构建 Cython 模块</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">setup(</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">	name = <span class="string">""</span>,</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">    ext_module = ext_modues,</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">    cmdclass = &#123;&#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line"><span class="comment">#name: site-package安装文件夹下的egg文件。假设不指定，将会以UNKNOW命名：/usr/lib64/python2.6/site-packages/UNKNOWN-0.0.0-py3.8.egg-info</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line"><span class="comment">#ext_module: 是一个包括Extension实例的列表</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line"><span class="comment">#Extension实力列表</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">11</span></pre></td><td class="code"><pre><span class="line"><span class="comment">#1. name: 扩展包的名字，供python导入import时使用</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">12</span></pre></td><td class="code"><pre><span class="line"><span class="comment">#2. source: 源文件组成的列表，源文件能够是C，C++等特定的资源文件或其他有build_ext确定的Python扩展，如.pyx文件</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">13</span></pre></td><td class="code"><pre><span class="line"><span class="comment">#3. language：扩展语言名称，默认是c,如果要用C++，可以改成C++</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">14</span></pre></td><td class="code"><pre><span class="line"><span class="comment">#4. include_dirs： 提供搜索C/C++头文件的文件夹组成的列表（比方：*.h），gcc的-I参数</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">15</span></pre></td><td class="code"><pre><span class="line"><span class="comment">#5. library_dirs：提供搜索C/C++库文件的文件夹组成的列表（比方：*.a），gcc的-L参数</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">16</span></pre></td><td class="code"><pre><span class="line"><span class="comment">#6. libraries：库名组成的列表</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">17</span></pre></td><td class="code"><pre><span class="line"><span class="comment">#7. extra_cpmpile_args: 就是传给 gcc 的额外的编译参数，比方说你可以传一个 -std=c++11</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">18</span></pre></td><td class="code"><pre><span class="line"><span class="comment">#8. extra_link_args: 就是传给 gcc 的额外的链接参数,如：-pthread</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">19</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">20</span></pre></td><td class="code"><pre><span class="line"><span class="comment">#cmdclass: 定制化命令，通过继承 setuptools.command 下的命令类来进行定制化</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">21</span></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">UploadCommand</span><span class="params">(Command)</span>:</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">22</span></pre></td><td class="code"><pre><span class="line">    <span class="string">"""Support setup.py upload."""</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">23</span></pre></td><td class="code"><pre><span class="line">    ...</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">24</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">25</span></pre></td><td class="code"><pre><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">run</span><span class="params">(self)</span>:</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">26</span></pre></td><td class="code"><pre><span class="line">        <span class="keyword">try</span>:</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">27</span></pre></td><td class="code"><pre><span class="line">            self.status(<span class="string">'Removing previous builds…'</span>)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">28</span></pre></td><td class="code"><pre><span class="line">            rmtree(os.path.join(here, <span class="string">'dist'</span>))</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">29</span></pre></td><td class="code"><pre><span class="line">        <span class="keyword">except</span> OSError:</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">30</span></pre></td><td class="code"><pre><span class="line">            <span class="keyword">pass</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">31</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">32</span></pre></td><td class="code"><pre><span class="line">        self.status(<span class="string">'Building Source and Wheel (universal) distribution…'</span>)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">33</span></pre></td><td class="code"><pre><span class="line">        os.system(<span class="string">'&#123;0&#125; setup.py sdist bdist_wheel --universal'</span>.format(sys.executable))</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">34</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">35</span></pre></td><td class="code"><pre><span class="line">        self.status(<span class="string">'Uploading the package to PyPI via Twine…'</span>)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">36</span></pre></td><td class="code"><pre><span class="line">        os.system(<span class="string">'twine upload dist/*'</span>)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">37</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">38</span></pre></td><td class="code"><pre><span class="line">        self.status(<span class="string">'Pushing git tags…'</span>)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">39</span></pre></td><td class="code"><pre><span class="line">        os.system(<span class="string">'git tag v&#123;0&#125;'</span>.format(about[<span class="string">'__version__'</span>]))</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">40</span></pre></td><td class="code"><pre><span class="line">        os.system(<span class="string">'git push --tags'</span>)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">41</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">42</span></pre></td><td class="code"><pre><span class="line">        sys.exit()</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">43</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">44</span></pre></td><td class="code"><pre><span class="line">setup(</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">45</span></pre></td><td class="code"><pre><span class="line">    ...</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">46</span></pre></td><td class="code"><pre><span class="line">    <span class="comment"># $ setup.py publish support.</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">47</span></pre></td><td class="code"><pre><span class="line">    cmdclass=&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">48</span></pre></td><td class="code"><pre><span class="line">        <span class="string">'upload'</span>: UploadCommand,</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">49</span></pre></td><td class="code"><pre><span class="line">    &#125;,</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">50</span></pre></td><td class="code"><pre><span class="line">)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">51</span></pre></td><td class="code"><pre><span class="line"><span class="comment">#这样可以通过 python setup.py upload 运行打包上传代码</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">52</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">53</span></pre></td><td class="code"><pre><span class="line"><span class="comment">#如果您需要指定编译器选项、要链接的库或其他链接器选项，您将需要手动创建扩展实例Extension（请注意，仍然可以使用 glob 语法在一行中指定多个扩展）： </span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">54</span></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> setuptools <span class="keyword">import</span> Extension, setup</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">55</span></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> Cython.Build <span class="keyword">import</span> cythonize</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">56</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">57</span></pre></td><td class="code"><pre><span class="line">extensions = [</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">58</span></pre></td><td class="code"><pre><span class="line">    Extension(<span class="string">"primes"</span>, [<span class="string">"primes.pyx"</span>],</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">59</span></pre></td><td class="code"><pre><span class="line">        include_dirs=[...],</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">60</span></pre></td><td class="code"><pre><span class="line">        libraries=[...],</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">61</span></pre></td><td class="code"><pre><span class="line">        library_dirs=[...]),</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">62</span></pre></td><td class="code"><pre><span class="line">    <span class="comment"># Everything but primes.pyx is included here.</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">63</span></pre></td><td class="code"><pre><span class="line">    Extension(<span class="string">"*"</span>, [<span class="string">"*.pyx"</span>],</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">64</span></pre></td><td class="code"><pre><span class="line">        include_dirs=[...],</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">65</span></pre></td><td class="code"><pre><span class="line">        libraries=[...],</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">66</span></pre></td><td class="code"><pre><span class="line">        library_dirs=[...]),</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">67</span></pre></td><td class="code"><pre><span class="line">]</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">68</span></pre></td><td class="code"><pre><span class="line">setup(</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">69</span></pre></td><td class="code"><pre><span class="line">    name=<span class="string">"My hello app"</span>,</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">70</span></pre></td><td class="code"><pre><span class="line">    ext_modules=cythonize(extensions),</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">71</span></pre></td><td class="code"><pre><span class="line">)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">72</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">73</span></pre></td><td class="code"><pre><span class="line"><span class="comment">#from Cython.Distutils import build_ext</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">74</span></pre></td><td class="code"><pre><span class="line"><span class="comment">#通过自定义类继承build_ext，来自定义distutils构建方式,如下：</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">75</span></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">custom_build_ext</span><span class="params">(build_ext)</span>:</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">76</span></pre></td><td class="code"><pre><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">build_extensions</span><span class="params">(self)</span>:</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">77</span></pre></td><td class="code"><pre><span class="line">        <span class="comment">#self.compiler是Cython.Distutils-》build_ext中的属性</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">78</span></pre></td><td class="code"><pre><span class="line">        customize_compiler_for_nvcc(self.compiler)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">79</span></pre></td><td class="code"><pre><span class="line">        build_ext.build_extensions(self)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">80</span></pre></td><td class="code"><pre><span class="line">        </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">81</span></pre></td><td class="code"><pre><span class="line">setup(</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">82</span></pre></td><td class="code"><pre><span class="line">    name=<span class="string">'faster_rcnn'</span>,</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">83</span></pre></td><td class="code"><pre><span class="line">    ext_modules=ext_modules,</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">84</span></pre></td><td class="code"><pre><span class="line">    <span class="comment"># inject our custom trigger</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">85</span></pre></td><td class="code"><pre><span class="line">    cmdclass=&#123;<span class="string">'build_ext'</span>: custom_build_ext&#125;,</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">86</span></pre></td><td class="code"><pre><span class="line">)</span></pre></td></tr></table></figure>
+<p><a href="https://zhuanlan.zhihu.com/p/24311879" target="_blank" rel="noopener">优秀的参考资料</a></p>
+<p><a href="https://www.bookstack.cn/read/cython-doc-zh/docs-29.md" target="_blank" rel="noopener">Cython 3.0中文文档</a></p>
+<p><a href="https://stackoverflow.com/questions/41169711/python-setuptools-distutils-custom-build-for-the-extra-package-with-makefile" target="_blank" rel="noopener">具有非常大的参考价值的链接</a></p>
+<p><a href="https://github.com/python/cpython/blob/main/Lib/distutils/command/build_ext.py" target="_blank" rel="noopener">Distutils-Cammond源码</a></p>
+<h5 id="2、NVCC编译学习"><a href="#2、NVCC编译学习" class="headerlink" title="2、NVCC编译学习"></a>2、NVCC编译学习</h5><p>下图给出了NVCC支持的编译阶段的命令以及输出的文件格式</p>
+<p><img src="/2021/08/15/Faster-R-CNN-Code-Analyse/nvcc-0.png" alt="NVCC"></p>
+<p>CUDA 编译的工作原理如下：输入程序经过预处理以供Device编译器编译，并编译为 CUDA 二进制（cubin）和/或 PTX 中间代码，这些代码放在一个 fatbinary 中。 输入程序再次预处理以供HOST编译，并与嵌入的fatbinary合成在一起，并将 CUDA 特定 C++ 扩展转换为标准 C++ 构造。 然后 C++ 主机编译器将带有嵌入的 fatbinary 的合成主机代码编译成主机Object。 为实现这一目标所遵循的确切步骤如图 1 所示。 </p>
+<p><img src="/2021/08/15/Faster-R-CNN-Code-Analyse/nvcc-1.png" alt="NVCC"></p>
+<p>上图来自于Nvidia官网<a href="https://docs.nvidia.com/cuda/cuda-compiler-driver-nvcc/index.html" target="_blank" rel="noopener">入口</a></p>
+<p>每个 <strong>nvcc 选项</strong>都有一个<strong>长名称</strong>和一个<strong>短名称</strong>，它们可以相互互换。 这两种变体的区别在于选项名称前面必须有多少个连字符：长名称前面必须有两个连字符，而短名称前面必须有一个连字符。 例如，-I 是 —include-path 的简称。长名称描述性价值更高，短名称交互性价值更高。</p>
+<p><strong>nvcc</strong> 识别<strong>三种类型的命令选项</strong>：布尔选项、单值选项和列表选项。 </p>
+<p>布尔选项没有参数； 它们要么在命令行上指定，要么不指定(就是要么有这个选项或者没有，如：加—verbosse或不加)。 单值选项最多只能指定一次(不能出现多次，如：—output-file xxx —output-file xxx)，列表选项可以重复。 每个选项类型的示例分别是：—verbose（切换到详细模式）、—output-file（指定输出文件）和—include-path（指定包含路径）。 </p>
+<p><strong>单值选项</strong>和<strong>列表选项</strong>必须有参数，该参数必须跟在选项本身的名称后面，后面是多个空格之一或等号字符。 当使用<strong>单字符短名称</strong>（例如 -I、-l 和 -L）时，<strong>选项的值也可以紧跟在选项本身之后，而不用空格或等号字符分隔</strong>。 列表选项的各个值可以在选项的单个实例中用逗号分隔，或者选项可以重复，或者这两种情况的任意组合。 </p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">合法的例子</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">-o file</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">-o=file</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">-Idir1,dir2 -I=dir3 -I dir4,dir5</span></pre></td></tr></table></figure>
+<p><strong>File and Path Specifications</strong></p>
+<ol>
+<li>—output-file <em>file</em> (-o)：指定输出文件的名称和位置。 </li>
+<li>—pre-include file,…,(-include): 指定在预处理期间必须预先包含的头文件。</li>
+<li>—library library,… (-l): 指定要在链接阶段使用的库，不带库文件扩展名。 在使用选项 —library-path 指定的库搜索路径上搜索库。</li>
+<li>—define-macro def,… (-D): 定义要在预处理期间使用的宏。 def 可以是 name 或 name=definition。 </li>
+<li>—undefine-macro def,… (-D): 在预处理或编译期间取消定义现有宏。 </li>
+<li>—include-path path,… (-I): 指定包含搜索路径。 </li>
+<li>—system-include path,… (isystem): 指定系统包含搜索路径。 </li>
+<li>—library-path path,… (-L): 指定库搜索路径。</li>
+<li>—cudart {none | shared | static} (-cudart): 指定要使用的 CUDA 运行时库的类型：无 CUDA 运行时库、共享/动态 CUDA 运行时库或静态 CUDA 运行时库。 </li>
+<li>—cudadevrt {none | static } {-cudadevrt}: 指定要使用的 CUDA 设备运行时库的类型：无 CUDA 设备运行时库或静态 CUDA 设备运行时库。 </li>
+</ol>
+<p><strong>Options for Specifying the Compilation Phase</strong></p>
+<p>此类别的选项指定输入文件必须编译到哪个阶段。 </p>
+<ol>
+<li>—link (-link): 指定默认行为：编译并链接所有输入文件。 </li>
+<li>—lib (-lib): 如有必要，将所有输入文件编译为目标文件，并将结果添加到指定的库输出文件中。 </li>
+<li>—device-link (-dlink): 将具有可重定位设备代码的目标文件和 .ptx、.cubin 和 .fatbin 文件链接到具有可执行设备代码的目标文件中，该目标文件可以传递给主机链接器。 </li>
+<li>—device-c (-dc): 将每个 .c、.cc、.cpp、.cxx 和 .cu 输入文件编译为包含可重定位设备代码的目标文件。 </li>
+<li>—device-w (-dw): 将每个 .c、.cc、.cpp、.cxx 和 .cu 输入文件编译为包含可执行设备代码的目标文件。 </li>
+<li>—cuda (-cuda): 将每个 .cu 输入文件编译为 .cu.cpp.ii 文件。 </li>
+<li>—compile (-c): 将每个 .c、.cc、.cpp、.cxx 和 .cu 输入文件编译为目标文件。 </li>
+<li>—fatbin (-fatbin): 将所有 .cu、.ptx 和 .cubin 输入文件编译为仅限设备的 .fatbin 文件。 。nvcc 使用此选项丢弃每个 .cu 输入文件的主机代码。</li>
+<li>—cubin (-cubin): 将所有 .cu 和 .ptx 输入文件编译为仅限设备的 .cubin 文件。 nvcc 使用此选项丢弃每个 .cu 输入文件的主机代码。 </li>
+<li>—ptx (-ptx): 将所有 .cu 输入文件编译为仅限设备的 .ptx 文件。 nvcc 使用此选项丢弃每个 .cu 输入文件的主机代码。</li>
+<li>—preprocess (-E): 预处理所有 .c、.cc、.cpp、.cxx 和 .cu 输入文件。 </li>
+<li>—generate-dependencies (-M): 为 .c、.cc、.cpp、.cxx 和 .cu 输入文件生成可包含在 Makefile 中的依赖文件。 </li>
+<li>—run (-run): 将所有输入文件编译并链接到一个可执行文件中，然后执行它。 </li>
+</ol>
+<p><strong>Options for Passing Specific Phase Options(用于传递特定阶段选项的选项 )</strong></p>
+<p>说白了就是，比如nvcc中没有的一些执行，但要使用的话可以通过该选项中的一些参数进行传递。这些允许将特定选项直接传递给 nvcc 封装的内部编译工具，而不会给 nvcc 带来关于这些工具的过于详细的知识。</p>
+<ol>
+<li>—compiler-options options,… (-Xcompiler): 直接向编译器/预处理器指定选项。 如：-Xcompiler -fPIC</li>
+<li>—linker-options options,… (-Xlinker): 直接为主机链接器指定选项。 </li>
+<li>—archive-options options,… (-Xarchive): 直接向库管理器指定选项。 </li>
+<li>—ptxas-options options,… (-Xptxas): 直接为 PTX 优化汇编器 ptxas 指定选项。 </li>
+<li>—nvlink-options options,… (-Xnvlink): 直接为设备链接器 nvlink 指定选项。 </li>
+</ol>
+<p><strong>Option for Specifying Behavior of Compiler/Linker(用于指定编译器/链接器行为的选项 )</strong></p>
+<ol>
+<li>—profile (-pg): 仪器生成的代码/可执行文件供 gprof 使用。 </li>
+<li>—debug (-g): 为主机代码生成调试信息。 </li>
+<li>—device-debug (-G): 为设备代码生成调试信息。 此选项关闭对设备代码的所有优化。 它不用于分析； 使用 —generate-line-info 代替分析。 </li>
+<li>—optimize level (-O): 指定主机代码的优化级别。 </li>
+<li>—shared (-shared): 在链接期间生成共享库。 </li>
+<li>—x {c | c++ | cu} (-x): 明确指定输入文件的语言，而不是让编译器根据文件名后缀选择默认语言。 </li>
+<li>—std {c++03 | c++11 | c++14 | c++17} (-std): 选择一个特定的C++ Dialect。</li>
+<li>—machine {32 | 64} (-m): 指定 32 位与 64 位架构。 </li>
+</ol>
+<p><strong>Options for Guiding the Compiler Driver(引导编译器驱动程序的选项 )</strong></p>
+<ol>
+<li>—dont-use-profile (-noprof): 不要使用 nvcc.profile 文件中的配置进行编译。 </li>
+<li>—threads number (-t): 指定用于并行执行编译步骤的最大线程数。 多架构编译时，该选项可用于提高编译速度。 编译器创建多个线程来并行执行编译步骤。 如果 number 为=1，则忽略此选项。 如果 number = 0，则使用的线程数是机器上的 CPU 数。 </li>
+<li>—dryrun (-dryrun): 列出编译子命令而不执行它们。</li>
+<li>—verbose (-v): 在执行时列出编译子命令。 </li>
+<li>—keep (-keep): 保留在内部编译步骤中生成的所有中间文件。 </li>
+<li>—keep-dir directory (-keep-dir): 将内部编译步骤中生成的所有中间文件保存在此目录中。 </li>
+</ol>
+<p><strong>Opetions for Steering GPU Code Generation(用于引导 GPU 代码生成的选项 )</strong></p>
+<ol>
+<li>—gpu-architecture arch (-arch): 指定编译 CUDA 输入文件的 NVIDIA 虚拟 GPU 架构类的名称。通常，单独使用此选项不会触发为真实架构组装生成的 PTX，它的目的是控制 PTX 输入的预处理和编译。如果未指定选项 —gpu-code 的值，则此选项的值默认为 —gpu-architecture 的值。 在这种情况下，作为上述描述的唯一例外，为 —gpu-architecture 指定的值可能是真实架构（例如 sm_50），在这种情况下，nvcc 使用指定的真实架构及其最接近的虚拟架构作为有效架构 值。 例如，nvcc —gpu-architecture=sm_50 等价于 nvcc —gpu-architecture=compute_50 —gpu-code=sm_50,compute_50。 </li>
+<li>—gpu-code code,… (-code): 指定要为其组装和优化 PTX 的 NVIDIA GPU 的名称。 nvcc 在生成的每个指定代码架构的可执行文件中嵌入一个编译后的代码映像，它是每个真实架构（例如 sm_50）的真正二进制加载映像，以及虚拟架构（例如 compute_50）的 PTX 代码。 在运行时，如果没有找到当前 GPU 的二进制加载图像，则 CUDA 运行时系统会动态编译此类嵌入式 PTX 代码。 </li>
+<li>—generate-code specification (-gencode): 此选项提供了 —gpu-architecture=arch —gpu-code=code,… 选项组合的概括，用于指定与代码生成相关的 nvcc 行为。 使用前面的选项为不同的真实架构生成代码，而 PTX 用于相同的虚拟架构，选项 —generate-code 允许为不同的虚拟架构生成多个 PTX。 事实上， —gpu-architecture=arch —gpu-code=code,… 等价于 —generate-code=arch=arch,code=code,… 。 </li>
+</ol>
+<p><strong>Generic Tool Options</strong></p>
+<ol>
+<li>—disable-warnings (-w): 禁止所有警告消息。 </li>
+<li>—Wno-deprecated-gpu-targets (-Wno-deprecated-gpu-targets): 禁止有关已弃用的 GPU 目标架构的警告。 </li>
+<li>—Wno-deprecated-declarations (-Wno-deprecated-declarations): 禁止在使用已弃用实体时发出警告。 </li>
+</ol>
+<p><strong>NVCC Environment Variables</strong></p>
+<p>如果设置了以下环境变量，可以使用以下环境变量来扩充 nvcc 命令行标志： </p>
+<p>NVCC_PREPEND_FLAGS: 在正常 nvcc 命令行之前注入的标志。 </p>
+<p>NVCC_APPEND_FLAGS: 在正常 nvcc 命令行之后注入的标志。 </p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">export NVCC_PREPEND_FLAGS='-G -keep -arch=sm_60'</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">export NVCC_APPEND_FLAGS='-DNAME=" foo "'</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">The following invocation(以下调用): </span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">nvcc foo.cu -o foo</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">Becomes equivalent to:</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">nvcc -G -keep -arch=sm_60 foo.cu -o foo -DNAME=" foo "</span></pre></td></tr></table></figure>
+<p><strong>兼容性</strong></p>
+<p>CPU各代之间的二进制代码兼容性，以及已发布的指令集体系结构，是确保该领域的分布式应用程序在新版本CPU成为主流时继续运行的常用机制。</p>
+<p>这种情况对于 GPU 来说是不同的，因为 NVIDIA 无法在不牺牲 GPU 改进的常规机会的情况下保证二进制兼容性。 相反，正如图形编程领域的常规做法，nvcc 依赖于两阶段编译模型来确保应用程序与未来 GPU 代的兼容性。 </p>
+<p><img src="/2021/08/15/Faster-R-CNN-Code-Analyse/nvcc-2.png" alt="NVCC"></p>
+<p><strong>Further Mechanisms</strong></p>
+<ul>
+<li>Just-in-Time Compilation(即时编译)</li>
+<li>Fatbinaries</li>
+</ul>
+<p><strong>NVCC Example</strong></p>
+<p>nvcc 提供选项 —gpu-architecture 和 —gpu-code 用于指定两个转换阶段的目标架构。 除了下面描述的允许的简写外，—gpu-architecture 选项采用单个值，该值必须是虚拟计算架构的名称，而选项 —gpu-code 则采用一个值列表，这些值都必须是虚拟计算架构的名称 实际的 GPU。 nvcc 为这些 GPU 中的每一个执行阶段 2 转换，并将结果嵌入到编译结果中（通常是主机目标文件或可执行文件）。 </p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">nvcc x.cu --gpu-architecture=compute_50 --gpu-code=sm_50,sm_52</span></pre></td></tr></table></figure>
+<h5 id="3、Pytorch扩展"><a href="#3、Pytorch扩展" class="headerlink" title="3、Pytorch扩展"></a>3、Pytorch扩展</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">torch.utils.ffi.create_extension(name, headers, sources, verbose&#x3D;True, with_cuda&#x3D;False, package&#x3D;False, relative_to&#x3D;&#39;.&#39;, **kwargs)</span></pre></td></tr></table></figure>
+<p>创建并配置一个cffi.FFI对象,用于PyTorch的扩展。参数解析如下：</p>
+<ul>
+<li><strong>name</strong> (<em>str</em>) – 包名。可以是嵌套模块，例如 <code>.ext.my_lib</code>。</li>
+<li><strong>headers</strong> (<em>str</em> or List[<em>str</em>]) – 只包含导出函数的头文件列表</li>
+<li><strong>sources</strong> (List[<em>str</em>]) – 用于编译的sources列表</li>
+<li><strong>verbose</strong> (<em>bool</em>, optional) – 如果设置为False，则不会打印输出（默认值：<code>True</code>）。</li>
+<li><strong>with_cuda</strong> (<em>bool</em>, optional) – 设置为True以使用CUDA头文件进行编译（默认值：<code>False</code>）。</li>
+<li><strong>package</strong> (<em>bool</em>, optional) – 设置为True以在程序包模式下构建（对于要作为pip程序包安装的模块）（默认值：<code>False</code>）。</li>
+<li><strong>relative_to</strong> (<em>str</em>, optional) –构建文件的路径。<code>package</code>为<code>True</code>时需要。最好使用<code>__file__</code>作为参数。</li>
+<li><strong>kwargs</strong> – 传递给ffi以声明扩展的附加参数。有关详细信息，请参阅<a href="https://docs.python.org/3/distutils/apiref.html#distutils.core.Extension" target="_blank" rel="noopener">Extension API reference</a>。</li>
+</ul>
+<p><a href="https://blog.csdn.net/manong_wxd/article/details/78720182" target="_blank" rel="noopener">参考示例</a></p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Deep-Learning/" rel="tag"># Deep Learning</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/08/15/Mask-R-CNN/" rel="prev" title="Mask-R-CNN">
+      <i class="fa fa-chevron-left"></i> Mask-R-CNN
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2021/08/15/Model-Acceleration-Zero/" rel="next" title="Model-Acceleration-Zero">
+      Model-Acceleration-Zero <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+    <div class="comments" id="gitalk-container"></div>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Faster-R-CNN源码分析-1"><span class="nav-number">1.</span> <span class="nav-text">Faster R-CNN源码分析(1)</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#一、预备知识"><span class="nav-number">1.0.1.</span> <span class="nav-text">一、预备知识</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1、Cython构建python的build-in模块"><span class="nav-number">1.0.1.1.</span> <span class="nav-text">1、Cython构建python的build-in模块</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2、NVCC编译学习"><span class="nav-number">1.0.1.2.</span> <span class="nav-text">2、NVCC编译学习</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3、Pytorch扩展"><span class="nav-number">1.0.1.3.</span> <span class="nav-text">3、Pytorch扩展</span></a></li></ol></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Qiang Chen</p>
+  <div class="site-description" itemprop="description">记录是忘记的第一助手.</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">78</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">13</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">22</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/chenaing19" title="GitHub → https://github.com/chenaing19" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/765206494@qq.com" title="E-Mail → 765206494@qq.com"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Qiang Chen</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v4.0.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 �?<a href="https://mist.theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> v7.5.0
+  </div>
+    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+  
+  <script color='0,0,255' opacity='0.5' zIndex='-1' count='99' src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/muse.js"></script>
+<script src="/js/next-boot.js"></script>
+
+
+
+  
+
+
+
+
+  <script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+      
+<script type="text/x-mathjax-config">
+
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$', '$'], ['\\(', '\\)'] ],
+      processEscapes: true,
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {
+      equationNumbers: {
+        autoNumber: 'AMS'
+      }
+    }
+  });
+
+  MathJax.Hub.Register.StartupHook('TeX Jax Ready', function() {
+    MathJax.InputJax.TeX.prefilterHooks.Add(function(data) {
+      if (data.display) {
+        var next = data.script.nextSibling;
+        while (next && next.nodeName.toLowerCase() === '#text') {
+          next = next.nextSibling;
+        }
+        if (next && next.nodeName.toLowerCase() === 'br') {
+          next.parentNode.removeChild(next);
+        }
+      }
+    });
+  });
+
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for (i = 0; i < all.length; i += 1) {
+      element = document.getElementById(all[i].inputID + '-Frame').parentNode;
+      if (element.nodeName.toLowerCase() == 'li') {
+        element = element.parentNode;
+      }
+      element.classList.add('has-jax');
+    }
+  });
+</script>
+<script>
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/mathjax@2/MathJax.js?config=TeX-AMS-MML_HTMLorMML', () => {
+    MathJax.Hub.Typeset();
+  }, window.MathJax);
+</script>
+
+    
+
+  
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID: '9c00bb4a73071d490d0b',
+      clientSecret: '0466125432b53cefbd6002b7ea866f7e15bbd9c8',
+      repo: 'chenqiang19.github.io',
+      owner: 'chenqiang19',
+      admin: ['chenqiang19'],
+      id: '247b3a37915e70c1e2b3fad663fe33aa',
+        language: '',
+      distractionFreeMode: 'true'
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+</script>
+
+  
+  <!-- ҳ����С���� -->
+  
+  
+    <script src="/js/cursor/love.min.js"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  
+
+
+
+</body>
+</html>
