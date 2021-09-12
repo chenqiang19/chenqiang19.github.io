@@ -1,39 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>Hello World</title>
-    <url>/2021/08/15/hello-world/</url>
-    <content><![CDATA[<p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post-location-source-gt-post-directory"><a href="#Create-a-new-post-location-source-gt-post-directory" class="headerlink" title="Create a new post, location: source-&gt;_post directory"></a>Create a new post, location: source-&gt;_post directory</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span></pre></td></tr></table></figure>
-<h3 id="Create-a-new-draft-location-source-gt-drafts-directory"><a href="#Create-a-new-draft-location-source-gt-drafts-directory" class="headerlink" title="Create a new draft, location: source-&gt;_drafts directory"></a>Create a new draft, location: source-&gt;_drafts directory</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo new  draft <span class="string">"My New Draft"</span></span></pre></td></tr></table></figure>
-<h3 id="Preview-a-new-draft-shut-down-old-server"><a href="#Preview-a-new-draft-shut-down-old-server" class="headerlink" title="Preview a new draft (shut down old server)"></a>Preview a new draft (shut down old server)</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo server --draft</span></pre></td></tr></table></figure>
-<h3 id="publish-a-new-draft-shut-down-old-server"><a href="#publish-a-new-draft-shut-down-old-server" class="headerlink" title="publish a new draft (shut down old server)"></a>publish a new draft (shut down old server)</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo publish <span class="string">"My New draft"</span></span></pre></td></tr></table></figure>
-<h3 id="Create-a-new-normal-location-source-gt-c-directory"><a href="#Create-a-new-normal-location-source-gt-c-directory" class="headerlink" title="Create a new normal, location: source-&gt;c directory"></a>Create a new normal, location: source-&gt;c directory</h3><h4 id="normal-is-not-blog-page-it-likes-about-or-contact-us-page"><a href="#normal-is-not-blog-page-it-likes-about-or-contact-us-page" class="headerlink" title="normal is not blog page, it likes about or contact us page."></a>normal is not blog page, it likes about or contact us page.</h4><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo new page <span class="string">"My new Normal"</span></span></pre></td></tr></table></figure>
-<h3 id="Preview-a-new-normal"><a href="#Preview-a-new-normal" class="headerlink" title="Preview a new normal"></a>Preview a new normal</h3><p><a href="http://localhost:4000/c/" target="_blank" rel="noopener">http://localhost:4000/c/</a></p>
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
-<h3 id="Clean-cache"><a href="#Clean-cache" class="headerlink" title="Clean cache"></a>Clean cache</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo clean</span></pre></td></tr></table></figure>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo server</span></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo generate</span></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo deploy</span></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html" target="_blank" rel="noopener">Deployment</a></p>
-<p>If you want to show Chinese, you must make sure md is saved with utf-8</p>
-]]></content>
-  </entry>
-  <entry>
     <title>Neural-Network</title>
-    <url>/2021/08/15/Neural-Network/</url>
-    <content><![CDATA[<h2 id="第五章-神经网络（西瓜书学习-笔记）"><a href="#第五章-神经网络（西瓜书学习-笔记）" class="headerlink" title="第五章 神经网络（西瓜书学习-笔记）"></a>第五章 神经网络（西瓜书学习-笔记）</h2><h4 id="一、神经元模型"><a href="#一、神经元模型" class="headerlink" title="一、神经元模型"></a>一、神经元模型</h4><p><img src="/2021/08/15/Neural-Network/M-P-0.png" alt="ML"></p>
+    <url>/2021/09/12/Neural-Network/</url>
+    <content><![CDATA[<h2 id="第五章-神经网络（西瓜书学习-笔记）"><a href="#第五章-神经网络（西瓜书学习-笔记）" class="headerlink" title="第五章 神经网络（西瓜书学习-笔记）"></a>第五章 神经网络（西瓜书学习-笔记）</h2><h4 id="一、神经元模型"><a href="#一、神经元模型" class="headerlink" title="一、神经元模型"></a>一、神经元模型</h4><p><img src="/2021/09/12/Neural-Network/M-P-0.png" alt="ML"></p>
 <p>在生物神经网络中，每个神经元与其他神经元相连，当它”兴奋”时，就会向相连的神经元发送化学物质，从而改变这些神经元内的电位；如果某神经元的电位超过了一个”阈值”，那么它就会被激活，即“兴奋”起来，向其他神经元发送化学物质。</p>
 <p>在M-P神经元模型中，神经元接收到来自n个其他神经元传递过来的输入信号，这些输入信号通过带权重的连接进行传递，神经元接收到的总输入值将于神经元的阈值进行比较，然后通过激活函数处理以产生神经元的输出。</p>
 <p>理想的激活函数是阶跃函数，它将输入值映射为输出值0和1，其中1对于神经元兴奋，0对于神经元抑制。然而，阶跃函数具有不连续、不光滑等不太好的性质。因此，常用sigmoid函数作为激活函数。</p>
-<p><img src="/2021/08/15/Neural-Network/M-P-1.png" alt="ML"></p>
+<p><img src="/2021/09/12/Neural-Network/M-P-1.png" alt="ML"></p>
 <h4 id="二、感知机与多层网络"><a href="#二、感知机与多层网络" class="headerlink" title="二、感知机与多层网络"></a>二、感知机与多层网络</h4><p>感知机由两层神经元组成，能容易地实现逻辑与、或、非运算。但是只能处理线性可分的问题，对于非线性可分问题，需要考虑使用多层功能神经元，即多层前馈神经网络。</p>
-<p><img src="/2021/08/15/Neural-Network/M-P-2.png" alt="ML"></p>
+<p><img src="/2021/09/12/Neural-Network/M-P-2.png" alt="ML"></p>
 <h4 id="三、误差逆传播算法"><a href="#三、误差逆传播算法" class="headerlink" title="三、误差逆传播算法"></a>三、误差逆传播算法</h4><script type="math/tex; mode=display">
 给定训练集D=\{(x_1,y_1),(x_2,y_2),...,(x_m,y_m)\},x_i\in R^d,y_i\in R^l\\
-即输入示例由d个属性描述，输出l维实值向量。</script><p><img src="/2021/08/15/Neural-Network/M-P-3.png" alt="ML"></p>
+即输入示例由d个属性描述，输出l维实值向量。</script><p><img src="/2021/09/12/Neural-Network/M-P-3.png" alt="ML"></p>
 <script type="math/tex; mode=display">
 \begin{align}&上图显示了一个拥有d个输入神经元，l个输出神经元，q个隐层神经元的多层前馈神经网络。\\&其中输出层第j个神经元的阈值为\theta_j,隐层第h个神经元的阈值用\gamma_h表示。\\
 &输入层第i个神经元与隐层第h个神经元之间的连接权为v_{ih},隐层第h个神经元与输出层第j个神经元之间的连接权为w_{hj}\\
@@ -69,6 +48,1105 @@ E=\lambda\frac{1}{m}\sum^{m}_{k=1}E_k+(1-\lambda)\sum_{i}w^2_i</script><p>&lambd
 </ul>
 <p>上述用于跳出局部极小的计算大多是启发式，理论上缺乏保证。</p>
 ]]></content>
+  </entry>
+  <entry>
+    <title>Hello World</title>
+    <url>/2021/09/12/hello-world/</url>
+    <content><![CDATA[<p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
+<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post-location-source-gt-post-directory"><a href="#Create-a-new-post-location-source-gt-post-directory" class="headerlink" title="Create a new post, location: source-&gt;_post directory"></a>Create a new post, location: source-&gt;_post directory</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span></pre></td></tr></table></figure>
+<h3 id="Create-a-new-draft-location-source-gt-drafts-directory"><a href="#Create-a-new-draft-location-source-gt-drafts-directory" class="headerlink" title="Create a new draft, location: source-&gt;_drafts directory"></a>Create a new draft, location: source-&gt;_drafts directory</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo new  draft <span class="string">"My New Draft"</span></span></pre></td></tr></table></figure>
+<h3 id="Preview-a-new-draft-shut-down-old-server"><a href="#Preview-a-new-draft-shut-down-old-server" class="headerlink" title="Preview a new draft (shut down old server)"></a>Preview a new draft (shut down old server)</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo server --draft</span></pre></td></tr></table></figure>
+<h3 id="publish-a-new-draft-shut-down-old-server"><a href="#publish-a-new-draft-shut-down-old-server" class="headerlink" title="publish a new draft (shut down old server)"></a>publish a new draft (shut down old server)</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo publish <span class="string">"My New draft"</span></span></pre></td></tr></table></figure>
+<h3 id="Create-a-new-normal-location-source-gt-c-directory"><a href="#Create-a-new-normal-location-source-gt-c-directory" class="headerlink" title="Create a new normal, location: source-&gt;c directory"></a>Create a new normal, location: source-&gt;c directory</h3><h4 id="normal-is-not-blog-page-it-likes-about-or-contact-us-page"><a href="#normal-is-not-blog-page-it-likes-about-or-contact-us-page" class="headerlink" title="normal is not blog page, it likes about or contact us page."></a>normal is not blog page, it likes about or contact us page.</h4><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo new page <span class="string">"My new Normal"</span></span></pre></td></tr></table></figure>
+<h3 id="Preview-a-new-normal"><a href="#Preview-a-new-normal" class="headerlink" title="Preview a new normal"></a>Preview a new normal</h3><p><a href="http://localhost:4000/c/" target="_blank" rel="noopener">http://localhost:4000/c/</a></p>
+<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
+<h3 id="Clean-cache"><a href="#Clean-cache" class="headerlink" title="Clean cache"></a>Clean cache</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo clean</span></pre></td></tr></table></figure>
+<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo server</span></pre></td></tr></table></figure>
+<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p>
+<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo generate</span></pre></td></tr></table></figure>
+<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p>
+<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo deploy</span></pre></td></tr></table></figure>
+<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html" target="_blank" rel="noopener">Deployment</a></p>
+<p>If you want to show Chinese, you must make sure md is saved with utf-8</p>
+]]></content>
+  </entry>
+  <entry>
+    <title>Wen-Servlet</title>
+    <url>/2021/09/12/Wen-Servlet/</url>
+    <content><![CDATA[]]></content>
+  </entry>
+  <entry>
+    <title>Wen-Servlet</title>
+    <url>/2021/09/12/Web-Servlet/</url>
+    <content><![CDATA[<h2 id="Web学习记录"><a href="#Web学习记录" class="headerlink" title="Web学习记录"></a>Web学习记录</h2><p>学框架spring cloud和spring boot有点一知半解，从头开始快速理一遍吧！</p>
+<h4 id="一、tomcat"><a href="#一、tomcat" class="headerlink" title="一、tomcat"></a>一、tomcat</h4><h5 id="1-1-tomcat简述"><a href="#1-1-tomcat简述" class="headerlink" title="1.1 tomcat简述"></a>1.1 tomcat简述</h5><p>tomcat是一个开源的web服务器，将自己的web项目放到tomcat目录中的webapps中，并且在bin目录中开启tomcat后，就可以通过浏览器去访问web中的资源。下面创建一个简单的项目：</p>
+<ul>
+<li>在webapps中建立文件夹，如webexample<ul>
+<li>创建WEB-INF文件夹，用于存放项目的核心内容，外部不能访问<ul>
+<li>创建classes，用于存放.class文件</li>
+<li>创建lib，用于存放jar文件</li>
+<li>创建web.xml，项目配置文件(到ROOT项目[解压tomcat后自带了5个样例]下的WEB-INF复制即可)</li>
+</ul>
+</li>
+<li>把网页等静态资源复制到webexample文件中，与WEB-INF在同级目录，如hell.html</li>
+</ul>
+</li>
+</ul>
+<h5 id="1-2-URL访问资源"><a href="#1-2-URL访问资源" class="headerlink" title="1.2 URL访问资源"></a>1.2 URL访问资源</h5><p>URL主要由4部分组成：协议、主机、端口、资源路径。<a href="https://www.bilibili.com/video/BV1Jz4y1d7K7?p=5&amp;spm_id_from=pageDriver" target="_blank" rel="noopener">下图来自</a></p>
+<p><img src="/Web-Servlet/TOMCAT-0.png" alt="TOMCAT-0"></p>
+<p>tomcat响应流程：</p>
+<ul>
+<li>用户通过url访问资源</li>
+<li>根据主机和端口，在tomcat中找对应的资源</li>
+<li>找到后将资源返回给客户端浏览器</li>
+<li>浏览器对资源进行解析</li>
+</ul>
+<p><img src="/Web-Servlet/TOMCAT-1.png" alt="TOMCAT-1"></p>
+<h5 id="1-3-常见问题"><a href="#1-3-常见问题" class="headerlink" title="1.3 常见问题"></a>1.3 常见问题</h5><ol>
+<li><p>Tomcat闪退</p>
+<p>由于JAVA_HOME配置导致的，检查JAVA_HOME配置是否正确</p>
+</li>
+<li><p>404</p>
+<p>访问的资源不存在</p>
+</li>
+</ol>
+<h4 id="二、Servlet"><a href="#二、Servlet" class="headerlink" title="二、Servlet"></a>二、Servlet</h4><h5 id="2-1-概念"><a href="#2-1-概念" class="headerlink" title="2.1 概念"></a>2.1 概念</h5><p>Servlet：Server Applet的简称，是服务器端的程序(代码、功能实现)。JavaWeb程序开发的基础，JavaEE规范(一套接口)的一个组成部分。包括如下作用：</p>
+<ul>
+<li>可交互式的处理客户端发送到服务端的请求，并完成操作响应</li>
+<li>动态网页技术（页面数据可变）例如，不同人访问淘宝的页面里面的内容不一样，推荐系统会推荐不同的喜好内容</li>
+<li>将包含操作结果的动态网页响应给客户端</li>
+</ul>
+<h5 id="2-2-搭建开发环境"><a href="#2-2-搭建开发环境" class="headerlink" title="2.2 搭建开发环境"></a>2.2 搭建开发环境</h5><p>将Servlet相关的jar包(tomcat/lib/servlet-api.jar)配置到环境变量的classpath中。因为在编写servlet接口的时候，需要用到servlet-api.jar中的内容，需要需要让程序找到对应的jar包。</p>
+<h5 id="2-3-编写Servlet"><a href="#2-3-编写Servlet" class="headerlink" title="2.3 编写Servlet"></a>2.3 编写Servlet</h5><ul>
+<li>实现javax.servlet.Servlet</li>
+<li>重写5个主要方法</li>
+<li>在核心的service()方法中编写输出语句，打印访问结果</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> javax.servlet.Servlet;</span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> javax.servlet.ServletConfig;</span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> javax.servlet.ServletException;</span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> javax.servlet.ServletRequest;</span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> javax.servlet.ServletResponse;</span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> java.io.IOException;</span></pre></td></tr><tr><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyServlet</span> <span class="keyword">implements</span> <span class="title">Servlet</span> </span>&#123;</span></pre></td></tr><tr><td class="code"><pre><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">init</span><span class="params">(ServletConfig servletConfig)</span> <span class="keyword">throws</span> ServletException</span>&#123;</span></pre></td></tr><tr><td class="code"><pre><span class="line">        </span></pre></td></tr><tr><td class="code"><pre><span class="line">    &#125;</span></pre></td></tr><tr><td class="code"><pre><span class="line">    </span></pre></td></tr><tr><td class="code"><pre><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">service</span><span class="params">(ServletRequest request, ServletResponse response)</span> <span class="keyword">throws</span> ServletException, IOException </span>&#123;</span></pre></td></tr><tr><td class="code"><pre><span class="line">        </span></pre></td></tr><tr><td class="code"><pre><span class="line">    &#125;</span></pre></td></tr><tr><td class="code"><pre><span class="line">    </span></pre></td></tr><tr><td class="code"><pre><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">destroy</span><span class="params">()</span> </span>&#123;</span></pre></td></tr><tr><td class="code"><pre><span class="line">        </span></pre></td></tr><tr><td class="code"><pre><span class="line">    &#125;</span></pre></td></tr><tr><td class="code"><pre><span class="line">    </span></pre></td></tr><tr><td class="code"><pre><span class="line">    <span class="function"><span class="keyword">public</span> ServletConfig <span class="title">getServletConfig</span><span class="params">()</span> </span>&#123;</span></pre></td></tr><tr><td class="code"><pre><span class="line">        <span class="keyword">return</span> <span class="keyword">null</span>;</span></pre></td></tr><tr><td class="code"><pre><span class="line">    &#125;</span></pre></td></tr><tr><td class="code"><pre><span class="line">    </span></pre></td></tr><tr><td class="code"><pre><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getServletInfo</span><span class="params">()</span> </span>&#123;</span></pre></td></tr><tr><td class="code"><pre><span class="line">        <span class="keyword">return</span> <span class="keyword">null</span>;</span></pre></td></tr><tr><td class="code"><pre><span class="line">    &#125;</span></pre></td></tr><tr><td class="code"><pre><span class="line">&#125;</span></pre></td></tr></table></figure>
+<h5 id="2-4-部署servlet"><a href="#2-4-部署servlet" class="headerlink" title="2.4 部署servlet"></a>2.4 部署servlet</h5><ul>
+<li>在命令行窗口执行javac MyServlet，生成MyServlet.class</li>
+<li>将MyServlet.class放到tomcat/webapps/projectName/WEB-INF/classes文件中</li>
+</ul>
+<h5 id="2-5-配置Servlet"><a href="#2-5-配置Servlet" class="headerlink" title="2.5 配置Servlet"></a>2.5 配置Servlet</h5><p>上面生成.classes不同通过web浏览器直接访问，需要通过配置做文件映射。··修改WEB-INF下项目配置文件web.xml</p>
+<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span></span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">web-app</span> <span class="attr">xmlns</span>=<span class="string">"http://xmlns.jcp.org/xml/ns/javaee"</span></span></span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="tag">  <span class="attr">xmlns:xsi</span>=<span class="string">"http://www.w3.org/2001/XMLSchema-instance"</span></span></span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="tag">  <span class="attr">xsi:schemaLocation</span>=<span class="string">"http://xmlns.jcp.org/xml/ns/javaee</span></span></span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="tag"><span class="string">                      http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"</span></span></span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="tag">  <span class="attr">version</span>=<span class="string">"3.1"</span></span></span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="tag">  <span class="attr">metadata-complete</span>=<span class="string">"true"</span>&gt;</span></span></pre></td></tr><tr><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="code"><pre><span class="line">    <span class="comment">&lt;!-- 1. 添加servlet节点 --&gt;</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">    <span class="tag">&lt;<span class="name">servlet</span>&gt;</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">        <span class="tag">&lt;<span class="name">servlet-name</span>&gt;</span>my<span class="tag">&lt;/<span class="name">servlet-name</span>&gt;</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">        <span class="tag">&lt;<span class="name">servlet-class</span>&gt;</span>MyServlet<span class="tag">&lt;/<span class="name">servlet-class</span>&gt;</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">    <span class="tag">&lt;/<span class="name">servlet</span>&gt;</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">    </span></pre></td></tr><tr><td class="code"><pre><span class="line">     <span class="comment">&lt;!-- 2. 添加servlet-mapping节点 --&gt;</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">    <span class="tag">&lt;<span class="name">servlet-mapping</span>&gt;</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">        <span class="tag">&lt;<span class="name">servlet-name</span>&gt;</span>my<span class="tag">&lt;/<span class="name">servlet-name</span>&gt;</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">        <span class="comment">&lt;!-- url-pattern配置的内容就是浏览器地址栏输入的URL中项目名称后资源的内容 --&gt;</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">        <span class="tag">&lt;<span class="name">url-pattern</span>&gt;</span>/myservlet<span class="tag">&lt;/<span class="name">url-pattern</span>&gt;</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">    <span class="tag">&lt;/<span class="name">servlet-mapping</span>&gt;</span></span></pre></td></tr><tr><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="tag">&lt;/<span class="name">web-app</span>&gt;</span></span></pre></td></tr></table></figure>
+<h5 id="2-6-运行测试"><a href="#2-6-运行测试" class="headerlink" title="2.6 运行测试"></a>2.6 运行测试</h5><p>启动tomcat，在浏览器地址栏中输入<a href="http://localhost:8080/myweb/myservlet" target="_blank" rel="noopener">http://localhost:8080/myweb/myservlet</a> 访问，在servlet的service函数中打印内容，会在命令行窗口中显示。</p>
+<h5 id="2-7-常见错误"><a href="#2-7-常见错误" class="headerlink" title="2.7 常见错误"></a>2.7 常见错误</h5><p>500：servlet文件编写错误导致了服务端出现异常。</p>
+<p>注意：servlet更新后需要重启tomcat</p>
+<h4 id="三、HTTP协议"><a href="#三、HTTP协议" class="headerlink" title="三、HTTP协议"></a>三、HTTP协议</h4><h5 id="3-1-HTTP协议的特点"><a href="#3-1-HTTP协议的特点" class="headerlink" title="3.1 HTTP协议的特点"></a>3.1 HTTP协议的特点</h5><ul>
+<li>支持客户端（浏览器）/ 服务器模式</li>
+<li>简单快速：客户端只向服务器发送请求方法和路径，服务器即可响应数据，通信速度快。</li>
+<li>灵活：HTTP运行传输任意类型的数据，传输的数据类型由Content-Type标识</li>
+<li>无连接：每次TCP连接只处理一个或多个请求<ul>
+<li>HTTP1.0版本是一个请求响应之后，直接断开连接。称为短连接</li>
+<li>HTTP1.1版本之后，等几秒钟，如果有新的请求，那么还是通过之前的连接通道来手法消息。如果几秒内没有新的请求，则断开连接。称为长连接</li>
+</ul>
+</li>
+<li>无状态</li>
+</ul>
+<h5 id="3-2-http请求报文"><a href="#3-2-http请求报文" class="headerlink" title="3.2 http请求报文"></a>3.2 http请求报文</h5><p>当浏览器向web服务器发出请求时，它向服务器传递了一个数据库，也就是请求信息(请求报文)，由下面4部分组成：</p>
+<ol>
+<li>请求行—请求方法/地址 URL协议/版本</li>
+<li>请求头(Request Header)，一些属性以键值对的形式存储</li>
+<li>空行—为了分割请求头和请求正文</li>
+<li>请求正文</li>
+</ol>
+<p><img src="/Web-Servlet/HTTP-0.png" alt="HTTP-0"></p>
+<h5 id="3-3-http响应报文"><a href="#3-3-http响应报文" class="headerlink" title="3.3 http响应报文"></a>3.3 http响应报文</h5><p>由下面4部分组成：</p>
+<ol>
+<li>状态行</li>
+<li>响应头</li>
+<li>空行—为了分割状态行和响应正文</li>
+<li>响应正文</li>
+</ol>
+<p><img src="/Web-Servlet/HTML-1.png" alt="HTML-1"></p>
+<h5 id="3-4-常见状态码"><a href="#3-4-常见状态码" class="headerlink" title="3.4 常见状态码"></a>3.4 常见状态码</h5><div class="table-container">
+<table>
+<thead>
+<tr>
+<th>状态码</th>
+<th>状态描述</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>200</td>
+<td>OK</td>
+<td>客户端请求成功</td>
+</tr>
+<tr>
+<td>302</td>
+<td>Found</td>
+<td>临时重定向</td>
+</tr>
+<tr>
+<td>403</td>
+<td>Forbidden</td>
+<td>服务器收到请求，但是拒绝提供服务。服务器通常会在响应正文中给出不提供服务的原因</td>
+</tr>
+<tr>
+<td>404</td>
+<td>Not Found</td>
+<td>请求的资源不存在</td>
+</tr>
+<tr>
+<td>500</td>
+<td>Internal Server Error</td>
+<td>服务器发生不可预期的错误，导致无法完成客户端的请求</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h4 id="四、Servlet详解"><a href="#四、Servlet详解" class="headerlink" title="四、Servlet详解"></a>四、Servlet详解</h4><h5 id="4-1-Servlet核心接口和类"><a href="#4-1-Servlet核心接口和类" class="headerlink" title="4.1 Servlet核心接口和类"></a>4.1 Servlet核心接口和类</h5><p>Servlet体系结构中，除了实现Servlet接口，还可以通过集成GenericServlet或HttpServlet类，完成编写。</p>
+<p>Servlet接口：在Servlet API中最重要的是servlet接口，所有Servlet都是直接或间接的与该接口发生联系，或是直接实现该接口，或间接继承自实现了该接口的类。</p>
+<p>GenericServlet(抽象类)：使编写Servlet变得更容易。要编写一般的Servlet，只需要写抽象的Service方法即可。</p>
+<p>HttpServlet[推荐]：是继承GenericServlet的基础上进一步的扩展，根据不同的请求方式做不同的处理，doGet、doPost等。</p>
+<p>常见错误：</p>
+<ul>
+<li>HTTP Status 404 资源找不到<ul>
+<li>第一种情况：地址书写错误</li>
+<li>地址没有问题，需要将IDEA项目中out目录删除，然后重新运行</li>
+</ul>
+</li>
+<li>Servlet地址配置重复</li>
+<li>Servlet地址配置错误</li>
+</ul>
+<h5 id="4-2-Servlet两种配置方式"><a href="#4-2-Servlet两种配置方式" class="headerlink" title="4.2 Servlet两种配置方式"></a>4.2 Servlet两种配置方式</h5><ol>
+<li><p>使用web.xml</p>
+<p>url-pattern定义匹配规则，取值说明</p>
+<ul>
+<li>精确匹配： /具体的名称  只有url后面是具体的名称的时候才会触发Servlet</li>
+<li>后缀匹配:   *.xxx      只有是以xxx结尾的就匹配触发Servlet</li>
+<li>通配符匹配:  /*    匹配所有请求，包含服务器的所有资源</li>
+<li>通配符匹配： /    匹配所有请求，包含服务器的所有资源，不包括.jsp</li>
+</ul>
+</li>
+<li><p>使用注解</p>
+<p>使用@WebServlet注解</p>
+<ul>
+<li>name: Servlet名字(可选)</li>
+<li>value: 配置url路径，可以配置多个</li>
+<li>urlPatterns: 配置url路径，和value作用一样，不能同时使用</li>
+<li>loadOnStartup: 配置Servlet的创建的时机，如果是0或者正数启动程序是创建，如果是负数或不写，则访问是创建。数值越小权限越高</li>
+</ul>
+</li>
+</ol>
+<h5 id="4-3-Servlet请求"><a href="#4-3-Servlet请求" class="headerlink" title="4.3 Servlet请求"></a>4.3 Servlet请求</h5><p>Servlet中用来处理客户端请求需要用doGet或doPost方法中的request方法。</p>
+<p><img src="/Web-Servlet/SERVLET-2.png" alt="SERVLET-2"></p>
+<p><strong>get/post的区别</strong></p>
+<p>get请求：</p>
+<ul>
+<li>get提交的数据会放在URL之后，以？分割URL和传输数据，参数之间以&amp;相连</li>
+<li>get方式明文传递，数据量小，不安全</li>
+<li>效率高，浏览器默认请求方式为GET请求</li>
+<li>对应的Servlet的方式是doGet</li>
+</ul>
+<p>post请求：</p>
+<ul>
+<li>post方法是把提交的数据放在HTTP包的body中</li>
+<li>密文传递数据，数据量大，安全</li>
+<li>效率相对没有GET高</li>
+<li>对应的Servlet的方法是doPost</li>
+</ul>
+<p><strong>request主要方法</strong></p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>方法名</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>String getParameter(String name)</td>
+<td>根据表单组件名称获取提交数据</td>
+</tr>
+<tr>
+<td>void setCharacterEncoding(String charset)</td>
+<td>指定每个请求的编码</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h5 id="4-4-request应用"><a href="#4-4-request应用" class="headerlink" title="4.4 request应用"></a>4.4 request应用</h5><p>假如，用户在页面上是通过表单请求的Servlet</p>
+<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE <span class="meta-keyword">html</span>&gt;</span></span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">	<span class="tag">&lt;<span class="name">meta</span> <span class="attr">cjarset</span>=<span class="string">"UTF-8"</span>&gt;</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>欢迎页面<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">    <span class="tag">&lt;<span class="name">h1</span>&gt;</span>欢迎你<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">    <span class="tag">&lt;<span class="name">div</span>&gt;</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">        <span class="tag">&lt;<span class="name">form</span> <span class="attr">action</span>=<span class="string">""</span> <span class="attr">method</span>=<span class="string">"get"</span>&gt;</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">            <span class="tag">&lt;<span class="name">label</span>&gt;</span>姓名：<span class="tag">&lt;/<span class="name">label</span>&gt;</span><span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"text"</span> <span class="attr">name</span>=<span class="string">"name"</span>&gt;</span><span class="tag">&lt;<span class="name">br</span>/&gt;</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">            <span class="tag">&lt;<span class="name">label</span>&gt;</span>年龄：<span class="tag">&lt;/<span class="name">label</span>&gt;</span><span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"text"</span> <span class="attr">name</span>=<span class="string">"age"</span>&gt;</span><span class="tag">&lt;<span class="name">br</span>/&gt;</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">            <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"submit"</span> <span class="attr">value</span>=<span class="string">"提交"</span>&gt;</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">        <span class="tag">&lt;/<span class="name">form</span>&gt;</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@WebServlet</span>(<span class="string">"/HelloServlet"</span>)</span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">HelloServlet</span> <span class="title">extend</span> <span class="title">HTTPServlet</span> </span>&#123;</span></pre></td></tr><tr><td class="code"><pre><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">long</span> serialVersionUID = <span class="number">1L</span>;</span></pre></td></tr><tr><td class="code"><pre><span class="line">    </span></pre></td></tr><tr><td class="code"><pre><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">doGet</span><span class="params">(HttpServletRequest request, HttpServletResponse response)</span> <span class="keyword">throws</span> ServletException, IOException </span>&#123;</span></pre></td></tr><tr><td class="code"><pre><span class="line">        <span class="comment">//获取表单提交的姓名</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">        String name = request.getParameter(<span class="string">"name"</span>);</span></pre></td></tr><tr><td class="code"><pre><span class="line">        <span class="comment">//获取年龄</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">        String age = request.getParameter(<span class="string">"age"</span>);</span></pre></td></tr><tr><td class="code"><pre><span class="line">        <span class="comment">//服务端打出打印</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">        System.out.println(request.getRemoteAddr() + <span class="string">"发来信息：姓名"</span> + name + <span class="string">"；年龄："</span> + age);</span></pre></td></tr><tr><td class="code"><pre><span class="line">    &#125;</span></pre></td></tr><tr><td class="code"><pre><span class="line">    </span></pre></td></tr><tr><td class="code"><pre><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">doPost</span><span class="params">(HttpServletRequest request, HttpervletResponse response)</span> <span class="keyword">throws</span> ServletException, IOException　</span>&#123;</span></pre></td></tr><tr><td class="code"><pre><span class="line">        doGet(request, response);</span></pre></td></tr><tr><td class="code"><pre><span class="line">    &#125;</span></pre></td></tr><tr><td class="code"><pre><span class="line">&#125;</span></pre></td></tr></table></figure>
+<p><strong>get请求收参问题：</strong>产生乱码是因为服务器和客户端沟通的编码不一致造成的，因此解决办法是：在客户端和服务器之间设置一个统一的编码，之后就按照此编码进行数据传输和接受。</p>
+<p><strong>get中文乱码：</strong>Tomcat7及以下版本，客户端以UTF-8的编码传输数据到服务器端，而服务器端的request对象使用的是ISO8859-1这个字符编码来接受数据，服务器和客户端沟通的编码不一致因此造成了中文乱码。</p>
+<p><strong>解决方法：</strong>在接受到数据后，先获取request对象以ISO8859-1字符编码接受到的原始数据的字节数组，然后通过字节数组以指定的编码构建字符串。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">String name = request.getParameter(<span class="string">"name"</span>);</span></pre></td></tr><tr><td class="code"><pre><span class="line">name = <span class="keyword">new</span> String(name.getBytes(<span class="string">"ISO8859-1"</span>),<span class="string">"UTF-8"</span>);</span></pre></td></tr></table></figure>
+<p>Tomcat8的版本中get方式不会出现乱码，因为服务器对url的编码格式可以进行自动转换。</p>
+<p><strong>post中文乱码：</strong>由于客户端是以UTF-8字符编码将表单数据传输到服务器端的，因此服务器也需要设置以UTF-8字符编码进行接受。</p>
+<p><strong>解决方法：</strong>使用从ServletRequest接口继承而来的setCharacterEncoding(charset)方法进行统一的编码设置。</p>
+<h5 id="4-5-response应用"><a href="#4-5-response应用" class="headerlink" title="4.5 response应用"></a>4.5 response应用</h5><p>response对象用于响应客户请求并向客户端输出信息。</p>
+<p><img src="/Web-Servlet/RESPONSE-0.png" alt="RESPONSE-0"></p>
+<p>response主要方法：</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>方法名称</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>setHeader(name, value)</td>
+<td>设置响应信息头</td>
+</tr>
+<tr>
+<td>setContentType(String)</td>
+<td>设置响应文件类型、响应式的编码格式</td>
+</tr>
+<tr>
+<td>setCharacterEncoding(String)</td>
+<td>设置服务端响应内容编码格式</td>
+</tr>
+<tr>
+<td>getWriter()</td>
+<td>获取字符输出流</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>响应数据给客户端：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">//resp.setCharacterEncoding("utf-8"); //设置服务端的编码格式</span></span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="comment">//resp.setHeader("Content-Type", "text/html;charset=utf-8"); //为了解决客户端中文乱码问题</span></span></pre></td></tr><tr><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="code"><pre><span class="line">resp.setContentType(<span class="string">"text/html;charset=utf-8"</span>); <span class="comment">//方法二</span></span></pre></td></tr><tr><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="code"><pre><span class="line">PrintWriter printWriter = resp.getWriter();</span></pre></td></tr><tr><td class="code"><pre><span class="line">printWriter.println(<span class="string">"success!"</span>);</span></pre></td></tr></table></figure>
+<h4 id="五、转发与重定向"><a href="#五、转发与重定向" class="headerlink" title="五、转发与重定向"></a>五、转发与重定向</h4><p>将业务逻辑和界面显示的servlet代码分离开后，需要解决两个问题：</p>
+<ul>
+<li>逻辑处理servlet处理完后，如果跳转到响应的servlet中</li>
+<li>响应的servlet中，如何获取逻辑处理servlet中的数据</li>
+</ul>
+<h5 id="5-1-转发"><a href="#5-1-转发" class="headerlink" title="5.1 转发"></a>5.1 转发</h5><p>转发的作用在服务器端，将请求发送给服务器上的其他资源，以共同完成一次请求的处理。</p>
+<h6 id="5-1-1-页面跳转"><a href="#5-1-1-页面跳转" class="headerlink" title="5.1.1 页面跳转"></a>5.1.1 页面跳转</h6><p>在调用业务逻辑的Servlet中，编写一下代码</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">request.getRequestDispatcher(<span class="string">"/目标URL-pattern"</span>).forword(request,response);</span></pre></td></tr></table></figure>
+<p>注意：使用forward调转时，是在服务器内部跳转，地址栏不发生变化，属于同一次请求。</p>
+<p><img src="/Web-Servlet/REQUEST-1.png" alt="REQUEST-1"></p>
+<h6 id="5-1-2-数据传递"><a href="#5-1-2-数据传递" class="headerlink" title="5.1.2 数据传递"></a>5.1.2 数据传递</h6><p>forward表示一次请求，是在服务器内部跳转，可以共享同一次request作用域中的数据</p>
+<ul>
+<li>request作用域：拥有存储数据的空间，作用范围是一次请求有效(一次请求可以经过多次转发)<ul>
+<li>可以将数据存入request后，在一次请求过程中的任何位置进行获取</li>
+<li>可传递任何数据类型(基本数据类型、对象、数据和集和等)</li>
+</ul>
+</li>
+<li>存数据： request.setAttribute(key, value)<ul>
+<li>以键值对形式存储在request作用域中。key为String类型，value为Object类型</li>
+</ul>
+</li>
+<li>取数据：request.getAttribute(key)<ul>
+<li>通过String类型的key访问Object类型的value</li>
+</ul>
+</li>
+</ul>
+<h6 id="5-1-2-转发特点"><a href="#5-1-2-转发特点" class="headerlink" title="5.1.2 转发特点"></a>5.1.2 转发特点</h6><ul>
+<li>转发是服务器行为</li>
+<li>转发是浏览器只做了一次访问请求</li>
+<li>转发浏览器地址不变</li>
+<li>转发两次跳转之间传输的信息不会丢失，所以可以通过request进行数据传递</li>
+<li>转发只能将请求转发给同一个Web应用中的组件</li>
+</ul>
+<h5 id="5-2-重定向"><a href="#5-2-重定向" class="headerlink" title="5.2 重定向"></a>5.2 重定向</h5><p>重定向作用在客户端，客户端将请求发送给服务器后，服务器响应给客户端一个新的请求地址，客户端重新发送新请求。</p>
+<h6 id="5-2-1-页面跳转"><a href="#5-2-1-页面跳转" class="headerlink" title="5.2.1 页面跳转"></a>5.2.1 页面跳转</h6><p>在调用业务逻辑的servlet中，编写以下代码</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">response.sendRedirect(<span class="string">"目标URI"</span>);</span></pre></td></tr></table></figure>
+<p>URI：统一资源定位符(Uniform Resource Identifier)，用来表示服务器中定位一个资源，资源在web项目中的路径(/project/source)</p>
+<p><img src="/Web-Servlet/REQUEST-2.png" alt="REQUEST-2"></p>
+<h6 id="5-2-2-数据传递"><a href="#5-2-2-数据传递" class="headerlink" title="5.2.2 数据传递"></a>5.2.2 数据传递</h6><p>sendRedirect跳转时，地址栏改变，代表客户端重新发送请求。属于两次请求，所以数据没法共享。</p>
+<ul>
+<li>response没有作用域，两次request请求中的数据无法共享</li>
+<li>传递数据：通过URI的拼接进行数据传递(“/project/source?username=tom”);  #<strong>只能是String类型，而且是明文</strong></li>
+<li>过去数据：request.getParametre(“username”);</li>
+</ul>
+<p>注意：重定向可以指向任何资源，包括当前应用程序中的其他资源、同一个站点上的其他应用程序中的资源、其他站点的资源。</p>
+<h4 id="六、Servlet的生命周期"><a href="#六、Servlet的生命周期" class="headerlink" title="六、Servlet的生命周期"></a>六、Servlet的生命周期</h4><h5 id="6-1-实例化"><a href="#6-1-实例化" class="headerlink" title="6.1 实例化"></a>6.1 实例化</h5><p>当用户第一次访问Servlet时，由容器调用Servlet的构造器创建具体的Servlet对象。也可以在容器启动之后立刻创建实例(受<load-on-startup>1&lt;/load-on-startup&gt;的影响)。<strong>只执行一次</strong></load-on-startup></p>
+<h5 id="6-2-初始化"><a href="#6-2-初始化" class="headerlink" title="6.2 初始化"></a>6.2 初始化</h5><p>在初始化阶段，init()方法会被调用。这个方法在javax.servlet.Servlet接口中定义。<strong>只执行一次</strong></p>
+<h5 id="6-3-服务"><a href="#6-3-服务" class="headerlink" title="6.3 服务"></a>6.3 服务</h5><p>当客户端有一个请求时，容器就会将请求ServletRequest与响应ServletResponse对象转给Servlet，以参数的形式传给service方法。<strong>此方法会执行多次</strong></p>
+<h5 id="6-4-销毁"><a href="#6-4-销毁" class="headerlink" title="6.4 销毁"></a>6.4 销毁</h5><p>当Servlet容器停止或者重新启动都会引起销毁Servlet对象并调用destroy方法。<strong>destroy方法执行一次</strong></p>
+<p><img src="/Web-Servlet/REQUEST-3.png" alt="REQUEST-3"></p>
+<h4 id="七、Servlet特性"><a href="#七、Servlet特性" class="headerlink" title="七、Servlet特性"></a>七、Servlet特性</h4><h5 id="7-1-线程安全问题"><a href="#7-1-线程安全问题" class="headerlink" title="7.1 线程安全问题"></a>7.1 线程安全问题</h5><p>Servlet在访问之后，会执行实例化操作，创建一个Servlet对象。而Tomcat容器可以同时多个线程并发访问同一个Servlet。如果在方法中对成员变量做修改操作，就会有线程安全的问题。</p>
+<h5 id="7-2-如何保证线程安全"><a href="#7-2-如何保证线程安全" class="headerlink" title="7.2 如何保证线程安全"></a>7.2 如何保证线程安全</h5><ul>
+<li>synchronized<ul>
+<li>将存在线程安全问题的代码放到同步代码块中</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">//共享变量</span></span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="keyword">private</span> String value = <span class="string">""</span>;</span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="keyword">synchronized</span> (<span class="keyword">this</span>) &#123;</span></pre></td></tr><tr><td class="code"><pre><span class="line">    <span class="comment">//下执行逻辑</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">&#125;</span></pre></td></tr></table></figure>
+<ul>
+<li>实现SingleThreadModel接口<ul>
+<li>servlet实现SingleThreadModel接口后，每个线程都会创建servlet实例，这样每个客户端请求就不存在共享资源的问题，但是servlet响应客户端请求的效率太低，所以已经淘汰</li>
+<li>尽可能使用局部变量</li>
+</ul>
+</li>
+</ul>
+<h4 id="八、状态管理"><a href="#八、状态管理" class="headerlink" title="八、状态管理"></a>八、状态管理</h4><p>HTTP是无状态的，不能保存每次提交的信息。如果用户发来一个新的请求，服务器无法知道它是否与上次得请求有联系。对于那些需要多次提交数据才能完成得Web操作，就存在问题。</p>
+<p>所以需要将浏览器与web服务器之间多次交互当作一个整体来处理，并且将多次交互所涉及得数据(即状态)保存下来。</p>
+<p>状态管理分类：</p>
+<ul>
+<li>客户端状态管理技术：将状态保存在客户端。代表性的有Cookie技术</li>
+<li>服务器状态管理技术：将状态保存在服务器端。代表性的是session技术。</li>
+</ul>
+<p>用户登录成功后，服务器端会生成session信息，并将session的ID发送给客户端，客户端将sessionID保存在Cookie中，在之后的请求中只需要带着sessionID去做认证和授权就可以。</p>
+<p><strong>什么是Cookie？</strong></p>
+<ul>
+<li>Cookie是在浏览器访问web服务器的某个资源时，由Web服务器在HTTP响应消息头中附带传送给浏览器的一小段数据；</li>
+<li>一旦Web浏览器保存了某个Cookie，那么它在以后每次访问该Web服务器时，都应在HTTP请求头中将这个Cookie回传给Web服务器；</li>
+<li>一个Cookie主要由标识该信息的名称和值组成。</li>
+</ul>
+<p>下面显示了Cookie的原理：</p>
+<p><img src="/Web-Servlet/Cookie-0.png" alt="Cookie-0"></p>
+<p><strong>什么是Session?</strong></p>
+<ul>
+<li>Session用于记录用户的状态。Session指的是在一段时间内，单个客户端与Web服务器的一连串相关的交互过程。</li>
+<li>在一个Session中，客户可能会多次请求访问同一资源，也有可能请求访问各种不同的服务器资源。</li>
+</ul>
+<p><strong>Session原理</strong></p>
+<ul>
+<li>服务器会为每一次会话分配一个Session对象</li>
+<li>同一个浏览器发起的多次请求，同属一次会话</li>
+<li>首次使用到Session时，服务器会自动创建Session，并创建Cookie存储SessionId发送给客户端</li>
+</ul>
+<p><strong>Session使用</strong></p>
+<ul>
+<li>Session作用域：拥有存储数据的空间，作用范围是一次会话有效<ul>
+<li>一次会话是使用同一浏览器发送的多次请求。一旦浏览器关闭，则结束会话</li>
+<li>可以将数据存入Session中，在一次会话的任意位置进行获取</li>
+<li>可传递任何数据类型(基本数据类型、对象、集合、数组)</li>
+</ul>
+</li>
+</ul>
+<p><strong>获取Session</strong></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">HttpSession session = request.getSession();</span></pre></td></tr><tr><td class="code"><pre><span class="line">System.out.println(session.getId());<span class="comment">//唯一标记</span></span></pre></td></tr></table></figure>
+<p><strong>Session生命周期</strong></p>
+<ul>
+<li>开始：第一次使用到Session的请求产生，则创建Session</li>
+<li>结束：<ul>
+<li>浏览器关闭，则失效</li>
+<li>Session超时，则失效<ul>
+<li>session.setMaxInactiveInterval(seconds);//设置最大有效时间(单位：秒)</li>
+</ul>
+</li>
+<li>手工销毁，则失效<ul>
+<li>session.invalidate(); //登录退出、注销</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h4 id="九、ServletContext对象"><a href="#九、ServletContext对象" class="headerlink" title="九、ServletContext对象"></a>九、ServletContext对象</h4><h6 id="9-1-ServletContext概述"><a href="#9-1-ServletContext概述" class="headerlink" title="9.1 ServletContext概述"></a>9.1 ServletContext概述</h6><ul>
+<li>全局对象，拥有作用域，对应一个tomcat中的web应用</li>
+<li>当Web服务器启动时，会为每一个Web应用程序创建一块共享的存储区域(ServletContext)</li>
+<li>ServletContext在Web服务器启动时创建，服务器关闭时销毁</li>
+</ul>
+<h6 id="9-2-获取ServletContext对象"><a href="#9-2-获取ServletContext对象" class="headerlink" title="9.2 获取ServletContext对象"></a>9.2 获取ServletContext对象</h6><ul>
+<li>GenericServlet提供了getServletContext()方法。this.getServletContext()</li>
+<li>HttpServletRequest提供了getServletContext()方法</li>
+<li>HttpSession提供了getServletContext()方法</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">//通过this.getServletContext()</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">ServletContext servletContext = <span class="keyword">this</span>.getServletContext();</span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="comment">//通过request对象获取</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">ServletContext servletContext1 = request.getServletContext();</span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="comment">//通过session对象获取</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">HttpSession session = request.getSession();</span></pre></td></tr><tr><td class="code"><pre><span class="line">ServletContext servletContext2 = session.getServletContext();</span></pre></td></tr></table></figure>
+<h6 id="9-3-ServletContext作用"><a href="#9-3-ServletContext作用" class="headerlink" title="9.3 ServletContext作用"></a>9.3 ServletContext作用</h6><ol>
+<li>获取项目真实路径</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">String realPath = servletContext.getRealPath(<span class="string">"/"</span>);</span></pre></td></tr></table></figure>
+<ol>
+<li>获取项目上下文路径(应用程序名称)</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">String contextPath = servletContext.getContextPath();</span></pre></td></tr></table></figure>
+<ol>
+<li><p>全局容器</p>
+<p>有作用域，可以存储数据到全局容器中</p>
+<ul>
+<li>存储数据：servletContext.setAttribute(“name”, value);</li>
+<li>获取数据：servletContext.getAttribute(“name”);</li>
+<li>移除数据：servletContext.removeAttribute(“name”);</li>
+</ul>
+</li>
+</ol>
+<h6 id="9-4-特点"><a href="#9-4-特点" class="headerlink" title="9.4 特点"></a>9.4 特点</h6><ul>
+<li>唯一性：一个应用对应一个ServletContext</li>
+<li>生命周期：只要容器不关闭或者应用不卸载，ServletContext就一直存在</li>
+</ul>
+<h4 id="十、过滤器"><a href="#十、过滤器" class="headerlink" title="十、过滤器"></a>十、过滤器</h4><p>因为servlet中有冗余的代码，所以需要用到过滤器。</p>
+<h5 id="10-1-概念"><a href="#10-1-概念" class="headerlink" title="10.1 概念"></a>10.1 概念</h5><p>过滤器(Filter)是出于客户端与服务器目标资源之间的一道过了技术。</p>
+<p><img src="/Web-Servlet/FILTER-0.png" alt="FILTER-0"></p>
+<p>注意：请求前和请求后都需要经过过滤器。</p>
+<h5 id="10-2-过滤器作用"><a href="#10-2-过滤器作用" class="headerlink" title="10.2 过滤器作用"></a>10.2 过滤器作用</h5><ul>
+<li>执行地位在Servlet之前，客户端发送请求时，会先经过Filter，再到达目标Servlet中；响应时，会根据执行流程再次反向执行Filter。</li>
+<li>可以解决多个Servlet共性代码的冗余问题 (如：乱码处理、登录验证)。</li>
+</ul>
+<h5 id="10-3-编写过滤器"><a href="#10-3-编写过滤器" class="headerlink" title="10.3 编写过滤器"></a>10.3 编写过滤器</h5><p>Servlet API中提供了一个Filter接口，开发人员编写一个java类实现这个接口(过滤器类)即可。</p>
+<ul>
+<li>编写Java类实现Filter接口</li>
+<li>在doFilter方法中编写拦截逻辑</li>
+<li>设置拦截路径</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@WebFilter</span>(value = <span class="string">"/target"</span>)</span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyFilter</span> <span class="keyword">implements</span> <span class="title">Filter</span> </span>&#123;</span></pre></td></tr><tr><td class="code"><pre><span class="line">    <span class="meta">@Override</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">init</span><span class="params">(FiltrConfig filterConfig)</span> <span class="keyword">throws</span> ServletException </span>&#123;&#125;</span></pre></td></tr><tr><td class="code"><pre><span class="line">    </span></pre></td></tr><tr><td class="code"><pre><span class="line">    <span class="meta">@Override</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">doFilter</span><span class="params">(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain)</span> </span>&#123;</span></pre></td></tr><tr><td class="code"><pre><span class="line">        System.out.println(<span class="string">"--MyFilter start--"</span>);</span></pre></td></tr><tr><td class="code"><pre><span class="line">        <span class="comment">//让请求继续传递</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">        filterChain.doFilter(servletRequest, servletResponse);</span></pre></td></tr><tr><td class="code"><pre><span class="line">        System.out.println(<span class="string">"--MyFilter end--"</span>);</span></pre></td></tr><tr><td class="code"><pre><span class="line">    &#125;</span></pre></td></tr><tr><td class="code"><pre><span class="line">    </span></pre></td></tr><tr><td class="code"><pre><span class="line">    <span class="meta">@Override</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">destroy</span><span class="params">()</span> </span>&#123;&#125;</span></pre></td></tr><tr><td class="code"><pre><span class="line">&#125;</span></pre></td></tr><tr><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="meta">@WebServlet</span>(name = <span class="string">"TargetServlet"</span>, value = <span class="string">"/target"</span>)</span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TargetServlet</span> <span class="keyword">extends</span> <span class="title">HttpServlet</span> </span>&#123;</span></pre></td></tr><tr><td class="code"><pre><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">doPost</span><span class="params">(HttpServletRequest request, HttpServletResponse response)</span> </span>&#123;</span></pre></td></tr><tr><td class="code"><pre><span class="line">        System.out.println(<span class="string">"--Target--"</span>);</span></pre></td></tr><tr><td class="code"><pre><span class="line">    &#125;</span></pre></td></tr><tr><td class="code"><pre><span class="line">    </span></pre></td></tr><tr><td class="code"><pre><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">doGet</span><span class="params">(HttpServletRequest request, HttpServletResponse response)</span> </span>&#123;</span></pre></td></tr><tr><td class="code"><pre><span class="line">        doPost(request, response);</span></pre></td></tr><tr><td class="code"><pre><span class="line">    &#125;</span></pre></td></tr><tr><td class="code"><pre><span class="line">&#125;</span></pre></td></tr></table></figure>
+<h5 id="10-4-过滤器配置"><a href="#10-4-过滤器配置" class="headerlink" title="10.4 过滤器配置"></a>10.4 过滤器配置</h5><ol>
+<li><p>注解配置</p>
+<p>@WebFilter(value = “/过滤器目标资源”)</p>
+</li>
+<li><p>xml配置</p>
+</li>
+</ol>
+<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="comment">&lt;!-- 过滤器的xml配置 --&gt;</span></span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">filter</span>&gt;</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">    <span class="comment">&lt;!-- 名称 --&gt;</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">    <span class="tag">&lt;<span class="name">filter-name</span>&gt;</span>xx<span class="tag">&lt;/<span class="name">filter-name</span>&gt;</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">    <span class="comment">&lt;!-- 过滤器类全城 --&gt;</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">    <span class="tag">&lt;<span class="name">filter-class</span>&gt;</span>xx.xx.xx<span class="tag">&lt;/<span class="name">filter-class</span>&gt;</span></span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="tag">&lt;/<span class="name">filter</span>&gt;</span></span></pre></td></tr><tr><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="comment">&lt;!-- 映射路径配置 --&gt;</span></span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">filter-mapping</span>&gt;</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">    <span class="comment">&lt;!-- 名称 --&gt;</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">    <span class="tag">&lt;<span class="name">filter-name</span>&gt;</span>xx<span class="tag">&lt;/<span class="name">filter-name</span>&gt;</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">    <span class="comment">&lt;!-- 过滤器的url匹配规则 --&gt;</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">    <span class="tag">&lt;<span class="name">url-pattern</span>&gt;</span>/*<span class="tag">&lt;/<span class="name">url-pattern</span>&gt;</span></span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="tag">&lt;/<span class="name">filter-mapping</span>&gt;</span></span></pre></td></tr></table></figure>
+<h5 id="10-5-过滤器链和优先级"><a href="#10-5-过滤器链和优先级" class="headerlink" title="10.5 过滤器链和优先级"></a>10.5 过滤器链和优先级</h5><ol>
+<li><p>过滤器链</p>
+<p>客户端对服务器请求之后，服务器调用Servlet之前会执行一组过滤器(多个过滤器)，那么这组过滤器就称为一条过滤器链。</p>
+<p>每个过滤器实现某个特定的功能，当第一个Filter的doFilter方法被调用时，Web服务器会创建一个代表Filter链的FilterChain对象传递给该方法。在doFilter方法中，开发人员如果调用了FilterChain对象的doFilter方法，则Web服务器会检查FilterChain对象中是否还有filter，如果有，则调用第二个Filter，如果没有，则调用目标资源。</p>
+</li>
+</ol>
+<p><img src="/Web-Servlet/FILTER-2.png" alt="FILTER-2"></p>
+<ol>
+<li>过滤器优先级<ul>
+<li>如果为注解的话，是按照类全名称的字符串顺序决定作用顺序</li>
+<li>如果是web.xml，按照filter-mapping注册顺序，从上往下</li>
+<li>web.xml配置高于注解方式</li>
+<li>如果注解和web.xml同时配置，会创建多个过滤器对象，造成过滤多次</li>
+</ul>
+</li>
+</ol>
+<h5 id="10-6-关于拦截路径"><a href="#10-6-关于拦截路径" class="headerlink" title="10.6 关于拦截路径"></a>10.6 关于拦截路径</h5><p>过滤器拦截路径通常有三种形式：</p>
+<ul>
+<li>精确拦截匹配：如： /index.jsp</li>
+<li>后缀拦截匹配：如： *.jsp</li>
+<li>通配符拦截匹配/*，表示拦截所有</li>
+</ul>
+]]></content>
+      <categories>
+        <category>Cloud Compute</category>
+      </categories>
+      <tags>
+        <tag>Cloud Compute</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>YOLOv4</title>
+    <url>/2021/09/12/YOLOv4/</url>
+    <content><![CDATA[<h2 id="YOLOv4-Optimal-Speed-and-Accuracy-of-Object-Detection"><a href="#YOLOv4-Optimal-Speed-and-Accuracy-of-Object-Detection" class="headerlink" title="YOLOv4: Optimal Speed and Accuracy of Object Detection"></a>YOLOv4: Optimal Speed and Accuracy of Object Detection</h2><h4 id="一、概述"><a href="#一、概述" class="headerlink" title="一、概述"></a>一、概述</h4><p>通俗的讲，YOLO-v4算法是在原有YOLO目标检测架构的基础上，采用了近些年CNN领域中最优秀的优化策略，从<strong>数据处理、主干网络、网络训练、激活函数、损失函数</strong>等各个方面都进行了不同程度的优化。</p>
+<p><strong>主要贡献点：</strong></p>
+<ul>
+<li>开发了一个高效而强大的模型，使得任何人都可以使用一张1080Ti或者2080Ti GPU去训练一个超级快速和精确的目标检测器。</li>
+<li>在训练期间验证了state-of-art中Bag-of-Freebies和Bag-of-Specials方法的影响。</li>
+<li>修改了state-of-the-art方法，使得他们在使用单个GPU进行训练时更加有效和适配，包括CBN，PAN，SAM等。</li>
+</ul>
+<p>现代检测器通常由两部分组成，在 ImageNet 上<strong>预训练的主干</strong>和用于<strong>预测对象类别和边界框的头部</strong>。对于那些在 GPU 平台上运行的检测器，它们的主干可以是 <code>VGG</code> 、<code>ResNet</code> 、<code>ResNeXt</code> 或 <code>DenseNet</code> 。对于那些在 CPU 平台上运行的检测器，它们的主干可以是 <code>SqueezeNet</code>、<code>MobileNet</code> 或 <code>ShuffleNet</code>。对于头部，通常分为两类，即一级物体检测器和二级物体检测器。最具代表性的两阶段物体检测器是<code>R-CNN</code>系列，包括<code>Fast R-CNN</code>、<code>Faster R-CNN</code>、<code>R-FCN</code>和<code>Libra R-CNN</code> .也可以将两阶段物体检测器变成anchor free 物体检测器，例如 <code>RepPoints</code>。对于单级目标检测器，最具代表性的模型是 <code>YOLO</code>、<code>SSD</code> 和 <code>RetinaNet</code>。近年来，开发了anchor free 单阶段目标检测器。这类检测器有 <code>CenterNet</code>、<code>CornerNet</code>、<code>FCOS</code> 等。 近年来开发的目标检测器经常在主干和头部之间插入一些层，这些层通常用于从不同的阶段收集特征图。我们可以称之为目标检测器的颈部。通常，一个脖子由几个自下而上的路径和几个自上而下的路径组成。配备这种机制的网络包括特征金字塔网络<code>FPN</code>、路径聚合网络 <code>PAN</code>、<code>BiFPN</code> 和 <code>NAS-FPN</code>。 </p>
+<p><img src="/YOLOv4/YOLOV4-0.png" alt="YOLOV4"></p>
+<p>综上所述，一个普通的物体检测器由几部分组成： </p>
+<ul>
+<li><strong>Input:</strong> Image, Patches, Image Pyramid</li>
+<li><strong>Backbones:</strong> VGG16, ResNet-50, SpineNet, EfficientNet-B0/B7, CSPResNeXt50</li>
+<li><strong>Neck:</strong> <ul>
+<li><strong>Additional blocks:</strong> SPP, ASPP, RFB, SAM</li>
+<li><strong>Path-aggregation blocks:</strong> FPN, PAN, NAS-FPN, Fully-connected FPN, BiFPN, ASFF, SFAM</li>
+</ul>
+</li>
+<li><strong>Heads:</strong> <ul>
+<li><strong>Dense Prediction (one-stage)</strong><ul>
+<li>RPN, SSD, YOLO, RetinaNet (anchor based)</li>
+<li>CornerNet, CenterNet, MatrixNet, FCOS (anchor free)</li>
+</ul>
+</li>
+<li><strong>Sparse Prediction (two-stage)</strong><ul>
+<li>Faster R-CNN, R-FCN, Mask R-CNN (anchor based)</li>
+<li>RepPoints (anchor free)</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h4 id="二、Bag-of-freebies"><a href="#二、Bag-of-freebies" class="headerlink" title="二、Bag of freebies"></a>二、Bag of freebies</h4><h5 id="2-1-数据增强"><a href="#2-1-数据增强" class="headerlink" title="2.1 数据增强"></a>2.1 数据增强</h5><p>通常，传统的物体检测器是<strong>离线训练</strong>的。因此，研究人员总是喜欢利用这一优势，开发更好的训练方法，使目标检测器在<strong>不增加推理成本的情况下获得更好的准确性</strong>。将这些<strong>只会改变训练策略或只会增加训练成本的方法</strong>称为“<strong>一袋免费赠品</strong>”(Bag of freebies)。对象检测方法经常采用并符合免费赠品袋定义的是<strong>数据增强</strong>。数据增强的目的是<strong>增加输入图像的可变性</strong>，使设计的目标检测模型对<strong>不同环境下获得的图像具有更高的鲁棒性</strong>。例如，<strong>光度失真</strong>和<strong>几何失真</strong>是两种常用的数据增强方法，它们绝对有利于目标检测任务。在处理<strong>光度失真</strong>时，我们<strong>调整图像的亮度、对比度、色调、饱和度和噪声</strong>。对于<strong>几何失真，添加了随机缩放、裁剪、翻转和旋转</strong>。 </p>
+<h5 id="2-2-遮挡问题的处理方法"><a href="#2-2-遮挡问题的处理方法" class="headerlink" title="2.2 遮挡问题的处理方法"></a>2.2 遮挡问题的处理方法</h5><p>上面提到的数据增强方法都是逐像素调整的，并且保留了调整区域内的所有原始像素信息。此外，一些从事数据增强的研究人员将重点放在模拟<strong>对象遮挡问题</strong>上。他们在图像分类和目标检测方面取得了很好的效果。例如，<code>random erase</code>和<code>CutOut</code>可以随机选择图像中的矩形区域并填充随机值或补零。至于<code>hide-and-seek</code>和<code>grid mask</code>，它们随机或均匀地选择图像中的多个矩形区域并将它们替换为全零。如果将类似的概念应用于特征图，则有 <code>DropOut</code>、<code>DropConnect</code> 和 <code>DropBlock</code>方法。此外，一些研究人员提出了<strong>将多个图像一起使用来进行数据增强</strong>的方法。例如，<code>MixUp</code>使用两幅图像以不同的系数比例相乘叠加，然后用这些叠加比例调整标签。至于<code>CutMix</code>，就是将裁剪后的图像覆盖到其他图像的矩形区域，并根据混合区域的大小调整标签。除了上述方法外，风格迁移 <code>GAN</code>也被用于数据增强，这种用法可以有效减少 CNN 学习到的纹理偏差。 </p>
+<h5 id="2-3-类别不平衡的处理方法"><a href="#2-3-类别不平衡的处理方法" class="headerlink" title="2.3 类别不平衡的处理方法"></a>2.3 类别不平衡的处理方法</h5><p>与上面提出的各种方法不同，其他一些<strong>Bag of freebies</strong>方法专门用于解决<strong>数据集中语义分布可能存在偏差的问题</strong>。在处理语义分布偏差问题时，一个非常重要的问题是<strong>不同类之间存在数据不平衡的问题</strong>，在两阶段物体检测器中，这个问题通常通过<strong>硬负例挖掘</strong>或<strong>在线硬例挖掘</strong>来解决。但是<strong>示例挖掘方法不适用于单级目标检测器</strong>，因为这种检测器属于密集预测架构。因此有人提出了<code>focal loss</code>来解决各个类之间存在的数据不平衡问题。另一个非常重要的问题是，用one-hot hard表示很难表达不同类别之间的关联程度的关系。这种表示方案通常在执行标注时使用。 <strong>标签平滑被提出将硬标签转换为软标签进行训练</strong>，可以使模型更加鲁棒。为了获得更好的软标签，引入了<strong>知识蒸馏的概念来设计标签细化网络</strong>。 </p>
+<h5 id="2-4-边界框回归的目标函数"><a href="#2-4-边界框回归的目标函数" class="headerlink" title="2.4 边界框回归的目标函数"></a>2.4 边界框回归的目标函数</h5><p>最后一类<strong>Bag of freebies</strong>是边界框 (BBox) 回归的目标函数。<strong>传统的物体检测器通常使用均方误差</strong>（MSE）直接对BBox的中心点坐标和高宽进行回归，即<script type="math/tex">\{x_{center},y_{center},w,h\}</script>，或者左上点和右下点点，即<script type="math/tex">\{x_{top\_left}, y_{top\_left}, x_{bottom\_right}, y_{bottom\_right}\}</script> 。对于anchor-based方法，就是估计对应的偏移量，例如<script type="math/tex">\{x_{center\_offset}, y_{center\_offset}, w_{offset}, h_{offset}\}</script>和<script type="math/tex">\{x_{top\_left \_offset}, y_{top\_left\_offset}, x_{bottom\_right\_offset}, y_{bottom\_right\_offset}\}</script>。但是，直接估计BBox每个点的坐标值，就是把这些点当成自变量，实际上并没有考虑对象本身的完整性。为了更好地处理这个问题，最近有研究人员提出了<code>IoU loss</code>，它考虑了预测 BBox 区域和地面实况 BBox 区域的覆盖范围。 IoU 损失计算过程会通过触发BBox 四个坐标点与ground truth的IOU的计算，然后将生成的结果连接成一个完整的代码。由于IoU是尺度不变的表示，可以解决传统方法计算{x,y,w,h}的l1或l2损失时，损失会随着尺度增加的问题。最近，一些研究人员继续改进 IoU 损失。例如，<code>GIoU loss</code>除了覆盖区域外，还包括物体的形状和方向。他们提出寻找可以同时覆盖预测BBox和ground truth BBox的最小面积BBox，并用这个BBox作为分母来代替原来在IoU loss中使用的分母。至于<code>DIoU loss</code>，它额外考虑了物体中心的距离，而<code>CIoU loss</code>，另一方面同时考虑了重叠区域、中心点之间的距离和纵横比。 CIoU 在 BBox 回归问题上可以达到更好的收敛速度和精度。 </p>
+<h4 id="三、Bag-of-specials"><a href="#三、Bag-of-specials" class="headerlink" title="三、Bag of specials"></a>三、Bag of specials</h4><p>对于那些<strong>只增加少量推理成本</strong>但可以<strong>显着提高目标检测精度</strong>的<strong>插件模块</strong>和<strong>后处理方法</strong>，我们称之为“特价包”(Bag of specials)。 一般来说，这些插件模块是为了增强模型中的某些属性，比如<strong>扩大感受野</strong>，<strong>引入注意力机制</strong>，或者<strong>加强特征整合能力</strong>等，后处理是一种筛选模型预测结果的方法。 </p>
+<h5 id="3-1-扩大感受野"><a href="#3-1-扩大感受野" class="headerlink" title="3.1 扩大感受野"></a>3.1 扩大感受野</h5><p>可用于增强感受野的常见模块有<code>SPP</code>、<code>ASPP</code>和<code>RFB</code>。 SPP模块起源于<code>Spatial Pyramid Matching</code>（SPM），SPM的原始方法是将特征图分割成几个d×d相等的块，其中d可以是{1,2,3,…}，因此形成空间金字塔，然后提取词袋特征。 SPP 将 SPM 集成到 CNN 中并使用最大池化操作而不是词袋操作。</p>
+<h5 id="3-2-注意力机制"><a href="#3-2-注意力机制" class="headerlink" title="3.2 注意力机制"></a>3.2 注意力机制</h5><p>物体检测中经常使用的注意力模块主要分为<code>channel-wise attention</code>和<code>point-wise attention</code>，这两种注意力模型的代表是<code>Squeeze-and-Excitation</code>（SE）和<code>Spatial Attention Module</code>（SAM），分别。 虽然 SE 模块可以将 ResNet50 在 ImageNet 图像分类任务中的能力提高 1% top-1 准确率，代价是只增加 2% 的计算量，<strong>但在 GPU 上通常会增加大约 10% 的推理时间， 所以更适合用在移动设备上</strong>。 但对于 SAM 来说，它只需要额外支付 0.1% 的计算，就可以将 ResNet50-SE 在 ImageNet 图像分类任务上的 top-1 准确率提高 0.5%。 <strong>最重要的是，它根本不会影响 GPU 上的推理速度。</strong> </p>
+<h5 id="3-3-特征整合"><a href="#3-3-特征整合" class="headerlink" title="3.3 特征整合"></a>3.3 特征整合</h5><p>在<strong>特征整合</strong>方面，早期的做法是使用skip connection或hyper-column将低级物理特征整合到高级语义特征。 随着FPN等多尺度预测方法的流行，许多集成不同特征金字塔的轻量级模块被提出。 这类模块包括 <code>SFAM</code>、<code>ASFF</code>和 <code>BiFPN</code>。</p>
+<h5 id="3-4-激活函数"><a href="#3-4-激活函数" class="headerlink" title="3.4 激活函数"></a>3.4 激活函数</h5><p>在深度学习的研究中，有人把重点放在<strong>寻找好的激活函数</strong>上。一个好的激活函数可以<strong>让梯度更有效地传播，同时不会造成太多额外的计算成本</strong>。 2010 年，Nair 和 Hinton 提出 <code>ReLU</code> 来实质性地解决传统 <code>tanh</code> 和 <code>sigmoid</code> 激活函数中经常遇到的梯度消失问题。随后，<code>LReLU</code>、<code>PReLU</code>、<code>ReLU6</code>、<code>Scaled Exponential Linear Unit (SELU)</code>、<code>Swish</code>、<code>hard-Swish</code>和 <code>Mish</code>等，其中也用于解决梯度消失问题。 <code>LReLU</code>和<code>PReLU</code>的主要目的是解决输出小于零时<code>ReLU</code>梯度为零的问题。至于 <code>ReLU6</code> 和 <code>hard-Swish</code>，它们是专门为<strong>量化网络</strong>设计的。为了自归一化神经网络，提出了<code>SELU</code>激活函数来满足目标。需要注意的一件事是 <code>Swish</code> 和 <code>Mish</code> 都是连续可微的激活函数。 </p>
+<h5 id="3-5-后处理方法"><a href="#3-5-后处理方法" class="headerlink" title="3.5 后处理方法"></a>3.5 后处理方法</h5><p>基于深度学习的物体检测常用的后处理方法是<code>NMS</code>，它可以用来过滤那些对同一物体预测不好的BBox，只保留响应较高的候选BBox。 NMS 尝试改进的方式与优化目标函数的方法一致。 NMS 提出的原始方法没有考虑上下文信息，因此，在R-CNN中增加了分类置信度分数作为参考，按照置信度分数的顺序，按照从高分到低分的顺序进行<strong>贪婪的NMS</strong>。对于 <strong>soft NMS</strong>，它考虑了在具有 IoU 分数的 greedy NMS 中对象的遮挡可能导致置信度下降的问题。 <strong>DIoU NMS</strong> 开发者的思路是在软 NMS 的基础上，在 BBox 筛选过程中加入中心点距离信息。<strong>由于上述后处理方法都没有直接参考捕获的图像特征，因此在后续开发anchor-free方法时不再需要进行后处理。</strong> </p>
+<h4 id="四、YOLOv4"><a href="#四、YOLOv4" class="headerlink" title="四、YOLOv4"></a>四、YOLOv4</h4><p>对于分类而言最佳的参考模型对于检测器而言并不总是最佳的。 与分类器相比，检测器需要以下内容： </p>
+<ul>
+<li>更高的输入网络尺寸（分辨率）—用于检测多个小尺寸物体 </li>
+<li>更多层 - 用于更高的感受野以覆盖增加的输入网络大小 </li>
+<li>更多参数 - 提高模型在单个图像中检测多个不同大小对象的能力 </li>
+</ul>
+<p>可以假设应该选择具有更大感受野大小（具有更大数量的卷积层 3 × 3）和更多参数的模型作为主干。</p>
+<p><img src="/YOLOv4/YOLOV4-1.png" alt="YOLOV4"></p>
+<p>不同大小感受野的影响总结如下: </p>
+<ul>
+<li>达到对象大小 - 允许查看整个对象 </li>
+<li>最大网络大小 - 允许查看对象周围的上下文 </li>
+<li>超过网络大小 - 增加图像点和最终激活之间的连接数 </li>
+</ul>
+<p>YOLOv4在 <code>CSPDarknet53</code> 上添加了 <code>SPP</code> 块，因为它显着增加了感受野，分离出最重要的上下文特征，并且几乎不会降低网络运行速度。 并且使用 <code>PANet</code> 作为不同检测器级别的不同主干级别的参数聚合方法，而不是 YOLOv3 中使用的 <code>FPN</code>。 </p>
+<p>最后，YOLOv4选择 <code>CSPDarknet53</code> <strong>主干</strong>、<code>SPP</code> <strong>附加模块</strong>、<code>PANet 路径聚合</code> <strong>颈部</strong>和 <code>YOLOv3</code>（基于锚点）<strong>头部 </strong>作为 YOLOv4 的架构。 </p>
+<p><img src="/YOLOv4/YOLOV4-3.png" alt="YOLOV4"></p>
+<h4 id="五、Selection-of-BoF-and-BoS"><a href="#五、Selection-of-BoF-and-BoS" class="headerlink" title="五、Selection of BoF and BoS"></a>五、Selection of BoF and BoS</h4><p>为了改进目标检测训练，CNN 通常使用以下内容： </p>
+<ul>
+<li>激活：ReLU、leaky-ReLU、参数化 ReLU、ReLU6、SELU、Swish 或 Mish</li>
+<li>边界框回归损失：MSE、IoU、GIoU、CIoU、DIoU</li>
+<li>数据增强：CutOut、MixUp、CutMix</li>
+<li>正则化方法：DropOut、DropPath、Spatial DropOut 或 DropBlock</li>
+<li>通过均值和方差对网络激活进行归一化：批归一化 (BN) [32]、跨 GPU 批归一化（CGBN 或 SyncBN）、滤波器响应归一化 (FRN) 或交叉迭代批处理 归一化 (CBN) </li>
+<li>跳过连接：残差连接、加权残差连接、多输入加权残差连接或跨阶段部分连接 (CSP) </li>
+</ul>
+<p>为了使设计的检测器更适合在单GPU上训练，作者做了如下额外的设计和改进： </p>
+<ul>
+<li>引入了数据增强(Mosaic)混合了4个训练图像和Self-Adversarial Training (SAT) 的新方法</li>
+<li>在应用遗传算法的同时选择最佳超参数 </li>
+<li>修改了一些现有的方法，使我们的设计适合高效的训练和检测-修改的 SAM、修改的 PAN 和交叉小批量归一化 (CmBN) </li>
+</ul>
+<p>Mosaic 代表了一种新的数据增强方法，它混合了四张训练图像，使其按一定比例组合成一张图像，使模型学会在更小的范围内识别对象。 因此混合了 4 个不同的上下文，而 CutMix 仅混合了 2 个输入图像。 这允许检测正常上下文之外的对象。 此外，批量归一化计算每层 4 个不同图像的激活统计数据。 这显着减少了对大 mini-batch 大小的需求。 </p>
+<p><img src="/YOLOv4/YOLOV4-5.png" alt="YOLOV4"></p>
+<p>自我对抗训练 (SAT) 也代表了一种新的数据增强技术，它在 2 个前向后向阶段中运行。 在第一阶段，神经网络改变原始图像而不是网络权重。 通过这种方式，神经网络对自身执行对抗性攻击，改变原始图像以制造图像上没有所需对象的欺骗。 在第二阶段，训练神经网络以正常方式检测此修改图像上的对象。 </p>
+<p><img src="/YOLOv4/YOLOV4-2.png" alt="YOLOV4"></p>
+<p><a href="https://arxiv.org/pdf/2004.10934v1.pdf" target="_blank" rel="noopener">论文地址</a></p>
+<p><a href="https://zhuanlan.zhihu.com/p/137393450" target="_blank" rel="noopener">参考内容1</a></p>
+<p><a href="https://zhuanlan.zhihu.com/p/161083602" target="_blank" rel="noopener">参考内容2</a></p>
+]]></content>
+      <categories>
+        <category>Deep Learning</category>
+      </categories>
+      <tags>
+        <tag>Deep Learning</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>YOLOv3</title>
+    <url>/2021/09/12/YOLOv3/</url>
+    <content><![CDATA[<h2 id="YOLOv3-An-Incremental-Improvement"><a href="#YOLOv3-An-Incremental-Improvement" class="headerlink" title="YOLOv3: An Incremental Improvement"></a>YOLOv3: An Incremental Improvement</h2><p>YOLOv3没有太多的创新，主要是借鉴一些好的方案融合到YOLO里面。在保持速度优势的前提下，提升了预测精度，尤其是加强了对小物体的识别能力。<a href="https://www.jianshu.com/p/d13ae1055302" target="_blank" rel="noopener">论文地址</a></p>
+<h4 id="一、YOLOv3的改进"><a href="#一、YOLOv3的改进" class="headerlink" title="一、YOLOv3的改进"></a>一、YOLOv3的改进</h4><h5 id="1-1-多尺度预测-类FPN，特征金字塔网络"><a href="#1-1-多尺度预测-类FPN，特征金字塔网络" class="headerlink" title="1.1 多尺度预测(类FPN，特征金字塔网络)"></a>1.1 多尺度预测(类FPN，特征金字塔网络)</h5><p><img src="/YOLOv3/YOLOV3.png" alt="YOLOv3"></p>
+<p>为了识别更多的物体，尤其小物体，YOLOv3使用三个不同尺度进行预测。三个不同尺度步幅分别是32、16和8。如果输入416&times;416大小的图像，检测尺度分别为13&times;13，26&times;26和52&times;52。YOLOv3使用k-means从coco数据集的anchor box中预测了9个不同尺寸的先验框，然后均分给三个不同的预测尺寸。</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>特征图</th>
+<th style="text-align:center">13 <script type="math/tex">\ast</script>13</th>
+<th style="text-align:center">26 <script type="math/tex">\ast</script>26</th>
+<th style="text-align:center">52 <script type="math/tex">\ast</script>52</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>感受野</strong></td>
+<td style="text-align:center">大</td>
+<td style="text-align:center">中</td>
+<td style="text-align:center">小</td>
+</tr>
+<tr>
+<td><strong>先验框</strong></td>
+<td style="text-align:center">(116<script type="math/tex">\times</script>90)</td>
+<td style="text-align:center">(156<script type="math/tex">\times</script>198)</td>
+<td style="text-align:center">(373<script type="math/tex">\times</script>326)</td>
+<td>(30<script type="math/tex">\times</script>61)</td>
+<td>(62<script type="math/tex">\times</script>45)</td>
+<td>(59<script type="math/tex">\times</script>119)</td>
+<td>(10<script type="math/tex">\times</script>13)</td>
+<td>(16<script type="math/tex">\times</script>30)</td>
+<td>(33<script type="math/tex">\times</script>23)</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h5 id="1-2-使用了更好的基础分类网络-类ResNet-和分类器"><a href="#1-2-使用了更好的基础分类网络-类ResNet-和分类器" class="headerlink" title="1.2 使用了更好的基础分类网络(类ResNet)和分类器"></a>1.2 使用了更好的基础分类网络(类ResNet)和分类器</h5><p><img src="/YOLOv3/YOLOV3-1.png" alt="YOLOV3"></p>
+<p><a href="https://www.cnblogs.com/makefile/p/YOLOv3.html" target="_blank" rel="noopener">上图来自</a>其中网络相比YOLOv2更加复杂了，去除了pooling层，改用stride=2的卷积层代替，并且添加了residual block。</p>
+<p><strong>评分函数(score function):</strong> 原始图像数据到类别分值的映射。</p>
+<p>多分类问题，一般使用Softmax分类器(Softmax层)，对应的表达式为：</p>
+<script type="math/tex; mode=display">
+S=\frac{e^s}{\sum^{C}_{j=1}e^{s_j}}</script><p><strong>损失函数(loss function):</strong> 用来量化预测分类标签的得分与真实标签之间一致性。</p>
+<p>Sofemax一般对应log损失，表达式如下：</p>
+<script type="math/tex; mode=display">
+L=-\log\frac{e^s}{\sum^{C}_{j=1}e{^s_j}}=-s+\,\log\sum^{C}_{j=1}e^</script><p>YOLOv3中不使用Softmax分类器，而是使用使用<strong>独立的多个logistic分类器</strong>替代，<strong>分类损失</strong>使用binary cross-entropy loss。</p>
+<p><strong>Logistic回归(LR)</strong>，是一种常用语处理二分类问题的模型。</p>
+<script type="math/tex; mode=display">
+h_{\theta}(x)=g(\theta^Tx)=\frac{1}{1+\,\,e^{-\theta^Tx}},g(z)=\frac{1}{1+e^{-z}}(sigmoid\,\,函数),x代表样本的特征向量</script><script type="math/tex; mode=display">h_{\theta}(x)$$可看做预测为正类的概率，即后验概率$$h_{\theta}(x)=p(y=1|x;\theta),h_\theta(x)\in(0,1)</script><script type="math/tex; mode=display">
+判别类型：\begin{cases}
+h_{\theta}\ge0.5,预测\hat{y}=1,\quad if\,\,\theta^Tx\gt0\\
+h_{\theta}\lt0.5,预测\hat{y}=0,\quad if\,\,\theta^Tx\lt0\\
+\end{cases}\\
+损失函数：J(\theta)=\frac{1}{m}\sum^{m}_{i=1}cost(h_{\theta}(x^i),y^i)\\
+cost(h_{\theta}(x^i),y^i)=\begin{cases}
+-\log(h_{\theta(x)})\quad if\,\,y=1\\
+-\log(1-h_{\theta(x)})\quad if\,\,y=0\\
+\end{cases}\\
+J(\theta)=\frac{1}{m}\sum^{m}_{i=1}[-j^{(i)}\log(h_{\theta}(x^{(i)}))-(1-y^{(i)})\log(1-h_{\theta}(x^{(i)}))]</script><p>上式<script type="math/tex">J(\theta)</script>称为对数似然损失函数，也称作交叉熵损失函数(cross entropy loss)。</p>
+<p>Logistic为了防止过拟合，不仅要对输入的数据进行处理，还需要对超参数做正则化处理。</p>
+<script type="math/tex; mode=display">
+J(\theta)=\frac{1}{m}\sum^{m}_{i=1}[-j^{(i)}\log(h_{\theta}(x^{(i)}))-(1-y^{(i)})\log(1-h_{\theta}(x^{(i)}))]+\,\frac{\lambda}{2m}\sum^{n}_{j=1}\theta^2_j</script><p><strong>Softmax回归</strong>，处理多分类问题。</p>
+<script type="math/tex; mode=display">
+h_{\theta}(x^{(i)})=\begin{bmatrix}
+p(y^{(i)}=1 | x^{(i)};\theta)\\
+p(y^{(i)}=2 | x^{(i)};\theta)\\
+{\vdots}\\
+p(y^{(i)}=k | x^{(i)};\theta)\\
+\end{bmatrix}=\frac{1}{\sum^{k}_{j=1}e^{\theta^T_jx^{(i)}}}\begin{bmatrix}
+e^{\theta^T_1x^{(i)}}\\
+e^{\theta^T_2x^{(i)}}\\
+{\vdots}\\
+e^{\theta^T_kx^{(i)}}\\
+\end{bmatrix}</script><p>上式中，k为待分类的类别数。<script type="math/tex">\frac{1}{\sum^{k}_{j=1}e^{\theta^T_jx^{(i)}}}</script>对概率分布进行归一化，所有概率和为1。损失函数为：</p>
+<script type="math/tex; mode=display">
+J(\theta)=-\frac{1}{m}\Big[\sum^{m}_{i=1}\sum^{k}_{j=1}1\{y^{(i)}=j\}\log\frac{e^{\theta^T_jx^{(i)}}}{\sum^{k}_{l=1}e^{\theta^T_lx^{(i)}}}\Big]</script><p>同样，需要对参数进行正则化，因为对参数<script type="math/tex">\theta</script>减去一个参数，对结果没影响，即模型不唯一。加入正则项后的loss函数为：</p>
+<script type="math/tex; mode=display">
+J(\theta)=-\frac{1}{m}\Big[\sum^{m}_{i=1}\sum^{k}_{j=1}1\{y^{(i)}=j\}\log\frac{e^{\theta^T_jx^{(i)}}}{\sum^{k}_{l=1}e^{\theta^T_lx^{(i)}}}\Big]+\,\frac{\lambda}{2}\sum^{k}_{i=1}\sum^{n}_{j=0}\theta^2_{ij}</script><p>上面分别介绍了Logistic回归和Softmax回归的处理逻辑，那么Logistic常用与二分类问题，要实现多分类问题，则需要改进。有两种方法：</p>
+<ul>
+<li>直接根据每个类别，分别建立一个二分类器，带有正确类别的样本标记为1，其他类别的样本标记为0。那么针对k个类别，最后得到k个logistic分类器。<ul>
+<li>挑选出标记为<script type="math/tex">c(c\le k)</script>的样本，将挑选出来的带有标记c的样本的标记置为1，将剩下的不带有标记c的样本的标记置为0。然后就用这些数据训练出一个分类器；</li>
+<li>重复此步骤，最终得到k个不同的分类器；</li>
+<li>针对一个测试样本，需要找到这k个分类函数输出值最大的那一个，即为测试样本的标记：<script type="math/tex">arg\,\max_{c}h_c(x)\quad c=1,2,...,k</script>。</li>
+</ul>
+</li>
+<li>修改logistic回归的损失函数，让其适应多分类，即softmax回归。</li>
+</ul>
+<p>对于选择softmax分类器还是k个logistic分类器，取决于所有类别之间是否互斥。所有类别之间明显互斥用softmax分类器，所有类别之间不互斥有交叉的情况下最好用k个logistic分类器。</p>
+<h4 id="二、YOLOv3损失函数"><a href="#二、YOLOv3损失函数" class="headerlink" title="二、YOLOv3损失函数"></a>二、YOLOv3损失函数</h4><p>YOLOv3最大的变动是分类损失换成了<strong>二分交叉熵</strong>，这是由于yolov3中剔除了softmax改用logistic。</p>
+<script type="math/tex; mode=display">
+Loss=\lambda_{coord}\sum^{S^2}_{i=0}\sum^{B}_{j=0}I^{obj}_{ij}[(x_i-\hat{x}_i^j)^2+(y_i-\hat{y}_i^j)^2]+\\\lambda_{coord}\sum^{S^2}_{i=0}\sum^{B}_{j=0}I^{obj}_{ij}[(\sqrt{w^j_i}-\sqrt{\hat{w}^j_i})^2+(\sqrt{h}^j_i-\sqrt{\hat{h}^j_i})^2]-\\
+\sum^{S^2}_{i=0}\sum^{B}_{j=0}I^{obj}_{ij}[\hat{C}^j_i\log(C^j_i)+(1-\hat{C}^j_i)\log(1-C^j_i)]-\\
+\lambda_{noobj}\sum^{S^2}_{i=0}\sum^{B}_{j=0}I^{noobj}_{ij}[\hat{C}^j_i\log(C^j_i)+\,(1-\hat{C}^j_i)\log(1-C^j_i)-\\
+\sum^{S^2}_{i=0}I^{obj}_{ij}\sum_{c\in classes}([\hat{P}^j_i\log(P^j_i)+\,(1-\hat{P}^j_i)\log(1-P^j_i)])</script><p>网格一共是 S ∗ S 个，每个网格产生 B 个候选框anchor box，每个候选框会经过网络最终得到相应的bounding box。最终会得到 S ∗ S ∗ B 个bounding box。<script type="math/tex">I_{ij}^{obj}</script>表示第i个网格的第j个anchor box是否负责这个object。如果负责<script type="math/tex">I_{ij}^{obj}=1</script>，否则为0。<strong>那么如何定义负责呢？</strong>第i个网格的B个anchor box中与目标的ground truth的IOU最大的anchor负责预测这个目标，此时<script type="math/tex">I_{ij}^{obj}=1</script>。其中，<script type="math/tex">\lambda_{coord}=2-w\ast h</script>为了加大对小框的损失，更好的检测出小目标。</p>
+<p><strong>YOLOv3的误差分为四项</strong>，分别是：</p>
+<ol>
+<li><p>中心坐标误差</p>
+<p>当第 i 个网格的第 j 个anchor box负责某一个真实目标时，网络输出为<script type="math/tex">t_x,t_y</script>,然后通过<script type="math/tex">\sigma(t_x),\sigma(t_y)</script>转换后乘以多次的卷积步长，就可以映射到416&times;416大小的训练图像上的目录了。最后与ground truth计算误差。<script type="math/tex">\sigma为sigmoid</script>函数</p>
+</li>
+<li><p>宽高坐标误差</p>
+<p>当第 i 个网格的第 j 个anchor box负责某一个真实目标时，公式中的宽和高<script type="math/tex">w^j_i=t_w\ast stride,h^j_i=t_h\ast stride</script>。</p>
+</li>
+<li><p>置信度误差</p>
+<p>置信度误差使用交叉熵来表示，不管anchor box是否负责某个目标，都会计算置信度误差。因为置信度表示：框出的box内确实有物体的自信程度和框出的box将整个物体的所有特征都包括进来的自信程度。</p>
+<p>损失函数分为两部分：<strong>有物体，没有物体</strong>。其中没有物体损失部分还增加了权重系数<script type="math/tex">\lambda_{noobj}</script>。添加权重系数的原因是，对于一幅图像，一般而言大部分内容是不包含待检测物体的，这样会导致没有物体的计算部分贡献会大于有物体的计算部分，这会导致网络倾向于预测单元格不含有物体。因此，要减少没有物体计算部分的贡献权重，可以取值为0.5。</p>
+</li>
+<li><p>分类误差</p>
+<p>分类误差也是选择交叉熵作为损失函数。当第 i i i个网格的第 j j j个anchor box负责某一个真实目标时，那么这个anchor box所产生的bounding box才会去计算分类损失函数。</p>
+</li>
+</ol>
+<h4 id="三、anchor-box的计算"><a href="#三、anchor-box的计算" class="headerlink" title="三、anchor box的计算"></a>三、anchor box的计算</h4><p>网络预测的bounding box为<script type="math/tex">t_x，t_y，t_w，t_h</script>,而真实需要与Ground Truth进行计算误差的预测box为<script type="math/tex">b_x,b_y,b_w,b_h</script>(训练时需要将GT逆运算转为<script type="math/tex">g_x,g_y,g_w,g_h</script>)。那么两者之间如何转换呢？</p>
+<script type="math/tex; mode=display">c_x,c_y$$的坐标范围是针对grid cell的，也就是将原图划分成13&times;13，则$$c_x,c_y$$坐标为:</script><p>\begin{pmatrix}<br>(0,0)&amp;(0,1)&amp;(0,2)&amp;\cdots&amp;(0,12)\\<br>(1,0)&amp;(1,1)&amp;(1,2)&amp;\cdots&amp;(1,12)\\<br>\vdots&amp;\vdots&amp;\vdots&amp;\ddots&amp;\vdots\\<br>(12,0)&amp;(12,1)&amp;(12,2)&amp;\cdots&amp;(12,12)\\<br>\end{pmatrix}</p>
+<script type="math/tex; mode=display">
+对于宽、高$$b_w=a_we^{t_w},b_h=a_he^{t_h},a_w和a_h为anchor\,\,box(prior)的宽和高，t_w和t_h为网络预测的宽和高，b_w和b_h为转换后预测的宽、高。</script><p>对于x和y，<script type="math/tex">b_x=\sigma(t_x)+c_x,b_y=\sigma(t_y)+c_y</script>。为什么要使用<script type="math/tex">\sigma,sigmoid</script>函数将网络预测的坐标压缩到[0,1]呢？</p>
+<ol>
+<li>为了更好的在训练时候让模型收敛；</li>
+<li>让坐标位于每个grid cell中，更加精确的计算偏移量，以及将box确切分配负责到某一个目标。如13 ∗ 13 的feature map中，某个目标的中心点预测为(0.4,0.7)【<strong>都小于1</strong>】，它的<script type="math/tex">c_x，c_y</script>即中心落入的grid cell坐标是(6,6)，则该物体的在feature map中的中心实际坐标显然是(6.4,6.7)，不能大于1。</li>
+</ol>
+<p><strong>最后一层feature map中的特征如何与GT中的目标对应？</strong></p>
+<p>将原始图像分割为最后预测图维度大小的网格。如下图所示，输入图像维度为416&times;416，步幅为32（最后的预测图降采样32倍），最后预测图维度为13&times;13，所以将原始图像划分为13&times;13的网格。图中原始图中的红框是GT的中心，所以该cell负责对目标进行预测，对应到feature map中的那个红点。</p>
+<p><img src="/YOLOv3/YOLOV3-2.png" alt="YOLOV3"></p>
+<p>那么feature map中的红点会预测k个prior bounding box。具体选用那个呢？需要计算与GT 的IOU，选取最大的那个。与GT匹配的anchor box计算坐标误差、置信度误差（此时target为0）以及分类误差，而其他anchor box只计算置信度误差（此时target为0）。</p>
+<p>至于为什么需要k-means预测prior bounding box, 因为目标有不同的形状和长宽比，所以，需要预先预测一些先验的anchor box的长和宽。在网络预测出<script type="math/tex">t_w和t_h</script>之后，对框做一些约束。YOLOv2开始引入anchor机制后，不再与YOLOv1那样直接预测框的坐标，而是预测偏移值，<strong>通过学习偏移值，就可以通过网络原始定的anchor box坐标经过线性回归微调去逐渐靠近GT框</strong>。</p>
+<p>注意：<strong>位置上不使用anchor框，宽高上使用anchor框。</strong>位置是根据与gird左上角坐标的偏移值预测的。</p>
+<p><strong>多尺度预测</strong></p>
+<p><img src="/YOLOv3/YOLOV3-3.png" alt="YOLOV3"></p>
+<p><strong>为什么在计算Ground Truth的<script type="math/tex">t_w,t_h</script>时需要缩放到对数空间？</strong></p>
+<p>不直接回归bounding box的长宽，而是<strong>为避免训练带来不稳定的梯度</strong>，将尺度缩放到对数空间。 如果直接预测相对形变tw 和 th，那么要求tw,th&gt;0，因为框的宽高不可能是负数，这样的话是在做一个有不等式条件约束的优化问题，没法直接用SGD来做，所以先取一个对数变换，将其不等式约束去掉就可以了。</p>
+<p><a href="https://blog.csdn.net/weixin_41065383/article/details/89413819" target="_blank" rel="noopener">参考：CNN损失函数</a></p>
+<p><a href="https://blog.csdn.net/guo1988kui/article/details/79540508" target="_blank" rel="noopener">参考：线性分类器和损失函数</a></p>
+<p><a href="https://blog.csdn.net/qq_43211132/article/details/102668037" target="_blank" rel="noopener">参考：Logistic和Softmax详细介绍</a></p>
+<p><a href="https://blog.csdn.net/weixin_43384257/article/details/100986249" target="_blank" rel="noopener">参考：YOLOV3损失函数详细讲解</a></p>
+<p><a href="https://www.jianshu.com/p/043966013dde" target="_blank" rel="noopener">参考：YOLOV3</a></p>
+<p><a href="https://zhuanlan.zhihu.com/p/367395847" target="_blank" rel="noopener">参考：YOLOV3查漏补缺</a></p>
+]]></content>
+      <categories>
+        <category>Deep Learning</category>
+      </categories>
+      <tags>
+        <tag>Deep Learning</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Object-Detection-Survey</title>
+    <url>/2021/09/12/Object-Detection-Survey/</url>
+    <content><![CDATA[<h2 id="目标检测的简单综述"><a href="#目标检测的简单综述" class="headerlink" title="目标检测的简单综述"></a>目标检测的简单综述</h2><p>下面是对目标检测综述性论文的总结学习笔记</p>
+<p>Deep Learning for Generic Object Detection: A Survey <a href="https://arxiv.org/pdf/1809.02165v1.pdf" target="_blank" rel="noopener">论文链接</a></p>
+<h4 id="一、概述"><a href="#一、概述" class="headerlink" title="一、概述"></a>一、概述</h4><p><strong>目标检测</strong>的目标是<strong>确定在某个给定图像中是否存在来自给定类别</strong>（例如人类、汽车、自行车、狗和猫）的任何对象实例，<strong>如果存在，则返回每个对象实例的空间位置和范围。</strong>在<strong>通用的目标检测</strong>中，它更加强调<strong>检测范围广泛的自然类别</strong>，而不是特定对象类别检测，在特定对象类别检测中，可能只存在较窄的预定义的感兴趣类别（例如，人脸、行人或汽车）。 尽管在我们生活的视觉世界中占据着数以千计的物体，但目前研究界主要对<strong>高度结构化物体</strong>（例如汽车、人脸、自行车和飞机）和<strong>铰接物体</strong>（例如人类、奶牛和 马）而不是<strong>非结构化的场景</strong>（如天空、草和云）。</p>
+<p><strong>复杂场景的发展：</strong>图像级对象分类-&gt;单个对象定位-&gt;通用对象检测-&gt;像素级对象分割。</p>
+<h4 id="1、面对的挑战："><a href="#1、面对的挑战：" class="headerlink" title="1、面对的挑战："></a>1、<strong>面对的挑战：</strong></h4><ul>
+<li><p><strong>高准确性</strong>：必须准确定位和识别图像或视频帧中的对象，以便可以区分现实世界中种类繁多的对象类别。</p>
+<ul>
+<li><p>大量的类内变化</p>
+<ul>
+<li>内在因素：每个对象类别可以有许多不同的对象实例，可能在颜色、纹理、材料、形状和大小中的一个或多个方面有所不同。</li>
+<li>成像条件：由成像条件的变化和不受约束的环境引起。不同的时间、地点、天气条件、相机、背景、照明、视点和观看距离。 所有这些条件都会产生物体外观的显着变化，例如照明、姿势、比例、遮挡、背景杂乱、阴影、模糊和运动。此外， 数字化伪影、噪声破坏、分辨率差和滤波失真可能会增加进一步的挑战。 </li>
+</ul>
+</li>
+<li><p>大量的对象类别 </p>
+<p>数量级为 10<sup>4</sup>-10<sup>5</sup> 的大量对象类别需要检测器的强大辨别能力来区分细微不同的类间变化。</p>
+</li>
+</ul>
+</li>
+<li><p><strong>高效率</strong>：要求整个检测任务以足够高的帧率运行，并具有可接受的内存和存储使用率。</p>
+<ul>
+<li>图像数量呈指数级增长，需要高效且可扩展的检测器。 社交媒体网络和移动/可穿戴设备的流行导致对视觉数据分析的需求不断增加。 然而，移动/可穿戴设备的计算能力和存储空间有限，在这种情况下，高效的物体检测器至关重要。 </li>
+<li>可扩展性：检测器应该能够处理看不见的物体、未知的情况和快速增加的图像数据。随着图像数量和类别数量越来越大，手动注释它们可能变得不可能，迫使算法更多地依赖弱监督训练数据。</li>
+</ul>
+</li>
+</ul>
+<h4 id="2、发展历程"><a href="#2、发展历程" class="headerlink" title="2、发展历程"></a>2、<strong>发展历程</strong></h4><ol>
+<li>对象识别的早期研究基于<strong>模板匹配技术</strong>和<strong>基于简单部件的模型</strong>，重点关注<strong>空间布局大致刚性的特定对象</strong>，例如人脸。 1990 年之前，对象识别的主要范式是<strong>基于几何表示</strong>，后来重点从<strong>几何和先验模型</strong>转向使用基于<strong>外观特征的统计分类器</strong>（例如神经网络、SVM  和 Adaboost )  。这个成功的目标检测器系列为该领域的大多数后续研究奠定了基础。</li>
+<li>在 1990 年代末和 2000 年代初，目标检测研究取得了显着进展。其中最重要的两个算法是SIFT和DCNN。<strong>外观特征</strong>从<strong>全局</strong>表示<strong>转移到局部</strong>表示，这些表示对于平移、缩放、旋转、照明、视点和遮挡的变化是不变的。从尺度不变特征变换 (SIFT) 特征开始，<strong>手工制作的局部不变特征获得了极大的欢迎</strong>，各种视觉识别任务的进展主要基于<strong>局部描述符</strong>的使用，例如 Haar like特征，SIFT，Shape Context，梯度直方图(HOG)和局部二元模式(LBP)，协方差。这些局部特征通常通过简单的<strong>串联或特征池</strong>编码器聚合。</li>
+<li>直到 2012 年的重大转折点，<strong>深度卷积神经网络</strong> (DCNN) 在图像分类中的成功应用转移到对象检测，从而产生了 Girshicketal 的里程碑式<strong>基于区域</strong>的 CNN (RCNN) 检测器。从那时起，对象检测领域发生了巨大的发展，并且开发了许多基于深度学习的方法，这在一定程度上要归功于<strong>可用的GPU计算资源</strong>以及<strong>大规模数据集</strong>的可用性和挑战。</li>
+</ol>
+<h4 id="3、检测器的分类"><a href="#3、检测器的分类" class="headerlink" title="3、检测器的分类"></a>3、<strong>检测器的分类</strong></h4><ul>
+<li><p>两阶段检测框架，其中包括区域提议的预处理步骤，使整个管道成为两阶段。 </p>
+<p>在基于区域的框架中，从图像中<strong>生成与类别无关的区域提议</strong>，从这些区域中提取CNN特征，然后使用<strong>特定类别的分类器来确定提议的类别标签</strong>。 </p>
+</li>
+<li><p>单阶段检测框架，或无区域提议框架，这是一种不分离检测提议的单一提议方法，使整个管道成为单个阶段。 </p>
+</li>
+</ul>
+<h4 id="4、部分两阶段检测器框架"><a href="#4、部分两阶段检测器框架" class="headerlink" title="4、部分两阶段检测器框架"></a>4、部分两阶段检测器框架</h4><p><strong>RCNN：</strong></p>
+<ul>
+<li>类别不可知的<strong>区域提议(region proposals)</strong>，即可能包含对象的候选区域，通过<strong>selective search</strong>获得； </li>
+<li>从图像中<strong>裁剪(crop)</strong>并<strong>变形(warp)</strong>区域提议为适合网络输入的尺寸，用作<strong>微调</strong>使用大规模数据集(如 ImageNet)<strong>预训练的CNN模型</strong>的<strong>输入</strong>；</li>
+<li>使用CNN提取的<strong>固定长度特征</strong>训练一组<strong>特定于类的线性SVM分类器</strong>，<strong>取代</strong>通过<strong>微调学习的soft-max分类器</strong>；</li>
+<li>使用CNN特征为每个对象类学习边界框回归。 </li>
+</ul>
+<p>下面为整个RCNN的训练和测试过程，不同的箭头代表了不同的阶段。</p>
+<p><img src="/Object-Detection-Survey/rcnn.png" alt="Object-Detection"></p>
+<p><strong>缺点：</strong></p>
+<ul>
+<li>训练是一个多阶段的复杂管道，它不优雅、缓慢且难以优化，因为每个阶段都必须单独训练。 </li>
+<li>需要从外部检测大量仅提供粗略定位的区域建议。 </li>
+<li>训练 SVM 分类器和边界框回归在磁盘空间和时间上都是昂贵的，因为 CNN 特征是从每个图像的每个区域提议中独立提取的，这对大规模检测提出了巨大挑战，特别是非常深的 CNN 网络。 </li>
+<li>测试很慢，因为每个测试图像中的每个对象建议都提取了 CNN 特征。 </li>
+</ul>
+<p><strong>SPPNet：</strong>在测试期间，CNN 特征提取是 RCNN 检测管道的主要瓶颈，它需要从图像的数千个warped<strong>区域建议</strong>中提取CNN特征。注意到这些明显的缺点，Heet al.将传统的空间金字塔池化 (SPP) 引入CNN架构。由于卷积层接受任意大小的输入，因此 <strong>CNN 中对固定大小图像的要求仅是由于全连接 (FC) 层</strong>，Heet al.发现了这一事实并在<strong>最后一个卷积</strong> (CONV) 之上添加了一个 <strong>SPP 层</strong>获得FC层的固定长度特征。使用这个 SPPnet，RCNN 在不牺牲任何检测质量的情况下获得了显着的加速，因为它只需要在整个测试图像上运行一次卷积层即可为任意大小的区域提议生成固定长度的特征。<strong>虽然</strong> SPPnet 将 RCNN 评估加速了几个数量级，但它并没有导致<strong>检测器训练</strong>被加速。此外，SPPnet中的微调无法在 SPP 层之前更新卷积层，这限制了非常深网络的准确性。 </p>
+<p>SPPNet为了解决任意尺度图像进行训练得问题引入了<code>spatial pyramid pooling layer</code>，如下图：</p>
+<p><img src="/Object-Detection-Survey/sppnet.png" alt="SPPNet"></p>
+<p>在最后的卷积层和全连接层之间加入SPP层。具体做法是，在conv5层得到的特征图是256层，每层都做一次spatial pyramid pooling。先把每个特征图分割成多个不同尺寸的网格，比如网格分别为4x4、2x2、1x1,然后每个网格做max  pooling，这样256层特征图就形成了16x256，4x256，1x256维特征，他们连起来就形成了一个固定长度的特征向量，将这个向量输入到后面的全连接层。</p>
+<p><strong>那么网络如何训练呢？</strong></p>
+<p>多阶段多尺寸训练方法，<strong>具体对SPPNet网络得介绍单独写一份学习笔记</strong></p>
+<p><strong>Fast RCNN：</strong>Girshick 提出了 Fast RCNN，它解决了 RCNN 和 SPPnet 的一些缺点，同时提高了它们的<strong>检测速度和质量</strong>。<strong>Fast RCNN 通过开发流线型训练过程，使用多任务损失，同时学习 softmax 分类器和特定类别的边界框回归，从而实现端到端检测器训练</strong>（当忽略区域提议生成过程时，完全end-to-end），而不是像在 RCNN/SPPnet 中那样在三个不同的阶段训练 softmax 分类器、SVM 和 BBR。 Fast RCNN采用了<strong>跨区域proposal共享卷积计算</strong>的思想，在最后一个CONV层和第一个FC层之间增加了一个<strong>Region of Interest (RoI)池化层</strong>，为每个region proposal提取一个固定长度的特征（即RoI）。本质上，RoI pooling 使用特征级别的变形来近似图像级别的变形。 RoI 池化层之后的特征被送入一系列 FC 层，最终分支到<strong>两个兄弟输出层</strong>：用于<strong>对象类别预测的 softmax 概率</strong>和用于<strong>建议细化的特定于类的边界框回归偏移</strong>。与 RCNN/SPPnet 相比，Fast RCNN 显着提高了效率——通常<strong>训练速度快 3 倍</strong>，<strong>测试速度快 10 倍</strong>。总之，Fast RCNN 具有较高的检测质量、更新所有网络层的单阶段训练过程以及特征缓存不需要存储等吸引人的优势。 </p>
+<p><strong>Faster RCNN：</strong>尽管 Fast RCNN 显着加快了检测过程，但它仍然依赖于外部区域提议。 区域提议计算被暴露为 Fast RCNN 中的新瓶颈。 最近的工作表明，CNN 具有在 CONV 层中定位对象的卓越能力，这种能力在 FC 层中被弱化。 因此，在产生区域建议时，CNN 可以代替选择性搜索。 Faster RCNN框架中提出了一种高效准确的区域提议网络（RPN）来生成区域提议。 他们利用单个网络来完成<strong>区域提议的 RPN</strong> 和<strong>区域分类的 Fast RCNN</strong> 任务。 在 Faster RCNN 中，RPN 和 fast RCNN 共享大量卷积层。 来自最后一个共享卷积层的特征被用于不同的分支来实现区域提议和区域分类。 </p>
+<p>RPN 首先在每个 CONV 特征图位置初始化 k n × n 个不同尺度和纵横比的参考框（即所谓的锚点）。 每个 n × n 锚点映射到一个较低维度的向量（例如，ZF 为 256，VGG 为 512），该向量被输入到两个兄弟 FC 层—一个对象类别分类层和一个框回归层。 与 Fast RCNN 不同，RPN 中用于回归的特征具有相同的大小。 RPN 与 Fast RCNN 共享 CONV 特征，从而实现高效的区域提议计算。 RPN 实际上是一种全卷积网络 (FCN)； 因此，Faster RCNN 是一个纯粹基于 CNN 的框架，不使用手工制作的特征。 对于非常深的 VGG16 模型。</p>
+<p><strong>R-FCN</strong>：通过使用一组专门的 CONV 层作为 FCN 输出构建了一组位置敏感的分数图，在其顶部添加了一个位置敏感的 RoI 池化层，实现了几乎所有的计算都在整个图像上共享，提升了训练速度和检测精度。</p>
+<p><strong>Mask RCNN</strong>，通过扩展 Faster RCNN 来解决像素级对象实例分割问题。 Mask RCNN 采用相同的两阶段流水线，具有相同的第一阶段 (RPN)。 在第二阶段，在预测类别和框偏移的同时，Mask RCNN 添加了一个分支，为每个 RoI 输出一个二进制掩码。 新分支是在 CNN 特征图之上的全卷积网络 (FCN) 。 为了避免原始 RoI 池化 (RoIPool) 层造成的错位，提出了一个 RoIAlign 层来保留像素级空间对应关系。</p>
+<h4 id="5、统一的Pipeline-一阶段目标检测器"><a href="#5、统一的Pipeline-一阶段目标检测器" class="headerlink" title="5、统一的Pipeline(一阶段目标检测器)"></a>5、统一的Pipeline(一阶段目标检测器)</h4><p>统一管道是使用单个前馈 CNN 网络直接从完整图像预测类概率和边界框偏移的架构，不涉及区域提议生成或后分类。因此可以直接在检测性能上进行端到端的优化。</p>
+<p><strong>YOLO:</strong> 一种统一的检测器，将目标检测作为从图像像素到空间分离的边界框和相关类概率的回归问题。在YOLO中放弃了区域提议阶段，直接使用子小组候选区域来预测待检测的目标。由于 YOLO 在进行预测时会看到整个图像，因此它隐式编码了有关对象类别的上下文信息，并且不太可能预测背景中的误报。但由于边界框位置、比例和纵横比的粗划分，YOLO 会产生更多的定位错误。</p>
+<p><strong>SSD:</strong> SSD结合了Faster R-CNN中anchor的思想预先对feature map的每个点产生prior box，其次，采用了多尺度feature maps进行检测的方法，从而实现了快速检测，同时保持较高的检测质量。由于SSD类似于YOLO不需要进行两次分类，剔除了RPN中对anchor的预计，所以也是Single shot类的检测方法。</p>
+<p><img src="/Object-Detection-Survey/Detect-0.png" alt="Detector"></p>
+<h4 id="二、检测过程中的子问题"><a href="#二、检测过程中的子问题" class="headerlink" title="二、检测过程中的子问题"></a>二、检测过程中的子问题</h4><h5 id="2-1-DCNN-bases-Object-Representation-特征表示"><a href="#2-1-DCNN-bases-Object-Representation-特征表示" class="headerlink" title="2.1 DCNN bases Object Representation(特征表示)"></a>2.1 DCNN bases Object Representation(特征表示)</h5><p>作为任何检测器的主要组件之一，良好的特征表示在目标检测中是最重要的。 过去，大量的努力致力于设计局部描述子（例如，SIFT和 HOG）并探索方法（例如，Bag of Words 和 Fisher Vector）来分组并将描述子抽象为更高级别的表示，以允许区分对象部分开始出现(将数据转换到更高的维度，从而简化所需解决的问题，非线性支持向量机中的核函数很好的解释了这一点)，但是这些特征表示方法需要仔细的工程和相当多的领域专业知识。</p>
+<p>相比之下，由多个处理层组成的深度学习方法（尤其是深度 CNN 或 DCNN）可以直接从原始图像中学习具有多层次抽象的强大特征表示。 由于学习过程减少了传统特征工程所需的特定领域知识和复杂过程的依赖性，特征表示的负担已转移到更好的网络架构设计上。 人们普遍认为，CNN 表征起着至关重要的作用，而 CNN 架构是检测器的引擎。 因此，最近在检测精度方面的大部分改进都是通过研究新型网络的发展来实现的。 因此，这里首先回顾通用对象检测中使用的流行 CNN 架构，然后回顾致力于改进对象特征表示的工作，例如开发不变特征以适应对象尺度、姿态、视点、部分变形和执行多尺度的几何变化 分析以改进各种尺度上的对象检测。 </p>
+<h6 id="2-1-1-Popular-CNN-Architecture"><a href="#2-1-1-Popular-CNN-Architecture" class="headerlink" title="2.1.1 Popular CNN Architecture"></a>2.1.1 Popular CNN Architecture</h6><p>简而言之，CNN 具有层次结构，由卷积、非线性、池化等多个层组成。 从更细到更粗的层，图像反复进行滤波卷积，每一层都有感受野（支持区域） 这些过滤器的数量增加。 例如，开创性的 AlexNet有五个卷积层和两个全连接层。 一般来说，第一个 CNN 层提取低级特征（例如边缘），中间层提取复杂性增加的特征，例如低级特征的组合，然后卷积层将对象检测为早期部分的组合。 </p>
+<p>架构演进的趋势是网络越来越深：<code>AlexNet</code> 由 8 层组成，<code>VGGNet 16</code> 层，最近 <code>ResNet</code> 和 <code>DenseNet</code> 都超过了 100 层大关。特别是，它表明增加深度可以提高深度网络的表示能力。 有趣的是，<code>AlexNet</code>、<code>OverFeat</code>、<code>ZFNet</code> 和 <code>VGGNet</code> 等网络具有大量参数，尽管只有几层深，因为大部分参数来自 <code>FC</code> 层。 因此，较新的网络，如 <code>Inception</code>、<code>ResNet</code> 和 <code>DenseNet</code>，虽然具有非常大的网络深度，但由于避免使用 FC 层，因此参数少得多。 </p>
+<p>CNN 的训练需要具有足够标签和类内多样性的大型标记数据集。与图像分类不同，检测需要从图像中定位（可能很多）对象。<code>DeepIDNet</code> 表明使用具有对象级注释（例如 ImageNet 分类和定位数据集）的大规模数据集来预训练深度模型，而不仅仅是图像级注释，可以提高检测性能。然而，收集边界框标签是昂贵的，尤其是对于数十万个类别。一个常见的场景是在带有图像级标签的大型数据集（通常具有大量视觉类别）上对 CNN 进行预训练；然后可以将预训练的 CNN 直接应用于小数据集，作为通用特征提取器，可以支持更广泛的视觉识别任务。对于检测，预训练的网络通常在给定的检测数据集上进行微调。</p>
+<h5 id="2-1-2-Methods-For-Improving-Object-Representation"><a href="#2-1-2-Methods-For-Improving-Object-Representation" class="headerlink" title="2.1.2 Methods For Improving Object Representation"></a>2.1.2 Methods For Improving Object Representation</h5><p>基于深度 CNN 的检测器，例如 RCNN、Fast RCNN、Faster RCNN 和 YOLO，通常使用深度 CNN 架构作为骨干网络，并使用来自顶层的特征 CNN 作为对象表示，但是在大范围内检测对象是一项基本挑战。 解决这个问题的经典策略是在多个缩放的输入图像（例如，图像金字塔）上运行检测器，这通常会产生更准确的检测，但是推理时间和内存有明显的限制 . 相比之下，CNN 逐层计算其特征层次，特征层次中的子采样层导致固有的多尺度金字塔。 </p>
+<p>这种固有的特征层次会产生不同空间分辨率的特征图，但在结构上存在固有问题。较晚（或更高）的层具有较大的感受野和强语义，并且对诸如此类的变化像物体姿态、光照和部分变形具有鲁棒性，但分辨率低，几何细节丢失。相反，较早（或较低）的层具有较小的感受野和丰富的几何细节，但分辨率较高且对语义不太敏感。直观上，对象的语义概念可以出现在不同的层中，这取决于对象的大小。因此，如果目标对象很小，则它在较早的层中需要精细的细节信息，而在较晚的层中很可能会消失，原则上使小对象检测变得非常具有挑战性，为此使用扩张卷积或多孔卷积等技巧提出。另一方面，如果目标对象很大，那么语义概念将出现在更晚的层中。显然，仅使用一层的特征来预测不同尺度的对象并不是最佳选择，因此已经提出了许多方法通过利用多个 CNN 层来提高检测精度，大致分为三种类型多尺度目标检测： </p>
+<ol>
+<li><p><strong>Detecting with combined features of multiple CNN layers</strong></p>
+<p>试图在进行预测之前组合来自多个层的特征。代表性方法包括 <code>Hypercolumns</code> 、<code>HyperNet</code> 和 <code>ION</code> 。这种特征组合通常通过跳跃连接来完成，这是一种经典的神经网络思想，它跳过网络中的某些层并将前一层的输出作为输入提供给后一层，这种架构最近在语义分割中变得流行。组合特征更具描述性，更有利于定位和分类，但增加了计算复杂度。 </p>
+</li>
+</ol>
+<p><img src="/Object-Detection-Survey/Detector-1.png" alt="Detector"></p>
+<ol>
+<li><p><strong>Detecting at multiple CNN layers</strong></p>
+<p>通过平均分割概率将来自多个层的粗到细预测结合起来。 <code>SSD</code> 和 <code>MSCNN</code>、<code>RBFNet</code>  和 <code>DSOD</code> 结合来自多个特征图的预测来处理各种大小的对象。 SSD 将不同尺度的默认框分布到 CNN 中的多个层，并强制每一层专注于预测特定尺度的对象。<code>RFBNet</code>简单地用感受野块 (RFB) 替换了 SSD 的后期卷积层，以增强特征的可辨别性和鲁棒性。 RFB 是一个多分支卷积块，类似于 <code>Inception</code> 块，但将多个分支与不同的内核和卷积层组合在一起。<code>MSCNN</code> 在 CNN 的多个层上应用反卷积以提高特征图分辨率，然后再使用这些层来学习区域提议和池特征。 </p>
+</li>
+<li><p><strong>Combination of the above two methods</strong></p>
+<p>一方面，通过简单地将skip connect特征结合到检测中，如<code>UNet</code>、<code>Hypercolumns</code>、<code>HyperNet</code>和 <code>ION</code>，因为高维超特征表示的效用并没有产生显着的改进。另一方面，从具有大感受野的较晚层检测大目标，并使用具有小感受野的较早层来检测小目标；然而，简单地从较早的层检测对象可能会导致性能低下，因为较早的层拥有较少的语义信息。因此，为了结合两者，最近的一些工作提出了在多层检测目标，并且通过组合来自不同层的特征来获得每个检测层的特征。代表性方法包括<code>SharpMask</code>、<code>Deconvolutional Single Shot Detector</code> 、<code>Feature Pyramid Network</code> 、<code>Top Down Modulation</code>、<code>Reverse connection with Objectness prior Network</code>、<code>ZIP</code>、<code>Scale Transfer Detection Network</code>、<code>RefineDet</code> 和 <code>StairNet</code>。</p>
+</li>
+</ol>
+<p><img src="/Object-Detection-Survey/Detector-2.png" alt="Detector"></p>
+<p><img src="/Object-Detection-Survey/Detector-3.png" alt="Detector"></p>
+<ol>
+<li><p><strong>Model Geometric Transformations</strong></p>
+<p>DCNN 本质上仅限于对重要的几何变换进行建模。为了增强 CNN 表示的鲁棒性，需要学习关于不同类型变换的不变 CNN 表示，例如尺度、旋转等。可变形卷积网络(DCN)设计了一个可变形卷积层和一个可变形 RoI 池化层，这两个层都基于使用附加位置偏移量增加特征图中的常规网格采样位置并通过卷积学习偏移量的思想。</p>
+</li>
+</ol>
+<h5 id="2-2-Context-Modeling-上下文信息挖掘"><a href="#2-2-Context-Modeling-上下文信息挖掘" class="headerlink" title="2.2 Context Modeling(上下文信息挖掘)"></a>2.2 Context Modeling(上下文信息挖掘)</h5><p>人们认识到，适当的上下文建模有助于对象检测和识别，特别是当由于对象尺寸小、遮挡或图像质量差而导致对象外观特征不足时。</p>
+<ol>
+<li>Semantic context: 在某些场景中找到目标但在其他场景中找不到的可能性；</li>
+<li>Spatial context: 相对于场景中的其他物体，在某个位置找到一个物体而不是其他位置的可能性； </li>
+<li>Scale context: 目标相对于场景中的其他对象具有一组有限的大小 。</li>
+</ol>
+<p>目标检测的当前技术水平无需明确利用任何上下文信息即可检测目标。 人们普遍同意，DCNN 隐式地使用上下文信息，因为它们学习具有多个抽象级别的分层表示。 尽管如此，在基于 DCNN 的检测器中明确探索上下文信息仍然有价值，因此以下回顾最近在基于 DCNN 的目标检测器中利用上下文线索的工作，组织成全局和局部上下文的类别。</p>
+<p><strong>Global context:</strong>  指的是图像或场景级别的上下文，可以作为对象检测的线索（例如，卧室将预测床的存在）。 在<code>DeepIDNet</code>中，图像分类分数被用作上下文特征，并与对象检测分数连接以改善检测结果。 <code>ION</code>中建议使用空间循环神经网络 (RNN) 来探索整个图像的上下文信息。 在 <code>SegDeepM</code>中提出了一个 <code>MRF</code>模型，该模型对每次检测的外观和上下文进行评分，并允许每个候选框选择一个片段并对它们之间的一致性进行评分。 在<code>Contextual priming and feedback forFaster RCNN</code>中，语义分割被用作上下文启动的一种形式。 </p>
+<p><strong>Local context:</strong> 考虑目标关系中的局部环境，即目标与其周围区域之间的相互作用。一般来说，建模目标关系具有挑战性，需要对不同类别、位置、尺度等的边界框进行推理。在深度学习时代，明确建模对象关系的研究非常有限，代表性的研究是空间记忆网络<code>SMN</code>、对象关系网络和结构推理网络<code>SIN</code>。还有一些简单方法，通常是通过扩大检测窗口大小来提取某种形式的局部上下文。 代表性方法包括<code>MRCNN</code>、<code>Gated BiDirectional CNN</code> (GBDNet)、<code>Attention to Context CNN</code> (ACCNN) 、<code>CoupleNet</code> 和<code>Pedestrian detection with unsupervised multistage feature learnin</code>。</p>
+<p><img src="/Object-Detection-Survey/Detector-4.png" alt="Detector"></p>
+<h5 id="2-3-Detection-Proposal-Methods-区域提议"><a href="#2-3-Detection-Proposal-Methods-区域提议" class="headerlink" title="2.3 Detection Proposal Methods(区域提议)"></a>2.3 Detection Proposal Methods(区域提议)</h5><p>目标可以位于图像中的任何位置和比例。 在手工特征描述符（例如，SIFT、HOG和LBP）的鼎盛时期，词袋（BoW）和DPM使用了滑动窗口技术。 然而，窗口的数量很大并且随着图像中像素的数量而增长，并且需要在多个尺度和纵横比下进行搜索，从而进一步显着增加了搜索空间。 因此，应用更复杂的分类器在计算上过于昂贵。 </p>
+<p>2011 年左右，研究人员提出通过使用检测建议来缓解计算易处理性和高检测质量之间的紧张关系。 源于<code>What is an object</code>提出的目标性思想，目标提议是图像中可能包含目标的一组候选区域。 检测建议通常用作预处理步骤，以通过限制检测器需要评估的区域数量来降低计算复杂度。 因此，一个好的检测方案应该具备以下特点： </p>
+<ol>
+<li>召回率高，只需要很少的proposal就可以实现； </li>
+<li>提案尽可能准确地匹配对象； </li>
+<li>效率高。 </li>
+</ol>
+<p>在基于传统低级线索（例如，颜色、纹理、边缘和梯度）的目标提议方法中，选择性搜索、<code>MCG</code> 和 <code>EdgeBoxes</code>是比较流行的。 随着该领域的快速发展，传统的对象提议方法（例如选择性搜索）被用作独立于检测器的外部模块，成为检测管道的瓶颈。 一类新兴的使用 <code>DCNN</code>的对象提议算法引起了广泛关注。 </p>
+<p><strong>Bounding Box Proposal Methods:</strong> RPN 通过在最后一个共享 CONV 层的特征图上滑动一个小网络来预测对象建议。 在每个滑动窗口位置，它通过使用 k 个锚框同时预测 k 个提议，其中每个锚框 以图像中的某个位置为中心，并与特定的比例和纵横比相关联。</p>
+<p><img src="/Object-Detection-Survey/Detector-5.png" alt="Detector"></p>
+<p><img src="/Object-Detection-Survey/Detector-6.png" alt="Detector"></p>
+<p><strong>Object Segment Proposal Methods:</strong> 旨在生成可能与目标对应的segment提议。分割建议比边界框建议提供更多信息，并且朝着对象实例分割更进一步，其中<code>DeepMask</code> 是一项开创性工作。此外，<code>SharpMask</code>增强了<code>DeepMask</code>可以有效地将早期特征的空间丰富信息与后期编码的强语义信息相结合，以生成高保真对象掩码。 </p>
+<h4 id="三、评估标准"><a href="#三、评估标准" class="headerlink" title="三、评估标准"></a>三、评估标准</h4><p>评估检测算法性能的三个标准：检测速度（Frames Per Second，FPS）、精度和召回率。 最常用的指标是平均精度 (AP)，源自精度和召回率。 AP通常以特定于类别的方式进行评估，即分别为每个对象类别计算。 在通用对象检测中，通常根据检测多个对象类别来测试检测器。 为了比较所有对象类别的性能，采用所有对象类别的平均 AP (mAP) 作为性能的最终衡量标准。 有关这些指标的更多详细信息。</p>
+<p>应用于测试图像<script type="math/tex">I</script>的检测器的标准输出是预测检测<script type="math/tex">\{b_j,c_j,p_j\}_j</script> ，由 j 索引。 给定的检测 (b,c,p)（为了符号简单省略 j）表示预测位置（即边界框，BB）b 及其预测类别标签 c 和置信水平 p。 预测的检测 (b,c,p) 被视为真阳性 (TP)，如果:</p>
+<ul>
+<li>预测的类标签 c 与ground truth标签<script type="math/tex">c_g</script>相同。 </li>
+<li>预测的 BB b 和ground truth的 <script type="math/tex">b_g</script> 之间的重叠率 IOU（Intersection Over Union）不小于预定义的阈值 ε。 这里 <script type="math/tex">area(b\cap b^g)</script> 表示预测和ground trueh BBs 的交集，以及 <script type="math/tex">area(b\cup b^g)</script> 它们的并集。 ε 的典型值为 0.5。 </li>
+</ul>
+<script type="math/tex; mode=display">
+IOU(b,b^g)=\frac{area(b\cap b^g)}{area(b\cup b^g)}</script><p>否则，它被视为误报（FP）。 通常将置信水平 p 与某个阈值 β 进行比较，以确定是否接受预测的类标签 c 。</p>
+<p><img src="/Object-Detection-Survey/Detector-7.png" alt="Detector"></p>
+]]></content>
+      <categories>
+        <category>Deep Learning</category>
+      </categories>
+      <tags>
+        <tag>Deep Learning</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>YOLOv2-YOLO9000</title>
+    <url>/2021/09/12/YOLOv2-YOLO9000/</url>
+    <content><![CDATA[<h2 id="YOLOv2-and-YOLO9000"><a href="#YOLOv2-and-YOLO9000" class="headerlink" title="YOLOv2 and YOLO9000"></a>YOLOv2 and YOLO9000</h2><h4 id="一、概述"><a href="#一、概述" class="headerlink" title="一、概述"></a>一、概述</h4><p>由于检测数据集相对分类任务的数据集而言要少几个的多，并且为检测数据集打标签的耗费十分大。所以作者提出了一种新的<strong>数据组合方法</strong>来利用已有的大量分类数据，并使用它来扩展当前检测系统的范围。 通过使用目标分类的分层视图，允许将不同的数据集组合在一起。 </p>
+<p>此外，作者还提出了一种<strong>联合训练算法</strong>，允许在检测和分类数据上训练目标检测器。 联合训练方法利用标记检测图像来学习精确定位对象，同时使用分类图像来增加其词汇量和鲁棒性 </p>
+<h4 id="二、Better"><a href="#二、Better" class="headerlink" title="二、Better"></a>二、Better</h4><p>与最先进的检测系统相比，YOLO 存在各种缺点。 YOLO 与 Fast R-CNN 相比YOLO 会产生大量定位错误。 此外，与基于区域提议的方法相比，YOLO 的召回率相对较低。 因此，论文中主要关注点在保持分类准确性的同时提高召回率和定位。 </p>
+<p>与计算机视觉中大多数趋向于更大、更深的网络不同。为了得到更准确、速度更快的检测器。作者简化了网络，使目标的表征更容易被学习。</p>
+<h5 id="2-1-Batch-Normalization"><a href="#2-1-Batch-Normalization" class="headerlink" title="2.1 Batch Normalization"></a>2.1 Batch Normalization</h5><p>批量归一化显着提高了网络的收敛性，同时消除了对其他形式的正则化的需要。 通过在 YOLO 中的<strong>所有卷积层</strong>上添加批量归一化，在 mAP 上获得了超过 2% 的改进。 批量归一化还有助于规范模型。 通过批量归一化，可以从模型中移除 dropout 而不会过拟合。</p>
+<h5 id="2-2-High-Resolution-Classifier"><a href="#2-2-High-Resolution-Classifier" class="headerlink" title="2.2 High Resolution Classifier"></a>2.2 High Resolution Classifier</h5><p><strong>原始YOLO</strong>以224×224训练分类器网络并将分辨率提高到448进行检测。 这意味着网络必须同时切换到学习目标检测并调整到新的输入分辨率。 </p>
+<p><strong>对于 YOLOv2</strong>，首先在 ImageNet 上以 448 × 448 的全分辨率<strong>微调分类网络 10 个时期</strong>。 这使网络有时间调整其过滤器以更好地处理更高分辨率的输入。 然后在检测时微调生成的网络。 这个高分辨率的分类网络增加了近 4% 的 mAP。 </p>
+<h5 id="2-3-Convolutional-With-Anchor-Boxes"><a href="#2-3-Convolutional-With-Anchor-Boxes" class="headerlink" title="2.3 Convolutional With Anchor Boxes"></a>2.3 Convolutional With Anchor Boxes</h5><p><strong>YOLO</strong> 直接使用卷积特征提取器之上的<strong>全连接层</strong>来<strong>预测边界框</strong>的坐标。<code>Faster R-CNN</code>不是直接预测坐标，而是使用精选的先验预测边界框。 <code>Faster R-CNN</code> 中的区域提议网络 (RPN) 仅使用卷积层来预测锚框的偏移量和置信度。由于预测层是卷积层，因此 RPN 在特征图中的每个位置预测这些偏移量。<strong>预测偏移而不是坐标可以简化问题并使网络更容易学习</strong>。 </p>
+<p><strong>YOLOv2</strong>从 <code>YOLO</code> 中<strong>移除了全连接层</strong>，并<strong>使用锚框来预测边界框</strong>。首先，<strong>消除了一个池化层</strong>，使网络<strong>卷积层</strong>的<strong>输出分辨率更高</strong>。同时还<strong>缩小了网络输入尺寸到416</strong>而不是 <code>448×448</code> 进行操作。这样做是因为想要在<strong>特征图中有奇数个位置</strong>，从而只有一个中心单元。因为大目标往往会占据图像的中心，所以最好在中心有一个位置来预测这些目标，而不是四个都在附近的位置。 YOLO 的卷积层对图像进行了 32 倍的下采样，因此通过使用 416 的输入图像，得到了 <code>13 × 13</code> 的<strong>输出特征图</strong>。 </p>
+<p>当使用锚框时，还将<strong>类预测机制与空间位置解耦</strong>，为每个锚框预测类和目标。 在 YOLO 之后，<strong>objectness 预测</strong>仍然预测 ground truth 和提出的 box 的IOU，<strong>类预测</strong>，预测当目标存在时该类的条件概率。</p>
+<p><strong>使用锚框的性能分析：</strong>使用锚框后准确率会略有下降。 YOLO 每张图像只预测 98 个框(7&times;7&times;2)，但YOLOv2模型预测超过 1000 个锚框。 在没有锚框的情况下，中间模型获得了 69.5 mAP，召回率为 81%。 使用锚框，YOLOv2模型获得 69.2 mAP，召回率为 88%。 即使 mAP 下降，召回率的增加也意味着升级后的模型有更多的改进空间。 </p>
+<h5 id="2-4-Dimension-Clusters"><a href="#2-4-Dimension-Clusters" class="headerlink" title="2.4 Dimension Clusters"></a>2.4 Dimension Clusters</h5><p>将<code>Ahchor Boxes</code>与 <code>YOLO</code> 一起使用时，会遇到了两个问题：</p>
+<ul>
+<li><p>如何选取Anchor: 首先是box尺寸是手工挑选的。 网络可以学习适当地调整框，但如果为网络选择更好的先验box，则可以让网络更容易学习预测好的检测。</p>
+<p>如何选择先验，在训练集边界框上运行 k-means 聚类以自动找到好的先验。 如果使用欧氏距离的标准 k 均值，较大的框会比较小的框产生更多的错误。 然而，真正想要的是导致良好 IOU 分数的先验，这与框的大小无关。 因此，对于使用如下的距离度量：</p>
+</li>
+</ul>
+<script type="math/tex; mode=display">
+d(box,centroid)=1-IOU(box,centroid)</script><ul>
+<li>模型不稳定: 作者说RPN中用于定位的坐标，在训练时不受约束，所以任何锚框都可以在图像中的任何一点结束，而不管预测框的位置如何。 通过随机初始化，模型需要很长时间才能稳定以预测合理的偏移量。 </li>
+</ul>
+<h5 id="2-5-Direct-location-prediction"><a href="#2-5-Direct-location-prediction" class="headerlink" title="2.5 Direct location prediction"></a>2.5 Direct location prediction</h5><p>由于上述说的模型不稳定的问题，在YOLOv2中，还是遵循 YOLO 的方法，预测相对于网格单元位置的位置坐标。 这限制了真实值落在 0 和 1 之间。并使用逻辑激活来限制网络的预测落在这个范围内。 </p>
+<p>网络在<strong>输出特征图</strong>中的<strong>每个单元格</strong>预测 5 个边界框。 网络为每个边界框预测 5 个坐标，t<sub>x</sub>、t<sub>y</sub>、t<sub>w</sub>、t<sub>h</sub> 和 t<sub>o</sub>。 如果单元格从图像的左上角偏移 (cx,cy) 并且边界框先验具有宽度和高度 p<sub>w</sub>, p<sub>h</sub>，则预测对应于: </p>
+<script type="math/tex; mode=display">
+\begin{align}b_x=&\sigma(t_x)+c_x\\b_y=&\sigma(t_y)+\,c_y\\b_w=&p_we^{t_w}\\b_h=&p_h e^{t_h}\end{align}\\P_r(object)\ast IOU(b,object)=\sigma(t_o)</script><p>由于上面约束了位置预测，因此参数化更容易学习，使网络更稳定。 与使用锚框的版本相比，使用维度集群以及直接预测边界框中心位置将 YOLO 提高了近 5%。 </p>
+<p><img src="/YOLOv2-YOLO9000/YOLOv2-0.png" alt="YOLOV2"></p>
+<h5 id="2-6-Fine-Grained-Features"><a href="#2-6-Fine-Grained-Features" class="headerlink" title="2.6 Fine-Grained Features"></a>2.6 Fine-Grained Features</h5><p>虽然这对于大型物体来说，在YOLO 预测的 <code>13 × 13</code> 特征图上的检测已经足够了。但为了定位较小物体的细粒度特征，YOLOv2简单地添加一个传递层，以 26 × 26 的分辨率从较早的层中引入特征。 </p>
+<p>passthrough layer通过将相邻特征<strong>concatenates</strong>到不同的通道<strong>而不是</strong>空间位置，将高分辨率特征与低分辨率特征连接起来，类似于 ResNet 中的身份映射。 这将 26 ×26 ×512 的特征图变成了 13 ×13 ×2048 的特征图，可以与原始特征连接。 检测器运行在这个扩展的特征图之上，以便它可以访问细粒度的特征。 这将适度提高 1% 的性能。 </p>
+<p><img src="/YOLOv2-YOLO9000/YOLOv2-4.png" alt="YOLOV2"></p>
+<h5 id="2-7-Multi-Scale-Training"><a href="#2-7-Multi-Scale-Training" class="headerlink" title="2.7 Multi-Scale Training"></a>2.7 Multi-Scale Training</h5><p>训练时不是使用固定输入的图像大小，而是每隔几次迭代就更改网络。 每 <code>10</code> 个批次，网络随机选择一个新的图像尺寸。 由于模型下采样了 <code>32</code> 倍，所以从以下 32 的倍数中提取：{320,352,…,608}。 因此最小的选项是 <code>320 ×320</code>，最大的选项是 <code>608 ×608</code>。 将网络调整到那个维度并继续训练。</p>
+<h4 id="三、Faster"><a href="#三、Faster" class="headerlink" title="三、Faster"></a>三、Faster</h4><h5 id="3-1-Darknet-19"><a href="#3-1-Darknet-19" class="headerlink" title="3.1 Darknet-19"></a>3.1 Darknet-19</h5><p>作者提出了一种新的分类模型，用作 YOLOv2 的基础。 该模型建立在先前的网络设计工作以及该领域的常识的基础上。 与 VGG 模型类似，该模型主要使用 <code>3 × 3</code> 过滤器，并在每个池化步骤后将通道数加倍。 继 <code>Network in Network (NIN)</code> 的工作之后，使用全局平均池化进行预测，并使用 <code>1 ×1</code> 过滤器来压缩 <code>3 ×3</code> 卷积之间的特征表示 。 同时使用批量归一化来稳定训练，加速收敛，并对模型进行正则化。 最终模型称为<code>Darknet-19</code>，有 19 个卷积层和 5 个最大池化层。</p>
+<p><img src="/YOLOv2-YOLO9000/YOLOv2-1.png" alt="YOLOV2"></p>
+<h5 id="3-2-Training-for-classification"><a href="#3-2-Training-for-classification" class="headerlink" title="3.2 Training for classification"></a>3.2 Training for classification</h5><p>在标准 ImageNet 1000 类分类数据集上使用 <code>Darknet</code> 神经网络框架训练网络 160 个epoch，使用随机梯度下降，起始学习率为 0.1，多项式速率衰减为 4，权重衰减为 0.0005，动量为 0.9 。 训练期间使用标准的数据增强技巧，包括随机裁剪、旋转、色调、饱和度和曝光转换。</p>
+<p>此外，在对 <code>224 × 224</code> 的图像进行初始训练分类网络后，以更大的尺寸(448&times;448)微调<code>Darknet</code>网络。对于这种微调，使用上述参数进行训练，但仅训练 10 个epoch，并以 10<sup>-1</sup> 的学习率开始。在这个更高分辨率下，网络达到了 76.5% 的 top-1 准确率和 93.3% 的 top-5 准确率。 </p>
+<h5 id="3-3-Training-for-detection"><a href="#3-3-Training-for-detection" class="headerlink" title="3.3 Training for detection"></a>3.3 Training for detection</h5><p>通过删除最后一个卷积层来修改该网络以进行检测。添加了三个 3 × 3 卷积层，每个卷积层具有 1024 个过滤器，然后是最终的 1 × 1 卷积层，其中包含需要检测的输出数量。 </p>
+<p>对于 VOC，预测 5 个盒子，每个盒子有 5 个坐标，每个盒子有 20 个类，所以需要 5个boxes&times;(5个坐标+20个类) = 125个过滤器。 此外，还从最后的 3 ×3 ×512 层到倒数第二个卷积层添加了一个直通层，以便模型可以使用细粒度特征。</p>
+<p>以 10<sup>-3</sup> 的起始学习率训练网络 160 个epoch，在 60 和 90 个epoch将其除以 10。 使用 0.0005 的权重衰减和 0.9 的动量。 并且使用与 YOLO 和 SSD 类似的数据增强，随机裁剪、颜色偏移等。</p>
+<h4 id="四、Stronger"><a href="#四、Stronger" class="headerlink" title="四、Stronger"></a>四、Stronger</h4><p>作者提出了一种<strong>联合训练分类和检测数据</strong>的机制。 其中使用标记为<strong>检测的图像</strong>来<strong>学习</strong>特定于<strong>检测的信息</strong>，例如边界框坐标预测和对象性以及如何对常见对象进行分类。 它使用<strong>只有类别标签的图像</strong>来<strong>扩展</strong>它<strong>可以检测的类别数量</strong>。 </p>
+<p>在训练期间，<strong>混合</strong>来自检测和分类数据集的图像。 当网络看到标记为检测的图像时，可以基于完整的 YOLOv2 损失函数进行反向传播。 当它看到分类图像时，只从架构的特定分类部分反向传播损失。 </p>
+<p>大多数分类方法使用<strong>跨所有可能类别</strong>的 softmax 层来计算最终概率分布。 <strong>使用 softmax 假设这些类是互斥的</strong>。 这给组合数据集带来了问题，例如，您不希望使用此模型组合 ImageNet 和 COCO，因为类“Norfolk terrier”和“dog”并不相互排斥(Norfolk terrier是dog的一个品种)。 可以改为使用<strong>多标签模型</strong>来组合不假设互斥的数据集。</p>
+<p>为了解决上述出现的问题，作者借鉴WordNet，提出了一种视觉概念的分层模型称为WordTree。如果想计算特定节点的绝对概率，只需沿着树到根节点的路径，乘以条件概率。 所以如果想知道一张图片是否是Norfolk，使用如下的计算公式(联合概率)：</p>
+<script type="math/tex; mode=display">
+Pr(Norfolk \,\,terrier)=Pr(Norfolk\,\,terrier|terrier)\ast Pr(terrier|hunting\,\,dog)\ast ...\ast Pr(mammal|Pr(animal))\ast Pr(animal|physical\,\,object)</script><p><img src="/YOLOv2-YOLO9000/YOLOv2-2.png" alt="YOLOV2"></p>
+<p>上图显示了如果使用WordTree对同一枝干中的属性计算softmax。</p>
+<p><img src="/YOLOv2-YOLO9000/YOLOv2-3.png" alt="YOLOV2"></p>
+<p>上图显示了对不同数据集的整合。图像来源于论文<a href="https://arxiv.org/pdf/1612.08242.pdf" target="_blank" rel="noopener">YOLO9000:Better, Faster, Stronger</a>。</p>
+<p><a href="https://zhuanlan.zhihu.com/p/47575929" target="_blank" rel="noopener">参考博客</a></p>
+<p><a href="https://zhuanlan.zhihu.com/p/93632171" target="_blank" rel="noopener">参考博客</a></p>
+]]></content>
+      <categories>
+        <category>Deep Learning</category>
+      </categories>
+      <tags>
+        <tag>Deep Learning</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>YOLOv1</title>
+    <url>/2021/09/12/YOLOv1/</url>
+    <content><![CDATA[<h2 id="YOLO-You-Only-Look-Once"><a href="#YOLO-You-Only-Look-Once" class="headerlink" title="YOLO (You Only Look Once)"></a>YOLO (You Only Look Once)</h2><h4 id="一、概述"><a href="#一、概述" class="headerlink" title="一、概述"></a>一、概述</h4><p>YOLO，一种统一的检测器，将目标检测作为从图像像素到空间分离的边界框和相关类概率的回归问题。在YOLO中放弃了区域提议阶段，直接使用子小组候选区域来预测待检测的目标。由于 YOLO 在进行预测时会看到整个图像，因此它隐式编码了有关对象类别的上下文信息，并且不太可能预测背景中的误报。但由于边界框位置、比例和纵横比的粗划分，YOLO 会产生更多的定位错误。</p>
+<p>简单概括就是：单个神经网络预测边界框和类别概率 ，不需要像Faster R-CNN系列需要重新利用分类器做检测。</p>
+<p><img src="/YOLOv1/YOLO-0.png" alt="YOLO"></p>
+<p><strong>YOLO优点：</strong></p>
+<ul>
+<li>非常快，YOLO 不需要复杂的Pipeline。</li>
+<li>背景误判很少：YOLO 在进行预测时会对图像进行全局推理，隐式编码了关于类及其外观的上下文信息。</li>
+<li>应用范围广： YOLO学习对象的可泛化表示，因此在应用于新领域或意外输入时不太可能崩溃。 </li>
+</ul>
+<p><strong>YOLO缺点：</strong>YOLO 在准确性方面仍然落后于最先进的检测系统。 虽然它可以快速识别图像中的物体，但它很难精确定位一些物体，尤其是小物体。</p>
+<h4 id="二、Unified-Detection"><a href="#二、Unified-Detection" class="headerlink" title="二、Unified Detection"></a>二、Unified Detection</h4><p>系统将输入图像划分为 <strong>S ×S 网格</strong>。 如果对象的中心落入网格单元中，则该网格单元负责检测该对象。 <strong>每个网格单元</strong>预测 <strong>B 个边界框</strong>和<strong>这些框的置信度分数</strong>。 这些置信度分数反映了模型对盒子包含对象的信心程度，以及它认为盒子预测的准确度。置信度表示为：</p>
+<script type="math/tex; mode=display">
+Pr(Object)\ast IOU^{truth}_{pred}</script><p>每个边界框由 5 个预测组成：x、y、w、h 和置信度。 (x,y) 坐标表示相对于网格单元边界的框中心。 宽度和高度是相对于整个图像预测的。 最后，置信度预测表示预测框和任何ground truth之间的 IOU。</p>
+<p><strong>每个网格单元</strong>还预测 C 个条件类概率，Pr(Class<sub>i</sub>|Object)。 <strong>这些概率以包含目标的网格单元为条件</strong>。 我们只预测每个网格单元的一组类概率，而不管框 B 的数量。 </p>
+<p>在测试时，将条件类概率和单个框置信度预测相乘，表达式如下：</p>
+<script type="math/tex; mode=display">
+Pr(Class_i|Object)\ast Pr(Object)\ast IOU^{truth}_{pred}=Pr(Class_i)\ast IOU^{truth}_{pred}</script><p>上式提供了每个框特定于类的置信度分数。 这些分数编码了该类出现在框中的概率以及预测的框与对象的匹配程度。 </p>
+<p><img src="/YOLOv1/YOLO-1.png" alt="YOLO"></p>
+<h4 id="三、网络设计"><a href="#三、网络设计" class="headerlink" title="三、网络设计"></a>三、网络设计</h4><p>网络的初始卷积层从图像中提取特征，而全连接层预测输出概率和坐标。 网络架构受到用于图像分类的 GoogLeNet 模型的启发，有 24 个卷积层，后跟 2 个全连接层，有使用 GoogLeNet 使用的初始模块，而是简单地使用 1 × 1 缩减层和 3 × 3 卷积层。</p>
+<p><img src="/YOLOv1/YOLO-2.png" alt="YOLO"></p>
+<p>训练的时候，先用ImageNet-1000数据集预训练上面的前20层网络+average-pooling层+一个全连接层。然后转换模型以执行检测。 论文《Object detection networks on convolutional feature maps》表明将卷积层和连接层添加到预训练网络可以提高性能。 所以添加了四个卷积层和两个具有随机初始化权重的全连接层。 检测通常需要细粒度的视觉信息，因此将网络的输入分辨率从 224 × 224 增加到 448 × 448。 </p>
+<p>最后一层预测类别概率和边界框坐标，过图像的宽度和高度对边界框的宽度和高度进行归一化，使它们落在 0 和 1 之间。边界框的 x 和 y 坐标参数化为特定网格单元位置的偏移量，因此它们也被限制在 0 和 1 之间 。对最后一层使用线性激活函数，所有其他层使用以下Leaky rectified线性激活： </p>
+<script type="math/tex; mode=display">
+\phi(x)=\begin{cases}
+        x,  & \text{if $x$ >0} \\
+        0.1x, & \text{otherwise}
+        \end{cases}</script><p>针对模型输出中的平方和误差进行了优化。 其中使用平方和误差是因为它很容易优化，但是它并不完全符合最大化平均精度的目标。 它将定位误差与可能不理想的分类误差同等加权。 此外，在每个图像中，许多网格单元不包含任何对象。 这会将这些单元格的“置信度”分数推向零，通常会压倒包含对象的单元格的梯度。 这可能会导致模型不稳定，从而导致训练早期出现分歧。 为了解决这个问题，增加了边界框坐标预测的损失，并减少了不包含对象的框的置信度预测的损失。引入两个参数&lambda;<sub>coord</sub>=5，&lambda;<sub>noobj</sub>=0.5。</p>
+<p>Sum-squared error 也同样加权大框和小框的错误。 误差度量时小的偏差对于小框的重要性应该大于大框。 为了部分解决这个问题，预测边界框宽度和高度的平方根，而不是直接预测宽度和高度。 </p>
+<p>训练时优化的损失函数如下：</p>
+<script type="math/tex; mode=display">
+\lambda_{coord}\sum^{S^2}_{i=0}\sum^{B}_{j=0}I^{obj}_{ij}[(x_i-\hat{x_i})^2+(y_i-\hat{y_i})^2]+\lambda_{coord}\sum^{S^2}_{i=0}\sum^{B}_{j=0}I^{obj}_{ij}[(\sqrt {w_i} - \sqrt{\hat{w}_i})^2+(\sqrt {h_i} - \sqrt{\hat{h}_i})^2]+\\\sum^{S^2}_{i=0}\sum^{B}_{j=0}I^{obj}_{ij}(C_i-\hat{C}_i)^2+\lambda_{noobj}\sum^{S^2}_{i=0}\sum^{B}_{j=0}I^{noobj}_{ij}(C_i-\hat{C}_i)^2+\sum^{S^2}_{i=0}I^{obj}_{i}\sum_{c\in classes}(p_i(c)-\hat{p_i}(c))^2\\
+I^{obj}_{i}指出物体出现在第i个cell中，I^{obj}_{ij}指出第i个cell中的第j个边界框负责预测，分别对x,y,w,h,置信度(目标/非目标)，类别六个变量计算损失</script><p>为了避免过拟合，在训练是使用了dropout=0.5和数据增强等方法<a href="https://arxiv.org/pdf/1506.02640.pdf" target="_blank" rel="noopener">论文</a>。</p>
+<h4 id="四、YOLO的限制"><a href="#四、YOLO的限制" class="headerlink" title="四、YOLO的限制"></a>四、YOLO的限制</h4><ul>
+<li>YOLO 对边界框预测施加了很强的空间约束，因为每个网格单元只预测两个框并且只能有一个类。 这种空间约束限制了模型可以预测的附近物体的数量。 使得模型难以处理成群出现的小物体，例如成群的鸟。 </li>
+<li>由于模型学习从数据中预测边界框，因此它很难泛化到具有新的或不寻常的纵横比或配置的对象。 此外，输入图像会进行多次的下采样操作，这使模型使用相对粗略的特征来预测边界框。</li>
+<li>训练一个近似检测性能的损失函数时，损失函数对小边界框和大边界框的错误处理方式相同。 </li>
+</ul>
+]]></content>
+      <categories>
+        <category>Deep Learning</category>
+      </categories>
+      <tags>
+        <tag>Deep Learning</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>SSD-Detector</title>
+    <url>/2021/09/12/SSD-Detector/</url>
+    <content><![CDATA[<h2 id="SSD-Single-Shot-MultiBox-Detector"><a href="#SSD-Single-Shot-MultiBox-Detector" class="headerlink" title="SSD: Single Shot MultiBox Detector"></a>SSD: Single Shot MultiBox Detector</h2><h4 id="一、概述"><a href="#一、概述" class="headerlink" title="一、概述"></a>一、概述</h4><p>SSD是为了兼顾检测速度和检测精度而提出的，即将一阶段的速度和二阶段的精度都考虑进来。为了检测小目标，其在多个尺度的特征图上进行边界框和类别的学习。</p>
+<h5 id="1-1-SSD的贡献如下："><a href="#1-1-SSD的贡献如下：" class="headerlink" title="1.1 SSD的贡献如下："></a>1.1 SSD的贡献如下：</h5><ul>
+<li>是一种用于多个类别的单次检测器，它比之前的单次检测器 (YOLO) 的最新技术更快，而且准确度更高。</li>
+<li>SSD 的核心是使用应用于特征图的小卷积滤波器为一组固定的默认边界框预测类别分数和框偏移量。 </li>
+<li>为了实现高检测精度，我们从不同尺度的特征图生成不同尺度的预测，并按纵横比明确分离预测。 </li>
+<li>这些设计特性导致简单的端到端训练和高精度，即使在输入低分辨率的图像上，也能进一步提高速度与精度的权衡。</li>
+</ul>
+<h5 id="1-2-SSD和YOLO的区别："><a href="#1-2-SSD和YOLO的区别：" class="headerlink" title="1.2 SSD和YOLO的区别："></a>1.2 SSD和YOLO的区别：</h5><ul>
+<li>SSD<strong>采用卷积直接做检测，</strong>YOLO在全连接层之后做检测</li>
+<li><strong>SSD提取了不同尺度的特征图来做检测</strong>，大尺度特征图（较靠前的特征图）可以用来检测小物体，而小尺度特征图（较靠后的特征图）用来检测大物体</li>
+<li>SSD采用了<strong>不同尺度</strong>和<strong>长宽比的先验框</strong>(Prior boxes, Default boxes，在Faster R-CNN中叫做锚，Anchors)</li>
+</ul>
+<h4 id="二、The-Single-Shot-Detector-SSD"><a href="#二、The-Single-Shot-Detector-SSD" class="headerlink" title="二、The Single Shot Detector (SSD)"></a>二、The Single Shot Detector (SSD)</h4><p><img src="/SSD-Dector/SSD.png" alt="SSD"></p>
+<p>SSD 方法基于前馈卷积网络，该网络生成固定大小的<strong>边界框集合</strong>和这些框内目标类<strong>实例存在的分数</strong>，然后是非最大抑制步骤以产生最终检测。在高精度分类网络backbone上，添加辅助结构以产生具有以下关键特征的检测： </p>
+<h5 id="2-1-Multi-scale-feature-maps-for-detection"><a href="#2-1-Multi-scale-feature-maps-for-detection" class="headerlink" title="2.1 Multi-scale feature maps for detection"></a>2.1 Multi-scale feature maps for detection</h5><p>在截断的基础网络的末尾添加了<strong>卷积特征层</strong>。 这些层的大小逐渐减小，并允许在多个尺度上进行检测预测。 用于预测检测的卷积模型对于每个特征层都是不同的。</p>
+<h5 id="2-2-Convolutional-predictors-for-detection"><a href="#2-2-Convolutional-predictors-for-detection" class="headerlink" title="2.2 Convolutional predictors for detection"></a>2.2 Convolutional predictors for detection</h5><p><strong>每个添加的特征层（或可选地来自基础网络的特征层）可以使用一组卷积滤波器产生一组固定的检测预测</strong>。对于具有 p 个通道的大小为 m ×n 的特征层，预测潜在检测参数的基本元素是一个 3 ×3 ×p 的小kernel，它产生<strong>类别的分数</strong>，或<strong>相对于默认框坐标的形状偏移量</strong>。 在每一个应用kernel的 m×n 个位置，它都会产生一个输出值。 边界框偏移量输出值是相对于每个特征图位置的默认框位置测量的。</p>
+<h5 id="2-3-Default-boxes-and-aspect-ratios"><a href="#2-3-Default-boxes-and-aspect-ratios" class="headerlink" title="2.3 Default boxes and aspect ratios"></a>2.3 Default boxes and aspect ratios</h5><p>由于网络会添加多尺度的特征层用于多尺度检测，所以每个feature map对应一组<strong>默认边界框</strong>。<strong>什么是默认边界框？</strong>参考上图1。<strong>那么默认边界框与feature map的关系是什么？</strong>将默认边界框以卷积的方式平铺feature map(比如，feature map大小为m&times;n，那么在每一个点就有k个默认边界框，类似Faster R-CNN中的anchor)，这样每个框相对于其对应feature map中的cell的位置是固定的。在每个特征图单元格中，会预测相对于单元格中<strong>默认框</strong>形状的<strong>偏移量</strong>，以及每类的分数，这些分数表明每个框内是否存在类实例。</p>
+<p>具体来说，对于给定位置 k 中的每个框，计算 c 类分数和相对于原始默认框形状的 4 个偏移量。这导致总共 (c + 4)k 个过滤器应用于特征图中的每个位置，为 m ×n 特征图产生 (c + 4)kmn 输出。默认框类似于 Faster R-CNN中使用的锚框，但是SSD中将它们应用于多个不同分辨率的特征图。在几个特征图中允许不同的默认框形状，可以有效地离散化可能的输出框形状的空间。 </p>
+<p><img src="/SSD-Dector/SDD-1.png" alt="SSD"></p>
+<p><code>SSD 300</code>中输入图像的大小是<code>300x300</code>，特征提取部分使用了<code>VGG16</code>的卷积层，并将<code>VGG16</code>的两个全连接层转换成了普通的卷积层（图中conv6和conv7），之后又接了多个卷积（conv8_1，conv8_2，conv9_1，conv9_2，conv10_1，conv10_2），最后用一个<code>Global Average Pool</code>来变成1x1的输出（conv11_2）。</p>
+<h5 id="2-1-Matching-strategy"><a href="#2-1-Matching-strategy" class="headerlink" title="2.1 Matching strategy"></a>2.1 Matching strategy</h5><p>在训练期间，需要确定<strong>哪些默认框</strong>用于ground Truth的检测并相应地训练网络。 对于每个ground truth，从位置、纵横比和比例不同的默认框中进行选择。 </p>
+<ul>
+<li>首先，寻找与每一个ground truth box有最大的jaccard overlap的default  box，这样就能保证每一个groundtruth box与唯一的一个default box对应起来。</li>
+<li>SSD之后又将剩余还没有配对的default box与任意一个groundtruth box尝试配对，只要两者之间的jaccard overlap大于阈值，就认为match（SSD 300 阈值为0.5）。</li>
+</ul>
+<p>其中，配对到GT的default box就是positive，没有配对到GT的default box就是negative。</p>
+<script type="math/tex; mode=display">
+J(A,B)=\frac{|A\cap B|}{|A\cup B|}=\frac{|A\cap B|}{|A|+|B|-|A\cap B|}</script><p><img src="/SSD-Dector/SSD-3.png" alt="SDD"></p>
+<p>上图来自<a href="https://blog.csdn.net/qq_38622495/article/details/82289814" target="_blank" rel="noopener">博客</a>-多层级上的anchor回归。<strong>通过同时对多个层级上的anchor计算IOU，就能找到与ground truth的尺寸、位置最接近（即IOU最大）的一批anchor，在训练时也就能达到最好的准确度。</strong></p>
+<h5 id="2-2-训练过程"><a href="#2-2-训练过程" class="headerlink" title="2.2 训练过程"></a>2.2 训练过程</h5><p>整体目标损失函数是定位损失 (loc) 和分类损失 (conf) 的加权和： </p>
+<script type="math/tex; mode=display">
+L(x,c,l,g)=\frac{1}{N}(L_{conf}(x,c)+\alpha L_{loc}(x,l,g))\\
+N是匹配到的默认框的数量，当N=0时，损失为0\\
+定位损失是预测框l和ground\,\,truth\,\,box(g)之间的Smooth\,\,L1\,\,loss</script><script type="math/tex; mode=display">
+L_{loc}(x,l,g)=\sum^{N}_{i\in Pos}\sum_{m\in\{cx,cy,w,h\}}x^k_{ij}smooth_{L1}(l^m_i-\hat{g}^m_j)\\
+\hat{g}^{cx}_j=(g^{cx}_{j}-d^{cx}_i)/d^w_i;\,\hat{g}^{cy}_j=(g^{cy}_{j}-d^{cy}_i)/d^h_i;\,\hat{g}^w_j=\log\Big(\frac{g^w_j}{d^w_i}\Big);\,\hat{g}^h_j=\log\Big(\frac{g^h_j}{d^h_i}\Big)</script><p>分类损失是多类置信度 (c) 上的 softmax 损失。 权重项α通过交叉验证设置为1。 </p>
+<script type="math/tex; mode=display">
+L_{conf}(x,c)=-\sum^{N}_{i\in Pos}x^p_{ij}log(\hat{c}^p_i)-\sum_{i\in Neg}log(\hat{c}^0_i)\,\,where\,\, \hat{c}^p_i=\frac{exp(c^p_i)}{\sum_{p}exp(c^p_i)}\\
+x^p_{ij}=\{0,1\}表示第i个默认框(anchor)与第j个ground\,\,truth的类别p是否匹配\\
+上面,log(\hat{c}^0_i)=x_{ij}^0\times;log(\hat{c}^0_i)，第0类为背景类，所以x_{ij}^0=1,其余x_{ij}^{p\ne0}=0,每个anchor都对应c+1类</script><p>L<sub>conf</sub>是前景的分类loss和背景的分类loss的和。L<sub>loc</sub>(x, l, g)是所有用于前景分类的anchor的位置坐标的回归loss。</p>
+<h5 id="2-3-Choosing-scales-and-aspect-ratios-for-default-boxes"><a href="#2-3-Choosing-scales-and-aspect-ratios-for-default-boxes" class="headerlink" title="2.3 Choosing scales and aspect ratios for default boxes"></a>2.3 Choosing scales and aspect ratios for default boxes</h5><p>已知网络内不同层的特征图具有不同的（经验）感受野大小。 在 SSD 框架内，默认框不需要对应每一层的实际感受野。 因为设计了默认框的平铺，以便特定的特征图学会对目标的特定比例做出响应。 假设要使用第 m 个特征图进行预测。 每个特征图的默认框的比例计算如下： </p>
+<script type="math/tex; mode=display">
+s_k=s_{min}+\frac{s_{max}-s_{min}}{m-1}(k-1),\,\,k\in[1,m]\\
+s_{min}=0.2,s_{max}=0.9,这意味着最低层的尺度为 0.2，最高层的尺度为 0.9，并且中间的所有层都是规则间隔的。\\
+default\,\,boxes有不同的纵横比，a_r\in\{1,2,3,\frac{1}{2},\frac{1}{3}\},default\,\,box的宽、高使用w^a_k=s_k\sqrt{a_r}，h^a_k=s_k/\sqrt{a_r}计算得到\\
+每个default\,\,box的中心设置为\Big(\frac{i+\,0.5}{|f_k|},\frac{j+\,0.5}{|f_k|}\Big),f_k是第k个正方形的feature \,\,map的大小</script><p>SSD从Conv4_3开始，共提取6个特征图(m=6)，因为Conv4_3是单独设置的，所以上面的线性递增规则需要m-1。s<sub>k</sub>表示先验框大小相对于输入图片的比例。</p>
+<p>SSD按照如下规则生成prior box：</p>
+<ul>
+<li>以feature map上每个点的中点为中心，生成一些列同心的prior box</li>
+<li>正方形prior box最小边长为和最大边长为min_size=s<sub>k</sub>，max_size=s<sub>k+1</sub></li>
+<li>根据不同的ratio，可以得到不同的长方形anchor</li>
+</ul>
+<script type="math/tex; mode=display">
+width = \sqrt{ratio}\,\,\ast min\_size; height = 1/\sqrt{ratio}\,\,\ast min\_size</script><p><img src="/SSD-Dector/SSD-4.png" alt="SSD"></p>
+<p>默认情况下，每个默认情况下，每个特征图会有一个 <script type="math/tex">a_r= 1</script> 且尺度为 <script type="math/tex">s_k</script>  的先验框，除此之外，还会设置一个尺度为 <script type="math/tex">s_k'=\sqrt{s_ks_{k+1}}</script> 且  <script type="math/tex">a_r= 1</script> 的先验框，这样每个特征图都设置了两个长宽比为1但大小不同的正方形先验框。</p>
+<h5 id="2-4-Hard-negative-mining"><a href="#2-4-Hard-negative-mining" class="headerlink" title="2.4 Hard negative mining"></a>2.4 Hard negative mining</h5><p>一般情况下negative default boxes数量&gt;&gt;positive default boxes数量，直接训练会导致网络过于重视负样本，从而loss不稳定。所以需要采取：</p>
+<ul>
+<li>所以SSD在训练时会依据confidience score排序default box，挑选其中confidence高的box进行训练，控制 positive : negative = 1 : 3</li>
+</ul>
+<h5 id="2-5-SSD的数据流"><a href="#2-5-SSD的数据流" class="headerlink" title="2.5 SSD的数据流"></a>2.5 SSD的数据流</h5><p><img src="/SSD-Dector/SSD-5.jpg" alt="SSD"></p>
+<p>多尺度feature maps和Prior Box如何组合在一起进行forwards/backwards。需要用到Permute，Flatten和Concat这3种层。上图以conv4_3和fc7为例分析SSD是如何将不同size的feature map组合在一起进行prediction。那么为何要在softmax前后都接一个reshape layer？其实只是为了便于softmax分类，至于具体原因这就要从caffe的实现形式说起了。<a href="https://zhuanlan.zhihu.com/p/31427288" target="_blank" rel="noopener">参考博客-白棠</a></p>
+<p><img src="/SSD-Dector/SSD-2.png" alt="SSD"></p>
+<p>上图来自<a href="https://blog.csdn.net/qq_38622495/article/details/82289814" target="_blank" rel="noopener">博客</a></p>
+<p><a href="https://arxiv.org/pdf/1512.02325.pdf" target="_blank" rel="noopener">论文</a></p>
+<p><a href="https://zhuanlan.zhihu.com/p/31427288" target="_blank" rel="noopener">参考博客-1</a></p>
+<p><a href="https://zhuanlan.zhihu.com/p/79854543" target="_blank" rel="noopener">参考博客-2</a></p>
+<p><a href="https://blog.csdn.net/qianqing13579/article/details/82106664" target="_blank" rel="noopener">强推的博客</a></p>
+]]></content>
+      <categories>
+        <category>Deep Learning</category>
+      </categories>
+      <tags>
+        <tag>Deep Learning</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Light-Head-R-CNN</title>
+    <url>/2021/09/12/Light-Head-R-CNN/</url>
+    <content><![CDATA[<h2 id="Light-Head-R-CNN学习笔记"><a href="#Light-Head-R-CNN学习笔记" class="headerlink" title="Light-Head R-CNN学习笔记"></a>Light-Head R-CNN学习笔记</h2><h4 id="一、概述"><a href="#一、概述" class="headerlink" title="一、概述"></a>一、概述</h4><p>首先研究了为什么典型的两阶段方法不如单阶段快速检测器（如 YOLO 系列）那么快。发现 Faster R-CNN和 R-FCN 在 RoI 变形之后或之前执行密集计算。 Faster R-CNN 涉及两个用于 RoI 识别的全连接层，而 R-FCN 产生一个大的分数图。</p>
+<p>因此，由于架构中的heavy head设计，这些网络的速度很慢。 即使，使用更轻量级的backbone，计算成本也不能相应地大幅降低。为此，作者设计了一种thin feature map和一个cheap R-CNN子网络，一边网络的头尽可能的轻。</p>
+<p>最近基于 CNN 的物体检测器可以分为<strong>单级检测器</strong>和<strong>两级检测器</strong>。 单级探测器通常瞄准速度非常快且准确度相当高的最佳位置。 两阶段检测器将任务分为两步：第一步（body）生成许多proposals，第二步（head）专注于对proposals的识别。 通常，为了达到最佳精度，头部的设计很重。 两级检测器具有<strong>（相对）较慢的速度</strong>和<strong>非常高的准确性</strong>。</p>
+<p>在本文中，作者提出了一种轻量设计来构建高效而准确的两级检测器。 应用<strong>大核可分离卷积</strong>来生成具有<strong>小通道数</strong>的“薄”特征图（实验中使用了 α ×p ×p，α ≤10）。 这种设计大大减少了后续 RoI-wise 子网的计算量，并使检测系统内存友好。 一个廉价的单全连接层附加到池化层，它很好地利用了分类和回归的特征表示。 </p>
+<h4 id="二、Light-Head-R-CNN"><a href="#二、Light-Head-R-CNN" class="headerlink" title="二、Light-Head R-CNN"></a>二、Light-Head R-CNN</h4><p>Head是指连接到我们骨干基础网络的结构。 更具体地说，将有两个组件：R-CNN 子网和 ROI warp。</p>
+<h5 id="2-1-R-CNN-subnet"><a href="#2-1-R-CNN-subnet" class="headerlink" title="2.1 R-CNN subnet"></a>2.1 R-CNN subnet</h5><p>Faster R-CNN 采用强大的 R-CNN，它利用两个大的全连接层或整个 Resnet stage 5 作为第二级分类器，这有利于检测性能。然而，计算可能会很密集，尤其是当对象提议的数量很大时。为了加快 RoI-wise 子网的速度，R-FCN 首先为每个区域生成一组得分图，其通道数将为 #classes ×p ×p（p 是随后的池化大小），然后沿着每个 RoI 池化并求平均值 投票最后的预测。</p>
+<p> Light-Head R-CNN 中，作者建议 <code>R-CNN</code> 子网使用一个简单、廉价的全连接层，这在性能和计算速度之间进行了很好的权衡。</p>
+<p><img src="/Light-Head-R-CNN/Light-Head-R-CNN.png" alt="Light-Head-R-CNN"></p>
+<h5 id="2-2-Thin-feature-maps-for-RoI-warping"><a href="#2-2-Thin-feature-maps-for-RoI-warping" class="headerlink" title="2.2 Thin feature maps for RoI warping"></a>2.2 Thin feature maps for RoI warping</h5><p>在将提案输入 R-CNN 子网之前，涉及 RoI 变形以使特征图的形状固定。 在实验中，作者发现薄特征图上的 RoI 变形不仅可以提高准确性，而且可以在训练和推理过程中节省内存和计算量。在薄特征图上的使用PSRoI 池化，可以带来更多的计算来加强 R-CNN 并减少通道。</p>
+<h4 id="三、Light-Head-R-CNN-for-Object-Detection"><a href="#三、Light-Head-R-CNN-for-Object-Detection" class="headerlink" title="三、Light-Head R-CNN for Object Detection"></a>三、Light-Head R-CNN for Object Detection</h4><ul>
+<li>设置“L”以验证算法与大型骨干网络集成时的性能，大型网络采用ResNet101去提取Basic feature；</li>
+<li>设置“S”以验证算法在使用小型主干网络时的有效性和效率,小型网络采用类Xception。</li>
+</ul>
+<h5 id="3-1-Thin-feature-maps"><a href="#3-1-Thin-feature-maps" class="headerlink" title="3.1 Thin feature maps"></a>3.1 Thin feature maps</h5><p>在C<sub>5</sub>上采用大的可分离卷积层，结构如下图所示(图像来源于<a href="https://arxiv.org/pdf/1711.07264.pdf" target="_blank" rel="noopener">论文</a>)：</p>
+<p><img src="/Light-Head-R-CNN/Light-Head-R-CNN-1.png" alt="Light-Head-R-CNN"></p>
+<p>设置k=15，在S型模型中，设置C<sub>mid</sub>=64，在L型模型中，设置C<sub>mid</sub>=256。减少C<sub>out</sub>=10&times;p&times;p。受益于大内核带来的更大的有效感受野，汇集的特征图更强大。 </p>
+<h5 id="3-2-R-CNN-subnet"><a href="#3-2-R-CNN-subnet" class="headerlink" title="3.2 R-CNN subnet"></a>3.2 R-CNN subnet</h5><p>仅仅使用了2048通道的单个全连接层，没有dropout。然后是两个兄弟全连接层来预测 RoI 分类和回归。因为共享不同类别之间的回归，每个边界框位置仅应用 4 个通道。</p>
+<p>这篇文章的主要内容总结：借鉴R-FCN中的思想， 在Position Sensitive maps那块将每个map对应的类别数由81个channal，固定成10个channl，所以显著的降低了输出的通道数，由(C+1)K<sup>2</sup>变成了10K<sup>2</sup>。那么丢失了类别判断的信息，所以在最后增加了一层全连接层用于类别判断。那么这样其实损失了很多信息，为了提升算法的精度，作者在共享卷积后，使用大核可分离卷积获取更大的感受野，以提升检测的性能。</p>
+]]></content>
+      <categories>
+        <category>Deep Learning</category>
+      </categories>
+      <tags>
+        <tag>Deep Learning</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Detector-Net</title>
+    <url>/2021/09/12/Detector-Net/</url>
+    <content><![CDATA[<h2 id="Detector-Net-学习笔记"><a href="#Detector-Net-学习笔记" class="headerlink" title="Detector-Net(学习笔记)"></a>Detector-Net(学习笔记)</h2><h4 id="一、概述"><a href="#一、概述" class="headerlink" title="一、概述"></a>一、概述</h4><p>该方法提出了一个简单而强大的对象检测公式，作为对象边界框掩码的回归问题。 并且定义了一个多尺度推理过程，它能够通过一些网络应用程序以低成本产生高分辨率的目标检测。</p>
+<p>作者制定了一个基于 <code>DNN</code> 的回归，它输出对象边界框的二进制掩码(以及边界框)，如图 1 所示。此外，他们采用简单的边界框推理从掩码中提取检测。 为了提高定位精度，在完整图像和少量大图像裁剪上以多尺度方式应用 DNN 掩码生成，然后进行细化步骤，如图2所示。 </p>
+<p><img src="/Detector-Net/Detector-Net.png" alt="Detector-Net"></p>
+<p>作者通过实验证明了基于 <code>DNN</code> 的回归能够学习不仅有利于分类的特征，而且还能够捕获强大的几何信息。在实验中使用AlexNet作为Backbone，并用回归层替换掉最后一层。其次，作者引入了多尺度框推理，然后是细化步骤以产生精确的检测。通过这种方式，该 DNN 可以预测受输出层大小限制的低分辨率掩码。</p>
+<h4 id="二、Detection-as-DNN-Regression"><a href="#二、Detection-as-DNN-Regression" class="headerlink" title="二、Detection as DNN Regression"></a>二、Detection as DNN Regression</h4><p>首先，作者还是使用AlexNet作为Backbone，沿用了其中的网络架构，只不过将最后一层softmax分类器换成了回归层用于生成目标的二进制掩膜。DNN(x; Θ) ∈ R<sup>N</sup> ，其中 Θ 是网络参数，N 是输出层像素总数。 由于网络的输出具有固定的维度，网络预测了一个固定大小 N = d ×d 的掩码。 在调整到图像大小后，生成的二进制掩码代表一个或多个对象：如果该像素位于给定类的对象的边界框内，则它在特定像素处的值应为 1，否则为 0。 </p>
+<p>通过最小化 L<sub>2</sub> 误差来训练网络，以预测图像 x 的真实掩码 m ∈ [0,1]<sup>N</sup>： </p>
+<script type="math/tex; mode=display">
+\min_{\Theta}\sum_{(x,m)\in D}||(Diag(m)+\lambda I)^{1/2}(DNN(x;\Theta)-m)||^2_2</script><p>其中总和范围在包含边界框目标的图像的训练集 D 上，这些目标表示为二进制掩码。 由于使用的基础网络是高度<strong>非凸</strong>的并且无法保证最优性，因此有时需要根据ground truth掩码对每个输出使用不同的权重来正则化损失函数。 </p>
+<p>直觉是，大多数目标相对于图像大小来说很小，并且网络很容易被为每个输出分配零值的简单解决方案所困(容易陷入局部极小值)。 为了避免这种不良行为，通过参数 λ ∈ R<sup>+</sup>增加与真实掩码中的非零值对应的输出的权重是有帮助的。如果 λ 选择的小，那么真实值为 0 的输出上的错误受到的惩罚明显小于 1 的错误，因此即使信号很弱，也鼓励网络预测非零值。 </p>
+<p>在实验中，作者使用了感受野为 225 × 225 的网络，并输出预测大小为 d × d 的掩码（d = 24）。 </p>
+<h4 id="三、存在的问题"><a href="#三、存在的问题" class="headerlink" title="三、存在的问题"></a>三、存在的问题</h4><ul>
+<li>单个对象掩码可能不足以消除彼此相邻放置的对象的歧义(就是有接触或者距离较小的目标没法分开)</li>
+<li>生成的掩码远小于原始图像的大小，不足以精确定位对象，尤其是在目标很小的情况下。例如：文中举例：对于大小为 400 × 400 且 d = 24 的图像，每个输出将对应于大小为 16 × 16 的单元格。</li>
+</ul>
+<h5 id="3-1-Multiple-Masks-for-Robust-Localization"><a href="#3-1-Multiple-Masks-for-Robust-Localization" class="headerlink" title="3.1 Multiple Masks for Robust Localization"></a>3.1 Multiple Masks for Robust Localization</h5><p>为了处理多个触摸着的目标，作者生成的不是一个而是多个掩码，每个掩码代表整个目标或部分目标。由于最终目标是生成一个边界框，作者使用一个网络来预测目标框掩码，并使用四个额外的网络来预测框的四半：下半部、上半部、左半部和右半部。均用 m<sup>h</sup> 表示，h ∈ { 完整，底部，顶部，左侧，左侧}。此外，如果相同类型的两个对象彼此相邻放置，则所产生的五个掩码中的至少两个将不会合并目标，这将允许消除它们的歧义。 这将能够检测多个目标。</p>
+<p>在训练时，需要将目标框转换为这五个掩码。 由于掩码可能比原始图像小得多，需要将ground truth掩码缩小到网络输出的大小。网络输出d&times;d中的(i，j)对应每一个T(i，j)。每一个矩形的左上角坐标为：</p>
+<script type="math/tex; mode=display">
+\Big(\frac{d_1}{d}(i-1),\frac{d_2}{d}(j-1)\Big),矩形的大小为\frac{d_1}{d}\times\frac{d_2}{d}，i\in(0,\frac{d_1}{d}-1),j\in(0,\frac{d_2}{d}-1)</script><p>其中，d是输出mask的size，d<sub>1</sub>和d<sub>2</sub>是原始图像的height和width。训练时指定m<sup>h</sup>(i，j)作为真实框bb覆盖T(i,j)的预测值，为：</p>
+<script type="math/tex; mode=display">
+m^h(i,j;bb)=\frac{area(bb(h)\cap T(i,j))}{area(T(i,j))}</script><p>其中 bb(full) 对应于ground truth目标框。 对于值h，bb(h) 对应于ground truth框的四半。 </p>
+<p>请注意，论文中使用完整的目标框以及框的上半部、下半部、左半部和右半部来定义总共五种不同的覆盖类型。 ground truth框 bb 的结果 m<sup>h</sup>(bb) 在训练时用于类型 h 的网络。 </p>
+<h5 id="3-2-Object-Localization-from-DNN-Output"><a href="#3-2-Object-Localization-from-DNN-Output" class="headerlink" title="3.2 Object Localization from DNN Output"></a>3.2 Object Localization from DNN Output</h5><p>为了完成检测过程，需要为每个图像估计一组边界框。 尽管输出分辨率小于输入图像，但可以将二进制掩码重新缩放为输入图像的分辨率。 目标是估计边界框 bb = (i,j,k,l) 在输出掩码坐标中由其左上角 (i,j) 和右下角 (k,l) 的坐标。</p>
+<p>为此，使用分数 S 表示每个边界框 bb 与掩码的一致性，并推断得分最高的框。 一个自然的想法是测量边界框的哪一部分被预测的mask覆盖：</p>
+<script type="math/tex; mode=display">
+S(bb,m)=\frac{1}{area(bb)}\sum_{(i,j)}m(i,j)area(bb\cap T(i,j))</script><p> 对由 (i,j) 索引的所有网络输出求和，并用 m = DNN(x) 表示输出 的网络。 如果将上述分数扩展到所有五种掩码类型，则最终分数为： </p>
+<script type="math/tex; mode=display">
+S(bb)=\sum_{h\in halves}(S(bb(h),m^h)-S(bb(\bar{h}),m^h)),\bar{h}是h相反的另一半，这里是为了指出每个部分尽量只负责其对应的一块</script><p>其中，halves={full,botton,top,left,right}索引完整的框及其四半。</p>
+<h5 id="3-3-Multi-scale-Refinement-of-DNN-Localizer"><a href="#3-3-Multi-scale-Refinement-of-DNN-Localizer" class="headerlink" title="3.3 Multi-scale Refinement of DNN Localizer"></a>3.3 Multi-scale Refinement of DNN Localizer</h5><p>网络输出分辨率不足的问题通过两种方式解决：</p>
+<ol>
+<li>在多个尺度和几个大子窗口上应用 DNN 定位器； </li>
+<li>通过在顶部推断的边界框上应用 DNN 定位器来改进检测。</li>
+</ol>
+<p><img src="/Detector-Net/Detector-Net-1.png" alt="DL"></p>
+]]></content>
+      <categories>
+        <category>Deep Learning</category>
+      </categories>
+      <tags>
+        <tag>Deep Learning</tag>
+      </tags>
   </entry>
   <entry>
     <title>Model-Acceleration-tools</title>
@@ -1969,6 +3047,11 @@ B=&Y+(Cb-128)\cdot1.7718\end{align}</script><figure class="highlight python"><ta
   </entry>
   <entry>
     <title>Cloud-Paas-Learn</title>
+    <url>/2021/07/25/Cloud-Paas-Learn/</url>
+    <content><![CDATA[]]></content>
+  </entry>
+  <entry>
+    <title>Cloud-Paas-Learn</title>
     <url>/2021/07/25/Cloud-PaaS-Learn/</url>
     <content><![CDATA[<h2 id="云计算Paas学习"><a href="#云计算Paas学习" class="headerlink" title="云计算Paas学习"></a>云计算Paas学习</h2><h4 id="一、如何使用postman进行登录"><a href="#一、如何使用postman进行登录" class="headerlink" title="一、如何使用postman进行登录"></a>一、如何使用postman进行登录</h4><ol>
 <li>找到登录的<strong>login-processing-url</strong>：/api/v1/auth/login/verify。</li>
@@ -2025,11 +3108,6 @@ B=&Y+(Cb-128)\cdot1.7718\end{align}</script><figure class="highlight python"><ta
       <tags>
         <tag>Cloud Compute</tag>
       </tags>
-  </entry>
-  <entry>
-    <title>Cloud-Paas-Learn</title>
-    <url>/2021/07/25/Cloud-Paas-Learn/</url>
-    <content><![CDATA[]]></content>
   </entry>
   <entry>
     <title>Image-Process-Pattern-Recognition</title>

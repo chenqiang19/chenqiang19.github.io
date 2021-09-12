@@ -1,0 +1,694 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    hostname: new URL('http://yoursite.com').hostname,
+    root: '/',
+    scheme: 'Mist',
+    version: '7.5.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    sidebarPadding: 40
+  };
+</script>
+
+  <meta name="description" content="目标检测的简单综述下面是对目标检测综述性论文的总结学习笔记 Deep Learning for Generic Object Detection: A Survey 论文链接 一、概述目标检测的目标是确定在某个给定图像中是否存在来自给定类别（例如人类、汽车、自行车、狗和猫）的任何对象实例，如果存在，则返回每个对象实例的空间位置和范围。在通用的目标检测中，它更加强调检测范围广泛的自然类别，而不是特定">
+<meta name="keywords" content="Deep Learning">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Object-Detection-Survey">
+<meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2021&#x2F;09&#x2F;12&#x2F;Object-Detection-Survey&#x2F;index.html">
+<meta property="og:site_name" content="编辑尼撑">
+<meta property="og:description" content="目标检测的简单综述下面是对目标检测综述性论文的总结学习笔记 Deep Learning for Generic Object Detection: A Survey 论文链接 一、概述目标检测的目标是确定在某个给定图像中是否存在来自给定类别（例如人类、汽车、自行车、狗和猫）的任何对象实例，如果存在，则返回每个对象实例的空间位置和范围。在通用的目标检测中，它更加强调检测范围广泛的自然类别，而不是特定">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;Object-Detection-Survey&#x2F;rcnn.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;Object-Detection-Survey&#x2F;sppnet.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;Object-Detection-Survey&#x2F;Detect-0.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;Object-Detection-Survey&#x2F;Detector-1.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;Object-Detection-Survey&#x2F;Detector-2.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;Object-Detection-Survey&#x2F;Detector-3.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;Object-Detection-Survey&#x2F;Detector-4.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;Object-Detection-Survey&#x2F;Detector-5.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;Object-Detection-Survey&#x2F;Detector-6.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;Object-Detection-Survey&#x2F;Detector-7.png">
+<meta property="og:updated_time" content="2021-09-12T08:35:37.962Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;Object-Detection-Survey&#x2F;rcnn.png">
+
+<link rel="canonical" href="http://yoursite.com/2021/09/12/Object-Detection-Survey/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>Object-Detection-Survey | 编辑尼撑</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="编辑尼撑" type="application/atom+xml"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">编辑尼撑</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">学无止境</p>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-schedule">
+
+    <a href="/schedule/" rel="section"><i class="fa fa-fw fa-calendar"></i>日程表</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="搜索..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/09/12/Object-Detection-Survey/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Qiang Chen">
+      <meta itemprop="description" content="记录是忘记的第一助手.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="编辑尼撑">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Object-Detection-Survey
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2021-09-12 16:33:52 / 修改时间：16:35:37" itemprop="dateCreated datePublished" datetime="2021-09-12T16:33:52+08:00">2021-09-12</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Deep-Learning/" itemprop="url" rel="index">
+                    <span itemprop="name">Deep Learning</span>
+                  </a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="目标检测的简单综述"><a href="#目标检测的简单综述" class="headerlink" title="目标检测的简单综述"></a>目标检测的简单综述</h2><p>下面是对目标检测综述性论文的总结学习笔记</p>
+<p>Deep Learning for Generic Object Detection: A Survey <a href="https://arxiv.org/pdf/1809.02165v1.pdf" target="_blank" rel="noopener">论文链接</a></p>
+<h4 id="一、概述"><a href="#一、概述" class="headerlink" title="一、概述"></a>一、概述</h4><p><strong>目标检测</strong>的目标是<strong>确定在某个给定图像中是否存在来自给定类别</strong>（例如人类、汽车、自行车、狗和猫）的任何对象实例，<strong>如果存在，则返回每个对象实例的空间位置和范围。</strong>在<strong>通用的目标检测</strong>中，它更加强调<strong>检测范围广泛的自然类别</strong>，而不是特定对象类别检测，在特定对象类别检测中，可能只存在较窄的预定义的感兴趣类别（例如，人脸、行人或汽车）。 尽管在我们生活的视觉世界中占据着数以千计的物体，但目前研究界主要对<strong>高度结构化物体</strong>（例如汽车、人脸、自行车和飞机）和<strong>铰接物体</strong>（例如人类、奶牛和 马）而不是<strong>非结构化的场景</strong>（如天空、草和云）。</p>
+<p><strong>复杂场景的发展：</strong>图像级对象分类-&gt;单个对象定位-&gt;通用对象检测-&gt;像素级对象分割。</p>
+<h4 id="1、面对的挑战："><a href="#1、面对的挑战：" class="headerlink" title="1、面对的挑战："></a>1、<strong>面对的挑战：</strong></h4><ul>
+<li><p><strong>高准确性</strong>：必须准确定位和识别图像或视频帧中的对象，以便可以区分现实世界中种类繁多的对象类别。</p>
+<ul>
+<li><p>大量的类内变化</p>
+<ul>
+<li>内在因素：每个对象类别可以有许多不同的对象实例，可能在颜色、纹理、材料、形状和大小中的一个或多个方面有所不同。</li>
+<li>成像条件：由成像条件的变化和不受约束的环境引起。不同的时间、地点、天气条件、相机、背景、照明、视点和观看距离。 所有这些条件都会产生物体外观的显着变化，例如照明、姿势、比例、遮挡、背景杂乱、阴影、模糊和运动。此外， 数字化伪影、噪声破坏、分辨率差和滤波失真可能会增加进一步的挑战。 </li>
+</ul>
+</li>
+<li><p>大量的对象类别 </p>
+<p>数量级为 10<sup>4</sup>-10<sup>5</sup> 的大量对象类别需要检测器的强大辨别能力来区分细微不同的类间变化。</p>
+</li>
+</ul>
+</li>
+<li><p><strong>高效率</strong>：要求整个检测任务以足够高的帧率运行，并具有可接受的内存和存储使用率。</p>
+<ul>
+<li>图像数量呈指数级增长，需要高效且可扩展的检测器。 社交媒体网络和移动/可穿戴设备的流行导致对视觉数据分析的需求不断增加。 然而，移动/可穿戴设备的计算能力和存储空间有限，在这种情况下，高效的物体检测器至关重要。 </li>
+<li>可扩展性：检测器应该能够处理看不见的物体、未知的情况和快速增加的图像数据。随着图像数量和类别数量越来越大，手动注释它们可能变得不可能，迫使算法更多地依赖弱监督训练数据。</li>
+</ul>
+</li>
+</ul>
+<h4 id="2、发展历程"><a href="#2、发展历程" class="headerlink" title="2、发展历程"></a>2、<strong>发展历程</strong></h4><ol>
+<li>对象识别的早期研究基于<strong>模板匹配技术</strong>和<strong>基于简单部件的模型</strong>，重点关注<strong>空间布局大致刚性的特定对象</strong>，例如人脸。 1990 年之前，对象识别的主要范式是<strong>基于几何表示</strong>，后来重点从<strong>几何和先验模型</strong>转向使用基于<strong>外观特征的统计分类器</strong>（例如神经网络、SVM  和 Adaboost )  。这个成功的目标检测器系列为该领域的大多数后续研究奠定了基础。</li>
+<li>在 1990 年代末和 2000 年代初，目标检测研究取得了显着进展。其中最重要的两个算法是SIFT和DCNN。<strong>外观特征</strong>从<strong>全局</strong>表示<strong>转移到局部</strong>表示，这些表示对于平移、缩放、旋转、照明、视点和遮挡的变化是不变的。从尺度不变特征变换 (SIFT) 特征开始，<strong>手工制作的局部不变特征获得了极大的欢迎</strong>，各种视觉识别任务的进展主要基于<strong>局部描述符</strong>的使用，例如 Haar like特征，SIFT，Shape Context，梯度直方图(HOG)和局部二元模式(LBP)，协方差。这些局部特征通常通过简单的<strong>串联或特征池</strong>编码器聚合。</li>
+<li>直到 2012 年的重大转折点，<strong>深度卷积神经网络</strong> (DCNN) 在图像分类中的成功应用转移到对象检测，从而产生了 Girshicketal 的里程碑式<strong>基于区域</strong>的 CNN (RCNN) 检测器。从那时起，对象检测领域发生了巨大的发展，并且开发了许多基于深度学习的方法，这在一定程度上要归功于<strong>可用的GPU计算资源</strong>以及<strong>大规模数据集</strong>的可用性和挑战。</li>
+</ol>
+<h4 id="3、检测器的分类"><a href="#3、检测器的分类" class="headerlink" title="3、检测器的分类"></a>3、<strong>检测器的分类</strong></h4><ul>
+<li><p>两阶段检测框架，其中包括区域提议的预处理步骤，使整个管道成为两阶段。 </p>
+<p>在基于区域的框架中，从图像中<strong>生成与类别无关的区域提议</strong>，从这些区域中提取CNN特征，然后使用<strong>特定类别的分类器来确定提议的类别标签</strong>。 </p>
+</li>
+<li><p>单阶段检测框架，或无区域提议框架，这是一种不分离检测提议的单一提议方法，使整个管道成为单个阶段。 </p>
+</li>
+</ul>
+<h4 id="4、部分两阶段检测器框架"><a href="#4、部分两阶段检测器框架" class="headerlink" title="4、部分两阶段检测器框架"></a>4、部分两阶段检测器框架</h4><p><strong>RCNN：</strong></p>
+<ul>
+<li>类别不可知的<strong>区域提议(region proposals)</strong>，即可能包含对象的候选区域，通过<strong>selective search</strong>获得； </li>
+<li>从图像中<strong>裁剪(crop)</strong>并<strong>变形(warp)</strong>区域提议为适合网络输入的尺寸，用作<strong>微调</strong>使用大规模数据集(如 ImageNet)<strong>预训练的CNN模型</strong>的<strong>输入</strong>；</li>
+<li>使用CNN提取的<strong>固定长度特征</strong>训练一组<strong>特定于类的线性SVM分类器</strong>，<strong>取代</strong>通过<strong>微调学习的soft-max分类器</strong>；</li>
+<li>使用CNN特征为每个对象类学习边界框回归。 </li>
+</ul>
+<p>下面为整个RCNN的训练和测试过程，不同的箭头代表了不同的阶段。</p>
+<p><img src="/Object-Detection-Survey/rcnn.png" alt="Object-Detection"></p>
+<p><strong>缺点：</strong></p>
+<ul>
+<li>训练是一个多阶段的复杂管道，它不优雅、缓慢且难以优化，因为每个阶段都必须单独训练。 </li>
+<li>需要从外部检测大量仅提供粗略定位的区域建议。 </li>
+<li>训练 SVM 分类器和边界框回归在磁盘空间和时间上都是昂贵的，因为 CNN 特征是从每个图像的每个区域提议中独立提取的，这对大规模检测提出了巨大挑战，特别是非常深的 CNN 网络。 </li>
+<li>测试很慢，因为每个测试图像中的每个对象建议都提取了 CNN 特征。 </li>
+</ul>
+<p><strong>SPPNet：</strong>在测试期间，CNN 特征提取是 RCNN 检测管道的主要瓶颈，它需要从图像的数千个warped<strong>区域建议</strong>中提取CNN特征。注意到这些明显的缺点，Heet al.将传统的空间金字塔池化 (SPP) 引入CNN架构。由于卷积层接受任意大小的输入，因此 <strong>CNN 中对固定大小图像的要求仅是由于全连接 (FC) 层</strong>，Heet al.发现了这一事实并在<strong>最后一个卷积</strong> (CONV) 之上添加了一个 <strong>SPP 层</strong>获得FC层的固定长度特征。使用这个 SPPnet，RCNN 在不牺牲任何检测质量的情况下获得了显着的加速，因为它只需要在整个测试图像上运行一次卷积层即可为任意大小的区域提议生成固定长度的特征。<strong>虽然</strong> SPPnet 将 RCNN 评估加速了几个数量级，但它并没有导致<strong>检测器训练</strong>被加速。此外，SPPnet中的微调无法在 SPP 层之前更新卷积层，这限制了非常深网络的准确性。 </p>
+<p>SPPNet为了解决任意尺度图像进行训练得问题引入了<code>spatial pyramid pooling layer</code>，如下图：</p>
+<p><img src="/Object-Detection-Survey/sppnet.png" alt="SPPNet"></p>
+<p>在最后的卷积层和全连接层之间加入SPP层。具体做法是，在conv5层得到的特征图是256层，每层都做一次spatial pyramid pooling。先把每个特征图分割成多个不同尺寸的网格，比如网格分别为4x4、2x2、1x1,然后每个网格做max  pooling，这样256层特征图就形成了16x256，4x256，1x256维特征，他们连起来就形成了一个固定长度的特征向量，将这个向量输入到后面的全连接层。</p>
+<p><strong>那么网络如何训练呢？</strong></p>
+<p>多阶段多尺寸训练方法，<strong>具体对SPPNet网络得介绍单独写一份学习笔记</strong></p>
+<p><strong>Fast RCNN：</strong>Girshick 提出了 Fast RCNN，它解决了 RCNN 和 SPPnet 的一些缺点，同时提高了它们的<strong>检测速度和质量</strong>。<strong>Fast RCNN 通过开发流线型训练过程，使用多任务损失，同时学习 softmax 分类器和特定类别的边界框回归，从而实现端到端检测器训练</strong>（当忽略区域提议生成过程时，完全end-to-end），而不是像在 RCNN/SPPnet 中那样在三个不同的阶段训练 softmax 分类器、SVM 和 BBR。 Fast RCNN采用了<strong>跨区域proposal共享卷积计算</strong>的思想，在最后一个CONV层和第一个FC层之间增加了一个<strong>Region of Interest (RoI)池化层</strong>，为每个region proposal提取一个固定长度的特征（即RoI）。本质上，RoI pooling 使用特征级别的变形来近似图像级别的变形。 RoI 池化层之后的特征被送入一系列 FC 层，最终分支到<strong>两个兄弟输出层</strong>：用于<strong>对象类别预测的 softmax 概率</strong>和用于<strong>建议细化的特定于类的边界框回归偏移</strong>。与 RCNN/SPPnet 相比，Fast RCNN 显着提高了效率——通常<strong>训练速度快 3 倍</strong>，<strong>测试速度快 10 倍</strong>。总之，Fast RCNN 具有较高的检测质量、更新所有网络层的单阶段训练过程以及特征缓存不需要存储等吸引人的优势。 </p>
+<p><strong>Faster RCNN：</strong>尽管 Fast RCNN 显着加快了检测过程，但它仍然依赖于外部区域提议。 区域提议计算被暴露为 Fast RCNN 中的新瓶颈。 最近的工作表明，CNN 具有在 CONV 层中定位对象的卓越能力，这种能力在 FC 层中被弱化。 因此，在产生区域建议时，CNN 可以代替选择性搜索。 Faster RCNN框架中提出了一种高效准确的区域提议网络（RPN）来生成区域提议。 他们利用单个网络来完成<strong>区域提议的 RPN</strong> 和<strong>区域分类的 Fast RCNN</strong> 任务。 在 Faster RCNN 中，RPN 和 fast RCNN 共享大量卷积层。 来自最后一个共享卷积层的特征被用于不同的分支来实现区域提议和区域分类。 </p>
+<p>RPN 首先在每个 CONV 特征图位置初始化 k n × n 个不同尺度和纵横比的参考框（即所谓的锚点）。 每个 n × n 锚点映射到一个较低维度的向量（例如，ZF 为 256，VGG 为 512），该向量被输入到两个兄弟 FC 层—一个对象类别分类层和一个框回归层。 与 Fast RCNN 不同，RPN 中用于回归的特征具有相同的大小。 RPN 与 Fast RCNN 共享 CONV 特征，从而实现高效的区域提议计算。 RPN 实际上是一种全卷积网络 (FCN)； 因此，Faster RCNN 是一个纯粹基于 CNN 的框架，不使用手工制作的特征。 对于非常深的 VGG16 模型。</p>
+<p><strong>R-FCN</strong>：通过使用一组专门的 CONV 层作为 FCN 输出构建了一组位置敏感的分数图，在其顶部添加了一个位置敏感的 RoI 池化层，实现了几乎所有的计算都在整个图像上共享，提升了训练速度和检测精度。</p>
+<p><strong>Mask RCNN</strong>，通过扩展 Faster RCNN 来解决像素级对象实例分割问题。 Mask RCNN 采用相同的两阶段流水线，具有相同的第一阶段 (RPN)。 在第二阶段，在预测类别和框偏移的同时，Mask RCNN 添加了一个分支，为每个 RoI 输出一个二进制掩码。 新分支是在 CNN 特征图之上的全卷积网络 (FCN) 。 为了避免原始 RoI 池化 (RoIPool) 层造成的错位，提出了一个 RoIAlign 层来保留像素级空间对应关系。</p>
+<h4 id="5、统一的Pipeline-一阶段目标检测器"><a href="#5、统一的Pipeline-一阶段目标检测器" class="headerlink" title="5、统一的Pipeline(一阶段目标检测器)"></a>5、统一的Pipeline(一阶段目标检测器)</h4><p>统一管道是使用单个前馈 CNN 网络直接从完整图像预测类概率和边界框偏移的架构，不涉及区域提议生成或后分类。因此可以直接在检测性能上进行端到端的优化。</p>
+<p><strong>YOLO:</strong> 一种统一的检测器，将目标检测作为从图像像素到空间分离的边界框和相关类概率的回归问题。在YOLO中放弃了区域提议阶段，直接使用子小组候选区域来预测待检测的目标。由于 YOLO 在进行预测时会看到整个图像，因此它隐式编码了有关对象类别的上下文信息，并且不太可能预测背景中的误报。但由于边界框位置、比例和纵横比的粗划分，YOLO 会产生更多的定位错误。</p>
+<p><strong>SSD:</strong> SSD结合了Faster R-CNN中anchor的思想预先对feature map的每个点产生prior box，其次，采用了多尺度feature maps进行检测的方法，从而实现了快速检测，同时保持较高的检测质量。由于SSD类似于YOLO不需要进行两次分类，剔除了RPN中对anchor的预计，所以也是Single shot类的检测方法。</p>
+<p><img src="/Object-Detection-Survey/Detect-0.png" alt="Detector"></p>
+<h4 id="二、检测过程中的子问题"><a href="#二、检测过程中的子问题" class="headerlink" title="二、检测过程中的子问题"></a>二、检测过程中的子问题</h4><h5 id="2-1-DCNN-bases-Object-Representation-特征表示"><a href="#2-1-DCNN-bases-Object-Representation-特征表示" class="headerlink" title="2.1 DCNN bases Object Representation(特征表示)"></a>2.1 DCNN bases Object Representation(特征表示)</h5><p>作为任何检测器的主要组件之一，良好的特征表示在目标检测中是最重要的。 过去，大量的努力致力于设计局部描述子（例如，SIFT和 HOG）并探索方法（例如，Bag of Words 和 Fisher Vector）来分组并将描述子抽象为更高级别的表示，以允许区分对象部分开始出现(将数据转换到更高的维度，从而简化所需解决的问题，非线性支持向量机中的核函数很好的解释了这一点)，但是这些特征表示方法需要仔细的工程和相当多的领域专业知识。</p>
+<p>相比之下，由多个处理层组成的深度学习方法（尤其是深度 CNN 或 DCNN）可以直接从原始图像中学习具有多层次抽象的强大特征表示。 由于学习过程减少了传统特征工程所需的特定领域知识和复杂过程的依赖性，特征表示的负担已转移到更好的网络架构设计上。 人们普遍认为，CNN 表征起着至关重要的作用，而 CNN 架构是检测器的引擎。 因此，最近在检测精度方面的大部分改进都是通过研究新型网络的发展来实现的。 因此，这里首先回顾通用对象检测中使用的流行 CNN 架构，然后回顾致力于改进对象特征表示的工作，例如开发不变特征以适应对象尺度、姿态、视点、部分变形和执行多尺度的几何变化 分析以改进各种尺度上的对象检测。 </p>
+<h6 id="2-1-1-Popular-CNN-Architecture"><a href="#2-1-1-Popular-CNN-Architecture" class="headerlink" title="2.1.1 Popular CNN Architecture"></a>2.1.1 Popular CNN Architecture</h6><p>简而言之，CNN 具有层次结构，由卷积、非线性、池化等多个层组成。 从更细到更粗的层，图像反复进行滤波卷积，每一层都有感受野（支持区域） 这些过滤器的数量增加。 例如，开创性的 AlexNet有五个卷积层和两个全连接层。 一般来说，第一个 CNN 层提取低级特征（例如边缘），中间层提取复杂性增加的特征，例如低级特征的组合，然后卷积层将对象检测为早期部分的组合。 </p>
+<p>架构演进的趋势是网络越来越深：<code>AlexNet</code> 由 8 层组成，<code>VGGNet 16</code> 层，最近 <code>ResNet</code> 和 <code>DenseNet</code> 都超过了 100 层大关。特别是，它表明增加深度可以提高深度网络的表示能力。 有趣的是，<code>AlexNet</code>、<code>OverFeat</code>、<code>ZFNet</code> 和 <code>VGGNet</code> 等网络具有大量参数，尽管只有几层深，因为大部分参数来自 <code>FC</code> 层。 因此，较新的网络，如 <code>Inception</code>、<code>ResNet</code> 和 <code>DenseNet</code>，虽然具有非常大的网络深度，但由于避免使用 FC 层，因此参数少得多。 </p>
+<p>CNN 的训练需要具有足够标签和类内多样性的大型标记数据集。与图像分类不同，检测需要从图像中定位（可能很多）对象。<code>DeepIDNet</code> 表明使用具有对象级注释（例如 ImageNet 分类和定位数据集）的大规模数据集来预训练深度模型，而不仅仅是图像级注释，可以提高检测性能。然而，收集边界框标签是昂贵的，尤其是对于数十万个类别。一个常见的场景是在带有图像级标签的大型数据集（通常具有大量视觉类别）上对 CNN 进行预训练；然后可以将预训练的 CNN 直接应用于小数据集，作为通用特征提取器，可以支持更广泛的视觉识别任务。对于检测，预训练的网络通常在给定的检测数据集上进行微调。</p>
+<h5 id="2-1-2-Methods-For-Improving-Object-Representation"><a href="#2-1-2-Methods-For-Improving-Object-Representation" class="headerlink" title="2.1.2 Methods For Improving Object Representation"></a>2.1.2 Methods For Improving Object Representation</h5><p>基于深度 CNN 的检测器，例如 RCNN、Fast RCNN、Faster RCNN 和 YOLO，通常使用深度 CNN 架构作为骨干网络，并使用来自顶层的特征 CNN 作为对象表示，但是在大范围内检测对象是一项基本挑战。 解决这个问题的经典策略是在多个缩放的输入图像（例如，图像金字塔）上运行检测器，这通常会产生更准确的检测，但是推理时间和内存有明显的限制 . 相比之下，CNN 逐层计算其特征层次，特征层次中的子采样层导致固有的多尺度金字塔。 </p>
+<p>这种固有的特征层次会产生不同空间分辨率的特征图，但在结构上存在固有问题。较晚（或更高）的层具有较大的感受野和强语义，并且对诸如此类的变化像物体姿态、光照和部分变形具有鲁棒性，但分辨率低，几何细节丢失。相反，较早（或较低）的层具有较小的感受野和丰富的几何细节，但分辨率较高且对语义不太敏感。直观上，对象的语义概念可以出现在不同的层中，这取决于对象的大小。因此，如果目标对象很小，则它在较早的层中需要精细的细节信息，而在较晚的层中很可能会消失，原则上使小对象检测变得非常具有挑战性，为此使用扩张卷积或多孔卷积等技巧提出。另一方面，如果目标对象很大，那么语义概念将出现在更晚的层中。显然，仅使用一层的特征来预测不同尺度的对象并不是最佳选择，因此已经提出了许多方法通过利用多个 CNN 层来提高检测精度，大致分为三种类型多尺度目标检测： </p>
+<ol>
+<li><p><strong>Detecting with combined features of multiple CNN layers</strong></p>
+<p>试图在进行预测之前组合来自多个层的特征。代表性方法包括 <code>Hypercolumns</code> 、<code>HyperNet</code> 和 <code>ION</code> 。这种特征组合通常通过跳跃连接来完成，这是一种经典的神经网络思想，它跳过网络中的某些层并将前一层的输出作为输入提供给后一层，这种架构最近在语义分割中变得流行。组合特征更具描述性，更有利于定位和分类，但增加了计算复杂度。 </p>
+</li>
+</ol>
+<p><img src="/Object-Detection-Survey/Detector-1.png" alt="Detector"></p>
+<ol>
+<li><p><strong>Detecting at multiple CNN layers</strong></p>
+<p>通过平均分割概率将来自多个层的粗到细预测结合起来。 <code>SSD</code> 和 <code>MSCNN</code>、<code>RBFNet</code>  和 <code>DSOD</code> 结合来自多个特征图的预测来处理各种大小的对象。 SSD 将不同尺度的默认框分布到 CNN 中的多个层，并强制每一层专注于预测特定尺度的对象。<code>RFBNet</code>简单地用感受野块 (RFB) 替换了 SSD 的后期卷积层，以增强特征的可辨别性和鲁棒性。 RFB 是一个多分支卷积块，类似于 <code>Inception</code> 块，但将多个分支与不同的内核和卷积层组合在一起。<code>MSCNN</code> 在 CNN 的多个层上应用反卷积以提高特征图分辨率，然后再使用这些层来学习区域提议和池特征。 </p>
+</li>
+<li><p><strong>Combination of the above two methods</strong></p>
+<p>一方面，通过简单地将skip connect特征结合到检测中，如<code>UNet</code>、<code>Hypercolumns</code>、<code>HyperNet</code>和 <code>ION</code>，因为高维超特征表示的效用并没有产生显着的改进。另一方面，从具有大感受野的较晚层检测大目标，并使用具有小感受野的较早层来检测小目标；然而，简单地从较早的层检测对象可能会导致性能低下，因为较早的层拥有较少的语义信息。因此，为了结合两者，最近的一些工作提出了在多层检测目标，并且通过组合来自不同层的特征来获得每个检测层的特征。代表性方法包括<code>SharpMask</code>、<code>Deconvolutional Single Shot Detector</code> 、<code>Feature Pyramid Network</code> 、<code>Top Down Modulation</code>、<code>Reverse connection with Objectness prior Network</code>、<code>ZIP</code>、<code>Scale Transfer Detection Network</code>、<code>RefineDet</code> 和 <code>StairNet</code>。</p>
+</li>
+</ol>
+<p><img src="/Object-Detection-Survey/Detector-2.png" alt="Detector"></p>
+<p><img src="/Object-Detection-Survey/Detector-3.png" alt="Detector"></p>
+<ol>
+<li><p><strong>Model Geometric Transformations</strong></p>
+<p>DCNN 本质上仅限于对重要的几何变换进行建模。为了增强 CNN 表示的鲁棒性，需要学习关于不同类型变换的不变 CNN 表示，例如尺度、旋转等。可变形卷积网络(DCN)设计了一个可变形卷积层和一个可变形 RoI 池化层，这两个层都基于使用附加位置偏移量增加特征图中的常规网格采样位置并通过卷积学习偏移量的思想。</p>
+</li>
+</ol>
+<h5 id="2-2-Context-Modeling-上下文信息挖掘"><a href="#2-2-Context-Modeling-上下文信息挖掘" class="headerlink" title="2.2 Context Modeling(上下文信息挖掘)"></a>2.2 Context Modeling(上下文信息挖掘)</h5><p>人们认识到，适当的上下文建模有助于对象检测和识别，特别是当由于对象尺寸小、遮挡或图像质量差而导致对象外观特征不足时。</p>
+<ol>
+<li>Semantic context: 在某些场景中找到目标但在其他场景中找不到的可能性；</li>
+<li>Spatial context: 相对于场景中的其他物体，在某个位置找到一个物体而不是其他位置的可能性； </li>
+<li>Scale context: 目标相对于场景中的其他对象具有一组有限的大小 。</li>
+</ol>
+<p>目标检测的当前技术水平无需明确利用任何上下文信息即可检测目标。 人们普遍同意，DCNN 隐式地使用上下文信息，因为它们学习具有多个抽象级别的分层表示。 尽管如此，在基于 DCNN 的检测器中明确探索上下文信息仍然有价值，因此以下回顾最近在基于 DCNN 的目标检测器中利用上下文线索的工作，组织成全局和局部上下文的类别。</p>
+<p><strong>Global context:</strong>  指的是图像或场景级别的上下文，可以作为对象检测的线索（例如，卧室将预测床的存在）。 在<code>DeepIDNet</code>中，图像分类分数被用作上下文特征，并与对象检测分数连接以改善检测结果。 <code>ION</code>中建议使用空间循环神经网络 (RNN) 来探索整个图像的上下文信息。 在 <code>SegDeepM</code>中提出了一个 <code>MRF</code>模型，该模型对每次检测的外观和上下文进行评分，并允许每个候选框选择一个片段并对它们之间的一致性进行评分。 在<code>Contextual priming and feedback forFaster RCNN</code>中，语义分割被用作上下文启动的一种形式。 </p>
+<p><strong>Local context:</strong> 考虑目标关系中的局部环境，即目标与其周围区域之间的相互作用。一般来说，建模目标关系具有挑战性，需要对不同类别、位置、尺度等的边界框进行推理。在深度学习时代，明确建模对象关系的研究非常有限，代表性的研究是空间记忆网络<code>SMN</code>、对象关系网络和结构推理网络<code>SIN</code>。还有一些简单方法，通常是通过扩大检测窗口大小来提取某种形式的局部上下文。 代表性方法包括<code>MRCNN</code>、<code>Gated BiDirectional CNN</code> (GBDNet)、<code>Attention to Context CNN</code> (ACCNN) 、<code>CoupleNet</code> 和<code>Pedestrian detection with unsupervised multistage feature learnin</code>。</p>
+<p><img src="/Object-Detection-Survey/Detector-4.png" alt="Detector"></p>
+<h5 id="2-3-Detection-Proposal-Methods-区域提议"><a href="#2-3-Detection-Proposal-Methods-区域提议" class="headerlink" title="2.3 Detection Proposal Methods(区域提议)"></a>2.3 Detection Proposal Methods(区域提议)</h5><p>目标可以位于图像中的任何位置和比例。 在手工特征描述符（例如，SIFT、HOG和LBP）的鼎盛时期，词袋（BoW）和DPM使用了滑动窗口技术。 然而，窗口的数量很大并且随着图像中像素的数量而增长，并且需要在多个尺度和纵横比下进行搜索，从而进一步显着增加了搜索空间。 因此，应用更复杂的分类器在计算上过于昂贵。 </p>
+<p>2011 年左右，研究人员提出通过使用检测建议来缓解计算易处理性和高检测质量之间的紧张关系。 源于<code>What is an object</code>提出的目标性思想，目标提议是图像中可能包含目标的一组候选区域。 检测建议通常用作预处理步骤，以通过限制检测器需要评估的区域数量来降低计算复杂度。 因此，一个好的检测方案应该具备以下特点： </p>
+<ol>
+<li>召回率高，只需要很少的proposal就可以实现； </li>
+<li>提案尽可能准确地匹配对象； </li>
+<li>效率高。 </li>
+</ol>
+<p>在基于传统低级线索（例如，颜色、纹理、边缘和梯度）的目标提议方法中，选择性搜索、<code>MCG</code> 和 <code>EdgeBoxes</code>是比较流行的。 随着该领域的快速发展，传统的对象提议方法（例如选择性搜索）被用作独立于检测器的外部模块，成为检测管道的瓶颈。 一类新兴的使用 <code>DCNN</code>的对象提议算法引起了广泛关注。 </p>
+<p><strong>Bounding Box Proposal Methods:</strong> RPN 通过在最后一个共享 CONV 层的特征图上滑动一个小网络来预测对象建议。 在每个滑动窗口位置，它通过使用 k 个锚框同时预测 k 个提议，其中每个锚框 以图像中的某个位置为中心，并与特定的比例和纵横比相关联。</p>
+<p><img src="/Object-Detection-Survey/Detector-5.png" alt="Detector"></p>
+<p><img src="/Object-Detection-Survey/Detector-6.png" alt="Detector"></p>
+<p><strong>Object Segment Proposal Methods:</strong> 旨在生成可能与目标对应的segment提议。分割建议比边界框建议提供更多信息，并且朝着对象实例分割更进一步，其中<code>DeepMask</code> 是一项开创性工作。此外，<code>SharpMask</code>增强了<code>DeepMask</code>可以有效地将早期特征的空间丰富信息与后期编码的强语义信息相结合，以生成高保真对象掩码。 </p>
+<h4 id="三、评估标准"><a href="#三、评估标准" class="headerlink" title="三、评估标准"></a>三、评估标准</h4><p>评估检测算法性能的三个标准：检测速度（Frames Per Second，FPS）、精度和召回率。 最常用的指标是平均精度 (AP)，源自精度和召回率。 AP通常以特定于类别的方式进行评估，即分别为每个对象类别计算。 在通用对象检测中，通常根据检测多个对象类别来测试检测器。 为了比较所有对象类别的性能，采用所有对象类别的平均 AP (mAP) 作为性能的最终衡量标准。 有关这些指标的更多详细信息。</p>
+<p>应用于测试图像<script type="math/tex">I</script>的检测器的标准输出是预测检测<script type="math/tex">\{b_j,c_j,p_j\}_j</script> ，由 j 索引。 给定的检测 (b,c,p)（为了符号简单省略 j）表示预测位置（即边界框，BB）b 及其预测类别标签 c 和置信水平 p。 预测的检测 (b,c,p) 被视为真阳性 (TP)，如果:</p>
+<ul>
+<li>预测的类标签 c 与ground truth标签<script type="math/tex">c_g</script>相同。 </li>
+<li>预测的 BB b 和ground truth的 <script type="math/tex">b_g</script> 之间的重叠率 IOU（Intersection Over Union）不小于预定义的阈值 ε。 这里 <script type="math/tex">area(b\cap b^g)</script> 表示预测和ground trueh BBs 的交集，以及 <script type="math/tex">area(b\cup b^g)</script> 它们的并集。 ε 的典型值为 0.5。 </li>
+</ul>
+<script type="math/tex; mode=display">
+IOU(b,b^g)=\frac{area(b\cap b^g)}{area(b\cup b^g)}</script><p>否则，它被视为误报（FP）。 通常将置信水平 p 与某个阈值 β 进行比较，以确定是否接受预测的类标签 c 。</p>
+<p><img src="/Object-Detection-Survey/Detector-7.png" alt="Detector"></p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Deep-Learning/" rel="tag"># Deep Learning</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/09/12/YOLOv2-YOLO9000/" rel="prev" title="YOLOv2-YOLO9000">
+      <i class="fa fa-chevron-left"></i> YOLOv2-YOLO9000
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2021/09/12/YOLOv3/" rel="next" title="YOLOv3">
+      YOLOv3 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+    <div class="comments" id="gitalk-container"></div>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#目标检测的简单综述"><span class="nav-number">1.</span> <span class="nav-text">目标检测的简单综述</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#一、概述"><span class="nav-number">1.0.1.</span> <span class="nav-text">一、概述</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1、面对的挑战："><span class="nav-number">1.0.2.</span> <span class="nav-text">1、面对的挑战：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2、发展历程"><span class="nav-number">1.0.3.</span> <span class="nav-text">2、发展历程</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3、检测器的分类"><span class="nav-number">1.0.4.</span> <span class="nav-text">3、检测器的分类</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4、部分两阶段检测器框架"><span class="nav-number">1.0.5.</span> <span class="nav-text">4、部分两阶段检测器框架</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5、统一的Pipeline-一阶段目标检测器"><span class="nav-number">1.0.6.</span> <span class="nav-text">5、统一的Pipeline(一阶段目标检测器)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#二、检测过程中的子问题"><span class="nav-number">1.0.7.</span> <span class="nav-text">二、检测过程中的子问题</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#2-1-DCNN-bases-Object-Representation-特征表示"><span class="nav-number">1.0.7.1.</span> <span class="nav-text">2.1 DCNN bases Object Representation(特征表示)</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#2-1-1-Popular-CNN-Architecture"><span class="nav-number">1.0.7.1.1.</span> <span class="nav-text">2.1.1 Popular CNN Architecture</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-1-2-Methods-For-Improving-Object-Representation"><span class="nav-number">1.0.7.2.</span> <span class="nav-text">2.1.2 Methods For Improving Object Representation</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-2-Context-Modeling-上下文信息挖掘"><span class="nav-number">1.0.7.3.</span> <span class="nav-text">2.2 Context Modeling(上下文信息挖掘)</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-3-Detection-Proposal-Methods-区域提议"><span class="nav-number">1.0.7.4.</span> <span class="nav-text">2.3 Detection Proposal Methods(区域提议)</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#三、评估标准"><span class="nav-number">1.0.8.</span> <span class="nav-text">三、评估标准</span></a></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Qiang Chen</p>
+  <div class="site-description" itemprop="description">记录是忘记的第一助手.</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">88</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">13</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">22</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/chenaing19" title="GitHub → https://github.com/chenaing19" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/765206494@qq.com" title="E-Mail → 765206494@qq.com"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Qiang Chen</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v4.0.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 �?<a href="https://mist.theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> v7.5.0
+  </div>
+    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+  
+  <script color='0,0,255' opacity='0.5' zIndex='-1' count='99' src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/muse.js"></script>
+<script src="/js/next-boot.js"></script>
+
+
+
+  
+
+
+
+
+  <script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+      
+<script type="text/x-mathjax-config">
+
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$', '$'], ['\\(', '\\)'] ],
+      processEscapes: true,
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {
+      equationNumbers: {
+        autoNumber: 'AMS'
+      }
+    }
+  });
+
+  MathJax.Hub.Register.StartupHook('TeX Jax Ready', function() {
+    MathJax.InputJax.TeX.prefilterHooks.Add(function(data) {
+      if (data.display) {
+        var next = data.script.nextSibling;
+        while (next && next.nodeName.toLowerCase() === '#text') {
+          next = next.nextSibling;
+        }
+        if (next && next.nodeName.toLowerCase() === 'br') {
+          next.parentNode.removeChild(next);
+        }
+      }
+    });
+  });
+
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for (i = 0; i < all.length; i += 1) {
+      element = document.getElementById(all[i].inputID + '-Frame').parentNode;
+      if (element.nodeName.toLowerCase() == 'li') {
+        element = element.parentNode;
+      }
+      element.classList.add('has-jax');
+    }
+  });
+</script>
+<script>
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/mathjax@2/MathJax.js?config=TeX-AMS-MML_HTMLorMML', () => {
+    MathJax.Hub.Typeset();
+  }, window.MathJax);
+</script>
+
+    
+
+  
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID: '9c00bb4a73071d490d0b',
+      clientSecret: '0466125432b53cefbd6002b7ea866f7e15bbd9c8',
+      repo: 'chenqiang19.github.io',
+      owner: 'chenqiang19',
+      admin: ['chenqiang19'],
+      id: '93913e73ec8797c75c9a76c79ef5da38',
+        language: '',
+      distractionFreeMode: 'true'
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+</script>
+
+  
+  <!-- ҳ����С���� -->
+  
+  
+    <script src="/js/cursor/love.min.js"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  
+
+
+
+</body>
+</html>

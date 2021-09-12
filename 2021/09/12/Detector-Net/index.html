@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    hostname: new URL('http://yoursite.com').hostname,
+    root: '/',
+    scheme: 'Mist',
+    version: '7.5.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    sidebarPadding: 40
+  };
+</script>
+
+  <meta name="description" content="Detector-Net(学习笔记)一、概述该方法提出了一个简单而强大的对象检测公式，作为对象边界框掩码的回归问题。 并且定义了一个多尺度推理过程，它能够通过一些网络应用程序以低成本产生高分辨率的目标检测。 作者制定了一个基于 DNN 的回归，它输出对象边界框的二进制掩码(以及边界框)，如图 1 所示。此外，他们采用简单的边界框推理从掩码中提取检测。 为了提高定位精度，在完整图像和少量大图像裁剪上">
+<meta name="keywords" content="Deep Learning">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Detector-Net">
+<meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2021&#x2F;09&#x2F;12&#x2F;Detector-Net&#x2F;index.html">
+<meta property="og:site_name" content="编辑尼撑">
+<meta property="og:description" content="Detector-Net(学习笔记)一、概述该方法提出了一个简单而强大的对象检测公式，作为对象边界框掩码的回归问题。 并且定义了一个多尺度推理过程，它能够通过一些网络应用程序以低成本产生高分辨率的目标检测。 作者制定了一个基于 DNN 的回归，它输出对象边界框的二进制掩码(以及边界框)，如图 1 所示。此外，他们采用简单的边界框推理从掩码中提取检测。 为了提高定位精度，在完整图像和少量大图像裁剪上">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;Detector-Net&#x2F;Detector-Net.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;Detector-Net&#x2F;Detector-Net-1.png">
+<meta property="og:updated_time" content="2021-09-12T08:47:09.499Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;Detector-Net&#x2F;Detector-Net.png">
+
+<link rel="canonical" href="http://yoursite.com/2021/09/12/Detector-Net/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>Detector-Net | 编辑尼撑</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="编辑尼撑" type="application/atom+xml"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">编辑尼撑</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">学无止境</p>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-schedule">
+
+    <a href="/schedule/" rel="section"><i class="fa fa-fw fa-calendar"></i>日程表</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="搜索..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/09/12/Detector-Net/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Qiang Chen">
+      <meta itemprop="description" content="记录是忘记的第一助手.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="编辑尼撑">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Detector-Net
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2021-09-12 16:12:01 / 修改时间：16:47:09" itemprop="dateCreated datePublished" datetime="2021-09-12T16:12:01+08:00">2021-09-12</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Deep-Learning/" itemprop="url" rel="index">
+                    <span itemprop="name">Deep Learning</span>
+                  </a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="Detector-Net-学习笔记"><a href="#Detector-Net-学习笔记" class="headerlink" title="Detector-Net(学习笔记)"></a>Detector-Net(学习笔记)</h2><h4 id="一、概述"><a href="#一、概述" class="headerlink" title="一、概述"></a>一、概述</h4><p>该方法提出了一个简单而强大的对象检测公式，作为对象边界框掩码的回归问题。 并且定义了一个多尺度推理过程，它能够通过一些网络应用程序以低成本产生高分辨率的目标检测。</p>
+<p>作者制定了一个基于 <code>DNN</code> 的回归，它输出对象边界框的二进制掩码(以及边界框)，如图 1 所示。此外，他们采用简单的边界框推理从掩码中提取检测。 为了提高定位精度，在完整图像和少量大图像裁剪上以多尺度方式应用 DNN 掩码生成，然后进行细化步骤，如图2所示。 </p>
+<p><img src="/Detector-Net/Detector-Net.png" alt="Detector-Net"></p>
+<p>作者通过实验证明了基于 <code>DNN</code> 的回归能够学习不仅有利于分类的特征，而且还能够捕获强大的几何信息。在实验中使用AlexNet作为Backbone，并用回归层替换掉最后一层。其次，作者引入了多尺度框推理，然后是细化步骤以产生精确的检测。通过这种方式，该 DNN 可以预测受输出层大小限制的低分辨率掩码。</p>
+<h4 id="二、Detection-as-DNN-Regression"><a href="#二、Detection-as-DNN-Regression" class="headerlink" title="二、Detection as DNN Regression"></a>二、Detection as DNN Regression</h4><p>首先，作者还是使用AlexNet作为Backbone，沿用了其中的网络架构，只不过将最后一层softmax分类器换成了回归层用于生成目标的二进制掩膜。DNN(x; Θ) ∈ R<sup>N</sup> ，其中 Θ 是网络参数，N 是输出层像素总数。 由于网络的输出具有固定的维度，网络预测了一个固定大小 N = d ×d 的掩码。 在调整到图像大小后，生成的二进制掩码代表一个或多个对象：如果该像素位于给定类的对象的边界框内，则它在特定像素处的值应为 1，否则为 0。 </p>
+<p>通过最小化 L<sub>2</sub> 误差来训练网络，以预测图像 x 的真实掩码 m ∈ [0,1]<sup>N</sup>： </p>
+<script type="math/tex; mode=display">
+\min_{\Theta}\sum_{(x,m)\in D}||(Diag(m)+\lambda I)^{1/2}(DNN(x;\Theta)-m)||^2_2</script><p>其中总和范围在包含边界框目标的图像的训练集 D 上，这些目标表示为二进制掩码。 由于使用的基础网络是高度<strong>非凸</strong>的并且无法保证最优性，因此有时需要根据ground truth掩码对每个输出使用不同的权重来正则化损失函数。 </p>
+<p>直觉是，大多数目标相对于图像大小来说很小，并且网络很容易被为每个输出分配零值的简单解决方案所困(容易陷入局部极小值)。 为了避免这种不良行为，通过参数 λ ∈ R<sup>+</sup>增加与真实掩码中的非零值对应的输出的权重是有帮助的。如果 λ 选择的小，那么真实值为 0 的输出上的错误受到的惩罚明显小于 1 的错误，因此即使信号很弱，也鼓励网络预测非零值。 </p>
+<p>在实验中，作者使用了感受野为 225 × 225 的网络，并输出预测大小为 d × d 的掩码（d = 24）。 </p>
+<h4 id="三、存在的问题"><a href="#三、存在的问题" class="headerlink" title="三、存在的问题"></a>三、存在的问题</h4><ul>
+<li>单个对象掩码可能不足以消除彼此相邻放置的对象的歧义(就是有接触或者距离较小的目标没法分开)</li>
+<li>生成的掩码远小于原始图像的大小，不足以精确定位对象，尤其是在目标很小的情况下。例如：文中举例：对于大小为 400 × 400 且 d = 24 的图像，每个输出将对应于大小为 16 × 16 的单元格。</li>
+</ul>
+<h5 id="3-1-Multiple-Masks-for-Robust-Localization"><a href="#3-1-Multiple-Masks-for-Robust-Localization" class="headerlink" title="3.1 Multiple Masks for Robust Localization"></a>3.1 Multiple Masks for Robust Localization</h5><p>为了处理多个触摸着的目标，作者生成的不是一个而是多个掩码，每个掩码代表整个目标或部分目标。由于最终目标是生成一个边界框，作者使用一个网络来预测目标框掩码，并使用四个额外的网络来预测框的四半：下半部、上半部、左半部和右半部。均用 m<sup>h</sup> 表示，h ∈ { 完整，底部，顶部，左侧，左侧}。此外，如果相同类型的两个对象彼此相邻放置，则所产生的五个掩码中的至少两个将不会合并目标，这将允许消除它们的歧义。 这将能够检测多个目标。</p>
+<p>在训练时，需要将目标框转换为这五个掩码。 由于掩码可能比原始图像小得多，需要将ground truth掩码缩小到网络输出的大小。网络输出d&times;d中的(i，j)对应每一个T(i，j)。每一个矩形的左上角坐标为：</p>
+<script type="math/tex; mode=display">
+\Big(\frac{d_1}{d}(i-1),\frac{d_2}{d}(j-1)\Big),矩形的大小为\frac{d_1}{d}\times\frac{d_2}{d}，i\in(0,\frac{d_1}{d}-1),j\in(0,\frac{d_2}{d}-1)</script><p>其中，d是输出mask的size，d<sub>1</sub>和d<sub>2</sub>是原始图像的height和width。训练时指定m<sup>h</sup>(i，j)作为真实框bb覆盖T(i,j)的预测值，为：</p>
+<script type="math/tex; mode=display">
+m^h(i,j;bb)=\frac{area(bb(h)\cap T(i,j))}{area(T(i,j))}</script><p>其中 bb(full) 对应于ground truth目标框。 对于值h，bb(h) 对应于ground truth框的四半。 </p>
+<p>请注意，论文中使用完整的目标框以及框的上半部、下半部、左半部和右半部来定义总共五种不同的覆盖类型。 ground truth框 bb 的结果 m<sup>h</sup>(bb) 在训练时用于类型 h 的网络。 </p>
+<h5 id="3-2-Object-Localization-from-DNN-Output"><a href="#3-2-Object-Localization-from-DNN-Output" class="headerlink" title="3.2 Object Localization from DNN Output"></a>3.2 Object Localization from DNN Output</h5><p>为了完成检测过程，需要为每个图像估计一组边界框。 尽管输出分辨率小于输入图像，但可以将二进制掩码重新缩放为输入图像的分辨率。 目标是估计边界框 bb = (i,j,k,l) 在输出掩码坐标中由其左上角 (i,j) 和右下角 (k,l) 的坐标。</p>
+<p>为此，使用分数 S 表示每个边界框 bb 与掩码的一致性，并推断得分最高的框。 一个自然的想法是测量边界框的哪一部分被预测的mask覆盖：</p>
+<script type="math/tex; mode=display">
+S(bb,m)=\frac{1}{area(bb)}\sum_{(i,j)}m(i,j)area(bb\cap T(i,j))</script><p> 对由 (i,j) 索引的所有网络输出求和，并用 m = DNN(x) 表示输出 的网络。 如果将上述分数扩展到所有五种掩码类型，则最终分数为： </p>
+<script type="math/tex; mode=display">
+S(bb)=\sum_{h\in halves}(S(bb(h),m^h)-S(bb(\bar{h}),m^h)),\bar{h}是h相反的另一半，这里是为了指出每个部分尽量只负责其对应的一块</script><p>其中，halves={full,botton,top,left,right}索引完整的框及其四半。</p>
+<h5 id="3-3-Multi-scale-Refinement-of-DNN-Localizer"><a href="#3-3-Multi-scale-Refinement-of-DNN-Localizer" class="headerlink" title="3.3 Multi-scale Refinement of DNN Localizer"></a>3.3 Multi-scale Refinement of DNN Localizer</h5><p>网络输出分辨率不足的问题通过两种方式解决：</p>
+<ol>
+<li>在多个尺度和几个大子窗口上应用 DNN 定位器； </li>
+<li>通过在顶部推断的边界框上应用 DNN 定位器来改进检测。</li>
+</ol>
+<p><img src="/Detector-Net/Detector-Net-1.png" alt="DL"></p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Deep-Learning/" rel="tag"># Deep Learning</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/08/15/Model-Acceleration-tools/" rel="prev" title="Model-Acceleration-tools">
+      <i class="fa fa-chevron-left"></i> Model-Acceleration-tools
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2021/09/12/Light-Head-R-CNN/" rel="next" title="Light-Head-R-CNN">
+      Light-Head-R-CNN <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+    <div class="comments" id="gitalk-container"></div>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Detector-Net-学习笔记"><span class="nav-number">1.</span> <span class="nav-text">Detector-Net(学习笔记)</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#一、概述"><span class="nav-number">1.0.1.</span> <span class="nav-text">一、概述</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#二、Detection-as-DNN-Regression"><span class="nav-number">1.0.2.</span> <span class="nav-text">二、Detection as DNN Regression</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#三、存在的问题"><span class="nav-number">1.0.3.</span> <span class="nav-text">三、存在的问题</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#3-1-Multiple-Masks-for-Robust-Localization"><span class="nav-number">1.0.3.1.</span> <span class="nav-text">3.1 Multiple Masks for Robust Localization</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3-2-Object-Localization-from-DNN-Output"><span class="nav-number">1.0.3.2.</span> <span class="nav-text">3.2 Object Localization from DNN Output</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3-3-Multi-scale-Refinement-of-DNN-Localizer"><span class="nav-number">1.0.3.3.</span> <span class="nav-text">3.3 Multi-scale Refinement of DNN Localizer</span></a></li></ol></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Qiang Chen</p>
+  <div class="site-description" itemprop="description">记录是忘记的第一助手.</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">88</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">13</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">22</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/chenaing19" title="GitHub → https://github.com/chenaing19" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/765206494@qq.com" title="E-Mail → 765206494@qq.com"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Qiang Chen</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v4.0.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 �?<a href="https://mist.theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> v7.5.0
+  </div>
+    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+  
+  <script color='0,0,255' opacity='0.5' zIndex='-1' count='99' src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/muse.js"></script>
+<script src="/js/next-boot.js"></script>
+
+
+
+  
+
+
+
+
+  <script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+      
+<script type="text/x-mathjax-config">
+
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$', '$'], ['\\(', '\\)'] ],
+      processEscapes: true,
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {
+      equationNumbers: {
+        autoNumber: 'AMS'
+      }
+    }
+  });
+
+  MathJax.Hub.Register.StartupHook('TeX Jax Ready', function() {
+    MathJax.InputJax.TeX.prefilterHooks.Add(function(data) {
+      if (data.display) {
+        var next = data.script.nextSibling;
+        while (next && next.nodeName.toLowerCase() === '#text') {
+          next = next.nextSibling;
+        }
+        if (next && next.nodeName.toLowerCase() === 'br') {
+          next.parentNode.removeChild(next);
+        }
+      }
+    });
+  });
+
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for (i = 0; i < all.length; i += 1) {
+      element = document.getElementById(all[i].inputID + '-Frame').parentNode;
+      if (element.nodeName.toLowerCase() == 'li') {
+        element = element.parentNode;
+      }
+      element.classList.add('has-jax');
+    }
+  });
+</script>
+<script>
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/mathjax@2/MathJax.js?config=TeX-AMS-MML_HTMLorMML', () => {
+    MathJax.Hub.Typeset();
+  }, window.MathJax);
+</script>
+
+    
+
+  
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID: '9c00bb4a73071d490d0b',
+      clientSecret: '0466125432b53cefbd6002b7ea866f7e15bbd9c8',
+      repo: 'chenqiang19.github.io',
+      owner: 'chenqiang19',
+      admin: ['chenqiang19'],
+      id: 'c7314f7632215138b908ef0af1190710',
+        language: '',
+      distractionFreeMode: 'true'
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+</script>
+
+  
+  <!-- ҳ����С���� -->
+  
+  
+    <script src="/js/cursor/love.min.js"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  
+
+
+
+</body>
+</html>

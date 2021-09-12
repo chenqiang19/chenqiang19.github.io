@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    hostname: new URL('http://yoursite.com').hostname,
+    root: '/',
+    scheme: 'Mist',
+    version: '7.5.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    sidebarPadding: 40
+  };
+</script>
+
+  <meta name="description" content="YOLOv4: Optimal Speed and Accuracy of Object Detection一、概述通俗的讲，YOLO-v4算法是在原有YOLO目标检测架构的基础上，采用了近些年CNN领域中最优秀的优化策略，从数据处理、主干网络、网络训练、激活函数、损失函数等各个方面都进行了不同程度的优化。 主要贡献点：  开发了一个高效而强大的模型，使得任何人都可以使用一张1080Ti或者208">
+<meta name="keywords" content="Deep Learning">
+<meta property="og:type" content="article">
+<meta property="og:title" content="YOLOv4">
+<meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2021&#x2F;09&#x2F;12&#x2F;YOLOv4&#x2F;index.html">
+<meta property="og:site_name" content="编辑尼撑">
+<meta property="og:description" content="YOLOv4: Optimal Speed and Accuracy of Object Detection一、概述通俗的讲，YOLO-v4算法是在原有YOLO目标检测架构的基础上，采用了近些年CNN领域中最优秀的优化策略，从数据处理、主干网络、网络训练、激活函数、损失函数等各个方面都进行了不同程度的优化。 主要贡献点：  开发了一个高效而强大的模型，使得任何人都可以使用一张1080Ti或者208">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;YOLOv4&#x2F;YOLOV4-0.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;YOLOv4&#x2F;YOLOV4-1.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;YOLOv4&#x2F;YOLOV4-3.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;YOLOv4&#x2F;YOLOV4-5.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;YOLOv4&#x2F;YOLOV4-2.png">
+<meta property="og:updated_time" content="2021-09-12T08:40:33.149Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;YOLOv4&#x2F;YOLOV4-0.png">
+
+<link rel="canonical" href="http://yoursite.com/2021/09/12/YOLOv4/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>YOLOv4 | 编辑尼撑</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="编辑尼撑" type="application/atom+xml"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">编辑尼撑</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">学无止境</p>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-schedule">
+
+    <a href="/schedule/" rel="section"><i class="fa fa-fw fa-calendar"></i>日程表</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="搜索..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/09/12/YOLOv4/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Qiang Chen">
+      <meta itemprop="description" content="记录是忘记的第一助手.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="编辑尼撑">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          YOLOv4
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2021-09-12 16:39:41 / 修改时间：16:40:33" itemprop="dateCreated datePublished" datetime="2021-09-12T16:39:41+08:00">2021-09-12</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Deep-Learning/" itemprop="url" rel="index">
+                    <span itemprop="name">Deep Learning</span>
+                  </a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="YOLOv4-Optimal-Speed-and-Accuracy-of-Object-Detection"><a href="#YOLOv4-Optimal-Speed-and-Accuracy-of-Object-Detection" class="headerlink" title="YOLOv4: Optimal Speed and Accuracy of Object Detection"></a>YOLOv4: Optimal Speed and Accuracy of Object Detection</h2><h4 id="一、概述"><a href="#一、概述" class="headerlink" title="一、概述"></a>一、概述</h4><p>通俗的讲，YOLO-v4算法是在原有YOLO目标检测架构的基础上，采用了近些年CNN领域中最优秀的优化策略，从<strong>数据处理、主干网络、网络训练、激活函数、损失函数</strong>等各个方面都进行了不同程度的优化。</p>
+<p><strong>主要贡献点：</strong></p>
+<ul>
+<li>开发了一个高效而强大的模型，使得任何人都可以使用一张1080Ti或者2080Ti GPU去训练一个超级快速和精确的目标检测器。</li>
+<li>在训练期间验证了state-of-art中Bag-of-Freebies和Bag-of-Specials方法的影响。</li>
+<li>修改了state-of-the-art方法，使得他们在使用单个GPU进行训练时更加有效和适配，包括CBN，PAN，SAM等。</li>
+</ul>
+<p>现代检测器通常由两部分组成，在 ImageNet 上<strong>预训练的主干</strong>和用于<strong>预测对象类别和边界框的头部</strong>。对于那些在 GPU 平台上运行的检测器，它们的主干可以是 <code>VGG</code> 、<code>ResNet</code> 、<code>ResNeXt</code> 或 <code>DenseNet</code> 。对于那些在 CPU 平台上运行的检测器，它们的主干可以是 <code>SqueezeNet</code>、<code>MobileNet</code> 或 <code>ShuffleNet</code>。对于头部，通常分为两类，即一级物体检测器和二级物体检测器。最具代表性的两阶段物体检测器是<code>R-CNN</code>系列，包括<code>Fast R-CNN</code>、<code>Faster R-CNN</code>、<code>R-FCN</code>和<code>Libra R-CNN</code> .也可以将两阶段物体检测器变成anchor free 物体检测器，例如 <code>RepPoints</code>。对于单级目标检测器，最具代表性的模型是 <code>YOLO</code>、<code>SSD</code> 和 <code>RetinaNet</code>。近年来，开发了anchor free 单阶段目标检测器。这类检测器有 <code>CenterNet</code>、<code>CornerNet</code>、<code>FCOS</code> 等。 近年来开发的目标检测器经常在主干和头部之间插入一些层，这些层通常用于从不同的阶段收集特征图。我们可以称之为目标检测器的颈部。通常，一个脖子由几个自下而上的路径和几个自上而下的路径组成。配备这种机制的网络包括特征金字塔网络<code>FPN</code>、路径聚合网络 <code>PAN</code>、<code>BiFPN</code> 和 <code>NAS-FPN</code>。 </p>
+<p><img src="/YOLOv4/YOLOV4-0.png" alt="YOLOV4"></p>
+<p>综上所述，一个普通的物体检测器由几部分组成： </p>
+<ul>
+<li><strong>Input:</strong> Image, Patches, Image Pyramid</li>
+<li><strong>Backbones:</strong> VGG16, ResNet-50, SpineNet, EfficientNet-B0/B7, CSPResNeXt50</li>
+<li><strong>Neck:</strong> <ul>
+<li><strong>Additional blocks:</strong> SPP, ASPP, RFB, SAM</li>
+<li><strong>Path-aggregation blocks:</strong> FPN, PAN, NAS-FPN, Fully-connected FPN, BiFPN, ASFF, SFAM</li>
+</ul>
+</li>
+<li><strong>Heads:</strong> <ul>
+<li><strong>Dense Prediction (one-stage)</strong><ul>
+<li>RPN, SSD, YOLO, RetinaNet (anchor based)</li>
+<li>CornerNet, CenterNet, MatrixNet, FCOS (anchor free)</li>
+</ul>
+</li>
+<li><strong>Sparse Prediction (two-stage)</strong><ul>
+<li>Faster R-CNN, R-FCN, Mask R-CNN (anchor based)</li>
+<li>RepPoints (anchor free)</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h4 id="二、Bag-of-freebies"><a href="#二、Bag-of-freebies" class="headerlink" title="二、Bag of freebies"></a>二、Bag of freebies</h4><h5 id="2-1-数据增强"><a href="#2-1-数据增强" class="headerlink" title="2.1 数据增强"></a>2.1 数据增强</h5><p>通常，传统的物体检测器是<strong>离线训练</strong>的。因此，研究人员总是喜欢利用这一优势，开发更好的训练方法，使目标检测器在<strong>不增加推理成本的情况下获得更好的准确性</strong>。将这些<strong>只会改变训练策略或只会增加训练成本的方法</strong>称为“<strong>一袋免费赠品</strong>”(Bag of freebies)。对象检测方法经常采用并符合免费赠品袋定义的是<strong>数据增强</strong>。数据增强的目的是<strong>增加输入图像的可变性</strong>，使设计的目标检测模型对<strong>不同环境下获得的图像具有更高的鲁棒性</strong>。例如，<strong>光度失真</strong>和<strong>几何失真</strong>是两种常用的数据增强方法，它们绝对有利于目标检测任务。在处理<strong>光度失真</strong>时，我们<strong>调整图像的亮度、对比度、色调、饱和度和噪声</strong>。对于<strong>几何失真，添加了随机缩放、裁剪、翻转和旋转</strong>。 </p>
+<h5 id="2-2-遮挡问题的处理方法"><a href="#2-2-遮挡问题的处理方法" class="headerlink" title="2.2 遮挡问题的处理方法"></a>2.2 遮挡问题的处理方法</h5><p>上面提到的数据增强方法都是逐像素调整的，并且保留了调整区域内的所有原始像素信息。此外，一些从事数据增强的研究人员将重点放在模拟<strong>对象遮挡问题</strong>上。他们在图像分类和目标检测方面取得了很好的效果。例如，<code>random erase</code>和<code>CutOut</code>可以随机选择图像中的矩形区域并填充随机值或补零。至于<code>hide-and-seek</code>和<code>grid mask</code>，它们随机或均匀地选择图像中的多个矩形区域并将它们替换为全零。如果将类似的概念应用于特征图，则有 <code>DropOut</code>、<code>DropConnect</code> 和 <code>DropBlock</code>方法。此外，一些研究人员提出了<strong>将多个图像一起使用来进行数据增强</strong>的方法。例如，<code>MixUp</code>使用两幅图像以不同的系数比例相乘叠加，然后用这些叠加比例调整标签。至于<code>CutMix</code>，就是将裁剪后的图像覆盖到其他图像的矩形区域，并根据混合区域的大小调整标签。除了上述方法外，风格迁移 <code>GAN</code>也被用于数据增强，这种用法可以有效减少 CNN 学习到的纹理偏差。 </p>
+<h5 id="2-3-类别不平衡的处理方法"><a href="#2-3-类别不平衡的处理方法" class="headerlink" title="2.3 类别不平衡的处理方法"></a>2.3 类别不平衡的处理方法</h5><p>与上面提出的各种方法不同，其他一些<strong>Bag of freebies</strong>方法专门用于解决<strong>数据集中语义分布可能存在偏差的问题</strong>。在处理语义分布偏差问题时，一个非常重要的问题是<strong>不同类之间存在数据不平衡的问题</strong>，在两阶段物体检测器中，这个问题通常通过<strong>硬负例挖掘</strong>或<strong>在线硬例挖掘</strong>来解决。但是<strong>示例挖掘方法不适用于单级目标检测器</strong>，因为这种检测器属于密集预测架构。因此有人提出了<code>focal loss</code>来解决各个类之间存在的数据不平衡问题。另一个非常重要的问题是，用one-hot hard表示很难表达不同类别之间的关联程度的关系。这种表示方案通常在执行标注时使用。 <strong>标签平滑被提出将硬标签转换为软标签进行训练</strong>，可以使模型更加鲁棒。为了获得更好的软标签，引入了<strong>知识蒸馏的概念来设计标签细化网络</strong>。 </p>
+<h5 id="2-4-边界框回归的目标函数"><a href="#2-4-边界框回归的目标函数" class="headerlink" title="2.4 边界框回归的目标函数"></a>2.4 边界框回归的目标函数</h5><p>最后一类<strong>Bag of freebies</strong>是边界框 (BBox) 回归的目标函数。<strong>传统的物体检测器通常使用均方误差</strong>（MSE）直接对BBox的中心点坐标和高宽进行回归，即<script type="math/tex">\{x_{center},y_{center},w,h\}</script>，或者左上点和右下点点，即<script type="math/tex">\{x_{top\_left}, y_{top\_left}, x_{bottom\_right}, y_{bottom\_right}\}</script> 。对于anchor-based方法，就是估计对应的偏移量，例如<script type="math/tex">\{x_{center\_offset}, y_{center\_offset}, w_{offset}, h_{offset}\}</script>和<script type="math/tex">\{x_{top\_left \_offset}, y_{top\_left\_offset}, x_{bottom\_right\_offset}, y_{bottom\_right\_offset}\}</script>。但是，直接估计BBox每个点的坐标值，就是把这些点当成自变量，实际上并没有考虑对象本身的完整性。为了更好地处理这个问题，最近有研究人员提出了<code>IoU loss</code>，它考虑了预测 BBox 区域和地面实况 BBox 区域的覆盖范围。 IoU 损失计算过程会通过触发BBox 四个坐标点与ground truth的IOU的计算，然后将生成的结果连接成一个完整的代码。由于IoU是尺度不变的表示，可以解决传统方法计算{x,y,w,h}的l1或l2损失时，损失会随着尺度增加的问题。最近，一些研究人员继续改进 IoU 损失。例如，<code>GIoU loss</code>除了覆盖区域外，还包括物体的形状和方向。他们提出寻找可以同时覆盖预测BBox和ground truth BBox的最小面积BBox，并用这个BBox作为分母来代替原来在IoU loss中使用的分母。至于<code>DIoU loss</code>，它额外考虑了物体中心的距离，而<code>CIoU loss</code>，另一方面同时考虑了重叠区域、中心点之间的距离和纵横比。 CIoU 在 BBox 回归问题上可以达到更好的收敛速度和精度。 </p>
+<h4 id="三、Bag-of-specials"><a href="#三、Bag-of-specials" class="headerlink" title="三、Bag of specials"></a>三、Bag of specials</h4><p>对于那些<strong>只增加少量推理成本</strong>但可以<strong>显着提高目标检测精度</strong>的<strong>插件模块</strong>和<strong>后处理方法</strong>，我们称之为“特价包”(Bag of specials)。 一般来说，这些插件模块是为了增强模型中的某些属性，比如<strong>扩大感受野</strong>，<strong>引入注意力机制</strong>，或者<strong>加强特征整合能力</strong>等，后处理是一种筛选模型预测结果的方法。 </p>
+<h5 id="3-1-扩大感受野"><a href="#3-1-扩大感受野" class="headerlink" title="3.1 扩大感受野"></a>3.1 扩大感受野</h5><p>可用于增强感受野的常见模块有<code>SPP</code>、<code>ASPP</code>和<code>RFB</code>。 SPP模块起源于<code>Spatial Pyramid Matching</code>（SPM），SPM的原始方法是将特征图分割成几个d×d相等的块，其中d可以是{1,2,3,…}，因此形成空间金字塔，然后提取词袋特征。 SPP 将 SPM 集成到 CNN 中并使用最大池化操作而不是词袋操作。</p>
+<h5 id="3-2-注意力机制"><a href="#3-2-注意力机制" class="headerlink" title="3.2 注意力机制"></a>3.2 注意力机制</h5><p>物体检测中经常使用的注意力模块主要分为<code>channel-wise attention</code>和<code>point-wise attention</code>，这两种注意力模型的代表是<code>Squeeze-and-Excitation</code>（SE）和<code>Spatial Attention Module</code>（SAM），分别。 虽然 SE 模块可以将 ResNet50 在 ImageNet 图像分类任务中的能力提高 1% top-1 准确率，代价是只增加 2% 的计算量，<strong>但在 GPU 上通常会增加大约 10% 的推理时间， 所以更适合用在移动设备上</strong>。 但对于 SAM 来说，它只需要额外支付 0.1% 的计算，就可以将 ResNet50-SE 在 ImageNet 图像分类任务上的 top-1 准确率提高 0.5%。 <strong>最重要的是，它根本不会影响 GPU 上的推理速度。</strong> </p>
+<h5 id="3-3-特征整合"><a href="#3-3-特征整合" class="headerlink" title="3.3 特征整合"></a>3.3 特征整合</h5><p>在<strong>特征整合</strong>方面，早期的做法是使用skip connection或hyper-column将低级物理特征整合到高级语义特征。 随着FPN等多尺度预测方法的流行，许多集成不同特征金字塔的轻量级模块被提出。 这类模块包括 <code>SFAM</code>、<code>ASFF</code>和 <code>BiFPN</code>。</p>
+<h5 id="3-4-激活函数"><a href="#3-4-激活函数" class="headerlink" title="3.4 激活函数"></a>3.4 激活函数</h5><p>在深度学习的研究中，有人把重点放在<strong>寻找好的激活函数</strong>上。一个好的激活函数可以<strong>让梯度更有效地传播，同时不会造成太多额外的计算成本</strong>。 2010 年，Nair 和 Hinton 提出 <code>ReLU</code> 来实质性地解决传统 <code>tanh</code> 和 <code>sigmoid</code> 激活函数中经常遇到的梯度消失问题。随后，<code>LReLU</code>、<code>PReLU</code>、<code>ReLU6</code>、<code>Scaled Exponential Linear Unit (SELU)</code>、<code>Swish</code>、<code>hard-Swish</code>和 <code>Mish</code>等，其中也用于解决梯度消失问题。 <code>LReLU</code>和<code>PReLU</code>的主要目的是解决输出小于零时<code>ReLU</code>梯度为零的问题。至于 <code>ReLU6</code> 和 <code>hard-Swish</code>，它们是专门为<strong>量化网络</strong>设计的。为了自归一化神经网络，提出了<code>SELU</code>激活函数来满足目标。需要注意的一件事是 <code>Swish</code> 和 <code>Mish</code> 都是连续可微的激活函数。 </p>
+<h5 id="3-5-后处理方法"><a href="#3-5-后处理方法" class="headerlink" title="3.5 后处理方法"></a>3.5 后处理方法</h5><p>基于深度学习的物体检测常用的后处理方法是<code>NMS</code>，它可以用来过滤那些对同一物体预测不好的BBox，只保留响应较高的候选BBox。 NMS 尝试改进的方式与优化目标函数的方法一致。 NMS 提出的原始方法没有考虑上下文信息，因此，在R-CNN中增加了分类置信度分数作为参考，按照置信度分数的顺序，按照从高分到低分的顺序进行<strong>贪婪的NMS</strong>。对于 <strong>soft NMS</strong>，它考虑了在具有 IoU 分数的 greedy NMS 中对象的遮挡可能导致置信度下降的问题。 <strong>DIoU NMS</strong> 开发者的思路是在软 NMS 的基础上，在 BBox 筛选过程中加入中心点距离信息。<strong>由于上述后处理方法都没有直接参考捕获的图像特征，因此在后续开发anchor-free方法时不再需要进行后处理。</strong> </p>
+<h4 id="四、YOLOv4"><a href="#四、YOLOv4" class="headerlink" title="四、YOLOv4"></a>四、YOLOv4</h4><p>对于分类而言最佳的参考模型对于检测器而言并不总是最佳的。 与分类器相比，检测器需要以下内容： </p>
+<ul>
+<li>更高的输入网络尺寸（分辨率）—用于检测多个小尺寸物体 </li>
+<li>更多层 - 用于更高的感受野以覆盖增加的输入网络大小 </li>
+<li>更多参数 - 提高模型在单个图像中检测多个不同大小对象的能力 </li>
+</ul>
+<p>可以假设应该选择具有更大感受野大小（具有更大数量的卷积层 3 × 3）和更多参数的模型作为主干。</p>
+<p><img src="/YOLOv4/YOLOV4-1.png" alt="YOLOV4"></p>
+<p>不同大小感受野的影响总结如下: </p>
+<ul>
+<li>达到对象大小 - 允许查看整个对象 </li>
+<li>最大网络大小 - 允许查看对象周围的上下文 </li>
+<li>超过网络大小 - 增加图像点和最终激活之间的连接数 </li>
+</ul>
+<p>YOLOv4在 <code>CSPDarknet53</code> 上添加了 <code>SPP</code> 块，因为它显着增加了感受野，分离出最重要的上下文特征，并且几乎不会降低网络运行速度。 并且使用 <code>PANet</code> 作为不同检测器级别的不同主干级别的参数聚合方法，而不是 YOLOv3 中使用的 <code>FPN</code>。 </p>
+<p>最后，YOLOv4选择 <code>CSPDarknet53</code> <strong>主干</strong>、<code>SPP</code> <strong>附加模块</strong>、<code>PANet 路径聚合</code> <strong>颈部</strong>和 <code>YOLOv3</code>（基于锚点）<strong>头部 </strong>作为 YOLOv4 的架构。 </p>
+<p><img src="/YOLOv4/YOLOV4-3.png" alt="YOLOV4"></p>
+<h4 id="五、Selection-of-BoF-and-BoS"><a href="#五、Selection-of-BoF-and-BoS" class="headerlink" title="五、Selection of BoF and BoS"></a>五、Selection of BoF and BoS</h4><p>为了改进目标检测训练，CNN 通常使用以下内容： </p>
+<ul>
+<li>激活：ReLU、leaky-ReLU、参数化 ReLU、ReLU6、SELU、Swish 或 Mish</li>
+<li>边界框回归损失：MSE、IoU、GIoU、CIoU、DIoU</li>
+<li>数据增强：CutOut、MixUp、CutMix</li>
+<li>正则化方法：DropOut、DropPath、Spatial DropOut 或 DropBlock</li>
+<li>通过均值和方差对网络激活进行归一化：批归一化 (BN) [32]、跨 GPU 批归一化（CGBN 或 SyncBN）、滤波器响应归一化 (FRN) 或交叉迭代批处理 归一化 (CBN) </li>
+<li>跳过连接：残差连接、加权残差连接、多输入加权残差连接或跨阶段部分连接 (CSP) </li>
+</ul>
+<p>为了使设计的检测器更适合在单GPU上训练，作者做了如下额外的设计和改进： </p>
+<ul>
+<li>引入了数据增强(Mosaic)混合了4个训练图像和Self-Adversarial Training (SAT) 的新方法</li>
+<li>在应用遗传算法的同时选择最佳超参数 </li>
+<li>修改了一些现有的方法，使我们的设计适合高效的训练和检测-修改的 SAM、修改的 PAN 和交叉小批量归一化 (CmBN) </li>
+</ul>
+<p>Mosaic 代表了一种新的数据增强方法，它混合了四张训练图像，使其按一定比例组合成一张图像，使模型学会在更小的范围内识别对象。 因此混合了 4 个不同的上下文，而 CutMix 仅混合了 2 个输入图像。 这允许检测正常上下文之外的对象。 此外，批量归一化计算每层 4 个不同图像的激活统计数据。 这显着减少了对大 mini-batch 大小的需求。 </p>
+<p><img src="/YOLOv4/YOLOV4-5.png" alt="YOLOV4"></p>
+<p>自我对抗训练 (SAT) 也代表了一种新的数据增强技术，它在 2 个前向后向阶段中运行。 在第一阶段，神经网络改变原始图像而不是网络权重。 通过这种方式，神经网络对自身执行对抗性攻击，改变原始图像以制造图像上没有所需对象的欺骗。 在第二阶段，训练神经网络以正常方式检测此修改图像上的对象。 </p>
+<p><img src="/YOLOv4/YOLOV4-2.png" alt="YOLOV4"></p>
+<p><a href="https://arxiv.org/pdf/2004.10934v1.pdf" target="_blank" rel="noopener">论文地址</a></p>
+<p><a href="https://zhuanlan.zhihu.com/p/137393450" target="_blank" rel="noopener">参考内容1</a></p>
+<p><a href="https://zhuanlan.zhihu.com/p/161083602" target="_blank" rel="noopener">参考内容2</a></p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Deep-Learning/" rel="tag"># Deep Learning</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/09/12/YOLOv3/" rel="prev" title="YOLOv3">
+      <i class="fa fa-chevron-left"></i> YOLOv3
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2021/09/12/Web-Servlet/" rel="next" title="Wen-Servlet">
+      Wen-Servlet <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+    <div class="comments" id="gitalk-container"></div>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#YOLOv4-Optimal-Speed-and-Accuracy-of-Object-Detection"><span class="nav-number">1.</span> <span class="nav-text">YOLOv4: Optimal Speed and Accuracy of Object Detection</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#一、概述"><span class="nav-number">1.0.1.</span> <span class="nav-text">一、概述</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#二、Bag-of-freebies"><span class="nav-number">1.0.2.</span> <span class="nav-text">二、Bag of freebies</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#2-1-数据增强"><span class="nav-number">1.0.2.1.</span> <span class="nav-text">2.1 数据增强</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-2-遮挡问题的处理方法"><span class="nav-number">1.0.2.2.</span> <span class="nav-text">2.2 遮挡问题的处理方法</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-3-类别不平衡的处理方法"><span class="nav-number">1.0.2.3.</span> <span class="nav-text">2.3 类别不平衡的处理方法</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-4-边界框回归的目标函数"><span class="nav-number">1.0.2.4.</span> <span class="nav-text">2.4 边界框回归的目标函数</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#三、Bag-of-specials"><span class="nav-number">1.0.3.</span> <span class="nav-text">三、Bag of specials</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#3-1-扩大感受野"><span class="nav-number">1.0.3.1.</span> <span class="nav-text">3.1 扩大感受野</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3-2-注意力机制"><span class="nav-number">1.0.3.2.</span> <span class="nav-text">3.2 注意力机制</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3-3-特征整合"><span class="nav-number">1.0.3.3.</span> <span class="nav-text">3.3 特征整合</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3-4-激活函数"><span class="nav-number">1.0.3.4.</span> <span class="nav-text">3.4 激活函数</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3-5-后处理方法"><span class="nav-number">1.0.3.5.</span> <span class="nav-text">3.5 后处理方法</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#四、YOLOv4"><span class="nav-number">1.0.4.</span> <span class="nav-text">四、YOLOv4</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#五、Selection-of-BoF-and-BoS"><span class="nav-number">1.0.5.</span> <span class="nav-text">五、Selection of BoF and BoS</span></a></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Qiang Chen</p>
+  <div class="site-description" itemprop="description">记录是忘记的第一助手.</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">88</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">13</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">22</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/chenaing19" title="GitHub → https://github.com/chenaing19" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/765206494@qq.com" title="E-Mail → 765206494@qq.com"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Qiang Chen</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v4.0.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 �?<a href="https://mist.theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> v7.5.0
+  </div>
+    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+  
+  <script color='0,0,255' opacity='0.5' zIndex='-1' count='99' src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/muse.js"></script>
+<script src="/js/next-boot.js"></script>
+
+
+
+  
+
+
+
+
+  <script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+      
+<script type="text/x-mathjax-config">
+
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$', '$'], ['\\(', '\\)'] ],
+      processEscapes: true,
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {
+      equationNumbers: {
+        autoNumber: 'AMS'
+      }
+    }
+  });
+
+  MathJax.Hub.Register.StartupHook('TeX Jax Ready', function() {
+    MathJax.InputJax.TeX.prefilterHooks.Add(function(data) {
+      if (data.display) {
+        var next = data.script.nextSibling;
+        while (next && next.nodeName.toLowerCase() === '#text') {
+          next = next.nextSibling;
+        }
+        if (next && next.nodeName.toLowerCase() === 'br') {
+          next.parentNode.removeChild(next);
+        }
+      }
+    });
+  });
+
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for (i = 0; i < all.length; i += 1) {
+      element = document.getElementById(all[i].inputID + '-Frame').parentNode;
+      if (element.nodeName.toLowerCase() == 'li') {
+        element = element.parentNode;
+      }
+      element.classList.add('has-jax');
+    }
+  });
+</script>
+<script>
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/mathjax@2/MathJax.js?config=TeX-AMS-MML_HTMLorMML', () => {
+    MathJax.Hub.Typeset();
+  }, window.MathJax);
+</script>
+
+    
+
+  
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID: '9c00bb4a73071d490d0b',
+      clientSecret: '0466125432b53cefbd6002b7ea866f7e15bbd9c8',
+      repo: 'chenqiang19.github.io',
+      owner: 'chenqiang19',
+      admin: ['chenqiang19'],
+      id: 'ec13c0b87a911ac4169ffcecd0ea188c',
+        language: '',
+      distractionFreeMode: 'true'
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+</script>
+
+  
+  <!-- ҳ����С���� -->
+  
+  
+    <script src="/js/cursor/love.min.js"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  
+
+
+
+</body>
+</html>

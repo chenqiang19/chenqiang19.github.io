@@ -1,0 +1,693 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    hostname: new URL('http://yoursite.com').hostname,
+    root: '/',
+    scheme: 'Mist',
+    version: '7.5.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    sidebarPadding: 40
+  };
+</script>
+
+  <meta name="description" content="YOLOv3: An Incremental ImprovementYOLOv3没有太多的创新，主要是借鉴一些好的方案融合到YOLO里面。在保持速度优势的前提下，提升了预测精度，尤其是加强了对小物体的识别能力。论文地址 一、YOLOv3的改进1.1 多尺度预测(类FPN，特征金字塔网络) 为了识别更多的物体，尤其小物体，YOLOv3使用三个不同尺度进行预测。三个不同尺度步幅分别是32、16和8。如">
+<meta name="keywords" content="Deep Learning">
+<meta property="og:type" content="article">
+<meta property="og:title" content="YOLOv3">
+<meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2021&#x2F;09&#x2F;12&#x2F;YOLOv3&#x2F;index.html">
+<meta property="og:site_name" content="编辑尼撑">
+<meta property="og:description" content="YOLOv3: An Incremental ImprovementYOLOv3没有太多的创新，主要是借鉴一些好的方案融合到YOLO里面。在保持速度优势的前提下，提升了预测精度，尤其是加强了对小物体的识别能力。论文地址 一、YOLOv3的改进1.1 多尺度预测(类FPN，特征金字塔网络) 为了识别更多的物体，尤其小物体，YOLOv3使用三个不同尺度进行预测。三个不同尺度步幅分别是32、16和8。如">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;YOLOv3&#x2F;YOLOV3.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;YOLOv3&#x2F;YOLOV3-1.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;YOLOv3&#x2F;YOLOV3-2.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;YOLOv3&#x2F;YOLOV3-3.png">
+<meta property="og:updated_time" content="2021-09-12T08:38:04.763Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;YOLOv3&#x2F;YOLOV3.png">
+
+<link rel="canonical" href="http://yoursite.com/2021/09/12/YOLOv3/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>YOLOv3 | 编辑尼撑</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="编辑尼撑" type="application/atom+xml"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">编辑尼撑</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">学无止境</p>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-schedule">
+
+    <a href="/schedule/" rel="section"><i class="fa fa-fw fa-calendar"></i>日程表</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="搜索..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/09/12/YOLOv3/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Qiang Chen">
+      <meta itemprop="description" content="记录是忘记的第一助手.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="编辑尼撑">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          YOLOv3
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2021-09-12 16:37:12 / 修改时间：16:38:04" itemprop="dateCreated datePublished" datetime="2021-09-12T16:37:12+08:00">2021-09-12</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Deep-Learning/" itemprop="url" rel="index">
+                    <span itemprop="name">Deep Learning</span>
+                  </a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="YOLOv3-An-Incremental-Improvement"><a href="#YOLOv3-An-Incremental-Improvement" class="headerlink" title="YOLOv3: An Incremental Improvement"></a>YOLOv3: An Incremental Improvement</h2><p>YOLOv3没有太多的创新，主要是借鉴一些好的方案融合到YOLO里面。在保持速度优势的前提下，提升了预测精度，尤其是加强了对小物体的识别能力。<a href="https://www.jianshu.com/p/d13ae1055302" target="_blank" rel="noopener">论文地址</a></p>
+<h4 id="一、YOLOv3的改进"><a href="#一、YOLOv3的改进" class="headerlink" title="一、YOLOv3的改进"></a>一、YOLOv3的改进</h4><h5 id="1-1-多尺度预测-类FPN，特征金字塔网络"><a href="#1-1-多尺度预测-类FPN，特征金字塔网络" class="headerlink" title="1.1 多尺度预测(类FPN，特征金字塔网络)"></a>1.1 多尺度预测(类FPN，特征金字塔网络)</h5><p><img src="/YOLOv3/YOLOV3.png" alt="YOLOv3"></p>
+<p>为了识别更多的物体，尤其小物体，YOLOv3使用三个不同尺度进行预测。三个不同尺度步幅分别是32、16和8。如果输入416&times;416大小的图像，检测尺度分别为13&times;13，26&times;26和52&times;52。YOLOv3使用k-means从coco数据集的anchor box中预测了9个不同尺寸的先验框，然后均分给三个不同的预测尺寸。</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>特征图</th>
+<th style="text-align:center">13 <script type="math/tex">\ast</script>13</th>
+<th style="text-align:center">26 <script type="math/tex">\ast</script>26</th>
+<th style="text-align:center">52 <script type="math/tex">\ast</script>52</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>感受野</strong></td>
+<td style="text-align:center">大</td>
+<td style="text-align:center">中</td>
+<td style="text-align:center">小</td>
+</tr>
+<tr>
+<td><strong>先验框</strong></td>
+<td style="text-align:center">(116<script type="math/tex">\times</script>90)</td>
+<td style="text-align:center">(156<script type="math/tex">\times</script>198)</td>
+<td style="text-align:center">(373<script type="math/tex">\times</script>326)</td>
+<td>(30<script type="math/tex">\times</script>61)</td>
+<td>(62<script type="math/tex">\times</script>45)</td>
+<td>(59<script type="math/tex">\times</script>119)</td>
+<td>(10<script type="math/tex">\times</script>13)</td>
+<td>(16<script type="math/tex">\times</script>30)</td>
+<td>(33<script type="math/tex">\times</script>23)</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h5 id="1-2-使用了更好的基础分类网络-类ResNet-和分类器"><a href="#1-2-使用了更好的基础分类网络-类ResNet-和分类器" class="headerlink" title="1.2 使用了更好的基础分类网络(类ResNet)和分类器"></a>1.2 使用了更好的基础分类网络(类ResNet)和分类器</h5><p><img src="/YOLOv3/YOLOV3-1.png" alt="YOLOV3"></p>
+<p><a href="https://www.cnblogs.com/makefile/p/YOLOv3.html" target="_blank" rel="noopener">上图来自</a>其中网络相比YOLOv2更加复杂了，去除了pooling层，改用stride=2的卷积层代替，并且添加了residual block。</p>
+<p><strong>评分函数(score function):</strong> 原始图像数据到类别分值的映射。</p>
+<p>多分类问题，一般使用Softmax分类器(Softmax层)，对应的表达式为：</p>
+<script type="math/tex; mode=display">
+S=\frac{e^s}{\sum^{C}_{j=1}e^{s_j}}</script><p><strong>损失函数(loss function):</strong> 用来量化预测分类标签的得分与真实标签之间一致性。</p>
+<p>Sofemax一般对应log损失，表达式如下：</p>
+<script type="math/tex; mode=display">
+L=-\log\frac{e^s}{\sum^{C}_{j=1}e{^s_j}}=-s+\,\log\sum^{C}_{j=1}e^</script><p>YOLOv3中不使用Softmax分类器，而是使用使用<strong>独立的多个logistic分类器</strong>替代，<strong>分类损失</strong>使用binary cross-entropy loss。</p>
+<p><strong>Logistic回归(LR)</strong>，是一种常用语处理二分类问题的模型。</p>
+<script type="math/tex; mode=display">
+h_{\theta}(x)=g(\theta^Tx)=\frac{1}{1+\,\,e^{-\theta^Tx}},g(z)=\frac{1}{1+e^{-z}}(sigmoid\,\,函数),x代表样本的特征向量</script><script type="math/tex; mode=display">h_{\theta}(x)$$可看做预测为正类的概率，即后验概率$$h_{\theta}(x)=p(y=1|x;\theta),h_\theta(x)\in(0,1)</script><script type="math/tex; mode=display">
+判别类型：\begin{cases}
+h_{\theta}\ge0.5,预测\hat{y}=1,\quad if\,\,\theta^Tx\gt0\\
+h_{\theta}\lt0.5,预测\hat{y}=0,\quad if\,\,\theta^Tx\lt0\\
+\end{cases}\\
+损失函数：J(\theta)=\frac{1}{m}\sum^{m}_{i=1}cost(h_{\theta}(x^i),y^i)\\
+cost(h_{\theta}(x^i),y^i)=\begin{cases}
+-\log(h_{\theta(x)})\quad if\,\,y=1\\
+-\log(1-h_{\theta(x)})\quad if\,\,y=0\\
+\end{cases}\\
+J(\theta)=\frac{1}{m}\sum^{m}_{i=1}[-j^{(i)}\log(h_{\theta}(x^{(i)}))-(1-y^{(i)})\log(1-h_{\theta}(x^{(i)}))]</script><p>上式<script type="math/tex">J(\theta)</script>称为对数似然损失函数，也称作交叉熵损失函数(cross entropy loss)。</p>
+<p>Logistic为了防止过拟合，不仅要对输入的数据进行处理，还需要对超参数做正则化处理。</p>
+<script type="math/tex; mode=display">
+J(\theta)=\frac{1}{m}\sum^{m}_{i=1}[-j^{(i)}\log(h_{\theta}(x^{(i)}))-(1-y^{(i)})\log(1-h_{\theta}(x^{(i)}))]+\,\frac{\lambda}{2m}\sum^{n}_{j=1}\theta^2_j</script><p><strong>Softmax回归</strong>，处理多分类问题。</p>
+<script type="math/tex; mode=display">
+h_{\theta}(x^{(i)})=\begin{bmatrix}
+p(y^{(i)}=1 | x^{(i)};\theta)\\
+p(y^{(i)}=2 | x^{(i)};\theta)\\
+{\vdots}\\
+p(y^{(i)}=k | x^{(i)};\theta)\\
+\end{bmatrix}=\frac{1}{\sum^{k}_{j=1}e^{\theta^T_jx^{(i)}}}\begin{bmatrix}
+e^{\theta^T_1x^{(i)}}\\
+e^{\theta^T_2x^{(i)}}\\
+{\vdots}\\
+e^{\theta^T_kx^{(i)}}\\
+\end{bmatrix}</script><p>上式中，k为待分类的类别数。<script type="math/tex">\frac{1}{\sum^{k}_{j=1}e^{\theta^T_jx^{(i)}}}</script>对概率分布进行归一化，所有概率和为1。损失函数为：</p>
+<script type="math/tex; mode=display">
+J(\theta)=-\frac{1}{m}\Big[\sum^{m}_{i=1}\sum^{k}_{j=1}1\{y^{(i)}=j\}\log\frac{e^{\theta^T_jx^{(i)}}}{\sum^{k}_{l=1}e^{\theta^T_lx^{(i)}}}\Big]</script><p>同样，需要对参数进行正则化，因为对参数<script type="math/tex">\theta</script>减去一个参数，对结果没影响，即模型不唯一。加入正则项后的loss函数为：</p>
+<script type="math/tex; mode=display">
+J(\theta)=-\frac{1}{m}\Big[\sum^{m}_{i=1}\sum^{k}_{j=1}1\{y^{(i)}=j\}\log\frac{e^{\theta^T_jx^{(i)}}}{\sum^{k}_{l=1}e^{\theta^T_lx^{(i)}}}\Big]+\,\frac{\lambda}{2}\sum^{k}_{i=1}\sum^{n}_{j=0}\theta^2_{ij}</script><p>上面分别介绍了Logistic回归和Softmax回归的处理逻辑，那么Logistic常用与二分类问题，要实现多分类问题，则需要改进。有两种方法：</p>
+<ul>
+<li>直接根据每个类别，分别建立一个二分类器，带有正确类别的样本标记为1，其他类别的样本标记为0。那么针对k个类别，最后得到k个logistic分类器。<ul>
+<li>挑选出标记为<script type="math/tex">c(c\le k)</script>的样本，将挑选出来的带有标记c的样本的标记置为1，将剩下的不带有标记c的样本的标记置为0。然后就用这些数据训练出一个分类器；</li>
+<li>重复此步骤，最终得到k个不同的分类器；</li>
+<li>针对一个测试样本，需要找到这k个分类函数输出值最大的那一个，即为测试样本的标记：<script type="math/tex">arg\,\max_{c}h_c(x)\quad c=1,2,...,k</script>。</li>
+</ul>
+</li>
+<li>修改logistic回归的损失函数，让其适应多分类，即softmax回归。</li>
+</ul>
+<p>对于选择softmax分类器还是k个logistic分类器，取决于所有类别之间是否互斥。所有类别之间明显互斥用softmax分类器，所有类别之间不互斥有交叉的情况下最好用k个logistic分类器。</p>
+<h4 id="二、YOLOv3损失函数"><a href="#二、YOLOv3损失函数" class="headerlink" title="二、YOLOv3损失函数"></a>二、YOLOv3损失函数</h4><p>YOLOv3最大的变动是分类损失换成了<strong>二分交叉熵</strong>，这是由于yolov3中剔除了softmax改用logistic。</p>
+<script type="math/tex; mode=display">
+Loss=\lambda_{coord}\sum^{S^2}_{i=0}\sum^{B}_{j=0}I^{obj}_{ij}[(x_i-\hat{x}_i^j)^2+(y_i-\hat{y}_i^j)^2]+\\\lambda_{coord}\sum^{S^2}_{i=0}\sum^{B}_{j=0}I^{obj}_{ij}[(\sqrt{w^j_i}-\sqrt{\hat{w}^j_i})^2+(\sqrt{h}^j_i-\sqrt{\hat{h}^j_i})^2]-\\
+\sum^{S^2}_{i=0}\sum^{B}_{j=0}I^{obj}_{ij}[\hat{C}^j_i\log(C^j_i)+(1-\hat{C}^j_i)\log(1-C^j_i)]-\\
+\lambda_{noobj}\sum^{S^2}_{i=0}\sum^{B}_{j=0}I^{noobj}_{ij}[\hat{C}^j_i\log(C^j_i)+\,(1-\hat{C}^j_i)\log(1-C^j_i)-\\
+\sum^{S^2}_{i=0}I^{obj}_{ij}\sum_{c\in classes}([\hat{P}^j_i\log(P^j_i)+\,(1-\hat{P}^j_i)\log(1-P^j_i)])</script><p>网格一共是 S ∗ S 个，每个网格产生 B 个候选框anchor box，每个候选框会经过网络最终得到相应的bounding box。最终会得到 S ∗ S ∗ B 个bounding box。<script type="math/tex">I_{ij}^{obj}</script>表示第i个网格的第j个anchor box是否负责这个object。如果负责<script type="math/tex">I_{ij}^{obj}=1</script>，否则为0。<strong>那么如何定义负责呢？</strong>第i个网格的B个anchor box中与目标的ground truth的IOU最大的anchor负责预测这个目标，此时<script type="math/tex">I_{ij}^{obj}=1</script>。其中，<script type="math/tex">\lambda_{coord}=2-w\ast h</script>为了加大对小框的损失，更好的检测出小目标。</p>
+<p><strong>YOLOv3的误差分为四项</strong>，分别是：</p>
+<ol>
+<li><p>中心坐标误差</p>
+<p>当第 i 个网格的第 j 个anchor box负责某一个真实目标时，网络输出为<script type="math/tex">t_x,t_y</script>,然后通过<script type="math/tex">\sigma(t_x),\sigma(t_y)</script>转换后乘以多次的卷积步长，就可以映射到416&times;416大小的训练图像上的目录了。最后与ground truth计算误差。<script type="math/tex">\sigma为sigmoid</script>函数</p>
+</li>
+<li><p>宽高坐标误差</p>
+<p>当第 i 个网格的第 j 个anchor box负责某一个真实目标时，公式中的宽和高<script type="math/tex">w^j_i=t_w\ast stride,h^j_i=t_h\ast stride</script>。</p>
+</li>
+<li><p>置信度误差</p>
+<p>置信度误差使用交叉熵来表示，不管anchor box是否负责某个目标，都会计算置信度误差。因为置信度表示：框出的box内确实有物体的自信程度和框出的box将整个物体的所有特征都包括进来的自信程度。</p>
+<p>损失函数分为两部分：<strong>有物体，没有物体</strong>。其中没有物体损失部分还增加了权重系数<script type="math/tex">\lambda_{noobj}</script>。添加权重系数的原因是，对于一幅图像，一般而言大部分内容是不包含待检测物体的，这样会导致没有物体的计算部分贡献会大于有物体的计算部分，这会导致网络倾向于预测单元格不含有物体。因此，要减少没有物体计算部分的贡献权重，可以取值为0.5。</p>
+</li>
+<li><p>分类误差</p>
+<p>分类误差也是选择交叉熵作为损失函数。当第 i i i个网格的第 j j j个anchor box负责某一个真实目标时，那么这个anchor box所产生的bounding box才会去计算分类损失函数。</p>
+</li>
+</ol>
+<h4 id="三、anchor-box的计算"><a href="#三、anchor-box的计算" class="headerlink" title="三、anchor box的计算"></a>三、anchor box的计算</h4><p>网络预测的bounding box为<script type="math/tex">t_x，t_y，t_w，t_h</script>,而真实需要与Ground Truth进行计算误差的预测box为<script type="math/tex">b_x,b_y,b_w,b_h</script>(训练时需要将GT逆运算转为<script type="math/tex">g_x,g_y,g_w,g_h</script>)。那么两者之间如何转换呢？</p>
+<script type="math/tex; mode=display">c_x,c_y$$的坐标范围是针对grid cell的，也就是将原图划分成13&times;13，则$$c_x,c_y$$坐标为:</script><p>\begin{pmatrix}<br>(0,0)&amp;(0,1)&amp;(0,2)&amp;\cdots&amp;(0,12)\\<br>(1,0)&amp;(1,1)&amp;(1,2)&amp;\cdots&amp;(1,12)\\<br>\vdots&amp;\vdots&amp;\vdots&amp;\ddots&amp;\vdots\\<br>(12,0)&amp;(12,1)&amp;(12,2)&amp;\cdots&amp;(12,12)\\<br>\end{pmatrix}</p>
+<script type="math/tex; mode=display">
+对于宽、高$$b_w=a_we^{t_w},b_h=a_he^{t_h},a_w和a_h为anchor\,\,box(prior)的宽和高，t_w和t_h为网络预测的宽和高，b_w和b_h为转换后预测的宽、高。</script><p>对于x和y，<script type="math/tex">b_x=\sigma(t_x)+c_x,b_y=\sigma(t_y)+c_y</script>。为什么要使用<script type="math/tex">\sigma,sigmoid</script>函数将网络预测的坐标压缩到[0,1]呢？</p>
+<ol>
+<li>为了更好的在训练时候让模型收敛；</li>
+<li>让坐标位于每个grid cell中，更加精确的计算偏移量，以及将box确切分配负责到某一个目标。如13 ∗ 13 的feature map中，某个目标的中心点预测为(0.4,0.7)【<strong>都小于1</strong>】，它的<script type="math/tex">c_x，c_y</script>即中心落入的grid cell坐标是(6,6)，则该物体的在feature map中的中心实际坐标显然是(6.4,6.7)，不能大于1。</li>
+</ol>
+<p><strong>最后一层feature map中的特征如何与GT中的目标对应？</strong></p>
+<p>将原始图像分割为最后预测图维度大小的网格。如下图所示，输入图像维度为416&times;416，步幅为32（最后的预测图降采样32倍），最后预测图维度为13&times;13，所以将原始图像划分为13&times;13的网格。图中原始图中的红框是GT的中心，所以该cell负责对目标进行预测，对应到feature map中的那个红点。</p>
+<p><img src="/YOLOv3/YOLOV3-2.png" alt="YOLOV3"></p>
+<p>那么feature map中的红点会预测k个prior bounding box。具体选用那个呢？需要计算与GT 的IOU，选取最大的那个。与GT匹配的anchor box计算坐标误差、置信度误差（此时target为0）以及分类误差，而其他anchor box只计算置信度误差（此时target为0）。</p>
+<p>至于为什么需要k-means预测prior bounding box, 因为目标有不同的形状和长宽比，所以，需要预先预测一些先验的anchor box的长和宽。在网络预测出<script type="math/tex">t_w和t_h</script>之后，对框做一些约束。YOLOv2开始引入anchor机制后，不再与YOLOv1那样直接预测框的坐标，而是预测偏移值，<strong>通过学习偏移值，就可以通过网络原始定的anchor box坐标经过线性回归微调去逐渐靠近GT框</strong>。</p>
+<p>注意：<strong>位置上不使用anchor框，宽高上使用anchor框。</strong>位置是根据与gird左上角坐标的偏移值预测的。</p>
+<p><strong>多尺度预测</strong></p>
+<p><img src="/YOLOv3/YOLOV3-3.png" alt="YOLOV3"></p>
+<p><strong>为什么在计算Ground Truth的<script type="math/tex">t_w,t_h</script>时需要缩放到对数空间？</strong></p>
+<p>不直接回归bounding box的长宽，而是<strong>为避免训练带来不稳定的梯度</strong>，将尺度缩放到对数空间。 如果直接预测相对形变tw 和 th，那么要求tw,th&gt;0，因为框的宽高不可能是负数，这样的话是在做一个有不等式条件约束的优化问题，没法直接用SGD来做，所以先取一个对数变换，将其不等式约束去掉就可以了。</p>
+<p><a href="https://blog.csdn.net/weixin_41065383/article/details/89413819" target="_blank" rel="noopener">参考：CNN损失函数</a></p>
+<p><a href="https://blog.csdn.net/guo1988kui/article/details/79540508" target="_blank" rel="noopener">参考：线性分类器和损失函数</a></p>
+<p><a href="https://blog.csdn.net/qq_43211132/article/details/102668037" target="_blank" rel="noopener">参考：Logistic和Softmax详细介绍</a></p>
+<p><a href="https://blog.csdn.net/weixin_43384257/article/details/100986249" target="_blank" rel="noopener">参考：YOLOV3损失函数详细讲解</a></p>
+<p><a href="https://www.jianshu.com/p/043966013dde" target="_blank" rel="noopener">参考：YOLOV3</a></p>
+<p><a href="https://zhuanlan.zhihu.com/p/367395847" target="_blank" rel="noopener">参考：YOLOV3查漏补缺</a></p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Deep-Learning/" rel="tag"># Deep Learning</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/09/12/Object-Detection-Survey/" rel="prev" title="Object-Detection-Survey">
+      <i class="fa fa-chevron-left"></i> Object-Detection-Survey
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2021/09/12/YOLOv4/" rel="next" title="YOLOv4">
+      YOLOv4 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+    <div class="comments" id="gitalk-container"></div>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#YOLOv3-An-Incremental-Improvement"><span class="nav-number">1.</span> <span class="nav-text">YOLOv3: An Incremental Improvement</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#一、YOLOv3的改进"><span class="nav-number">1.0.1.</span> <span class="nav-text">一、YOLOv3的改进</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1-1-多尺度预测-类FPN，特征金字塔网络"><span class="nav-number">1.0.1.1.</span> <span class="nav-text">1.1 多尺度预测(类FPN，特征金字塔网络)</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#1-2-使用了更好的基础分类网络-类ResNet-和分类器"><span class="nav-number">1.0.1.2.</span> <span class="nav-text">1.2 使用了更好的基础分类网络(类ResNet)和分类器</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#二、YOLOv3损失函数"><span class="nav-number">1.0.2.</span> <span class="nav-text">二、YOLOv3损失函数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#三、anchor-box的计算"><span class="nav-number">1.0.3.</span> <span class="nav-text">三、anchor box的计算</span></a></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Qiang Chen</p>
+  <div class="site-description" itemprop="description">记录是忘记的第一助手.</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">88</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">13</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">22</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/chenaing19" title="GitHub → https://github.com/chenaing19" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/765206494@qq.com" title="E-Mail → 765206494@qq.com"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Qiang Chen</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v4.0.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 �?<a href="https://mist.theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> v7.5.0
+  </div>
+    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+  
+  <script color='0,0,255' opacity='0.5' zIndex='-1' count='99' src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/muse.js"></script>
+<script src="/js/next-boot.js"></script>
+
+
+
+  
+
+
+
+
+  <script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+      
+<script type="text/x-mathjax-config">
+
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$', '$'], ['\\(', '\\)'] ],
+      processEscapes: true,
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {
+      equationNumbers: {
+        autoNumber: 'AMS'
+      }
+    }
+  });
+
+  MathJax.Hub.Register.StartupHook('TeX Jax Ready', function() {
+    MathJax.InputJax.TeX.prefilterHooks.Add(function(data) {
+      if (data.display) {
+        var next = data.script.nextSibling;
+        while (next && next.nodeName.toLowerCase() === '#text') {
+          next = next.nextSibling;
+        }
+        if (next && next.nodeName.toLowerCase() === 'br') {
+          next.parentNode.removeChild(next);
+        }
+      }
+    });
+  });
+
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for (i = 0; i < all.length; i += 1) {
+      element = document.getElementById(all[i].inputID + '-Frame').parentNode;
+      if (element.nodeName.toLowerCase() == 'li') {
+        element = element.parentNode;
+      }
+      element.classList.add('has-jax');
+    }
+  });
+</script>
+<script>
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/mathjax@2/MathJax.js?config=TeX-AMS-MML_HTMLorMML', () => {
+    MathJax.Hub.Typeset();
+  }, window.MathJax);
+</script>
+
+    
+
+  
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID: '9c00bb4a73071d490d0b',
+      clientSecret: '0466125432b53cefbd6002b7ea866f7e15bbd9c8',
+      repo: 'chenqiang19.github.io',
+      owner: 'chenqiang19',
+      admin: ['chenqiang19'],
+      id: '4362dff495ce52615464eebb7bf9d324',
+        language: '',
+      distractionFreeMode: 'true'
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+</script>
+
+  
+  <!-- ҳ����С���� -->
+  
+  
+    <script src="/js/cursor/love.min.js"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  
+
+
+
+</body>
+</html>

@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    hostname: new URL('http://yoursite.com').hostname,
+    root: '/',
+    scheme: 'Mist',
+    version: '7.5.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    sidebarPadding: 40
+  };
+</script>
+
+  <meta name="description" content="YOLOv2 and YOLO9000一、概述由于检测数据集相对分类任务的数据集而言要少几个的多，并且为检测数据集打标签的耗费十分大。所以作者提出了一种新的数据组合方法来利用已有的大量分类数据，并使用它来扩展当前检测系统的范围。 通过使用目标分类的分层视图，允许将不同的数据集组合在一起。  此外，作者还提出了一种联合训练算法，允许在检测和分类数据上训练目标检测器。 联合训练方法利用标记检测图像来学">
+<meta name="keywords" content="Deep Learning">
+<meta property="og:type" content="article">
+<meta property="og:title" content="YOLOv2-YOLO9000">
+<meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2021&#x2F;09&#x2F;12&#x2F;YOLOv2-YOLO9000&#x2F;index.html">
+<meta property="og:site_name" content="编辑尼撑">
+<meta property="og:description" content="YOLOv2 and YOLO9000一、概述由于检测数据集相对分类任务的数据集而言要少几个的多，并且为检测数据集打标签的耗费十分大。所以作者提出了一种新的数据组合方法来利用已有的大量分类数据，并使用它来扩展当前检测系统的范围。 通过使用目标分类的分层视图，允许将不同的数据集组合在一起。  此外，作者还提出了一种联合训练算法，允许在检测和分类数据上训练目标检测器。 联合训练方法利用标记检测图像来学">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;YOLOv2-YOLO9000&#x2F;YOLOv2-0.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;YOLOv2-YOLO9000&#x2F;YOLOv2-4.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;YOLOv2-YOLO9000&#x2F;YOLOv2-1.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;YOLOv2-YOLO9000&#x2F;YOLOv2-2.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;YOLOv2-YOLO9000&#x2F;YOLOv2-3.png">
+<meta property="og:updated_time" content="2021-09-12T08:27:23.713Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;YOLOv2-YOLO9000&#x2F;YOLOv2-0.png">
+
+<link rel="canonical" href="http://yoursite.com/2021/09/12/YOLOv2-YOLO9000/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>YOLOv2-YOLO9000 | 编辑尼撑</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="编辑尼撑" type="application/atom+xml"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">编辑尼撑</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">学无止境</p>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-schedule">
+
+    <a href="/schedule/" rel="section"><i class="fa fa-fw fa-calendar"></i>日程表</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="搜索..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/09/12/YOLOv2-YOLO9000/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Qiang Chen">
+      <meta itemprop="description" content="记录是忘记的第一助手.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="编辑尼撑">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          YOLOv2-YOLO9000
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2021-09-12 16:25:30 / 修改时间：16:27:23" itemprop="dateCreated datePublished" datetime="2021-09-12T16:25:30+08:00">2021-09-12</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Deep-Learning/" itemprop="url" rel="index">
+                    <span itemprop="name">Deep Learning</span>
+                  </a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="YOLOv2-and-YOLO9000"><a href="#YOLOv2-and-YOLO9000" class="headerlink" title="YOLOv2 and YOLO9000"></a>YOLOv2 and YOLO9000</h2><h4 id="一、概述"><a href="#一、概述" class="headerlink" title="一、概述"></a>一、概述</h4><p>由于检测数据集相对分类任务的数据集而言要少几个的多，并且为检测数据集打标签的耗费十分大。所以作者提出了一种新的<strong>数据组合方法</strong>来利用已有的大量分类数据，并使用它来扩展当前检测系统的范围。 通过使用目标分类的分层视图，允许将不同的数据集组合在一起。 </p>
+<p>此外，作者还提出了一种<strong>联合训练算法</strong>，允许在检测和分类数据上训练目标检测器。 联合训练方法利用标记检测图像来学习精确定位对象，同时使用分类图像来增加其词汇量和鲁棒性 </p>
+<h4 id="二、Better"><a href="#二、Better" class="headerlink" title="二、Better"></a>二、Better</h4><p>与最先进的检测系统相比，YOLO 存在各种缺点。 YOLO 与 Fast R-CNN 相比YOLO 会产生大量定位错误。 此外，与基于区域提议的方法相比，YOLO 的召回率相对较低。 因此，论文中主要关注点在保持分类准确性的同时提高召回率和定位。 </p>
+<p>与计算机视觉中大多数趋向于更大、更深的网络不同。为了得到更准确、速度更快的检测器。作者简化了网络，使目标的表征更容易被学习。</p>
+<h5 id="2-1-Batch-Normalization"><a href="#2-1-Batch-Normalization" class="headerlink" title="2.1 Batch Normalization"></a>2.1 Batch Normalization</h5><p>批量归一化显着提高了网络的收敛性，同时消除了对其他形式的正则化的需要。 通过在 YOLO 中的<strong>所有卷积层</strong>上添加批量归一化，在 mAP 上获得了超过 2% 的改进。 批量归一化还有助于规范模型。 通过批量归一化，可以从模型中移除 dropout 而不会过拟合。</p>
+<h5 id="2-2-High-Resolution-Classifier"><a href="#2-2-High-Resolution-Classifier" class="headerlink" title="2.2 High Resolution Classifier"></a>2.2 High Resolution Classifier</h5><p><strong>原始YOLO</strong>以224×224训练分类器网络并将分辨率提高到448进行检测。 这意味着网络必须同时切换到学习目标检测并调整到新的输入分辨率。 </p>
+<p><strong>对于 YOLOv2</strong>，首先在 ImageNet 上以 448 × 448 的全分辨率<strong>微调分类网络 10 个时期</strong>。 这使网络有时间调整其过滤器以更好地处理更高分辨率的输入。 然后在检测时微调生成的网络。 这个高分辨率的分类网络增加了近 4% 的 mAP。 </p>
+<h5 id="2-3-Convolutional-With-Anchor-Boxes"><a href="#2-3-Convolutional-With-Anchor-Boxes" class="headerlink" title="2.3 Convolutional With Anchor Boxes"></a>2.3 Convolutional With Anchor Boxes</h5><p><strong>YOLO</strong> 直接使用卷积特征提取器之上的<strong>全连接层</strong>来<strong>预测边界框</strong>的坐标。<code>Faster R-CNN</code>不是直接预测坐标，而是使用精选的先验预测边界框。 <code>Faster R-CNN</code> 中的区域提议网络 (RPN) 仅使用卷积层来预测锚框的偏移量和置信度。由于预测层是卷积层，因此 RPN 在特征图中的每个位置预测这些偏移量。<strong>预测偏移而不是坐标可以简化问题并使网络更容易学习</strong>。 </p>
+<p><strong>YOLOv2</strong>从 <code>YOLO</code> 中<strong>移除了全连接层</strong>，并<strong>使用锚框来预测边界框</strong>。首先，<strong>消除了一个池化层</strong>，使网络<strong>卷积层</strong>的<strong>输出分辨率更高</strong>。同时还<strong>缩小了网络输入尺寸到416</strong>而不是 <code>448×448</code> 进行操作。这样做是因为想要在<strong>特征图中有奇数个位置</strong>，从而只有一个中心单元。因为大目标往往会占据图像的中心，所以最好在中心有一个位置来预测这些目标，而不是四个都在附近的位置。 YOLO 的卷积层对图像进行了 32 倍的下采样，因此通过使用 416 的输入图像，得到了 <code>13 × 13</code> 的<strong>输出特征图</strong>。 </p>
+<p>当使用锚框时，还将<strong>类预测机制与空间位置解耦</strong>，为每个锚框预测类和目标。 在 YOLO 之后，<strong>objectness 预测</strong>仍然预测 ground truth 和提出的 box 的IOU，<strong>类预测</strong>，预测当目标存在时该类的条件概率。</p>
+<p><strong>使用锚框的性能分析：</strong>使用锚框后准确率会略有下降。 YOLO 每张图像只预测 98 个框(7&times;7&times;2)，但YOLOv2模型预测超过 1000 个锚框。 在没有锚框的情况下，中间模型获得了 69.5 mAP，召回率为 81%。 使用锚框，YOLOv2模型获得 69.2 mAP，召回率为 88%。 即使 mAP 下降，召回率的增加也意味着升级后的模型有更多的改进空间。 </p>
+<h5 id="2-4-Dimension-Clusters"><a href="#2-4-Dimension-Clusters" class="headerlink" title="2.4 Dimension Clusters"></a>2.4 Dimension Clusters</h5><p>将<code>Ahchor Boxes</code>与 <code>YOLO</code> 一起使用时，会遇到了两个问题：</p>
+<ul>
+<li><p>如何选取Anchor: 首先是box尺寸是手工挑选的。 网络可以学习适当地调整框，但如果为网络选择更好的先验box，则可以让网络更容易学习预测好的检测。</p>
+<p>如何选择先验，在训练集边界框上运行 k-means 聚类以自动找到好的先验。 如果使用欧氏距离的标准 k 均值，较大的框会比较小的框产生更多的错误。 然而，真正想要的是导致良好 IOU 分数的先验，这与框的大小无关。 因此，对于使用如下的距离度量：</p>
+</li>
+</ul>
+<script type="math/tex; mode=display">
+d(box,centroid)=1-IOU(box,centroid)</script><ul>
+<li>模型不稳定: 作者说RPN中用于定位的坐标，在训练时不受约束，所以任何锚框都可以在图像中的任何一点结束，而不管预测框的位置如何。 通过随机初始化，模型需要很长时间才能稳定以预测合理的偏移量。 </li>
+</ul>
+<h5 id="2-5-Direct-location-prediction"><a href="#2-5-Direct-location-prediction" class="headerlink" title="2.5 Direct location prediction"></a>2.5 Direct location prediction</h5><p>由于上述说的模型不稳定的问题，在YOLOv2中，还是遵循 YOLO 的方法，预测相对于网格单元位置的位置坐标。 这限制了真实值落在 0 和 1 之间。并使用逻辑激活来限制网络的预测落在这个范围内。 </p>
+<p>网络在<strong>输出特征图</strong>中的<strong>每个单元格</strong>预测 5 个边界框。 网络为每个边界框预测 5 个坐标，t<sub>x</sub>、t<sub>y</sub>、t<sub>w</sub>、t<sub>h</sub> 和 t<sub>o</sub>。 如果单元格从图像的左上角偏移 (cx,cy) 并且边界框先验具有宽度和高度 p<sub>w</sub>, p<sub>h</sub>，则预测对应于: </p>
+<script type="math/tex; mode=display">
+\begin{align}b_x=&\sigma(t_x)+c_x\\b_y=&\sigma(t_y)+\,c_y\\b_w=&p_we^{t_w}\\b_h=&p_h e^{t_h}\end{align}\\P_r(object)\ast IOU(b,object)=\sigma(t_o)</script><p>由于上面约束了位置预测，因此参数化更容易学习，使网络更稳定。 与使用锚框的版本相比，使用维度集群以及直接预测边界框中心位置将 YOLO 提高了近 5%。 </p>
+<p><img src="/YOLOv2-YOLO9000/YOLOv2-0.png" alt="YOLOV2"></p>
+<h5 id="2-6-Fine-Grained-Features"><a href="#2-6-Fine-Grained-Features" class="headerlink" title="2.6 Fine-Grained Features"></a>2.6 Fine-Grained Features</h5><p>虽然这对于大型物体来说，在YOLO 预测的 <code>13 × 13</code> 特征图上的检测已经足够了。但为了定位较小物体的细粒度特征，YOLOv2简单地添加一个传递层，以 26 × 26 的分辨率从较早的层中引入特征。 </p>
+<p>passthrough layer通过将相邻特征<strong>concatenates</strong>到不同的通道<strong>而不是</strong>空间位置，将高分辨率特征与低分辨率特征连接起来，类似于 ResNet 中的身份映射。 这将 26 ×26 ×512 的特征图变成了 13 ×13 ×2048 的特征图，可以与原始特征连接。 检测器运行在这个扩展的特征图之上，以便它可以访问细粒度的特征。 这将适度提高 1% 的性能。 </p>
+<p><img src="/YOLOv2-YOLO9000/YOLOv2-4.png" alt="YOLOV2"></p>
+<h5 id="2-7-Multi-Scale-Training"><a href="#2-7-Multi-Scale-Training" class="headerlink" title="2.7 Multi-Scale Training"></a>2.7 Multi-Scale Training</h5><p>训练时不是使用固定输入的图像大小，而是每隔几次迭代就更改网络。 每 <code>10</code> 个批次，网络随机选择一个新的图像尺寸。 由于模型下采样了 <code>32</code> 倍，所以从以下 32 的倍数中提取：{320,352,…,608}。 因此最小的选项是 <code>320 ×320</code>，最大的选项是 <code>608 ×608</code>。 将网络调整到那个维度并继续训练。</p>
+<h4 id="三、Faster"><a href="#三、Faster" class="headerlink" title="三、Faster"></a>三、Faster</h4><h5 id="3-1-Darknet-19"><a href="#3-1-Darknet-19" class="headerlink" title="3.1 Darknet-19"></a>3.1 Darknet-19</h5><p>作者提出了一种新的分类模型，用作 YOLOv2 的基础。 该模型建立在先前的网络设计工作以及该领域的常识的基础上。 与 VGG 模型类似，该模型主要使用 <code>3 × 3</code> 过滤器，并在每个池化步骤后将通道数加倍。 继 <code>Network in Network (NIN)</code> 的工作之后，使用全局平均池化进行预测，并使用 <code>1 ×1</code> 过滤器来压缩 <code>3 ×3</code> 卷积之间的特征表示 。 同时使用批量归一化来稳定训练，加速收敛，并对模型进行正则化。 最终模型称为<code>Darknet-19</code>，有 19 个卷积层和 5 个最大池化层。</p>
+<p><img src="/YOLOv2-YOLO9000/YOLOv2-1.png" alt="YOLOV2"></p>
+<h5 id="3-2-Training-for-classification"><a href="#3-2-Training-for-classification" class="headerlink" title="3.2 Training for classification"></a>3.2 Training for classification</h5><p>在标准 ImageNet 1000 类分类数据集上使用 <code>Darknet</code> 神经网络框架训练网络 160 个epoch，使用随机梯度下降，起始学习率为 0.1，多项式速率衰减为 4，权重衰减为 0.0005，动量为 0.9 。 训练期间使用标准的数据增强技巧，包括随机裁剪、旋转、色调、饱和度和曝光转换。</p>
+<p>此外，在对 <code>224 × 224</code> 的图像进行初始训练分类网络后，以更大的尺寸(448&times;448)微调<code>Darknet</code>网络。对于这种微调，使用上述参数进行训练，但仅训练 10 个epoch，并以 10<sup>-1</sup> 的学习率开始。在这个更高分辨率下，网络达到了 76.5% 的 top-1 准确率和 93.3% 的 top-5 准确率。 </p>
+<h5 id="3-3-Training-for-detection"><a href="#3-3-Training-for-detection" class="headerlink" title="3.3 Training for detection"></a>3.3 Training for detection</h5><p>通过删除最后一个卷积层来修改该网络以进行检测。添加了三个 3 × 3 卷积层，每个卷积层具有 1024 个过滤器，然后是最终的 1 × 1 卷积层，其中包含需要检测的输出数量。 </p>
+<p>对于 VOC，预测 5 个盒子，每个盒子有 5 个坐标，每个盒子有 20 个类，所以需要 5个boxes&times;(5个坐标+20个类) = 125个过滤器。 此外，还从最后的 3 ×3 ×512 层到倒数第二个卷积层添加了一个直通层，以便模型可以使用细粒度特征。</p>
+<p>以 10<sup>-3</sup> 的起始学习率训练网络 160 个epoch，在 60 和 90 个epoch将其除以 10。 使用 0.0005 的权重衰减和 0.9 的动量。 并且使用与 YOLO 和 SSD 类似的数据增强，随机裁剪、颜色偏移等。</p>
+<h4 id="四、Stronger"><a href="#四、Stronger" class="headerlink" title="四、Stronger"></a>四、Stronger</h4><p>作者提出了一种<strong>联合训练分类和检测数据</strong>的机制。 其中使用标记为<strong>检测的图像</strong>来<strong>学习</strong>特定于<strong>检测的信息</strong>，例如边界框坐标预测和对象性以及如何对常见对象进行分类。 它使用<strong>只有类别标签的图像</strong>来<strong>扩展</strong>它<strong>可以检测的类别数量</strong>。 </p>
+<p>在训练期间，<strong>混合</strong>来自检测和分类数据集的图像。 当网络看到标记为检测的图像时，可以基于完整的 YOLOv2 损失函数进行反向传播。 当它看到分类图像时，只从架构的特定分类部分反向传播损失。 </p>
+<p>大多数分类方法使用<strong>跨所有可能类别</strong>的 softmax 层来计算最终概率分布。 <strong>使用 softmax 假设这些类是互斥的</strong>。 这给组合数据集带来了问题，例如，您不希望使用此模型组合 ImageNet 和 COCO，因为类“Norfolk terrier”和“dog”并不相互排斥(Norfolk terrier是dog的一个品种)。 可以改为使用<strong>多标签模型</strong>来组合不假设互斥的数据集。</p>
+<p>为了解决上述出现的问题，作者借鉴WordNet，提出了一种视觉概念的分层模型称为WordTree。如果想计算特定节点的绝对概率，只需沿着树到根节点的路径，乘以条件概率。 所以如果想知道一张图片是否是Norfolk，使用如下的计算公式(联合概率)：</p>
+<script type="math/tex; mode=display">
+Pr(Norfolk \,\,terrier)=Pr(Norfolk\,\,terrier|terrier)\ast Pr(terrier|hunting\,\,dog)\ast ...\ast Pr(mammal|Pr(animal))\ast Pr(animal|physical\,\,object)</script><p><img src="/YOLOv2-YOLO9000/YOLOv2-2.png" alt="YOLOV2"></p>
+<p>上图显示了如果使用WordTree对同一枝干中的属性计算softmax。</p>
+<p><img src="/YOLOv2-YOLO9000/YOLOv2-3.png" alt="YOLOV2"></p>
+<p>上图显示了对不同数据集的整合。图像来源于论文<a href="https://arxiv.org/pdf/1612.08242.pdf" target="_blank" rel="noopener">YOLO9000:Better, Faster, Stronger</a>。</p>
+<p><a href="https://zhuanlan.zhihu.com/p/47575929" target="_blank" rel="noopener">参考博客</a></p>
+<p><a href="https://zhuanlan.zhihu.com/p/93632171" target="_blank" rel="noopener">参考博客</a></p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Deep-Learning/" rel="tag"># Deep Learning</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/09/12/YOLOv1/" rel="prev" title="YOLOv1">
+      <i class="fa fa-chevron-left"></i> YOLOv1
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2021/09/12/Object-Detection-Survey/" rel="next" title="Object-Detection-Survey">
+      Object-Detection-Survey <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+    <div class="comments" id="gitalk-container"></div>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#YOLOv2-and-YOLO9000"><span class="nav-number">1.</span> <span class="nav-text">YOLOv2 and YOLO9000</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#一、概述"><span class="nav-number">1.0.1.</span> <span class="nav-text">一、概述</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#二、Better"><span class="nav-number">1.0.2.</span> <span class="nav-text">二、Better</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#2-1-Batch-Normalization"><span class="nav-number">1.0.2.1.</span> <span class="nav-text">2.1 Batch Normalization</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-2-High-Resolution-Classifier"><span class="nav-number">1.0.2.2.</span> <span class="nav-text">2.2 High Resolution Classifier</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-3-Convolutional-With-Anchor-Boxes"><span class="nav-number">1.0.2.3.</span> <span class="nav-text">2.3 Convolutional With Anchor Boxes</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-4-Dimension-Clusters"><span class="nav-number">1.0.2.4.</span> <span class="nav-text">2.4 Dimension Clusters</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-5-Direct-location-prediction"><span class="nav-number">1.0.2.5.</span> <span class="nav-text">2.5 Direct location prediction</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-6-Fine-Grained-Features"><span class="nav-number">1.0.2.6.</span> <span class="nav-text">2.6 Fine-Grained Features</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-7-Multi-Scale-Training"><span class="nav-number">1.0.2.7.</span> <span class="nav-text">2.7 Multi-Scale Training</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#三、Faster"><span class="nav-number">1.0.3.</span> <span class="nav-text">三、Faster</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#3-1-Darknet-19"><span class="nav-number">1.0.3.1.</span> <span class="nav-text">3.1 Darknet-19</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3-2-Training-for-classification"><span class="nav-number">1.0.3.2.</span> <span class="nav-text">3.2 Training for classification</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3-3-Training-for-detection"><span class="nav-number">1.0.3.3.</span> <span class="nav-text">3.3 Training for detection</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#四、Stronger"><span class="nav-number">1.0.4.</span> <span class="nav-text">四、Stronger</span></a></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Qiang Chen</p>
+  <div class="site-description" itemprop="description">记录是忘记的第一助手.</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">88</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">13</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">22</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/chenaing19" title="GitHub → https://github.com/chenaing19" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/765206494@qq.com" title="E-Mail → 765206494@qq.com"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Qiang Chen</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v4.0.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 �?<a href="https://mist.theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> v7.5.0
+  </div>
+    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+  
+  <script color='0,0,255' opacity='0.5' zIndex='-1' count='99' src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/muse.js"></script>
+<script src="/js/next-boot.js"></script>
+
+
+
+  
+
+
+
+
+  <script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+      
+<script type="text/x-mathjax-config">
+
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$', '$'], ['\\(', '\\)'] ],
+      processEscapes: true,
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {
+      equationNumbers: {
+        autoNumber: 'AMS'
+      }
+    }
+  });
+
+  MathJax.Hub.Register.StartupHook('TeX Jax Ready', function() {
+    MathJax.InputJax.TeX.prefilterHooks.Add(function(data) {
+      if (data.display) {
+        var next = data.script.nextSibling;
+        while (next && next.nodeName.toLowerCase() === '#text') {
+          next = next.nextSibling;
+        }
+        if (next && next.nodeName.toLowerCase() === 'br') {
+          next.parentNode.removeChild(next);
+        }
+      }
+    });
+  });
+
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for (i = 0; i < all.length; i += 1) {
+      element = document.getElementById(all[i].inputID + '-Frame').parentNode;
+      if (element.nodeName.toLowerCase() == 'li') {
+        element = element.parentNode;
+      }
+      element.classList.add('has-jax');
+    }
+  });
+</script>
+<script>
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/mathjax@2/MathJax.js?config=TeX-AMS-MML_HTMLorMML', () => {
+    MathJax.Hub.Typeset();
+  }, window.MathJax);
+</script>
+
+    
+
+  
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID: '9c00bb4a73071d490d0b',
+      clientSecret: '0466125432b53cefbd6002b7ea866f7e15bbd9c8',
+      repo: 'chenqiang19.github.io',
+      owner: 'chenqiang19',
+      admin: ['chenqiang19'],
+      id: '440bb7ab03d7856a0046e47299c48e0a',
+        language: '',
+      distractionFreeMode: 'true'
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+</script>
+
+  
+  <!-- ҳ����С���� -->
+  
+  
+    <script src="/js/cursor/love.min.js"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  
+
+
+
+</body>
+</html>
