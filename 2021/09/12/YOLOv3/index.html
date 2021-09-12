@@ -54,13 +54,13 @@
 <meta property="og:site_name" content="编辑尼撑">
 <meta property="og:description" content="YOLOv3: An Incremental ImprovementYOLOv3没有太多的创新，主要是借鉴一些好的方案融合到YOLO里面。在保持速度优势的前提下，提升了预测精度，尤其是加强了对小物体的识别能力。论文地址 一、YOLOv3的改进1.1 多尺度预测(类FPN，特征金字塔网络) 为了识别更多的物体，尤其小物体，YOLOv3使用三个不同尺度进行预测。三个不同尺度步幅分别是32、16和8。如">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;YOLOv3&#x2F;YOLOV3.png">
-<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;YOLOv3&#x2F;YOLOV3-1.png">
-<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;YOLOv3&#x2F;YOLOV3-2.png">
-<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;YOLOv3&#x2F;YOLOV3-3.png">
-<meta property="og:updated_time" content="2021-09-12T08:38:04.763Z">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2021&#x2F;09&#x2F;12&#x2F;YOLOv3&#x2F;YOLOV3.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2021&#x2F;09&#x2F;12&#x2F;YOLOv3&#x2F;YOLOV3-1.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2021&#x2F;09&#x2F;12&#x2F;YOLOv3&#x2F;YOLOV3-2.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2021&#x2F;09&#x2F;12&#x2F;YOLOv3&#x2F;YOLOV3-3.png">
+<meta property="og:updated_time" content="2021-09-12T09:13:02.164Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;YOLOv3&#x2F;YOLOV3.png">
+<meta name="twitter:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2021&#x2F;09&#x2F;12&#x2F;YOLOv3&#x2F;YOLOV3.png">
 
 <link rel="canonical" href="http://yoursite.com/2021/09/12/YOLOv3/">
 
@@ -241,7 +241,7 @@
               <span class="post-meta-item-text">发表于</span>
               
 
-              <time title="创建时间：2021-09-12 16:37:12 / 修改时间：16:38:04" itemprop="dateCreated datePublished" datetime="2021-09-12T16:37:12+08:00">2021-09-12</time>
+              <time title="创建时间：2021-09-12 16:37:12 / 修改时间：17:13:02" itemprop="dateCreated datePublished" datetime="2021-09-12T16:37:12+08:00">2021-09-12</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -274,7 +274,7 @@
 
       
         <h2 id="YOLOv3-An-Incremental-Improvement"><a href="#YOLOv3-An-Incremental-Improvement" class="headerlink" title="YOLOv3: An Incremental Improvement"></a>YOLOv3: An Incremental Improvement</h2><p>YOLOv3没有太多的创新，主要是借鉴一些好的方案融合到YOLO里面。在保持速度优势的前提下，提升了预测精度，尤其是加强了对小物体的识别能力。<a href="https://www.jianshu.com/p/d13ae1055302" target="_blank" rel="noopener">论文地址</a></p>
-<h4 id="一、YOLOv3的改进"><a href="#一、YOLOv3的改进" class="headerlink" title="一、YOLOv3的改进"></a>一、YOLOv3的改进</h4><h5 id="1-1-多尺度预测-类FPN，特征金字塔网络"><a href="#1-1-多尺度预测-类FPN，特征金字塔网络" class="headerlink" title="1.1 多尺度预测(类FPN，特征金字塔网络)"></a>1.1 多尺度预测(类FPN，特征金字塔网络)</h5><p><img src="/YOLOv3/YOLOV3.png" alt="YOLOv3"></p>
+<h4 id="一、YOLOv3的改进"><a href="#一、YOLOv3的改进" class="headerlink" title="一、YOLOv3的改进"></a>一、YOLOv3的改进</h4><h5 id="1-1-多尺度预测-类FPN，特征金字塔网络"><a href="#1-1-多尺度预测-类FPN，特征金字塔网络" class="headerlink" title="1.1 多尺度预测(类FPN，特征金字塔网络)"></a>1.1 多尺度预测(类FPN，特征金字塔网络)</h5><p><img src="/2021/09/12/YOLOv3/YOLOV3.png" alt="YOLOv3"></p>
 <p>为了识别更多的物体，尤其小物体，YOLOv3使用三个不同尺度进行预测。三个不同尺度步幅分别是32、16和8。如果输入416&times;416大小的图像，检测尺度分别为13&times;13，26&times;26和52&times;52。YOLOv3使用k-means从coco数据集的anchor box中预测了9个不同尺寸的先验框，然后均分给三个不同的预测尺寸。</p>
 <div class="table-container">
 <table>
@@ -308,7 +308,7 @@
 </tbody>
 </table>
 </div>
-<h5 id="1-2-使用了更好的基础分类网络-类ResNet-和分类器"><a href="#1-2-使用了更好的基础分类网络-类ResNet-和分类器" class="headerlink" title="1.2 使用了更好的基础分类网络(类ResNet)和分类器"></a>1.2 使用了更好的基础分类网络(类ResNet)和分类器</h5><p><img src="/YOLOv3/YOLOV3-1.png" alt="YOLOV3"></p>
+<h5 id="1-2-使用了更好的基础分类网络-类ResNet-和分类器"><a href="#1-2-使用了更好的基础分类网络-类ResNet-和分类器" class="headerlink" title="1.2 使用了更好的基础分类网络(类ResNet)和分类器"></a>1.2 使用了更好的基础分类网络(类ResNet)和分类器</h5><p><img src="/2021/09/12/YOLOv3/YOLOV3-1.png" alt="YOLOV3"></p>
 <p><a href="https://www.cnblogs.com/makefile/p/YOLOv3.html" target="_blank" rel="noopener">上图来自</a>其中网络相比YOLOv2更加复杂了，去除了pooling层，改用stride=2的卷积层代替，并且添加了residual block。</p>
 <p><strong>评分函数(score function):</strong> 原始图像数据到类别分值的映射。</p>
 <p>多分类问题，一般使用Softmax分类器(Softmax层)，对应的表达式为：</p>
@@ -391,12 +391,12 @@ Loss=\lambda_{coord}\sum^{S^2}_{i=0}\sum^{B}_{j=0}I^{obj}_{ij}[(x_i-\hat{x}_i^j)
 </ol>
 <p><strong>最后一层feature map中的特征如何与GT中的目标对应？</strong></p>
 <p>将原始图像分割为最后预测图维度大小的网格。如下图所示，输入图像维度为416&times;416，步幅为32（最后的预测图降采样32倍），最后预测图维度为13&times;13，所以将原始图像划分为13&times;13的网格。图中原始图中的红框是GT的中心，所以该cell负责对目标进行预测，对应到feature map中的那个红点。</p>
-<p><img src="/YOLOv3/YOLOV3-2.png" alt="YOLOV3"></p>
+<p><img src="/2021/09/12/YOLOv3/YOLOV3-2.png" alt="YOLOV3"></p>
 <p>那么feature map中的红点会预测k个prior bounding box。具体选用那个呢？需要计算与GT 的IOU，选取最大的那个。与GT匹配的anchor box计算坐标误差、置信度误差（此时target为0）以及分类误差，而其他anchor box只计算置信度误差（此时target为0）。</p>
 <p>至于为什么需要k-means预测prior bounding box, 因为目标有不同的形状和长宽比，所以，需要预先预测一些先验的anchor box的长和宽。在网络预测出<script type="math/tex">t_w和t_h</script>之后，对框做一些约束。YOLOv2开始引入anchor机制后，不再与YOLOv1那样直接预测框的坐标，而是预测偏移值，<strong>通过学习偏移值，就可以通过网络原始定的anchor box坐标经过线性回归微调去逐渐靠近GT框</strong>。</p>
 <p>注意：<strong>位置上不使用anchor框，宽高上使用anchor框。</strong>位置是根据与gird左上角坐标的偏移值预测的。</p>
 <p><strong>多尺度预测</strong></p>
-<p><img src="/YOLOv3/YOLOV3-3.png" alt="YOLOV3"></p>
+<p><img src="/2021/09/12/YOLOv3/YOLOV3-3.png" alt="YOLOV3"></p>
 <p><strong>为什么在计算Ground Truth的<script type="math/tex">t_w,t_h</script>时需要缩放到对数空间？</strong></p>
 <p>不直接回归bounding box的长宽，而是<strong>为避免训练带来不稳定的梯度</strong>，将尺度缩放到对数空间。 如果直接预测相对形变tw 和 th，那么要求tw,th&gt;0，因为框的宽高不可能是负数，这样的话是在做一个有不等式条件约束的优化问题，没法直接用SGD来做，所以先取一个对数变换，将其不等式约束去掉就可以了。</p>
 <p><a href="https://blog.csdn.net/weixin_41065383/article/details/89413819" target="_blank" rel="noopener">参考：CNN损失函数</a></p>

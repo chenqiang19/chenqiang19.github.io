@@ -2,16 +2,65 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://yoursite.com/2021/09/12/YOLOv2-YOLO9000/</loc>
+    
+    <lastmod>2021-09-12T09:17:11.983Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2021/09/12/YOLOv1/</loc>
+    
+    <lastmod>2021-09-12T09:16:37.082Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2021/09/12/SSD-Detector/</loc>
+    
+    <lastmod>2021-09-12T09:16:14.681Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2021/09/12/Object-Detection-Survey/</loc>
+    
+    <lastmod>2021-09-12T09:15:23.440Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2021/09/12/Light-Head-R-CNN/</loc>
+    
+    <lastmod>2021-09-12T09:14:33.411Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://yoursite.com/2021/09/12/Detector-Net/</loc>
     
-    <lastmod>2021-09-12T08:47:09.499Z</lastmod>
+    <lastmod>2021-09-12T09:14:06.662Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2021/09/12/YOLOv4/</loc>
+    
+    <lastmod>2021-09-12T09:13:33.685Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2021/09/12/YOLOv3/</loc>
+    
+    <lastmod>2021-09-12T09:13:02.164Z</lastmod>
     
   </url>
   
   <url>
     <loc>http://yoursite.com/2021/09/12/Web-Servlet/</loc>
     
-    <lastmod>2021-09-12T08:45:21.057Z</lastmod>
+    <lastmod>2021-09-12T09:12:30.891Z</lastmod>
     
   </url>
   
@@ -19,55 +68,6 @@
     <loc>http://yoursite.com/2021/09/12/Wen-Servlet/</loc>
     
     <lastmod>2021-09-12T08:40:49.229Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://yoursite.com/2021/09/12/YOLOv4/</loc>
-    
-    <lastmod>2021-09-12T08:40:33.149Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://yoursite.com/2021/09/12/YOLOv3/</loc>
-    
-    <lastmod>2021-09-12T08:38:04.763Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://yoursite.com/2021/09/12/Object-Detection-Survey/</loc>
-    
-    <lastmod>2021-09-12T08:35:37.962Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://yoursite.com/2021/09/12/YOLOv2-YOLO9000/</loc>
-    
-    <lastmod>2021-09-12T08:27:23.713Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://yoursite.com/2021/09/12/YOLOv1/</loc>
-    
-    <lastmod>2021-09-12T08:22:50.818Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://yoursite.com/2021/09/12/SSD-Detector/</loc>
-    
-    <lastmod>2021-09-12T08:20:12.773Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://yoursite.com/2021/09/12/Light-Head-R-CNN/</loc>
-    
-    <lastmod>2021-09-12T08:16:03.507Z</lastmod>
     
   </url>
   

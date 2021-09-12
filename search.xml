@@ -72,11 +72,6 @@ E=\lambda\frac{1}{m}\sum^{m}_{k=1}E_k+(1-\lambda)\sum_{i}w^2_i</script><p>&lambd
   </entry>
   <entry>
     <title>Wen-Servlet</title>
-    <url>/2021/09/12/Wen-Servlet/</url>
-    <content><![CDATA[]]></content>
-  </entry>
-  <entry>
-    <title>Wen-Servlet</title>
     <url>/2021/09/12/Web-Servlet/</url>
     <content><![CDATA[<h2 id="Web学习记录"><a href="#Web学习记录" class="headerlink" title="Web学习记录"></a>Web学习记录</h2><p>学框架spring cloud和spring boot有点一知半解，从头开始快速理一遍吧！</p>
 <h4 id="一、tomcat"><a href="#一、tomcat" class="headerlink" title="一、tomcat"></a>一、tomcat</h4><h5 id="1-1-tomcat简述"><a href="#1-1-tomcat简述" class="headerlink" title="1.1 tomcat简述"></a>1.1 tomcat简述</h5><p>tomcat是一个开源的web服务器，将自己的web项目放到tomcat目录中的webapps中，并且在bin目录中开启tomcat后，就可以通过浏览器去访问web中的资源。下面创建一个简单的项目：</p>
@@ -93,7 +88,7 @@ E=\lambda\frac{1}{m}\sum^{m}_{k=1}E_k+(1-\lambda)\sum_{i}w^2_i</script><p>&lambd
 </li>
 </ul>
 <h5 id="1-2-URL访问资源"><a href="#1-2-URL访问资源" class="headerlink" title="1.2 URL访问资源"></a>1.2 URL访问资源</h5><p>URL主要由4部分组成：协议、主机、端口、资源路径。<a href="https://www.bilibili.com/video/BV1Jz4y1d7K7?p=5&amp;spm_id_from=pageDriver" target="_blank" rel="noopener">下图来自</a></p>
-<p><img src="/Web-Servlet/TOMCAT-0.png" alt="TOMCAT-0"></p>
+<p><img src="/2021/09/12/Web-Servlet/TOMCAT-0.png" alt="TOMCAT-0"></p>
 <p>tomcat响应流程：</p>
 <ul>
 <li>用户通过url访问资源</li>
@@ -101,7 +96,7 @@ E=\lambda\frac{1}{m}\sum^{m}_{k=1}E_k+(1-\lambda)\sum_{i}w^2_i</script><p>&lambd
 <li>找到后将资源返回给客户端浏览器</li>
 <li>浏览器对资源进行解析</li>
 </ul>
-<p><img src="/Web-Servlet/TOMCAT-1.png" alt="TOMCAT-1"></p>
+<p><img src="/2021/09/12/Web-Servlet/TOMCAT-1.png" alt="TOMCAT-1"></p>
 <h5 id="1-3-常见问题"><a href="#1-3-常见问题" class="headerlink" title="1.3 常见问题"></a>1.3 常见问题</h5><ol>
 <li><p>Tomcat闪退</p>
 <p>由于JAVA_HOME配置导致的，检查JAVA_HOME配置是否正确</p>
@@ -150,7 +145,7 @@ E=\lambda\frac{1}{m}\sum^{m}_{k=1}E_k+(1-\lambda)\sum_{i}w^2_i</script><p>&lambd
 <li>空行—为了分割请求头和请求正文</li>
 <li>请求正文</li>
 </ol>
-<p><img src="/Web-Servlet/HTTP-0.png" alt="HTTP-0"></p>
+<p><img src="/2021/09/12/Web-Servlet/HTTP-0.png" alt="HTTP-0"></p>
 <h5 id="3-3-http响应报文"><a href="#3-3-http响应报文" class="headerlink" title="3.3 http响应报文"></a>3.3 http响应报文</h5><p>由下面4部分组成：</p>
 <ol>
 <li>状态行</li>
@@ -158,7 +153,7 @@ E=\lambda\frac{1}{m}\sum^{m}_{k=1}E_k+(1-\lambda)\sum_{i}w^2_i</script><p>&lambd
 <li>空行—为了分割状态行和响应正文</li>
 <li>响应正文</li>
 </ol>
-<p><img src="/Web-Servlet/HTML-1.png" alt="HTML-1"></p>
+<p><img src="/2021/09/12/Web-Servlet/HTML-1.png" alt="HTML-1"></p>
 <h5 id="3-4-常见状态码"><a href="#3-4-常见状态码" class="headerlink" title="3.4 常见状态码"></a>3.4 常见状态码</h5><div class="table-container">
 <table>
 <thead>
@@ -232,7 +227,7 @@ E=\lambda\frac{1}{m}\sum^{m}_{k=1}E_k+(1-\lambda)\sum_{i}w^2_i</script><p>&lambd
 </li>
 </ol>
 <h5 id="4-3-Servlet请求"><a href="#4-3-Servlet请求" class="headerlink" title="4.3 Servlet请求"></a>4.3 Servlet请求</h5><p>Servlet中用来处理客户端请求需要用doGet或doPost方法中的request方法。</p>
-<p><img src="/Web-Servlet/SERVLET-2.png" alt="SERVLET-2"></p>
+<p><img src="/2021/09/12/Web-Servlet/SERVLET-2.png" alt="SERVLET-2"></p>
 <p><strong>get/post的区别</strong></p>
 <p>get请求：</p>
 <ul>
@@ -280,7 +275,7 @@ E=\lambda\frac{1}{m}\sum^{m}_{k=1}E_k+(1-\lambda)\sum_{i}w^2_i</script><p>&lambd
 <p><strong>post中文乱码：</strong>由于客户端是以UTF-8字符编码将表单数据传输到服务器端的，因此服务器也需要设置以UTF-8字符编码进行接受。</p>
 <p><strong>解决方法：</strong>使用从ServletRequest接口继承而来的setCharacterEncoding(charset)方法进行统一的编码设置。</p>
 <h5 id="4-5-response应用"><a href="#4-5-response应用" class="headerlink" title="4.5 response应用"></a>4.5 response应用</h5><p>response对象用于响应客户请求并向客户端输出信息。</p>
-<p><img src="/Web-Servlet/RESPONSE-0.png" alt="RESPONSE-0"></p>
+<p><img src="/2021/09/12/Web-Servlet/RESPONSE-0.png" alt="RESPONSE-0"></p>
 <p>response主要方法：</p>
 <div class="table-container">
 <table>
@@ -321,7 +316,7 @@ E=\lambda\frac{1}{m}\sum^{m}_{k=1}E_k+(1-\lambda)\sum_{i}w^2_i</script><p>&lambd
 <h6 id="5-1-1-页面跳转"><a href="#5-1-1-页面跳转" class="headerlink" title="5.1.1 页面跳转"></a>5.1.1 页面跳转</h6><p>在调用业务逻辑的Servlet中，编写一下代码</p>
 <figure class="highlight java"><table><tr><td class="code"><pre><span class="line">request.getRequestDispatcher(<span class="string">"/目标URL-pattern"</span>).forword(request,response);</span></pre></td></tr></table></figure>
 <p>注意：使用forward调转时，是在服务器内部跳转，地址栏不发生变化，属于同一次请求。</p>
-<p><img src="/Web-Servlet/REQUEST-1.png" alt="REQUEST-1"></p>
+<p><img src="/2021/09/12/Web-Servlet/REQUEST-1.png" alt="REQUEST-1"></p>
 <h6 id="5-1-2-数据传递"><a href="#5-1-2-数据传递" class="headerlink" title="5.1.2 数据传递"></a>5.1.2 数据传递</h6><p>forward表示一次请求，是在服务器内部跳转，可以共享同一次request作用域中的数据</p>
 <ul>
 <li>request作用域：拥有存储数据的空间，作用范围是一次请求有效(一次请求可以经过多次转发)<ul>
@@ -349,7 +344,7 @@ E=\lambda\frac{1}{m}\sum^{m}_{k=1}E_k+(1-\lambda)\sum_{i}w^2_i</script><p>&lambd
 <h6 id="5-2-1-页面跳转"><a href="#5-2-1-页面跳转" class="headerlink" title="5.2.1 页面跳转"></a>5.2.1 页面跳转</h6><p>在调用业务逻辑的servlet中，编写以下代码</p>
 <figure class="highlight java"><table><tr><td class="code"><pre><span class="line">response.sendRedirect(<span class="string">"目标URI"</span>);</span></pre></td></tr></table></figure>
 <p>URI：统一资源定位符(Uniform Resource Identifier)，用来表示服务器中定位一个资源，资源在web项目中的路径(/project/source)</p>
-<p><img src="/Web-Servlet/REQUEST-2.png" alt="REQUEST-2"></p>
+<p><img src="/2021/09/12/Web-Servlet/REQUEST-2.png" alt="REQUEST-2"></p>
 <h6 id="5-2-2-数据传递"><a href="#5-2-2-数据传递" class="headerlink" title="5.2.2 数据传递"></a>5.2.2 数据传递</h6><p>sendRedirect跳转时，地址栏改变，代表客户端重新发送请求。属于两次请求，所以数据没法共享。</p>
 <ul>
 <li>response没有作用域，两次request请求中的数据无法共享</li>
@@ -361,7 +356,7 @@ E=\lambda\frac{1}{m}\sum^{m}_{k=1}E_k+(1-\lambda)\sum_{i}w^2_i</script><p>&lambd
 <h5 id="6-2-初始化"><a href="#6-2-初始化" class="headerlink" title="6.2 初始化"></a>6.2 初始化</h5><p>在初始化阶段，init()方法会被调用。这个方法在javax.servlet.Servlet接口中定义。<strong>只执行一次</strong></p>
 <h5 id="6-3-服务"><a href="#6-3-服务" class="headerlink" title="6.3 服务"></a>6.3 服务</h5><p>当客户端有一个请求时，容器就会将请求ServletRequest与响应ServletResponse对象转给Servlet，以参数的形式传给service方法。<strong>此方法会执行多次</strong></p>
 <h5 id="6-4-销毁"><a href="#6-4-销毁" class="headerlink" title="6.4 销毁"></a>6.4 销毁</h5><p>当Servlet容器停止或者重新启动都会引起销毁Servlet对象并调用destroy方法。<strong>destroy方法执行一次</strong></p>
-<p><img src="/Web-Servlet/REQUEST-3.png" alt="REQUEST-3"></p>
+<p><img src="/2021/09/12/Web-Servlet/REQUEST-3.png" alt="REQUEST-3"></p>
 <h4 id="七、Servlet特性"><a href="#七、Servlet特性" class="headerlink" title="七、Servlet特性"></a>七、Servlet特性</h4><h5 id="7-1-线程安全问题"><a href="#7-1-线程安全问题" class="headerlink" title="7.1 线程安全问题"></a>7.1 线程安全问题</h5><p>Servlet在访问之后，会执行实例化操作，创建一个Servlet对象。而Tomcat容器可以同时多个线程并发访问同一个Servlet。如果在方法中对成员变量做修改操作，就会有线程安全的问题。</p>
 <h5 id="7-2-如何保证线程安全"><a href="#7-2-如何保证线程安全" class="headerlink" title="7.2 如何保证线程安全"></a>7.2 如何保证线程安全</h5><ul>
 <li>synchronized<ul>
@@ -392,7 +387,7 @@ E=\lambda\frac{1}{m}\sum^{m}_{k=1}E_k+(1-\lambda)\sum_{i}w^2_i</script><p>&lambd
 <li>一个Cookie主要由标识该信息的名称和值组成。</li>
 </ul>
 <p>下面显示了Cookie的原理：</p>
-<p><img src="/Web-Servlet/Cookie-0.png" alt="Cookie-0"></p>
+<p><img src="/2021/09/12/Web-Servlet/Cookie-0.png" alt="Cookie-0"></p>
 <p><strong>什么是Session?</strong></p>
 <ul>
 <li>Session用于记录用户的状态。Session指的是在一段时间内，单个客户端与Web服务器的一连串相关的交互过程。</li>
@@ -466,7 +461,7 @@ E=\lambda\frac{1}{m}\sum^{m}_{k=1}E_k+(1-\lambda)\sum_{i}w^2_i</script><p>&lambd
 </ul>
 <h4 id="十、过滤器"><a href="#十、过滤器" class="headerlink" title="十、过滤器"></a>十、过滤器</h4><p>因为servlet中有冗余的代码，所以需要用到过滤器。</p>
 <h5 id="10-1-概念"><a href="#10-1-概念" class="headerlink" title="10.1 概念"></a>10.1 概念</h5><p>过滤器(Filter)是出于客户端与服务器目标资源之间的一道过了技术。</p>
-<p><img src="/Web-Servlet/FILTER-0.png" alt="FILTER-0"></p>
+<p><img src="/2021/09/12/Web-Servlet/FILTER-0.png" alt="FILTER-0"></p>
 <p>注意：请求前和请求后都需要经过过滤器。</p>
 <h5 id="10-2-过滤器作用"><a href="#10-2-过滤器作用" class="headerlink" title="10.2 过滤器作用"></a>10.2 过滤器作用</h5><ul>
 <li>执行地位在Servlet之前，客户端发送请求时，会先经过Filter，再到达目标Servlet中；响应时，会根据执行流程再次反向执行Filter。</li>
@@ -493,7 +488,7 @@ E=\lambda\frac{1}{m}\sum^{m}_{k=1}E_k+(1-\lambda)\sum_{i}w^2_i</script><p>&lambd
 <p>每个过滤器实现某个特定的功能，当第一个Filter的doFilter方法被调用时，Web服务器会创建一个代表Filter链的FilterChain对象传递给该方法。在doFilter方法中，开发人员如果调用了FilterChain对象的doFilter方法，则Web服务器会检查FilterChain对象中是否还有filter，如果有，则调用第二个Filter，如果没有，则调用目标资源。</p>
 </li>
 </ol>
-<p><img src="/Web-Servlet/FILTER-2.png" alt="FILTER-2"></p>
+<p><img src="/2021/09/12/Web-Servlet/FILTER-2.png" alt="FILTER-2"></p>
 <ol>
 <li>过滤器优先级<ul>
 <li>如果为注解的话，是按照类全名称的字符串顺序决定作用顺序</li>
@@ -518,6 +513,11 @@ E=\lambda\frac{1}{m}\sum^{m}_{k=1}E_k+(1-\lambda)\sum_{i}w^2_i</script><p>&lambd
       </tags>
   </entry>
   <entry>
+    <title>Wen-Servlet</title>
+    <url>/2021/09/12/Wen-Servlet/</url>
+    <content><![CDATA[]]></content>
+  </entry>
+  <entry>
     <title>YOLOv4</title>
     <url>/2021/09/12/YOLOv4/</url>
     <content><![CDATA[<h2 id="YOLOv4-Optimal-Speed-and-Accuracy-of-Object-Detection"><a href="#YOLOv4-Optimal-Speed-and-Accuracy-of-Object-Detection" class="headerlink" title="YOLOv4: Optimal Speed and Accuracy of Object Detection"></a>YOLOv4: Optimal Speed and Accuracy of Object Detection</h2><h4 id="一、概述"><a href="#一、概述" class="headerlink" title="一、概述"></a>一、概述</h4><p>通俗的讲，YOLO-v4算法是在原有YOLO目标检测架构的基础上，采用了近些年CNN领域中最优秀的优化策略，从<strong>数据处理、主干网络、网络训练、激活函数、损失函数</strong>等各个方面都进行了不同程度的优化。</p>
@@ -528,7 +528,7 @@ E=\lambda\frac{1}{m}\sum^{m}_{k=1}E_k+(1-\lambda)\sum_{i}w^2_i</script><p>&lambd
 <li>修改了state-of-the-art方法，使得他们在使用单个GPU进行训练时更加有效和适配，包括CBN，PAN，SAM等。</li>
 </ul>
 <p>现代检测器通常由两部分组成，在 ImageNet 上<strong>预训练的主干</strong>和用于<strong>预测对象类别和边界框的头部</strong>。对于那些在 GPU 平台上运行的检测器，它们的主干可以是 <code>VGG</code> 、<code>ResNet</code> 、<code>ResNeXt</code> 或 <code>DenseNet</code> 。对于那些在 CPU 平台上运行的检测器，它们的主干可以是 <code>SqueezeNet</code>、<code>MobileNet</code> 或 <code>ShuffleNet</code>。对于头部，通常分为两类，即一级物体检测器和二级物体检测器。最具代表性的两阶段物体检测器是<code>R-CNN</code>系列，包括<code>Fast R-CNN</code>、<code>Faster R-CNN</code>、<code>R-FCN</code>和<code>Libra R-CNN</code> .也可以将两阶段物体检测器变成anchor free 物体检测器，例如 <code>RepPoints</code>。对于单级目标检测器，最具代表性的模型是 <code>YOLO</code>、<code>SSD</code> 和 <code>RetinaNet</code>。近年来，开发了anchor free 单阶段目标检测器。这类检测器有 <code>CenterNet</code>、<code>CornerNet</code>、<code>FCOS</code> 等。 近年来开发的目标检测器经常在主干和头部之间插入一些层，这些层通常用于从不同的阶段收集特征图。我们可以称之为目标检测器的颈部。通常，一个脖子由几个自下而上的路径和几个自上而下的路径组成。配备这种机制的网络包括特征金字塔网络<code>FPN</code>、路径聚合网络 <code>PAN</code>、<code>BiFPN</code> 和 <code>NAS-FPN</code>。 </p>
-<p><img src="/YOLOv4/YOLOV4-0.png" alt="YOLOV4"></p>
+<p><img src="/2021/09/12/YOLOv4/YOLOV4-0.png" alt="YOLOV4"></p>
 <p>综上所述，一个普通的物体检测器由几部分组成： </p>
 <ul>
 <li><strong>Input:</strong> Image, Patches, Image Pyramid</li>
@@ -569,7 +569,7 @@ E=\lambda\frac{1}{m}\sum^{m}_{k=1}E_k+(1-\lambda)\sum_{i}w^2_i</script><p>&lambd
 <li>更多参数 - 提高模型在单个图像中检测多个不同大小对象的能力 </li>
 </ul>
 <p>可以假设应该选择具有更大感受野大小（具有更大数量的卷积层 3 × 3）和更多参数的模型作为主干。</p>
-<p><img src="/YOLOv4/YOLOV4-1.png" alt="YOLOV4"></p>
+<p><img src="/2021/09/12/YOLOv4/YOLOV4-1.png" alt="YOLOV4"></p>
 <p>不同大小感受野的影响总结如下: </p>
 <ul>
 <li>达到对象大小 - 允许查看整个对象 </li>
@@ -578,7 +578,7 @@ E=\lambda\frac{1}{m}\sum^{m}_{k=1}E_k+(1-\lambda)\sum_{i}w^2_i</script><p>&lambd
 </ul>
 <p>YOLOv4在 <code>CSPDarknet53</code> 上添加了 <code>SPP</code> 块，因为它显着增加了感受野，分离出最重要的上下文特征，并且几乎不会降低网络运行速度。 并且使用 <code>PANet</code> 作为不同检测器级别的不同主干级别的参数聚合方法，而不是 YOLOv3 中使用的 <code>FPN</code>。 </p>
 <p>最后，YOLOv4选择 <code>CSPDarknet53</code> <strong>主干</strong>、<code>SPP</code> <strong>附加模块</strong>、<code>PANet 路径聚合</code> <strong>颈部</strong>和 <code>YOLOv3</code>（基于锚点）<strong>头部 </strong>作为 YOLOv4 的架构。 </p>
-<p><img src="/YOLOv4/YOLOV4-3.png" alt="YOLOV4"></p>
+<p><img src="/2021/09/12/YOLOv4/YOLOV4-3.png" alt="YOLOV4"></p>
 <h4 id="五、Selection-of-BoF-and-BoS"><a href="#五、Selection-of-BoF-and-BoS" class="headerlink" title="五、Selection of BoF and BoS"></a>五、Selection of BoF and BoS</h4><p>为了改进目标检测训练，CNN 通常使用以下内容： </p>
 <ul>
 <li>激活：ReLU、leaky-ReLU、参数化 ReLU、ReLU6、SELU、Swish 或 Mish</li>
@@ -595,9 +595,9 @@ E=\lambda\frac{1}{m}\sum^{m}_{k=1}E_k+(1-\lambda)\sum_{i}w^2_i</script><p>&lambd
 <li>修改了一些现有的方法，使我们的设计适合高效的训练和检测-修改的 SAM、修改的 PAN 和交叉小批量归一化 (CmBN) </li>
 </ul>
 <p>Mosaic 代表了一种新的数据增强方法，它混合了四张训练图像，使其按一定比例组合成一张图像，使模型学会在更小的范围内识别对象。 因此混合了 4 个不同的上下文，而 CutMix 仅混合了 2 个输入图像。 这允许检测正常上下文之外的对象。 此外，批量归一化计算每层 4 个不同图像的激活统计数据。 这显着减少了对大 mini-batch 大小的需求。 </p>
-<p><img src="/YOLOv4/YOLOV4-5.png" alt="YOLOV4"></p>
+<p><img src="/2021/09/12/YOLOv4/YOLOV4-5.png" alt="YOLOV4"></p>
 <p>自我对抗训练 (SAT) 也代表了一种新的数据增强技术，它在 2 个前向后向阶段中运行。 在第一阶段，神经网络改变原始图像而不是网络权重。 通过这种方式，神经网络对自身执行对抗性攻击，改变原始图像以制造图像上没有所需对象的欺骗。 在第二阶段，训练神经网络以正常方式检测此修改图像上的对象。 </p>
-<p><img src="/YOLOv4/YOLOV4-2.png" alt="YOLOV4"></p>
+<p><img src="/2021/09/12/YOLOv4/YOLOV4-2.png" alt="YOLOV4"></p>
 <p><a href="https://arxiv.org/pdf/2004.10934v1.pdf" target="_blank" rel="noopener">论文地址</a></p>
 <p><a href="https://zhuanlan.zhihu.com/p/137393450" target="_blank" rel="noopener">参考内容1</a></p>
 <p><a href="https://zhuanlan.zhihu.com/p/161083602" target="_blank" rel="noopener">参考内容2</a></p>
@@ -613,7 +613,7 @@ E=\lambda\frac{1}{m}\sum^{m}_{k=1}E_k+(1-\lambda)\sum_{i}w^2_i</script><p>&lambd
     <title>YOLOv3</title>
     <url>/2021/09/12/YOLOv3/</url>
     <content><![CDATA[<h2 id="YOLOv3-An-Incremental-Improvement"><a href="#YOLOv3-An-Incremental-Improvement" class="headerlink" title="YOLOv3: An Incremental Improvement"></a>YOLOv3: An Incremental Improvement</h2><p>YOLOv3没有太多的创新，主要是借鉴一些好的方案融合到YOLO里面。在保持速度优势的前提下，提升了预测精度，尤其是加强了对小物体的识别能力。<a href="https://www.jianshu.com/p/d13ae1055302" target="_blank" rel="noopener">论文地址</a></p>
-<h4 id="一、YOLOv3的改进"><a href="#一、YOLOv3的改进" class="headerlink" title="一、YOLOv3的改进"></a>一、YOLOv3的改进</h4><h5 id="1-1-多尺度预测-类FPN，特征金字塔网络"><a href="#1-1-多尺度预测-类FPN，特征金字塔网络" class="headerlink" title="1.1 多尺度预测(类FPN，特征金字塔网络)"></a>1.1 多尺度预测(类FPN，特征金字塔网络)</h5><p><img src="/YOLOv3/YOLOV3.png" alt="YOLOv3"></p>
+<h4 id="一、YOLOv3的改进"><a href="#一、YOLOv3的改进" class="headerlink" title="一、YOLOv3的改进"></a>一、YOLOv3的改进</h4><h5 id="1-1-多尺度预测-类FPN，特征金字塔网络"><a href="#1-1-多尺度预测-类FPN，特征金字塔网络" class="headerlink" title="1.1 多尺度预测(类FPN，特征金字塔网络)"></a>1.1 多尺度预测(类FPN，特征金字塔网络)</h5><p><img src="/2021/09/12/YOLOv3/YOLOV3.png" alt="YOLOv3"></p>
 <p>为了识别更多的物体，尤其小物体，YOLOv3使用三个不同尺度进行预测。三个不同尺度步幅分别是32、16和8。如果输入416&times;416大小的图像，检测尺度分别为13&times;13，26&times;26和52&times;52。YOLOv3使用k-means从coco数据集的anchor box中预测了9个不同尺寸的先验框，然后均分给三个不同的预测尺寸。</p>
 <div class="table-container">
 <table>
@@ -647,7 +647,7 @@ E=\lambda\frac{1}{m}\sum^{m}_{k=1}E_k+(1-\lambda)\sum_{i}w^2_i</script><p>&lambd
 </tbody>
 </table>
 </div>
-<h5 id="1-2-使用了更好的基础分类网络-类ResNet-和分类器"><a href="#1-2-使用了更好的基础分类网络-类ResNet-和分类器" class="headerlink" title="1.2 使用了更好的基础分类网络(类ResNet)和分类器"></a>1.2 使用了更好的基础分类网络(类ResNet)和分类器</h5><p><img src="/YOLOv3/YOLOV3-1.png" alt="YOLOV3"></p>
+<h5 id="1-2-使用了更好的基础分类网络-类ResNet-和分类器"><a href="#1-2-使用了更好的基础分类网络-类ResNet-和分类器" class="headerlink" title="1.2 使用了更好的基础分类网络(类ResNet)和分类器"></a>1.2 使用了更好的基础分类网络(类ResNet)和分类器</h5><p><img src="/2021/09/12/YOLOv3/YOLOV3-1.png" alt="YOLOV3"></p>
 <p><a href="https://www.cnblogs.com/makefile/p/YOLOv3.html" target="_blank" rel="noopener">上图来自</a>其中网络相比YOLOv2更加复杂了，去除了pooling层，改用stride=2的卷积层代替，并且添加了residual block。</p>
 <p><strong>评分函数(score function):</strong> 原始图像数据到类别分值的映射。</p>
 <p>多分类问题，一般使用Softmax分类器(Softmax层)，对应的表达式为：</p>
@@ -730,12 +730,12 @@ Loss=\lambda_{coord}\sum^{S^2}_{i=0}\sum^{B}_{j=0}I^{obj}_{ij}[(x_i-\hat{x}_i^j)
 </ol>
 <p><strong>最后一层feature map中的特征如何与GT中的目标对应？</strong></p>
 <p>将原始图像分割为最后预测图维度大小的网格。如下图所示，输入图像维度为416&times;416，步幅为32（最后的预测图降采样32倍），最后预测图维度为13&times;13，所以将原始图像划分为13&times;13的网格。图中原始图中的红框是GT的中心，所以该cell负责对目标进行预测，对应到feature map中的那个红点。</p>
-<p><img src="/YOLOv3/YOLOV3-2.png" alt="YOLOV3"></p>
+<p><img src="/2021/09/12/YOLOv3/YOLOV3-2.png" alt="YOLOV3"></p>
 <p>那么feature map中的红点会预测k个prior bounding box。具体选用那个呢？需要计算与GT 的IOU，选取最大的那个。与GT匹配的anchor box计算坐标误差、置信度误差（此时target为0）以及分类误差，而其他anchor box只计算置信度误差（此时target为0）。</p>
 <p>至于为什么需要k-means预测prior bounding box, 因为目标有不同的形状和长宽比，所以，需要预先预测一些先验的anchor box的长和宽。在网络预测出<script type="math/tex">t_w和t_h</script>之后，对框做一些约束。YOLOv2开始引入anchor机制后，不再与YOLOv1那样直接预测框的坐标，而是预测偏移值，<strong>通过学习偏移值，就可以通过网络原始定的anchor box坐标经过线性回归微调去逐渐靠近GT框</strong>。</p>
 <p>注意：<strong>位置上不使用anchor框，宽高上使用anchor框。</strong>位置是根据与gird左上角坐标的偏移值预测的。</p>
 <p><strong>多尺度预测</strong></p>
-<p><img src="/YOLOv3/YOLOV3-3.png" alt="YOLOV3"></p>
+<p><img src="/2021/09/12/YOLOv3/YOLOV3-3.png" alt="YOLOV3"></p>
 <p><strong>为什么在计算Ground Truth的<script type="math/tex">t_w,t_h</script>时需要缩放到对数空间？</strong></p>
 <p>不直接回归bounding box的长宽，而是<strong>为避免训练带来不稳定的梯度</strong>，将尺度缩放到对数空间。 如果直接预测相对形变tw 和 th，那么要求tw,th&gt;0，因为框的宽高不可能是负数，这样的话是在做一个有不等式条件约束的优化问题，没法直接用SGD来做，所以先取一个对数变换，将其不等式约束去掉就可以了。</p>
 <p><a href="https://blog.csdn.net/weixin_41065383/article/details/89413819" target="_blank" rel="noopener">参考：CNN损失函数</a></p>
@@ -800,7 +800,7 @@ Loss=\lambda_{coord}\sum^{S^2}_{i=0}\sum^{B}_{j=0}I^{obj}_{ij}[(x_i-\hat{x}_i^j)
 <li>使用CNN特征为每个对象类学习边界框回归。 </li>
 </ul>
 <p>下面为整个RCNN的训练和测试过程，不同的箭头代表了不同的阶段。</p>
-<p><img src="/Object-Detection-Survey/rcnn.png" alt="Object-Detection"></p>
+<p><img src="/2021/09/12/Object-Detection-Survey/rcnn.png" alt="Object-Detection"></p>
 <p><strong>缺点：</strong></p>
 <ul>
 <li>训练是一个多阶段的复杂管道，它不优雅、缓慢且难以优化，因为每个阶段都必须单独训练。 </li>
@@ -810,7 +810,7 @@ Loss=\lambda_{coord}\sum^{S^2}_{i=0}\sum^{B}_{j=0}I^{obj}_{ij}[(x_i-\hat{x}_i^j)
 </ul>
 <p><strong>SPPNet：</strong>在测试期间，CNN 特征提取是 RCNN 检测管道的主要瓶颈，它需要从图像的数千个warped<strong>区域建议</strong>中提取CNN特征。注意到这些明显的缺点，Heet al.将传统的空间金字塔池化 (SPP) 引入CNN架构。由于卷积层接受任意大小的输入，因此 <strong>CNN 中对固定大小图像的要求仅是由于全连接 (FC) 层</strong>，Heet al.发现了这一事实并在<strong>最后一个卷积</strong> (CONV) 之上添加了一个 <strong>SPP 层</strong>获得FC层的固定长度特征。使用这个 SPPnet，RCNN 在不牺牲任何检测质量的情况下获得了显着的加速，因为它只需要在整个测试图像上运行一次卷积层即可为任意大小的区域提议生成固定长度的特征。<strong>虽然</strong> SPPnet 将 RCNN 评估加速了几个数量级，但它并没有导致<strong>检测器训练</strong>被加速。此外，SPPnet中的微调无法在 SPP 层之前更新卷积层，这限制了非常深网络的准确性。 </p>
 <p>SPPNet为了解决任意尺度图像进行训练得问题引入了<code>spatial pyramid pooling layer</code>，如下图：</p>
-<p><img src="/Object-Detection-Survey/sppnet.png" alt="SPPNet"></p>
+<p><img src="/2021/09/12/Object-Detection-Survey/sppnet.png" alt="SPPNet"></p>
 <p>在最后的卷积层和全连接层之间加入SPP层。具体做法是，在conv5层得到的特征图是256层，每层都做一次spatial pyramid pooling。先把每个特征图分割成多个不同尺寸的网格，比如网格分别为4x4、2x2、1x1,然后每个网格做max  pooling，这样256层特征图就形成了16x256，4x256，1x256维特征，他们连起来就形成了一个固定长度的特征向量，将这个向量输入到后面的全连接层。</p>
 <p><strong>那么网络如何训练呢？</strong></p>
 <p>多阶段多尺寸训练方法，<strong>具体对SPPNet网络得介绍单独写一份学习笔记</strong></p>
@@ -822,7 +822,7 @@ Loss=\lambda_{coord}\sum^{S^2}_{i=0}\sum^{B}_{j=0}I^{obj}_{ij}[(x_i-\hat{x}_i^j)
 <h4 id="5、统一的Pipeline-一阶段目标检测器"><a href="#5、统一的Pipeline-一阶段目标检测器" class="headerlink" title="5、统一的Pipeline(一阶段目标检测器)"></a>5、统一的Pipeline(一阶段目标检测器)</h4><p>统一管道是使用单个前馈 CNN 网络直接从完整图像预测类概率和边界框偏移的架构，不涉及区域提议生成或后分类。因此可以直接在检测性能上进行端到端的优化。</p>
 <p><strong>YOLO:</strong> 一种统一的检测器，将目标检测作为从图像像素到空间分离的边界框和相关类概率的回归问题。在YOLO中放弃了区域提议阶段，直接使用子小组候选区域来预测待检测的目标。由于 YOLO 在进行预测时会看到整个图像，因此它隐式编码了有关对象类别的上下文信息，并且不太可能预测背景中的误报。但由于边界框位置、比例和纵横比的粗划分，YOLO 会产生更多的定位错误。</p>
 <p><strong>SSD:</strong> SSD结合了Faster R-CNN中anchor的思想预先对feature map的每个点产生prior box，其次，采用了多尺度feature maps进行检测的方法，从而实现了快速检测，同时保持较高的检测质量。由于SSD类似于YOLO不需要进行两次分类，剔除了RPN中对anchor的预计，所以也是Single shot类的检测方法。</p>
-<p><img src="/Object-Detection-Survey/Detect-0.png" alt="Detector"></p>
+<p><img src="/2021/09/12/Object-Detection-Survey/Detect-0.png" alt="Detector"></p>
 <h4 id="二、检测过程中的子问题"><a href="#二、检测过程中的子问题" class="headerlink" title="二、检测过程中的子问题"></a>二、检测过程中的子问题</h4><h5 id="2-1-DCNN-bases-Object-Representation-特征表示"><a href="#2-1-DCNN-bases-Object-Representation-特征表示" class="headerlink" title="2.1 DCNN bases Object Representation(特征表示)"></a>2.1 DCNN bases Object Representation(特征表示)</h5><p>作为任何检测器的主要组件之一，良好的特征表示在目标检测中是最重要的。 过去，大量的努力致力于设计局部描述子（例如，SIFT和 HOG）并探索方法（例如，Bag of Words 和 Fisher Vector）来分组并将描述子抽象为更高级别的表示，以允许区分对象部分开始出现(将数据转换到更高的维度，从而简化所需解决的问题，非线性支持向量机中的核函数很好的解释了这一点)，但是这些特征表示方法需要仔细的工程和相当多的领域专业知识。</p>
 <p>相比之下，由多个处理层组成的深度学习方法（尤其是深度 CNN 或 DCNN）可以直接从原始图像中学习具有多层次抽象的强大特征表示。 由于学习过程减少了传统特征工程所需的特定领域知识和复杂过程的依赖性，特征表示的负担已转移到更好的网络架构设计上。 人们普遍认为，CNN 表征起着至关重要的作用，而 CNN 架构是检测器的引擎。 因此，最近在检测精度方面的大部分改进都是通过研究新型网络的发展来实现的。 因此，这里首先回顾通用对象检测中使用的流行 CNN 架构，然后回顾致力于改进对象特征表示的工作，例如开发不变特征以适应对象尺度、姿态、视点、部分变形和执行多尺度的几何变化 分析以改进各种尺度上的对象检测。 </p>
 <h6 id="2-1-1-Popular-CNN-Architecture"><a href="#2-1-1-Popular-CNN-Architecture" class="headerlink" title="2.1.1 Popular CNN Architecture"></a>2.1.1 Popular CNN Architecture</h6><p>简而言之，CNN 具有层次结构，由卷积、非线性、池化等多个层组成。 从更细到更粗的层，图像反复进行滤波卷积，每一层都有感受野（支持区域） 这些过滤器的数量增加。 例如，开创性的 AlexNet有五个卷积层和两个全连接层。 一般来说，第一个 CNN 层提取低级特征（例如边缘），中间层提取复杂性增加的特征，例如低级特征的组合，然后卷积层将对象检测为早期部分的组合。 </p>
@@ -835,7 +835,7 @@ Loss=\lambda_{coord}\sum^{S^2}_{i=0}\sum^{B}_{j=0}I^{obj}_{ij}[(x_i-\hat{x}_i^j)
 <p>试图在进行预测之前组合来自多个层的特征。代表性方法包括 <code>Hypercolumns</code> 、<code>HyperNet</code> 和 <code>ION</code> 。这种特征组合通常通过跳跃连接来完成，这是一种经典的神经网络思想，它跳过网络中的某些层并将前一层的输出作为输入提供给后一层，这种架构最近在语义分割中变得流行。组合特征更具描述性，更有利于定位和分类，但增加了计算复杂度。 </p>
 </li>
 </ol>
-<p><img src="/Object-Detection-Survey/Detector-1.png" alt="Detector"></p>
+<p><img src="/2021/09/12/Object-Detection-Survey/Detector-1.png" alt="Detector"></p>
 <ol>
 <li><p><strong>Detecting at multiple CNN layers</strong></p>
 <p>通过平均分割概率将来自多个层的粗到细预测结合起来。 <code>SSD</code> 和 <code>MSCNN</code>、<code>RBFNet</code>  和 <code>DSOD</code> 结合来自多个特征图的预测来处理各种大小的对象。 SSD 将不同尺度的默认框分布到 CNN 中的多个层，并强制每一层专注于预测特定尺度的对象。<code>RFBNet</code>简单地用感受野块 (RFB) 替换了 SSD 的后期卷积层，以增强特征的可辨别性和鲁棒性。 RFB 是一个多分支卷积块，类似于 <code>Inception</code> 块，但将多个分支与不同的内核和卷积层组合在一起。<code>MSCNN</code> 在 CNN 的多个层上应用反卷积以提高特征图分辨率，然后再使用这些层来学习区域提议和池特征。 </p>
@@ -844,8 +844,8 @@ Loss=\lambda_{coord}\sum^{S^2}_{i=0}\sum^{B}_{j=0}I^{obj}_{ij}[(x_i-\hat{x}_i^j)
 <p>一方面，通过简单地将skip connect特征结合到检测中，如<code>UNet</code>、<code>Hypercolumns</code>、<code>HyperNet</code>和 <code>ION</code>，因为高维超特征表示的效用并没有产生显着的改进。另一方面，从具有大感受野的较晚层检测大目标，并使用具有小感受野的较早层来检测小目标；然而，简单地从较早的层检测对象可能会导致性能低下，因为较早的层拥有较少的语义信息。因此，为了结合两者，最近的一些工作提出了在多层检测目标，并且通过组合来自不同层的特征来获得每个检测层的特征。代表性方法包括<code>SharpMask</code>、<code>Deconvolutional Single Shot Detector</code> 、<code>Feature Pyramid Network</code> 、<code>Top Down Modulation</code>、<code>Reverse connection with Objectness prior Network</code>、<code>ZIP</code>、<code>Scale Transfer Detection Network</code>、<code>RefineDet</code> 和 <code>StairNet</code>。</p>
 </li>
 </ol>
-<p><img src="/Object-Detection-Survey/Detector-2.png" alt="Detector"></p>
-<p><img src="/Object-Detection-Survey/Detector-3.png" alt="Detector"></p>
+<p><img src="/2021/09/12/Object-Detection-Survey/Detector-2.png" alt="Detector"></p>
+<p><img src="/2021/09/12/Object-Detection-Survey/Detector-3.png" alt="Detector"></p>
 <ol>
 <li><p><strong>Model Geometric Transformations</strong></p>
 <p>DCNN 本质上仅限于对重要的几何变换进行建模。为了增强 CNN 表示的鲁棒性，需要学习关于不同类型变换的不变 CNN 表示，例如尺度、旋转等。可变形卷积网络(DCN)设计了一个可变形卷积层和一个可变形 RoI 池化层，这两个层都基于使用附加位置偏移量增加特征图中的常规网格采样位置并通过卷积学习偏移量的思想。</p>
@@ -860,7 +860,7 @@ Loss=\lambda_{coord}\sum^{S^2}_{i=0}\sum^{B}_{j=0}I^{obj}_{ij}[(x_i-\hat{x}_i^j)
 <p>目标检测的当前技术水平无需明确利用任何上下文信息即可检测目标。 人们普遍同意，DCNN 隐式地使用上下文信息，因为它们学习具有多个抽象级别的分层表示。 尽管如此，在基于 DCNN 的检测器中明确探索上下文信息仍然有价值，因此以下回顾最近在基于 DCNN 的目标检测器中利用上下文线索的工作，组织成全局和局部上下文的类别。</p>
 <p><strong>Global context:</strong>  指的是图像或场景级别的上下文，可以作为对象检测的线索（例如，卧室将预测床的存在）。 在<code>DeepIDNet</code>中，图像分类分数被用作上下文特征，并与对象检测分数连接以改善检测结果。 <code>ION</code>中建议使用空间循环神经网络 (RNN) 来探索整个图像的上下文信息。 在 <code>SegDeepM</code>中提出了一个 <code>MRF</code>模型，该模型对每次检测的外观和上下文进行评分，并允许每个候选框选择一个片段并对它们之间的一致性进行评分。 在<code>Contextual priming and feedback forFaster RCNN</code>中，语义分割被用作上下文启动的一种形式。 </p>
 <p><strong>Local context:</strong> 考虑目标关系中的局部环境，即目标与其周围区域之间的相互作用。一般来说，建模目标关系具有挑战性，需要对不同类别、位置、尺度等的边界框进行推理。在深度学习时代，明确建模对象关系的研究非常有限，代表性的研究是空间记忆网络<code>SMN</code>、对象关系网络和结构推理网络<code>SIN</code>。还有一些简单方法，通常是通过扩大检测窗口大小来提取某种形式的局部上下文。 代表性方法包括<code>MRCNN</code>、<code>Gated BiDirectional CNN</code> (GBDNet)、<code>Attention to Context CNN</code> (ACCNN) 、<code>CoupleNet</code> 和<code>Pedestrian detection with unsupervised multistage feature learnin</code>。</p>
-<p><img src="/Object-Detection-Survey/Detector-4.png" alt="Detector"></p>
+<p><img src="/2021/09/12/Object-Detection-Survey/Detector-4.png" alt="Detector"></p>
 <h5 id="2-3-Detection-Proposal-Methods-区域提议"><a href="#2-3-Detection-Proposal-Methods-区域提议" class="headerlink" title="2.3 Detection Proposal Methods(区域提议)"></a>2.3 Detection Proposal Methods(区域提议)</h5><p>目标可以位于图像中的任何位置和比例。 在手工特征描述符（例如，SIFT、HOG和LBP）的鼎盛时期，词袋（BoW）和DPM使用了滑动窗口技术。 然而，窗口的数量很大并且随着图像中像素的数量而增长，并且需要在多个尺度和纵横比下进行搜索，从而进一步显着增加了搜索空间。 因此，应用更复杂的分类器在计算上过于昂贵。 </p>
 <p>2011 年左右，研究人员提出通过使用检测建议来缓解计算易处理性和高检测质量之间的紧张关系。 源于<code>What is an object</code>提出的目标性思想，目标提议是图像中可能包含目标的一组候选区域。 检测建议通常用作预处理步骤，以通过限制检测器需要评估的区域数量来降低计算复杂度。 因此，一个好的检测方案应该具备以下特点： </p>
 <ol>
@@ -870,8 +870,8 @@ Loss=\lambda_{coord}\sum^{S^2}_{i=0}\sum^{B}_{j=0}I^{obj}_{ij}[(x_i-\hat{x}_i^j)
 </ol>
 <p>在基于传统低级线索（例如，颜色、纹理、边缘和梯度）的目标提议方法中，选择性搜索、<code>MCG</code> 和 <code>EdgeBoxes</code>是比较流行的。 随着该领域的快速发展，传统的对象提议方法（例如选择性搜索）被用作独立于检测器的外部模块，成为检测管道的瓶颈。 一类新兴的使用 <code>DCNN</code>的对象提议算法引起了广泛关注。 </p>
 <p><strong>Bounding Box Proposal Methods:</strong> RPN 通过在最后一个共享 CONV 层的特征图上滑动一个小网络来预测对象建议。 在每个滑动窗口位置，它通过使用 k 个锚框同时预测 k 个提议，其中每个锚框 以图像中的某个位置为中心，并与特定的比例和纵横比相关联。</p>
-<p><img src="/Object-Detection-Survey/Detector-5.png" alt="Detector"></p>
-<p><img src="/Object-Detection-Survey/Detector-6.png" alt="Detector"></p>
+<p><img src="/2021/09/12/Object-Detection-Survey/Detector-5.png" alt="Detector"></p>
+<p><img src="/2021/09/12/Object-Detection-Survey/Detector-6.png" alt="Detector"></p>
 <p><strong>Object Segment Proposal Methods:</strong> 旨在生成可能与目标对应的segment提议。分割建议比边界框建议提供更多信息，并且朝着对象实例分割更进一步，其中<code>DeepMask</code> 是一项开创性工作。此外，<code>SharpMask</code>增强了<code>DeepMask</code>可以有效地将早期特征的空间丰富信息与后期编码的强语义信息相结合，以生成高保真对象掩码。 </p>
 <h4 id="三、评估标准"><a href="#三、评估标准" class="headerlink" title="三、评估标准"></a>三、评估标准</h4><p>评估检测算法性能的三个标准：检测速度（Frames Per Second，FPS）、精度和召回率。 最常用的指标是平均精度 (AP)，源自精度和召回率。 AP通常以特定于类别的方式进行评估，即分别为每个对象类别计算。 在通用对象检测中，通常根据检测多个对象类别来测试检测器。 为了比较所有对象类别的性能，采用所有对象类别的平均 AP (mAP) 作为性能的最终衡量标准。 有关这些指标的更多详细信息。</p>
 <p>应用于测试图像<script type="math/tex">I</script>的检测器的标准输出是预测检测<script type="math/tex">\{b_j,c_j,p_j\}_j</script> ，由 j 索引。 给定的检测 (b,c,p)（为了符号简单省略 j）表示预测位置（即边界框，BB）b 及其预测类别标签 c 和置信水平 p。 预测的检测 (b,c,p) 被视为真阳性 (TP)，如果:</p>
@@ -881,7 +881,7 @@ Loss=\lambda_{coord}\sum^{S^2}_{i=0}\sum^{B}_{j=0}I^{obj}_{ij}[(x_i-\hat{x}_i^j)
 </ul>
 <script type="math/tex; mode=display">
 IOU(b,b^g)=\frac{area(b\cap b^g)}{area(b\cup b^g)}</script><p>否则，它被视为误报（FP）。 通常将置信水平 p 与某个阈值 β 进行比较，以确定是否接受预测的类标签 c 。</p>
-<p><img src="/Object-Detection-Survey/Detector-7.png" alt="Detector"></p>
+<p><img src="/2021/09/12/Object-Detection-Survey/Detector-7.png" alt="Detector"></p>
 ]]></content>
       <categories>
         <category>Deep Learning</category>
@@ -918,13 +918,13 @@ d(box,centroid)=1-IOU(box,centroid)</script><ul>
 <p>网络在<strong>输出特征图</strong>中的<strong>每个单元格</strong>预测 5 个边界框。 网络为每个边界框预测 5 个坐标，t<sub>x</sub>、t<sub>y</sub>、t<sub>w</sub>、t<sub>h</sub> 和 t<sub>o</sub>。 如果单元格从图像的左上角偏移 (cx,cy) 并且边界框先验具有宽度和高度 p<sub>w</sub>, p<sub>h</sub>，则预测对应于: </p>
 <script type="math/tex; mode=display">
 \begin{align}b_x=&\sigma(t_x)+c_x\\b_y=&\sigma(t_y)+\,c_y\\b_w=&p_we^{t_w}\\b_h=&p_h e^{t_h}\end{align}\\P_r(object)\ast IOU(b,object)=\sigma(t_o)</script><p>由于上面约束了位置预测，因此参数化更容易学习，使网络更稳定。 与使用锚框的版本相比，使用维度集群以及直接预测边界框中心位置将 YOLO 提高了近 5%。 </p>
-<p><img src="/YOLOv2-YOLO9000/YOLOv2-0.png" alt="YOLOV2"></p>
+<p><img src="/2021/09/12/YOLOv2-YOLO9000/YOLOv2-0.png" alt="YOLOV2"></p>
 <h5 id="2-6-Fine-Grained-Features"><a href="#2-6-Fine-Grained-Features" class="headerlink" title="2.6 Fine-Grained Features"></a>2.6 Fine-Grained Features</h5><p>虽然这对于大型物体来说，在YOLO 预测的 <code>13 × 13</code> 特征图上的检测已经足够了。但为了定位较小物体的细粒度特征，YOLOv2简单地添加一个传递层，以 26 × 26 的分辨率从较早的层中引入特征。 </p>
 <p>passthrough layer通过将相邻特征<strong>concatenates</strong>到不同的通道<strong>而不是</strong>空间位置，将高分辨率特征与低分辨率特征连接起来，类似于 ResNet 中的身份映射。 这将 26 ×26 ×512 的特征图变成了 13 ×13 ×2048 的特征图，可以与原始特征连接。 检测器运行在这个扩展的特征图之上，以便它可以访问细粒度的特征。 这将适度提高 1% 的性能。 </p>
-<p><img src="/YOLOv2-YOLO9000/YOLOv2-4.png" alt="YOLOV2"></p>
+<p><img src="/2021/09/12/YOLOv2-YOLO9000/YOLOv2-4.png" alt="YOLOV2"></p>
 <h5 id="2-7-Multi-Scale-Training"><a href="#2-7-Multi-Scale-Training" class="headerlink" title="2.7 Multi-Scale Training"></a>2.7 Multi-Scale Training</h5><p>训练时不是使用固定输入的图像大小，而是每隔几次迭代就更改网络。 每 <code>10</code> 个批次，网络随机选择一个新的图像尺寸。 由于模型下采样了 <code>32</code> 倍，所以从以下 32 的倍数中提取：{320,352,…,608}。 因此最小的选项是 <code>320 ×320</code>，最大的选项是 <code>608 ×608</code>。 将网络调整到那个维度并继续训练。</p>
 <h4 id="三、Faster"><a href="#三、Faster" class="headerlink" title="三、Faster"></a>三、Faster</h4><h5 id="3-1-Darknet-19"><a href="#3-1-Darknet-19" class="headerlink" title="3.1 Darknet-19"></a>3.1 Darknet-19</h5><p>作者提出了一种新的分类模型，用作 YOLOv2 的基础。 该模型建立在先前的网络设计工作以及该领域的常识的基础上。 与 VGG 模型类似，该模型主要使用 <code>3 × 3</code> 过滤器，并在每个池化步骤后将通道数加倍。 继 <code>Network in Network (NIN)</code> 的工作之后，使用全局平均池化进行预测，并使用 <code>1 ×1</code> 过滤器来压缩 <code>3 ×3</code> 卷积之间的特征表示 。 同时使用批量归一化来稳定训练，加速收敛，并对模型进行正则化。 最终模型称为<code>Darknet-19</code>，有 19 个卷积层和 5 个最大池化层。</p>
-<p><img src="/YOLOv2-YOLO9000/YOLOv2-1.png" alt="YOLOV2"></p>
+<p><img src="/2021/09/12/YOLOv2-YOLO9000/YOLOv2-1.png" alt="YOLOV2"></p>
 <h5 id="3-2-Training-for-classification"><a href="#3-2-Training-for-classification" class="headerlink" title="3.2 Training for classification"></a>3.2 Training for classification</h5><p>在标准 ImageNet 1000 类分类数据集上使用 <code>Darknet</code> 神经网络框架训练网络 160 个epoch，使用随机梯度下降，起始学习率为 0.1，多项式速率衰减为 4，权重衰减为 0.0005，动量为 0.9 。 训练期间使用标准的数据增强技巧，包括随机裁剪、旋转、色调、饱和度和曝光转换。</p>
 <p>此外，在对 <code>224 × 224</code> 的图像进行初始训练分类网络后，以更大的尺寸(448&times;448)微调<code>Darknet</code>网络。对于这种微调，使用上述参数进行训练，但仅训练 10 个epoch，并以 10<sup>-1</sup> 的学习率开始。在这个更高分辨率下，网络达到了 76.5% 的 top-1 准确率和 93.3% 的 top-5 准确率。 </p>
 <h5 id="3-3-Training-for-detection"><a href="#3-3-Training-for-detection" class="headerlink" title="3.3 Training for detection"></a>3.3 Training for detection</h5><p>通过删除最后一个卷积层来修改该网络以进行检测。添加了三个 3 × 3 卷积层，每个卷积层具有 1024 个过滤器，然后是最终的 1 × 1 卷积层，其中包含需要检测的输出数量。 </p>
@@ -935,9 +935,9 @@ d(box,centroid)=1-IOU(box,centroid)</script><ul>
 <p>大多数分类方法使用<strong>跨所有可能类别</strong>的 softmax 层来计算最终概率分布。 <strong>使用 softmax 假设这些类是互斥的</strong>。 这给组合数据集带来了问题，例如，您不希望使用此模型组合 ImageNet 和 COCO，因为类“Norfolk terrier”和“dog”并不相互排斥(Norfolk terrier是dog的一个品种)。 可以改为使用<strong>多标签模型</strong>来组合不假设互斥的数据集。</p>
 <p>为了解决上述出现的问题，作者借鉴WordNet，提出了一种视觉概念的分层模型称为WordTree。如果想计算特定节点的绝对概率，只需沿着树到根节点的路径，乘以条件概率。 所以如果想知道一张图片是否是Norfolk，使用如下的计算公式(联合概率)：</p>
 <script type="math/tex; mode=display">
-Pr(Norfolk \,\,terrier)=Pr(Norfolk\,\,terrier|terrier)\ast Pr(terrier|hunting\,\,dog)\ast ...\ast Pr(mammal|Pr(animal))\ast Pr(animal|physical\,\,object)</script><p><img src="/YOLOv2-YOLO9000/YOLOv2-2.png" alt="YOLOV2"></p>
+Pr(Norfolk \,\,terrier)=Pr(Norfolk\,\,terrier|terrier)\ast Pr(terrier|hunting\,\,dog)\ast ...\ast Pr(mammal|Pr(animal))\ast Pr(animal|physical\,\,object)</script><p><img src="/2021/09/12/YOLOv2-YOLO9000/YOLOv2-2.png" alt="YOLOV2"></p>
 <p>上图显示了如果使用WordTree对同一枝干中的属性计算softmax。</p>
-<p><img src="/YOLOv2-YOLO9000/YOLOv2-3.png" alt="YOLOV2"></p>
+<p><img src="/2021/09/12/YOLOv2-YOLO9000/YOLOv2-3.png" alt="YOLOV2"></p>
 <p>上图显示了对不同数据集的整合。图像来源于论文<a href="https://arxiv.org/pdf/1612.08242.pdf" target="_blank" rel="noopener">YOLO9000:Better, Faster, Stronger</a>。</p>
 <p><a href="https://zhuanlan.zhihu.com/p/47575929" target="_blank" rel="noopener">参考博客</a></p>
 <p><a href="https://zhuanlan.zhihu.com/p/93632171" target="_blank" rel="noopener">参考博客</a></p>
@@ -954,7 +954,7 @@ Pr(Norfolk \,\,terrier)=Pr(Norfolk\,\,terrier|terrier)\ast Pr(terrier|hunting\,\
     <url>/2021/09/12/YOLOv1/</url>
     <content><![CDATA[<h2 id="YOLO-You-Only-Look-Once"><a href="#YOLO-You-Only-Look-Once" class="headerlink" title="YOLO (You Only Look Once)"></a>YOLO (You Only Look Once)</h2><h4 id="一、概述"><a href="#一、概述" class="headerlink" title="一、概述"></a>一、概述</h4><p>YOLO，一种统一的检测器，将目标检测作为从图像像素到空间分离的边界框和相关类概率的回归问题。在YOLO中放弃了区域提议阶段，直接使用子小组候选区域来预测待检测的目标。由于 YOLO 在进行预测时会看到整个图像，因此它隐式编码了有关对象类别的上下文信息，并且不太可能预测背景中的误报。但由于边界框位置、比例和纵横比的粗划分，YOLO 会产生更多的定位错误。</p>
 <p>简单概括就是：单个神经网络预测边界框和类别概率 ，不需要像Faster R-CNN系列需要重新利用分类器做检测。</p>
-<p><img src="/YOLOv1/YOLO-0.png" alt="YOLO"></p>
+<p><img src="/2021/09/12/YOLOv1/YOLO-0.png" alt="YOLO"></p>
 <p><strong>YOLO优点：</strong></p>
 <ul>
 <li>非常快，YOLO 不需要复杂的Pipeline。</li>
@@ -969,9 +969,9 @@ Pr(Object)\ast IOU^{truth}_{pred}</script><p>每个边界框由 5 个预测组�
 <p>在测试时，将条件类概率和单个框置信度预测相乘，表达式如下：</p>
 <script type="math/tex; mode=display">
 Pr(Class_i|Object)\ast Pr(Object)\ast IOU^{truth}_{pred}=Pr(Class_i)\ast IOU^{truth}_{pred}</script><p>上式提供了每个框特定于类的置信度分数。 这些分数编码了该类出现在框中的概率以及预测的框与对象的匹配程度。 </p>
-<p><img src="/YOLOv1/YOLO-1.png" alt="YOLO"></p>
+<p><img src="/2021/09/12/YOLOv1/YOLO-1.png" alt="YOLO"></p>
 <h4 id="三、网络设计"><a href="#三、网络设计" class="headerlink" title="三、网络设计"></a>三、网络设计</h4><p>网络的初始卷积层从图像中提取特征，而全连接层预测输出概率和坐标。 网络架构受到用于图像分类的 GoogLeNet 模型的启发，有 24 个卷积层，后跟 2 个全连接层，有使用 GoogLeNet 使用的初始模块，而是简单地使用 1 × 1 缩减层和 3 × 3 卷积层。</p>
-<p><img src="/YOLOv1/YOLO-2.png" alt="YOLO"></p>
+<p><img src="/2021/09/12/YOLOv1/YOLO-2.png" alt="YOLO"></p>
 <p>训练的时候，先用ImageNet-1000数据集预训练上面的前20层网络+average-pooling层+一个全连接层。然后转换模型以执行检测。 论文《Object detection networks on convolutional feature maps》表明将卷积层和连接层添加到预训练网络可以提高性能。 所以添加了四个卷积层和两个具有随机初始化权重的全连接层。 检测通常需要细粒度的视觉信息，因此将网络的输入分辨率从 224 × 224 增加到 448 × 448。 </p>
 <p>最后一层预测类别概率和边界框坐标，过图像的宽度和高度对边界框的宽度和高度进行归一化，使它们落在 0 和 1 之间。边界框的 x 和 y 坐标参数化为特定网格单元位置的偏移量，因此它们也被限制在 0 和 1 之间 。对最后一层使用线性激活函数，所有其他层使用以下Leaky rectified线性激活： </p>
 <script type="math/tex; mode=display">
@@ -1012,13 +1012,13 @@ I^{obj}_{i}指出物体出现在第i个cell中，I^{obj}_{ij}指出第i个cell�
 <li><strong>SSD提取了不同尺度的特征图来做检测</strong>，大尺度特征图（较靠前的特征图）可以用来检测小物体，而小尺度特征图（较靠后的特征图）用来检测大物体</li>
 <li>SSD采用了<strong>不同尺度</strong>和<strong>长宽比的先验框</strong>(Prior boxes, Default boxes，在Faster R-CNN中叫做锚，Anchors)</li>
 </ul>
-<h4 id="二、The-Single-Shot-Detector-SSD"><a href="#二、The-Single-Shot-Detector-SSD" class="headerlink" title="二、The Single Shot Detector (SSD)"></a>二、The Single Shot Detector (SSD)</h4><p><img src="/SSD-Dector/SSD.png" alt="SSD"></p>
+<h4 id="二、The-Single-Shot-Detector-SSD"><a href="#二、The-Single-Shot-Detector-SSD" class="headerlink" title="二、The Single Shot Detector (SSD)"></a>二、The Single Shot Detector (SSD)</h4><p><img src="/2021/09/12/SSD-Detector/SSD.png" alt="SSD"></p>
 <p>SSD 方法基于前馈卷积网络，该网络生成固定大小的<strong>边界框集合</strong>和这些框内目标类<strong>实例存在的分数</strong>，然后是非最大抑制步骤以产生最终检测。在高精度分类网络backbone上，添加辅助结构以产生具有以下关键特征的检测： </p>
 <h5 id="2-1-Multi-scale-feature-maps-for-detection"><a href="#2-1-Multi-scale-feature-maps-for-detection" class="headerlink" title="2.1 Multi-scale feature maps for detection"></a>2.1 Multi-scale feature maps for detection</h5><p>在截断的基础网络的末尾添加了<strong>卷积特征层</strong>。 这些层的大小逐渐减小，并允许在多个尺度上进行检测预测。 用于预测检测的卷积模型对于每个特征层都是不同的。</p>
 <h5 id="2-2-Convolutional-predictors-for-detection"><a href="#2-2-Convolutional-predictors-for-detection" class="headerlink" title="2.2 Convolutional predictors for detection"></a>2.2 Convolutional predictors for detection</h5><p><strong>每个添加的特征层（或可选地来自基础网络的特征层）可以使用一组卷积滤波器产生一组固定的检测预测</strong>。对于具有 p 个通道的大小为 m ×n 的特征层，预测潜在检测参数的基本元素是一个 3 ×3 ×p 的小kernel，它产生<strong>类别的分数</strong>，或<strong>相对于默认框坐标的形状偏移量</strong>。 在每一个应用kernel的 m×n 个位置，它都会产生一个输出值。 边界框偏移量输出值是相对于每个特征图位置的默认框位置测量的。</p>
 <h5 id="2-3-Default-boxes-and-aspect-ratios"><a href="#2-3-Default-boxes-and-aspect-ratios" class="headerlink" title="2.3 Default boxes and aspect ratios"></a>2.3 Default boxes and aspect ratios</h5><p>由于网络会添加多尺度的特征层用于多尺度检测，所以每个feature map对应一组<strong>默认边界框</strong>。<strong>什么是默认边界框？</strong>参考上图1。<strong>那么默认边界框与feature map的关系是什么？</strong>将默认边界框以卷积的方式平铺feature map(比如，feature map大小为m&times;n，那么在每一个点就有k个默认边界框，类似Faster R-CNN中的anchor)，这样每个框相对于其对应feature map中的cell的位置是固定的。在每个特征图单元格中，会预测相对于单元格中<strong>默认框</strong>形状的<strong>偏移量</strong>，以及每类的分数，这些分数表明每个框内是否存在类实例。</p>
 <p>具体来说，对于给定位置 k 中的每个框，计算 c 类分数和相对于原始默认框形状的 4 个偏移量。这导致总共 (c + 4)k 个过滤器应用于特征图中的每个位置，为 m ×n 特征图产生 (c + 4)kmn 输出。默认框类似于 Faster R-CNN中使用的锚框，但是SSD中将它们应用于多个不同分辨率的特征图。在几个特征图中允许不同的默认框形状，可以有效地离散化可能的输出框形状的空间。 </p>
-<p><img src="/SSD-Dector/SDD-1.png" alt="SSD"></p>
+<p><img src="/2021/09/12/SSD-Detector/SDD-1.png" alt="SSD"></p>
 <p><code>SSD 300</code>中输入图像的大小是<code>300x300</code>，特征提取部分使用了<code>VGG16</code>的卷积层，并将<code>VGG16</code>的两个全连接层转换成了普通的卷积层（图中conv6和conv7），之后又接了多个卷积（conv8_1，conv8_2，conv9_1，conv9_2，conv10_1，conv10_2），最后用一个<code>Global Average Pool</code>来变成1x1的输出（conv11_2）。</p>
 <h5 id="2-1-Matching-strategy"><a href="#2-1-Matching-strategy" class="headerlink" title="2.1 Matching strategy"></a>2.1 Matching strategy</h5><p>在训练期间，需要确定<strong>哪些默认框</strong>用于ground Truth的检测并相应地训练网络。 对于每个ground truth，从位置、纵横比和比例不同的默认框中进行选择。 </p>
 <ul>
@@ -1027,7 +1027,7 @@ I^{obj}_{i}指出物体出现在第i个cell中，I^{obj}_{ij}指出第i个cell�
 </ul>
 <p>其中，配对到GT的default box就是positive，没有配对到GT的default box就是negative。</p>
 <script type="math/tex; mode=display">
-J(A,B)=\frac{|A\cap B|}{|A\cup B|}=\frac{|A\cap B|}{|A|+|B|-|A\cap B|}</script><p><img src="/SSD-Dector/SSD-3.png" alt="SDD"></p>
+J(A,B)=\frac{|A\cap B|}{|A\cup B|}=\frac{|A\cap B|}{|A|+|B|-|A\cap B|}</script><p><img src="/2021/09/12/SSD-Detector/SSD-3.png" alt="SDD"></p>
 <p>上图来自<a href="https://blog.csdn.net/qq_38622495/article/details/82289814" target="_blank" rel="noopener">博客</a>-多层级上的anchor回归。<strong>通过同时对多个层级上的anchor计算IOU，就能找到与ground truth的尺寸、位置最接近（即IOU最大）的一批anchor，在训练时也就能达到最好的准确度。</strong></p>
 <h5 id="2-2-训练过程"><a href="#2-2-训练过程" class="headerlink" title="2.2 训练过程"></a>2.2 训练过程</h5><p>整体目标损失函数是定位损失 (loc) 和分类损失 (conf) 的加权和： </p>
 <script type="math/tex; mode=display">
@@ -1053,15 +1053,15 @@ default\,\,boxes有不同的纵横比，a_r\in\{1,2,3,\frac{1}{2},\frac{1}{3}\},
 <li>根据不同的ratio，可以得到不同的长方形anchor</li>
 </ul>
 <script type="math/tex; mode=display">
-width = \sqrt{ratio}\,\,\ast min\_size; height = 1/\sqrt{ratio}\,\,\ast min\_size</script><p><img src="/SSD-Dector/SSD-4.png" alt="SSD"></p>
+width = \sqrt{ratio}\,\,\ast min\_size; height = 1/\sqrt{ratio}\,\,\ast min\_size</script><p><img src="/2021/09/12/SSD-Detector/SSD-4.png" alt="SSD"></p>
 <p>默认情况下，每个默认情况下，每个特征图会有一个 <script type="math/tex">a_r= 1</script> 且尺度为 <script type="math/tex">s_k</script>  的先验框，除此之外，还会设置一个尺度为 <script type="math/tex">s_k'=\sqrt{s_ks_{k+1}}</script> 且  <script type="math/tex">a_r= 1</script> 的先验框，这样每个特征图都设置了两个长宽比为1但大小不同的正方形先验框。</p>
 <h5 id="2-4-Hard-negative-mining"><a href="#2-4-Hard-negative-mining" class="headerlink" title="2.4 Hard negative mining"></a>2.4 Hard negative mining</h5><p>一般情况下negative default boxes数量&gt;&gt;positive default boxes数量，直接训练会导致网络过于重视负样本，从而loss不稳定。所以需要采取：</p>
 <ul>
 <li>所以SSD在训练时会依据confidience score排序default box，挑选其中confidence高的box进行训练，控制 positive : negative = 1 : 3</li>
 </ul>
-<h5 id="2-5-SSD的数据流"><a href="#2-5-SSD的数据流" class="headerlink" title="2.5 SSD的数据流"></a>2.5 SSD的数据流</h5><p><img src="/SSD-Dector/SSD-5.jpg" alt="SSD"></p>
+<h5 id="2-5-SSD的数据流"><a href="#2-5-SSD的数据流" class="headerlink" title="2.5 SSD的数据流"></a>2.5 SSD的数据流</h5><p><img src="/2021/09/12/SSD-Detector/SSD-5.jpg" alt="SSD"></p>
 <p>多尺度feature maps和Prior Box如何组合在一起进行forwards/backwards。需要用到Permute，Flatten和Concat这3种层。上图以conv4_3和fc7为例分析SSD是如何将不同size的feature map组合在一起进行prediction。那么为何要在softmax前后都接一个reshape layer？其实只是为了便于softmax分类，至于具体原因这就要从caffe的实现形式说起了。<a href="https://zhuanlan.zhihu.com/p/31427288" target="_blank" rel="noopener">参考博客-白棠</a></p>
-<p><img src="/SSD-Dector/SSD-2.png" alt="SSD"></p>
+<p><img src="/2021/09/12/SSD-Detector/SSD-2.png" alt="SSD"></p>
 <p>上图来自<a href="https://blog.csdn.net/qq_38622495/article/details/82289814" target="_blank" rel="noopener">博客</a></p>
 <p><a href="https://arxiv.org/pdf/1512.02325.pdf" target="_blank" rel="noopener">论文</a></p>
 <p><a href="https://zhuanlan.zhihu.com/p/31427288" target="_blank" rel="noopener">参考博客-1</a></p>
@@ -1085,14 +1085,14 @@ width = \sqrt{ratio}\,\,\ast min\_size; height = 1/\sqrt{ratio}\,\,\ast min\_siz
 <h4 id="二、Light-Head-R-CNN"><a href="#二、Light-Head-R-CNN" class="headerlink" title="二、Light-Head R-CNN"></a>二、Light-Head R-CNN</h4><p>Head是指连接到我们骨干基础网络的结构。 更具体地说，将有两个组件：R-CNN 子网和 ROI warp。</p>
 <h5 id="2-1-R-CNN-subnet"><a href="#2-1-R-CNN-subnet" class="headerlink" title="2.1 R-CNN subnet"></a>2.1 R-CNN subnet</h5><p>Faster R-CNN 采用强大的 R-CNN，它利用两个大的全连接层或整个 Resnet stage 5 作为第二级分类器，这有利于检测性能。然而，计算可能会很密集，尤其是当对象提议的数量很大时。为了加快 RoI-wise 子网的速度，R-FCN 首先为每个区域生成一组得分图，其通道数将为 #classes ×p ×p（p 是随后的池化大小），然后沿着每个 RoI 池化并求平均值 投票最后的预测。</p>
 <p> Light-Head R-CNN 中，作者建议 <code>R-CNN</code> 子网使用一个简单、廉价的全连接层，这在性能和计算速度之间进行了很好的权衡。</p>
-<p><img src="/Light-Head-R-CNN/Light-Head-R-CNN.png" alt="Light-Head-R-CNN"></p>
+<p><img src="/2021/09/12/Light-Head-R-CNN/Light-Head-R-CNN.png" alt="Light-Head-R-CNN"></p>
 <h5 id="2-2-Thin-feature-maps-for-RoI-warping"><a href="#2-2-Thin-feature-maps-for-RoI-warping" class="headerlink" title="2.2 Thin feature maps for RoI warping"></a>2.2 Thin feature maps for RoI warping</h5><p>在将提案输入 R-CNN 子网之前，涉及 RoI 变形以使特征图的形状固定。 在实验中，作者发现薄特征图上的 RoI 变形不仅可以提高准确性，而且可以在训练和推理过程中节省内存和计算量。在薄特征图上的使用PSRoI 池化，可以带来更多的计算来加强 R-CNN 并减少通道。</p>
 <h4 id="三、Light-Head-R-CNN-for-Object-Detection"><a href="#三、Light-Head-R-CNN-for-Object-Detection" class="headerlink" title="三、Light-Head R-CNN for Object Detection"></a>三、Light-Head R-CNN for Object Detection</h4><ul>
 <li>设置“L”以验证算法与大型骨干网络集成时的性能，大型网络采用ResNet101去提取Basic feature；</li>
 <li>设置“S”以验证算法在使用小型主干网络时的有效性和效率,小型网络采用类Xception。</li>
 </ul>
 <h5 id="3-1-Thin-feature-maps"><a href="#3-1-Thin-feature-maps" class="headerlink" title="3.1 Thin feature maps"></a>3.1 Thin feature maps</h5><p>在C<sub>5</sub>上采用大的可分离卷积层，结构如下图所示(图像来源于<a href="https://arxiv.org/pdf/1711.07264.pdf" target="_blank" rel="noopener">论文</a>)：</p>
-<p><img src="/Light-Head-R-CNN/Light-Head-R-CNN-1.png" alt="Light-Head-R-CNN"></p>
+<p><img src="/2021/09/12/Light-Head-R-CNN/Light-Head-R-CNN-1.png" alt="Light-Head-R-CNN"></p>
 <p>设置k=15，在S型模型中，设置C<sub>mid</sub>=64，在L型模型中，设置C<sub>mid</sub>=256。减少C<sub>out</sub>=10&times;p&times;p。受益于大内核带来的更大的有效感受野，汇集的特征图更强大。 </p>
 <h5 id="3-2-R-CNN-subnet"><a href="#3-2-R-CNN-subnet" class="headerlink" title="3.2 R-CNN subnet"></a>3.2 R-CNN subnet</h5><p>仅仅使用了2048通道的单个全连接层，没有dropout。然后是两个兄弟全连接层来预测 RoI 分类和回归。因为共享不同类别之间的回归，每个边界框位置仅应用 4 个通道。</p>
 <p>这篇文章的主要内容总结：借鉴R-FCN中的思想， 在Position Sensitive maps那块将每个map对应的类别数由81个channal，固定成10个channl，所以显著的降低了输出的通道数，由(C+1)K<sup>2</sup>变成了10K<sup>2</sup>。那么丢失了类别判断的信息，所以在最后增加了一层全连接层用于类别判断。那么这样其实损失了很多信息，为了提升算法的精度，作者在共享卷积后，使用大核可分离卷积获取更大的感受野，以提升检测的性能。</p>
@@ -1109,7 +1109,7 @@ width = \sqrt{ratio}\,\,\ast min\_size; height = 1/\sqrt{ratio}\,\,\ast min\_siz
     <url>/2021/09/12/Detector-Net/</url>
     <content><![CDATA[<h2 id="Detector-Net-学习笔记"><a href="#Detector-Net-学习笔记" class="headerlink" title="Detector-Net(学习笔记)"></a>Detector-Net(学习笔记)</h2><h4 id="一、概述"><a href="#一、概述" class="headerlink" title="一、概述"></a>一、概述</h4><p>该方法提出了一个简单而强大的对象检测公式，作为对象边界框掩码的回归问题。 并且定义了一个多尺度推理过程，它能够通过一些网络应用程序以低成本产生高分辨率的目标检测。</p>
 <p>作者制定了一个基于 <code>DNN</code> 的回归，它输出对象边界框的二进制掩码(以及边界框)，如图 1 所示。此外，他们采用简单的边界框推理从掩码中提取检测。 为了提高定位精度，在完整图像和少量大图像裁剪上以多尺度方式应用 DNN 掩码生成，然后进行细化步骤，如图2所示。 </p>
-<p><img src="/Detector-Net/Detector-Net.png" alt="Detector-Net"></p>
+<p><img src="/2021/09/12/Detector-Net/Detector-Net.png" alt="Detector-Net"></p>
 <p>作者通过实验证明了基于 <code>DNN</code> 的回归能够学习不仅有利于分类的特征，而且还能够捕获强大的几何信息。在实验中使用AlexNet作为Backbone，并用回归层替换掉最后一层。其次，作者引入了多尺度框推理，然后是细化步骤以产生精确的检测。通过这种方式，该 DNN 可以预测受输出层大小限制的低分辨率掩码。</p>
 <h4 id="二、Detection-as-DNN-Regression"><a href="#二、Detection-as-DNN-Regression" class="headerlink" title="二、Detection as DNN Regression"></a>二、Detection as DNN Regression</h4><p>首先，作者还是使用AlexNet作为Backbone，沿用了其中的网络架构，只不过将最后一层softmax分类器换成了回归层用于生成目标的二进制掩膜。DNN(x; Θ) ∈ R<sup>N</sup> ，其中 Θ 是网络参数，N 是输出层像素总数。 由于网络的输出具有固定的维度，网络预测了一个固定大小 N = d ×d 的掩码。 在调整到图像大小后，生成的二进制掩码代表一个或多个对象：如果该像素位于给定类的对象的边界框内，则它在特定像素处的值应为 1，否则为 0。 </p>
 <p>通过最小化 L<sub>2</sub> 误差来训练网络，以预测图像 x 的真实掩码 m ∈ [0,1]<sup>N</sup>： </p>
@@ -1139,7 +1139,7 @@ S(bb)=\sum_{h\in halves}(S(bb(h),m^h)-S(bb(\bar{h}),m^h)),\bar{h}是h相反的�
 <li>在多个尺度和几个大子窗口上应用 DNN 定位器； </li>
 <li>通过在顶部推断的边界框上应用 DNN 定位器来改进检测。</li>
 </ol>
-<p><img src="/Detector-Net/Detector-Net-1.png" alt="DL"></p>
+<p><img src="/2021/09/12/Detector-Net/Detector-Net-1.png" alt="DL"></p>
 ]]></content>
       <categories>
         <category>Deep Learning</category>
@@ -3717,6 +3717,11 @@ S(\mu)=\mathscr{F}\{s_{\Delta T(t)}\}=\mathscr{F}\{\frac{1}{\Delta T}\sum^{\inft
   </entry>
   <entry>
     <title>CUDA-Programmer-Learn-Two</title>
+    <url>/2021/07/03/CUDA-Programmer-Learn-Two/</url>
+    <content><![CDATA[]]></content>
+  </entry>
+  <entry>
+    <title>CUDA-Programmer-Learn-Two</title>
     <url>/2021/07/03/CUDA-Programmer-Learn-two/</url>
     <content><![CDATA[<h2 id="CUDA编程学习笔记"><a href="#CUDA编程学习笔记" class="headerlink" title="CUDA编程学习笔记"></a>CUDA编程学习笔记</h2><p>本笔记主要<a href="https://face2ai.com/program-blog/#GPU%E7%BC%96%E7%A8%8B%EF%BC%88CUDA%EF%BC%89" target="_blank" rel="noopener">参考: 谭升</a>大神的博客进行了部分关键知识的摘录，可能有些地方回去单独查找一些资料进行解释。</p>
 <p>GPU中使用CUDA编程的核心部分分为：核函数、内存管理、线程管理和流。</p>
@@ -3866,11 +3871,6 @@ idx=ix+iy∗nx</script><h4 id="四、执行模型"><a href="#四、执行模型"
       <tags>
         <tag>CUDA Programmer</tag>
       </tags>
-  </entry>
-  <entry>
-    <title>CUDA-Programmer-Learn-Two</title>
-    <url>/2021/07/03/CUDA-Programmer-Learn-Two/</url>
-    <content><![CDATA[]]></content>
   </entry>
   <entry>
     <title>CUDA-Programmer-Learn-One</title>

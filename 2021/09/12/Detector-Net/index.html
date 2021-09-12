@@ -54,11 +54,11 @@
 <meta property="og:site_name" content="编辑尼撑">
 <meta property="og:description" content="Detector-Net(学习笔记)一、概述该方法提出了一个简单而强大的对象检测公式，作为对象边界框掩码的回归问题。 并且定义了一个多尺度推理过程，它能够通过一些网络应用程序以低成本产生高分辨率的目标检测。 作者制定了一个基于 DNN 的回归，它输出对象边界框的二进制掩码(以及边界框)，如图 1 所示。此外，他们采用简单的边界框推理从掩码中提取检测。 为了提高定位精度，在完整图像和少量大图像裁剪上">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;Detector-Net&#x2F;Detector-Net.png">
-<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;Detector-Net&#x2F;Detector-Net-1.png">
-<meta property="og:updated_time" content="2021-09-12T08:47:09.499Z">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2021&#x2F;09&#x2F;12&#x2F;Detector-Net&#x2F;Detector-Net.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2021&#x2F;09&#x2F;12&#x2F;Detector-Net&#x2F;Detector-Net-1.png">
+<meta property="og:updated_time" content="2021-09-12T09:14:06.662Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;Detector-Net&#x2F;Detector-Net.png">
+<meta name="twitter:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2021&#x2F;09&#x2F;12&#x2F;Detector-Net&#x2F;Detector-Net.png">
 
 <link rel="canonical" href="http://yoursite.com/2021/09/12/Detector-Net/">
 
@@ -239,7 +239,7 @@
               <span class="post-meta-item-text">发表于</span>
               
 
-              <time title="创建时间：2021-09-12 16:12:01 / 修改时间：16:47:09" itemprop="dateCreated datePublished" datetime="2021-09-12T16:12:01+08:00">2021-09-12</time>
+              <time title="创建时间：2021-09-12 16:12:01 / 修改时间：17:14:06" itemprop="dateCreated datePublished" datetime="2021-09-12T16:12:01+08:00">2021-09-12</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -273,7 +273,7 @@
       
         <h2 id="Detector-Net-学习笔记"><a href="#Detector-Net-学习笔记" class="headerlink" title="Detector-Net(学习笔记)"></a>Detector-Net(学习笔记)</h2><h4 id="一、概述"><a href="#一、概述" class="headerlink" title="一、概述"></a>一、概述</h4><p>该方法提出了一个简单而强大的对象检测公式，作为对象边界框掩码的回归问题。 并且定义了一个多尺度推理过程，它能够通过一些网络应用程序以低成本产生高分辨率的目标检测。</p>
 <p>作者制定了一个基于 <code>DNN</code> 的回归，它输出对象边界框的二进制掩码(以及边界框)，如图 1 所示。此外，他们采用简单的边界框推理从掩码中提取检测。 为了提高定位精度，在完整图像和少量大图像裁剪上以多尺度方式应用 DNN 掩码生成，然后进行细化步骤，如图2所示。 </p>
-<p><img src="/Detector-Net/Detector-Net.png" alt="Detector-Net"></p>
+<p><img src="/2021/09/12/Detector-Net/Detector-Net.png" alt="Detector-Net"></p>
 <p>作者通过实验证明了基于 <code>DNN</code> 的回归能够学习不仅有利于分类的特征，而且还能够捕获强大的几何信息。在实验中使用AlexNet作为Backbone，并用回归层替换掉最后一层。其次，作者引入了多尺度框推理，然后是细化步骤以产生精确的检测。通过这种方式，该 DNN 可以预测受输出层大小限制的低分辨率掩码。</p>
 <h4 id="二、Detection-as-DNN-Regression"><a href="#二、Detection-as-DNN-Regression" class="headerlink" title="二、Detection as DNN Regression"></a>二、Detection as DNN Regression</h4><p>首先，作者还是使用AlexNet作为Backbone，沿用了其中的网络架构，只不过将最后一层softmax分类器换成了回归层用于生成目标的二进制掩膜。DNN(x; Θ) ∈ R<sup>N</sup> ，其中 Θ 是网络参数，N 是输出层像素总数。 由于网络的输出具有固定的维度，网络预测了一个固定大小 N = d ×d 的掩码。 在调整到图像大小后，生成的二进制掩码代表一个或多个对象：如果该像素位于给定类的对象的边界框内，则它在特定像素处的值应为 1，否则为 0。 </p>
 <p>通过最小化 L<sub>2</sub> 误差来训练网络，以预测图像 x 的真实掩码 m ∈ [0,1]<sup>N</sup>： </p>
@@ -303,7 +303,7 @@ S(bb)=\sum_{h\in halves}(S(bb(h),m^h)-S(bb(\bar{h}),m^h)),\bar{h}是h相反的�
 <li>在多个尺度和几个大子窗口上应用 DNN 定位器； </li>
 <li>通过在顶部推断的边界框上应用 DNN 定位器来改进检测。</li>
 </ol>
-<p><img src="/Detector-Net/Detector-Net-1.png" alt="DL"></p>
+<p><img src="/2021/09/12/Detector-Net/Detector-Net-1.png" alt="DL"></p>
 
     </div>
 

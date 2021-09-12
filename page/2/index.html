@@ -235,7 +235,7 @@
               <span class="post-meta-item-text">发表于</span>
               
 
-              <time title="创建时间：2021-09-12 16:14:50 / 修改时间：16:16:03" itemprop="dateCreated datePublished" datetime="2021-09-12T16:14:50+08:00">2021-09-12</time>
+              <time title="创建时间：2021-09-12 16:14:50 / 修改时间：17:14:33" itemprop="dateCreated datePublished" datetime="2021-09-12T16:14:50+08:00">2021-09-12</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -267,14 +267,14 @@
 <h4 id="二、Light-Head-R-CNN"><a href="#二、Light-Head-R-CNN" class="headerlink" title="二、Light-Head R-CNN"></a>二、Light-Head R-CNN</h4><p>Head是指连接到我们骨干基础网络的结构。 更具体地说，将有两个组件：R-CNN 子网和 ROI warp。</p>
 <h5 id="2-1-R-CNN-subnet"><a href="#2-1-R-CNN-subnet" class="headerlink" title="2.1 R-CNN subnet"></a>2.1 R-CNN subnet</h5><p>Faster R-CNN 采用强大的 R-CNN，它利用两个大的全连接层或整个 Resnet stage 5 作为第二级分类器，这有利于检测性能。然而，计算可能会很密集，尤其是当对象提议的数量很大时。为了加快 RoI-wise 子网的速度，R-FCN 首先为每个区域生成一组得分图，其通道数将为 #classes ×p ×p（p 是随后的池化大小），然后沿着每个 RoI 池化并求平均值 投票最后的预测。</p>
 <p> Light-Head R-CNN 中，作者建议 <code>R-CNN</code> 子网使用一个简单、廉价的全连接层，这在性能和计算速度之间进行了很好的权衡。</p>
-<p><img src="/Light-Head-R-CNN/Light-Head-R-CNN.png" alt="Light-Head-R-CNN"></p>
+<p><img src="/2021/09/12/Light-Head-R-CNN/Light-Head-R-CNN.png" alt="Light-Head-R-CNN"></p>
 <h5 id="2-2-Thin-feature-maps-for-RoI-warping"><a href="#2-2-Thin-feature-maps-for-RoI-warping" class="headerlink" title="2.2 Thin feature maps for RoI warping"></a>2.2 Thin feature maps for RoI warping</h5><p>在将提案输入 R-CNN 子网之前，涉及 RoI 变形以使特征图的形状固定。 在实验中，作者发现薄特征图上的 RoI 变形不仅可以提高准确性，而且可以在训练和推理过程中节省内存和计算量。在薄特征图上的使用PSRoI 池化，可以带来更多的计算来加强 R-CNN 并减少通道。</p>
 <h4 id="三、Light-Head-R-CNN-for-Object-Detection"><a href="#三、Light-Head-R-CNN-for-Object-Detection" class="headerlink" title="三、Light-Head R-CNN for Object Detection"></a>三、Light-Head R-CNN for Object Detection</h4><ul>
 <li>设置“L”以验证算法与大型骨干网络集成时的性能，大型网络采用ResNet101去提取Basic feature；</li>
 <li>设置“S”以验证算法在使用小型主干网络时的有效性和效率,小型网络采用类Xception。</li>
 </ul>
 <h5 id="3-1-Thin-feature-maps"><a href="#3-1-Thin-feature-maps" class="headerlink" title="3.1 Thin feature maps"></a>3.1 Thin feature maps</h5><p>在C<sub>5</sub>上采用大的可分离卷积层，结构如下图所示(图像来源于<a href="https://arxiv.org/pdf/1711.07264.pdf" target="_blank" rel="noopener">论文</a>)：</p>
-<p><img src="/Light-Head-R-CNN/Light-Head-R-CNN-1.png" alt="Light-Head-R-CNN"></p>
+<p><img src="/2021/09/12/Light-Head-R-CNN/Light-Head-R-CNN-1.png" alt="Light-Head-R-CNN"></p>
 <p>设置k=15，在S型模型中，设置C<sub>mid</sub>=64，在L型模型中，设置C<sub>mid</sub>=256。减少C<sub>out</sub>=10&times;p&times;p。受益于大内核带来的更大的有效感受野，汇集的特征图更强大。 </p>
 <h5 id="3-2-R-CNN-subnet"><a href="#3-2-R-CNN-subnet" class="headerlink" title="3.2 R-CNN subnet"></a>3.2 R-CNN subnet</h5><p>仅仅使用了2048通道的单个全连接层，没有dropout。然后是两个兄弟全连接层来预测 RoI 分类和回归。因为共享不同类别之间的回归，每个边界框位置仅应用 4 个通道。</p>
 <p>这篇文章的主要内容总结：借鉴R-FCN中的思想， 在Position Sensitive maps那块将每个map对应的类别数由81个channal，固定成10个channl，所以显著的降低了输出的通道数，由(C+1)K<sup>2</sup>变成了10K<sup>2</sup>。那么丢失了类别判断的信息，所以在最后增加了一层全连接层用于类别判断。那么这样其实损失了很多信息，为了提升算法的精度，作者在共享卷积后，使用大核可分离卷积获取更大的感受野，以提升检测的性能。</p>
@@ -322,7 +322,7 @@
               <span class="post-meta-item-text">发表于</span>
               
 
-              <time title="创建时间：2021-09-12 16:12:01 / 修改时间：16:47:09" itemprop="dateCreated datePublished" datetime="2021-09-12T16:12:01+08:00">2021-09-12</time>
+              <time title="创建时间：2021-09-12 16:12:01 / 修改时间：17:14:06" itemprop="dateCreated datePublished" datetime="2021-09-12T16:12:01+08:00">2021-09-12</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -349,7 +349,7 @@
       
           <h2 id="Detector-Net-学习笔记"><a href="#Detector-Net-学习笔记" class="headerlink" title="Detector-Net(学习笔记)"></a>Detector-Net(学习笔记)</h2><h4 id="一、概述"><a href="#一、概述" class="headerlink" title="一、概述"></a>一、概述</h4><p>该方法提出了一个简单而强大的对象检测公式，作为对象边界框掩码的回归问题。 并且定义了一个多尺度推理过程，它能够通过一些网络应用程序以低成本产生高分辨率的目标检测。</p>
 <p>作者制定了一个基于 <code>DNN</code> 的回归，它输出对象边界框的二进制掩码(以及边界框)，如图 1 所示。此外，他们采用简单的边界框推理从掩码中提取检测。 为了提高定位精度，在完整图像和少量大图像裁剪上以多尺度方式应用 DNN 掩码生成，然后进行细化步骤，如图2所示。 </p>
-<p><img src="/Detector-Net/Detector-Net.png" alt="Detector-Net"></p>
+<p><img src="/2021/09/12/Detector-Net/Detector-Net.png" alt="Detector-Net"></p>
 <p>作者通过实验证明了基于 <code>DNN</code> 的回归能够学习不仅有利于分类的特征，而且还能够捕获强大的几何信息。在实验中使用AlexNet作为Backbone，并用回归层替换掉最后一层。其次，作者引入了多尺度框推理，然后是细化步骤以产生精确的检测。通过这种方式，该 DNN 可以预测受输出层大小限制的低分辨率掩码。</p>
 <h4 id="二、Detection-as-DNN-Regression"><a href="#二、Detection-as-DNN-Regression" class="headerlink" title="二、Detection as DNN Regression"></a>二、Detection as DNN Regression</h4><p>首先，作者还是使用AlexNet作为Backbone，沿用了其中的网络架构，只不过将最后一层softmax分类器换成了回归层用于生成目标的二进制掩膜。DNN(x; Θ) ∈ R<sup>N</sup> ，其中 Θ 是网络参数，N 是输出层像素总数。 由于网络的输出具有固定的维度，网络预测了一个固定大小 N = d ×d 的掩码。 在调整到图像大小后，生成的二进制掩码代表一个或多个对象：如果该像素位于给定类的对象的边界框内，则它在特定像素处的值应为 1，否则为 0。 </p>
 <p>通过最小化 L<sub>2</sub> 误差来训练网络，以预测图像 x 的真实掩码 m ∈ [0,1]<sup>N</sup>： </p>
@@ -379,7 +379,7 @@ S(bb)=\sum_{h\in halves}(S(bb(h),m^h)-S(bb(\bar{h}),m^h)),\bar{h}是h相反的�
 <li>在多个尺度和几个大子窗口上应用 DNN 定位器； </li>
 <li>通过在顶部推断的边界框上应用 DNN 定位器来改进检测。</li>
 </ol>
-<p><img src="/Detector-Net/Detector-Net-1.png" alt="DL"></p>
+<p><img src="/2021/09/12/Detector-Net/Detector-Net-1.png" alt="DL"></p>
 
       
     </div>

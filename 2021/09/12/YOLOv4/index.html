@@ -54,14 +54,14 @@
 <meta property="og:site_name" content="编辑尼撑">
 <meta property="og:description" content="YOLOv4: Optimal Speed and Accuracy of Object Detection一、概述通俗的讲，YOLO-v4算法是在原有YOLO目标检测架构的基础上，采用了近些年CNN领域中最优秀的优化策略，从数据处理、主干网络、网络训练、激活函数、损失函数等各个方面都进行了不同程度的优化。 主要贡献点：  开发了一个高效而强大的模型，使得任何人都可以使用一张1080Ti或者208">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;YOLOv4&#x2F;YOLOV4-0.png">
-<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;YOLOv4&#x2F;YOLOV4-1.png">
-<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;YOLOv4&#x2F;YOLOV4-3.png">
-<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;YOLOv4&#x2F;YOLOV4-5.png">
-<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;YOLOv4&#x2F;YOLOV4-2.png">
-<meta property="og:updated_time" content="2021-09-12T08:40:33.149Z">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2021&#x2F;09&#x2F;12&#x2F;YOLOv4&#x2F;YOLOV4-0.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2021&#x2F;09&#x2F;12&#x2F;YOLOv4&#x2F;YOLOV4-1.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2021&#x2F;09&#x2F;12&#x2F;YOLOv4&#x2F;YOLOV4-3.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2021&#x2F;09&#x2F;12&#x2F;YOLOv4&#x2F;YOLOV4-5.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2021&#x2F;09&#x2F;12&#x2F;YOLOv4&#x2F;YOLOV4-2.png">
+<meta property="og:updated_time" content="2021-09-12T09:13:33.685Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;YOLOv4&#x2F;YOLOV4-0.png">
+<meta name="twitter:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2021&#x2F;09&#x2F;12&#x2F;YOLOv4&#x2F;YOLOV4-0.png">
 
 <link rel="canonical" href="http://yoursite.com/2021/09/12/YOLOv4/">
 
@@ -242,7 +242,7 @@
               <span class="post-meta-item-text">发表于</span>
               
 
-              <time title="创建时间：2021-09-12 16:39:41 / 修改时间：16:40:33" itemprop="dateCreated datePublished" datetime="2021-09-12T16:39:41+08:00">2021-09-12</time>
+              <time title="创建时间：2021-09-12 16:39:41 / 修改时间：17:13:33" itemprop="dateCreated datePublished" datetime="2021-09-12T16:39:41+08:00">2021-09-12</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -282,7 +282,7 @@
 <li>修改了state-of-the-art方法，使得他们在使用单个GPU进行训练时更加有效和适配，包括CBN，PAN，SAM等。</li>
 </ul>
 <p>现代检测器通常由两部分组成，在 ImageNet 上<strong>预训练的主干</strong>和用于<strong>预测对象类别和边界框的头部</strong>。对于那些在 GPU 平台上运行的检测器，它们的主干可以是 <code>VGG</code> 、<code>ResNet</code> 、<code>ResNeXt</code> 或 <code>DenseNet</code> 。对于那些在 CPU 平台上运行的检测器，它们的主干可以是 <code>SqueezeNet</code>、<code>MobileNet</code> 或 <code>ShuffleNet</code>。对于头部，通常分为两类，即一级物体检测器和二级物体检测器。最具代表性的两阶段物体检测器是<code>R-CNN</code>系列，包括<code>Fast R-CNN</code>、<code>Faster R-CNN</code>、<code>R-FCN</code>和<code>Libra R-CNN</code> .也可以将两阶段物体检测器变成anchor free 物体检测器，例如 <code>RepPoints</code>。对于单级目标检测器，最具代表性的模型是 <code>YOLO</code>、<code>SSD</code> 和 <code>RetinaNet</code>。近年来，开发了anchor free 单阶段目标检测器。这类检测器有 <code>CenterNet</code>、<code>CornerNet</code>、<code>FCOS</code> 等。 近年来开发的目标检测器经常在主干和头部之间插入一些层，这些层通常用于从不同的阶段收集特征图。我们可以称之为目标检测器的颈部。通常，一个脖子由几个自下而上的路径和几个自上而下的路径组成。配备这种机制的网络包括特征金字塔网络<code>FPN</code>、路径聚合网络 <code>PAN</code>、<code>BiFPN</code> 和 <code>NAS-FPN</code>。 </p>
-<p><img src="/YOLOv4/YOLOV4-0.png" alt="YOLOV4"></p>
+<p><img src="/2021/09/12/YOLOv4/YOLOV4-0.png" alt="YOLOV4"></p>
 <p>综上所述，一个普通的物体检测器由几部分组成： </p>
 <ul>
 <li><strong>Input:</strong> Image, Patches, Image Pyramid</li>
@@ -323,7 +323,7 @@
 <li>更多参数 - 提高模型在单个图像中检测多个不同大小对象的能力 </li>
 </ul>
 <p>可以假设应该选择具有更大感受野大小（具有更大数量的卷积层 3 × 3）和更多参数的模型作为主干。</p>
-<p><img src="/YOLOv4/YOLOV4-1.png" alt="YOLOV4"></p>
+<p><img src="/2021/09/12/YOLOv4/YOLOV4-1.png" alt="YOLOV4"></p>
 <p>不同大小感受野的影响总结如下: </p>
 <ul>
 <li>达到对象大小 - 允许查看整个对象 </li>
@@ -332,7 +332,7 @@
 </ul>
 <p>YOLOv4在 <code>CSPDarknet53</code> 上添加了 <code>SPP</code> 块，因为它显着增加了感受野，分离出最重要的上下文特征，并且几乎不会降低网络运行速度。 并且使用 <code>PANet</code> 作为不同检测器级别的不同主干级别的参数聚合方法，而不是 YOLOv3 中使用的 <code>FPN</code>。 </p>
 <p>最后，YOLOv4选择 <code>CSPDarknet53</code> <strong>主干</strong>、<code>SPP</code> <strong>附加模块</strong>、<code>PANet 路径聚合</code> <strong>颈部</strong>和 <code>YOLOv3</code>（基于锚点）<strong>头部 </strong>作为 YOLOv4 的架构。 </p>
-<p><img src="/YOLOv4/YOLOV4-3.png" alt="YOLOV4"></p>
+<p><img src="/2021/09/12/YOLOv4/YOLOV4-3.png" alt="YOLOV4"></p>
 <h4 id="五、Selection-of-BoF-and-BoS"><a href="#五、Selection-of-BoF-and-BoS" class="headerlink" title="五、Selection of BoF and BoS"></a>五、Selection of BoF and BoS</h4><p>为了改进目标检测训练，CNN 通常使用以下内容： </p>
 <ul>
 <li>激活：ReLU、leaky-ReLU、参数化 ReLU、ReLU6、SELU、Swish 或 Mish</li>
@@ -349,9 +349,9 @@
 <li>修改了一些现有的方法，使我们的设计适合高效的训练和检测-修改的 SAM、修改的 PAN 和交叉小批量归一化 (CmBN) </li>
 </ul>
 <p>Mosaic 代表了一种新的数据增强方法，它混合了四张训练图像，使其按一定比例组合成一张图像，使模型学会在更小的范围内识别对象。 因此混合了 4 个不同的上下文，而 CutMix 仅混合了 2 个输入图像。 这允许检测正常上下文之外的对象。 此外，批量归一化计算每层 4 个不同图像的激活统计数据。 这显着减少了对大 mini-batch 大小的需求。 </p>
-<p><img src="/YOLOv4/YOLOV4-5.png" alt="YOLOV4"></p>
+<p><img src="/2021/09/12/YOLOv4/YOLOV4-5.png" alt="YOLOV4"></p>
 <p>自我对抗训练 (SAT) 也代表了一种新的数据增强技术，它在 2 个前向后向阶段中运行。 在第一阶段，神经网络改变原始图像而不是网络权重。 通过这种方式，神经网络对自身执行对抗性攻击，改变原始图像以制造图像上没有所需对象的欺骗。 在第二阶段，训练神经网络以正常方式检测此修改图像上的对象。 </p>
-<p><img src="/YOLOv4/YOLOV4-2.png" alt="YOLOV4"></p>
+<p><img src="/2021/09/12/YOLOv4/YOLOV4-2.png" alt="YOLOV4"></p>
 <p><a href="https://arxiv.org/pdf/2004.10934v1.pdf" target="_blank" rel="noopener">论文地址</a></p>
 <p><a href="https://zhuanlan.zhihu.com/p/137393450" target="_blank" rel="noopener">参考内容1</a></p>
 <p><a href="https://zhuanlan.zhihu.com/p/161083602" target="_blank" rel="noopener">参考内容2</a></p>
@@ -377,7 +377,7 @@
       <i class="fa fa-chevron-left"></i> YOLOv3
     </a></div>
       <div class="post-nav-item">
-    <a href="/2021/09/12/Web-Servlet/" rel="next" title="Wen-Servlet">
+    <a href="/2021/09/12/Wen-Servlet/" rel="next" title="Wen-Servlet">
       Wen-Servlet <i class="fa fa-chevron-right"></i>
     </a></div>
     </div>

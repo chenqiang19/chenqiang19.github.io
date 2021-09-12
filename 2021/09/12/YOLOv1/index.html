@@ -54,12 +54,12 @@
 <meta property="og:site_name" content="编辑尼撑">
 <meta property="og:description" content="YOLO (You Only Look Once)一、概述YOLO，一种统一的检测器，将目标检测作为从图像像素到空间分离的边界框和相关类概率的回归问题。在YOLO中放弃了区域提议阶段，直接使用子小组候选区域来预测待检测的目标。由于 YOLO 在进行预测时会看到整个图像，因此它隐式编码了有关对象类别的上下文信息，并且不太可能预测背景中的误报。但由于边界框位置、比例和纵横比的粗划分，YOLO 会产生更">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;YOLOv1&#x2F;YOLO-0.png">
-<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;YOLOv1&#x2F;YOLO-1.png">
-<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;YOLOv1&#x2F;YOLO-2.png">
-<meta property="og:updated_time" content="2021-09-12T08:22:50.818Z">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2021&#x2F;09&#x2F;12&#x2F;YOLOv1&#x2F;YOLO-0.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2021&#x2F;09&#x2F;12&#x2F;YOLOv1&#x2F;YOLO-1.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2021&#x2F;09&#x2F;12&#x2F;YOLOv1&#x2F;YOLO-2.png">
+<meta property="og:updated_time" content="2021-09-12T09:16:37.082Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;YOLOv1&#x2F;YOLO-0.png">
+<meta name="twitter:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2021&#x2F;09&#x2F;12&#x2F;YOLOv1&#x2F;YOLO-0.png">
 
 <link rel="canonical" href="http://yoursite.com/2021/09/12/YOLOv1/">
 
@@ -240,7 +240,7 @@
               <span class="post-meta-item-text">发表于</span>
               
 
-              <time title="创建时间：2021-09-12 16:21:40 / 修改时间：16:22:50" itemprop="dateCreated datePublished" datetime="2021-09-12T16:21:40+08:00">2021-09-12</time>
+              <time title="创建时间：2021-09-12 16:21:40 / 修改时间：17:16:37" itemprop="dateCreated datePublished" datetime="2021-09-12T16:21:40+08:00">2021-09-12</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -274,7 +274,7 @@
       
         <h2 id="YOLO-You-Only-Look-Once"><a href="#YOLO-You-Only-Look-Once" class="headerlink" title="YOLO (You Only Look Once)"></a>YOLO (You Only Look Once)</h2><h4 id="一、概述"><a href="#一、概述" class="headerlink" title="一、概述"></a>一、概述</h4><p>YOLO，一种统一的检测器，将目标检测作为从图像像素到空间分离的边界框和相关类概率的回归问题。在YOLO中放弃了区域提议阶段，直接使用子小组候选区域来预测待检测的目标。由于 YOLO 在进行预测时会看到整个图像，因此它隐式编码了有关对象类别的上下文信息，并且不太可能预测背景中的误报。但由于边界框位置、比例和纵横比的粗划分，YOLO 会产生更多的定位错误。</p>
 <p>简单概括就是：单个神经网络预测边界框和类别概率 ，不需要像Faster R-CNN系列需要重新利用分类器做检测。</p>
-<p><img src="/YOLOv1/YOLO-0.png" alt="YOLO"></p>
+<p><img src="/2021/09/12/YOLOv1/YOLO-0.png" alt="YOLO"></p>
 <p><strong>YOLO优点：</strong></p>
 <ul>
 <li>非常快，YOLO 不需要复杂的Pipeline。</li>
@@ -289,9 +289,9 @@ Pr(Object)\ast IOU^{truth}_{pred}</script><p>每个边界框由 5 个预测组�
 <p>在测试时，将条件类概率和单个框置信度预测相乘，表达式如下：</p>
 <script type="math/tex; mode=display">
 Pr(Class_i|Object)\ast Pr(Object)\ast IOU^{truth}_{pred}=Pr(Class_i)\ast IOU^{truth}_{pred}</script><p>上式提供了每个框特定于类的置信度分数。 这些分数编码了该类出现在框中的概率以及预测的框与对象的匹配程度。 </p>
-<p><img src="/YOLOv1/YOLO-1.png" alt="YOLO"></p>
+<p><img src="/2021/09/12/YOLOv1/YOLO-1.png" alt="YOLO"></p>
 <h4 id="三、网络设计"><a href="#三、网络设计" class="headerlink" title="三、网络设计"></a>三、网络设计</h4><p>网络的初始卷积层从图像中提取特征，而全连接层预测输出概率和坐标。 网络架构受到用于图像分类的 GoogLeNet 模型的启发，有 24 个卷积层，后跟 2 个全连接层，有使用 GoogLeNet 使用的初始模块，而是简单地使用 1 × 1 缩减层和 3 × 3 卷积层。</p>
-<p><img src="/YOLOv1/YOLO-2.png" alt="YOLO"></p>
+<p><img src="/2021/09/12/YOLOv1/YOLO-2.png" alt="YOLO"></p>
 <p>训练的时候，先用ImageNet-1000数据集预训练上面的前20层网络+average-pooling层+一个全连接层。然后转换模型以执行检测。 论文《Object detection networks on convolutional feature maps》表明将卷积层和连接层添加到预训练网络可以提高性能。 所以添加了四个卷积层和两个具有随机初始化权重的全连接层。 检测通常需要细粒度的视觉信息，因此将网络的输入分辨率从 224 × 224 增加到 448 × 448。 </p>
 <p>最后一层预测类别概率和边界框坐标，过图像的宽度和高度对边界框的宽度和高度进行归一化，使它们落在 0 和 1 之间。边界框的 x 和 y 坐标参数化为特定网格单元位置的偏移量，因此它们也被限制在 0 和 1 之间 。对最后一层使用线性激活函数，所有其他层使用以下Leaky rectified线性激活： </p>
 <script type="math/tex; mode=display">
