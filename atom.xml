@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2021-04-03T12:51:40.438Z</updated>
+  <updated>2021-08-15T10:17:29.984Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -15,28 +15,6 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
-  
-  <entry>
-    <title>Hello World</title>
-    <link href="http://yoursite.com/2021/09/12/hello-world/"/>
-    <id>http://yoursite.com/2021/09/12/hello-world/</id>
-    <published>2021-09-12T08:44:03.686Z</published>
-    <updated>2021-04-03T12:51:40.438Z</updated>
-    
-    <content type="html"><![CDATA[<p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p><h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post-location-source-gt-post-directory"><a href="#Create-a-new-post-location-source-gt-post-directory" class="headerlink" title="Create a new post, location: source-&gt;_post directory"></a>Create a new post, location: source-&gt;_post directory</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span></pre></td></tr></table></figure><h3 id="Create-a-new-draft-location-source-gt-drafts-directory"><a href="#Create-a-new-draft-location-source-gt-drafts-directory" class="headerlink" title="Create a new draft, location: source-&gt;_drafts directory"></a>Create a new draft, location: source-&gt;_drafts directory</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">$ hexo new  draft <span class="string">"My New Draft"</span></span></pre></td></tr></table></figure><h3 id="Preview-a-new-draft-shut-down-old-server"><a href="#Preview-a-new-draft-shut-down-old-server" class="headerlink" title="Preview a new draft (shut down old server)"></a>Preview a new draft (shut down old server)</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">$ hexo server --draft</span></pre></td></tr></table></figure><h3 id="publish-a-new-draft-shut-down-old-server"><a href="#publish-a-new-draft-shut-down-old-server" class="headerlink" title="publish a new draft (shut down old server)"></a>publish a new draft (shut down old server)</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">$ hexo publish <span class="string">"My New draft"</span></span></pre></td></tr></table></figure><h3 id="Create-a-new-normal-location-source-gt-c-directory"><a href="#Create-a-new-normal-location-source-gt-c-directory" class="headerlink" title="Create a new normal, location: source-&gt;c directory"></a>Create a new normal, location: source-&gt;c directory</h3><h4 id="normal-is-not-blog-page-it-likes-about-or-contact-us-page"><a href="#normal-is-not-blog-page-it-likes-about-or-contact-us-page" class="headerlink" title="normal is not blog page, it likes about or contact us page."></a>normal is not blog page, it likes about or contact us page.</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">$ hexo new page <span class="string">"My new Normal"</span></span></pre></td></tr></table></figure><h3 id="Preview-a-new-normal"><a href="#Preview-a-new-normal" class="headerlink" title="Preview a new normal"></a>Preview a new normal</h3><p><a href="http://localhost:4000/c/" target="_blank" rel="noopener">http://localhost:4000/c/</a></p><p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p><h3 id="Clean-cache"><a href="#Clean-cache" class="headerlink" title="Clean cache"></a>Clean cache</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">$ hexo clean</span></pre></td></tr></table></figure><h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">$ hexo server</span></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p><h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">$ hexo generate</span></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p><h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/one-command-deployment.html" target="_blank" rel="noopener">Deployment</a></p><p>If you want to show Chinese, you must make sure md is saved with utf-8</p>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;p&gt;Welcome to &lt;a href=&quot;https://hexo.io/&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;Hexo&lt;/a&gt;! This is your very first post. Check &lt;a href=&quot;https://hexo.
-      
-    
-    </summary>
-    
-    
-    
-  </entry>
   
   <entry>
     <title>Neural-Network</title>
@@ -52,6 +30,28 @@
       
       
         &lt;h2 id=&quot;第五章-神经网络（西瓜书学习-笔记）&quot;&gt;&lt;a href=&quot;#第五章-神经网络（西瓜书学习-笔记）&quot; class=&quot;headerlink&quot; title=&quot;第五章 神经网络（西瓜书学习-笔记）&quot;&gt;&lt;/a&gt;第五章 神经网络（西瓜书学习-笔记）&lt;/h2&gt;&lt;h4 id=&quot;一
+      
+    
+    </summary>
+    
+    
+    
+  </entry>
+  
+  <entry>
+    <title>Hello World</title>
+    <link href="http://yoursite.com/2021/09/12/hello-world/"/>
+    <id>http://yoursite.com/2021/09/12/hello-world/</id>
+    <published>2021-09-12T08:44:03.686Z</published>
+    <updated>2021-04-03T12:51:40.438Z</updated>
+    
+    <content type="html"><![CDATA[<p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p><h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post-location-source-gt-post-directory"><a href="#Create-a-new-post-location-source-gt-post-directory" class="headerlink" title="Create a new post, location: source-&gt;_post directory"></a>Create a new post, location: source-&gt;_post directory</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span></pre></td></tr></table></figure><h3 id="Create-a-new-draft-location-source-gt-drafts-directory"><a href="#Create-a-new-draft-location-source-gt-drafts-directory" class="headerlink" title="Create a new draft, location: source-&gt;_drafts directory"></a>Create a new draft, location: source-&gt;_drafts directory</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">$ hexo new  draft <span class="string">"My New Draft"</span></span></pre></td></tr></table></figure><h3 id="Preview-a-new-draft-shut-down-old-server"><a href="#Preview-a-new-draft-shut-down-old-server" class="headerlink" title="Preview a new draft (shut down old server)"></a>Preview a new draft (shut down old server)</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">$ hexo server --draft</span></pre></td></tr></table></figure><h3 id="publish-a-new-draft-shut-down-old-server"><a href="#publish-a-new-draft-shut-down-old-server" class="headerlink" title="publish a new draft (shut down old server)"></a>publish a new draft (shut down old server)</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">$ hexo publish <span class="string">"My New draft"</span></span></pre></td></tr></table></figure><h3 id="Create-a-new-normal-location-source-gt-c-directory"><a href="#Create-a-new-normal-location-source-gt-c-directory" class="headerlink" title="Create a new normal, location: source-&gt;c directory"></a>Create a new normal, location: source-&gt;c directory</h3><h4 id="normal-is-not-blog-page-it-likes-about-or-contact-us-page"><a href="#normal-is-not-blog-page-it-likes-about-or-contact-us-page" class="headerlink" title="normal is not blog page, it likes about or contact us page."></a>normal is not blog page, it likes about or contact us page.</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">$ hexo new page <span class="string">"My new Normal"</span></span></pre></td></tr></table></figure><h3 id="Preview-a-new-normal"><a href="#Preview-a-new-normal" class="headerlink" title="Preview a new normal"></a>Preview a new normal</h3><p><a href="http://localhost:4000/c/" target="_blank" rel="noopener">http://localhost:4000/c/</a></p><p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p><h3 id="Clean-cache"><a href="#Clean-cache" class="headerlink" title="Clean cache"></a>Clean cache</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">$ hexo clean</span></pre></td></tr></table></figure><h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">$ hexo server</span></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p><h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">$ hexo generate</span></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p><h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/one-command-deployment.html" target="_blank" rel="noopener">Deployment</a></p><p>If you want to show Chinese, you must make sure md is saved with utf-8</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;Welcome to &lt;a href=&quot;https://hexo.io/&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;Hexo&lt;/a&gt;! This is your very first post. Check &lt;a href=&quot;https://hexo.
       
     
     </summary>
