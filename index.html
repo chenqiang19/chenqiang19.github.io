@@ -1130,7 +1130,7 @@ E=\lambda\frac{1}{m}\sum^{m}_{k=1}E_k+(1-\lambda)\sum_{i}w^2_i</script><p>&lambd
               <span class="post-meta-item-text">发表于</span>
               
 
-              <time title="创建时间：2021-09-12 16:37:12 / 修改时间：17:13:02" itemprop="dateCreated datePublished" datetime="2021-09-12T16:37:12+08:00">2021-09-12</time>
+              <time title="创建时间：2021-09-12 16:37:12 / 修改时间：17:28:06" itemprop="dateCreated datePublished" datetime="2021-09-12T16:37:12+08:00">2021-09-12</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -1198,7 +1198,7 @@ E=\lambda\frac{1}{m}\sum^{m}_{k=1}E_k+(1-\lambda)\sum_{i}w^2_i</script><p>&lambd
 S=\frac{e^s}{\sum^{C}_{j=1}e^{s_j}}</script><p><strong>损失函数(loss function):</strong> 用来量化预测分类标签的得分与真实标签之间一致性。</p>
 <p>Sofemax一般对应log损失，表达式如下：</p>
 <script type="math/tex; mode=display">
-L=-\log\frac{e^s}{\sum^{C}_{j=1}e{^s_j}}=-s+\,\log\sum^{C}_{j=1}e^</script><p>YOLOv3中不使用Softmax分类器，而是使用使用<strong>独立的多个logistic分类器</strong>替代，<strong>分类损失</strong>使用binary cross-entropy loss。</p>
+L=-\log\frac{e^s}{\sum^{C}_{j=1}e{^s_j}}=-s+\,\log\sum^{C}_{j=1}e^{s_j}</script><p>YOLOv3中不使用Softmax分类器，而是使用使用<strong>独立的多个logistic分类器</strong>替代，<strong>分类损失</strong>使用binary cross-entropy loss。</p>
 <p><strong>Logistic回归(LR)</strong>，是一种常用语处理二分类问题的模型。</p>
 <script type="math/tex; mode=display">
 h_{\theta}(x)=g(\theta^Tx)=\frac{1}{1+\,\,e^{-\theta^Tx}},g(z)=\frac{1}{1+e^{-z}}(sigmoid\,\,函数),x代表样本的特征向量</script><script type="math/tex; mode=display">h_{\theta}(x)$$可看做预测为正类的概率，即后验概率$$h_{\theta}(x)=p(y=1|x;\theta),h_\theta(x)\in(0,1)</script><script type="math/tex; mode=display">
