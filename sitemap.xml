@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://yoursite.com/2021/09/12/Cloud-Paas-Learn/</loc>
+    
+    <lastmod>2021-09-12T14:52:08.804Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://yoursite.com/2021/09/12/YOLOv3/</loc>
     
     <lastmod>2021-09-12T09:28:06.871Z</lastmod>
@@ -208,13 +215,6 @@
     <loc>http://yoursite.com/2021/07/25/Open-Neural-Network-Exchange/</loc>
     
     <lastmod>2021-07-25T13:52:23.387Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://yoursite.com/2021/07/25/Cloud-Paas-Learn/</loc>
-    
-    <lastmod>2021-07-25T13:33:03.790Z</lastmod>
     
   </url>
   
