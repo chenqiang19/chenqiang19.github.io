@@ -215,7 +215,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/09/12/Neural-Network/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2022/01/09/Neural-Network/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -229,7 +229,7 @@
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
           
-            <a href="/2021/09/12/Neural-Network/" class="post-title-link" itemprop="url">Neural-Network</a>
+            <a href="/2022/01/09/Neural-Network/" class="post-title-link" itemprop="url">Neural-Network</a>
         </h1>
 
         <div class="post-meta">
@@ -239,7 +239,7 @@
               </span>
               <span class="post-meta-item-text">发表于</span>
 
-              <time title="创建时间：2021-09-12 22:51:00" itemprop="dateCreated datePublished" datetime="2021-09-12T22:51:00+08:00">2021-09-12</time>
+              <time title="创建时间：2022-01-09 18:29:23" itemprop="dateCreated datePublished" datetime="2022-01-09T18:29:23+08:00">2022-01-09</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
@@ -260,16 +260,16 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h2 id="第五章-神经网络（西瓜书学习-笔记）"><a href="#第五章-神经网络（西瓜书学习-笔记）" class="headerlink" title="第五章 神经网络（西瓜书学习-笔记）"></a>第五章 神经网络（西瓜书学习-笔记）</h2><h4 id="一、神经元模型"><a href="#一、神经元模型" class="headerlink" title="一、神经元模型"></a>一、神经元模型</h4><p><img src="/2021/09/12/Neural-Network/M-P-0.png" alt="ML"></p>
+          <h2 id="第五章-神经网络（西瓜书学习-笔记）"><a href="#第五章-神经网络（西瓜书学习-笔记）" class="headerlink" title="第五章 神经网络（西瓜书学习-笔记）"></a>第五章 神经网络（西瓜书学习-笔记）</h2><h4 id="一、神经元模型"><a href="#一、神经元模型" class="headerlink" title="一、神经元模型"></a>一、神经元模型</h4><p><img src="/2022/01/09/Neural-Network/M-P-0.png" alt="ML"></p>
 <p>在生物神经网络中，每个神经元与其他神经元相连，当它”兴奋”时，就会向相连的神经元发送化学物质，从而改变这些神经元内的电位；如果某神经元的电位超过了一个”阈值”，那么它就会被激活，即“兴奋”起来，向其他神经元发送化学物质。</p>
 <p>在M-P神经元模型中，神经元接收到来自n个其他神经元传递过来的输入信号，这些输入信号通过带权重的连接进行传递，神经元接收到的总输入值将于神经元的阈值进行比较，然后通过激活函数处理以产生神经元的输出。</p>
 <p>理想的激活函数是阶跃函数，它将输入值映射为输出值0和1，其中1对于神经元兴奋，0对于神经元抑制。然而，阶跃函数具有不连续、不光滑等不太好的性质。因此，常用sigmoid函数作为激活函数。</p>
-<p><img src="/2021/09/12/Neural-Network/M-P-1.png" alt="ML"></p>
+<p><img src="/2022/01/09/Neural-Network/M-P-1.png" alt="ML"></p>
 <h4 id="二、感知机与多层网络"><a href="#二、感知机与多层网络" class="headerlink" title="二、感知机与多层网络"></a>二、感知机与多层网络</h4><p>感知机由两层神经元组成，能容易地实现逻辑与、或、非运算。但是只能处理线性可分的问题，对于非线性可分问题，需要考虑使用多层功能神经元，即多层前馈神经网络。</p>
-<p><img src="/2021/09/12/Neural-Network/M-P-2.png" alt="ML"></p>
+<p><img src="/2022/01/09/Neural-Network/M-P-2.png" alt="ML"></p>
 <h4 id="三、误差逆传播算法"><a href="#三、误差逆传播算法" class="headerlink" title="三、误差逆传播算法"></a>三、误差逆传播算法</h4><script type="math/tex; mode=display">
 给定训练集D=\{(x_1,y_1),(x_2,y_2),...,(x_m,y_m)\},x_i\in R^d,y_i\in R^l\\
-即输入示例由d个属性描述，输出l维实值向量。</script><p><img src="/2021/09/12/Neural-Network/M-P-3.png" alt="ML"></p>
+即输入示例由d个属性描述，输出l维实值向量。</script><p><img src="/2022/01/09/Neural-Network/M-P-3.png" alt="ML"></p>
 <script type="math/tex; mode=display">
 \begin{align}&上图显示了一个拥有d个输入神经元，l个输出神经元，q个隐层神经元的多层前馈神经网络。\\&其中输出层第j个神经元的阈值为\theta_j,隐层第h个神经元的阈值用\gamma_h表示。\\
 &输入层第i个神经元与隐层第h个神经元之间的连接权为v_{ih},隐层第h个神经元与输出层第j个神经元之间的连接权为w_{hj}\\
@@ -323,7 +323,7 @@ E=\lambda\frac{1}{m}\sum^{m}_{k=1}E_k+(1-\lambda)\sum_{i}w^2_i</script><p>&lambd
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/09/12/hello-world/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2022/01/09/hello-world/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -337,7 +337,7 @@ E=\lambda\frac{1}{m}\sum^{m}_{k=1}E_k+(1-\lambda)\sum_{i}w^2_i</script><p>&lambd
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
           
-            <a href="/2021/09/12/hello-world/" class="post-title-link" itemprop="url">Hello World</a>
+            <a href="/2022/01/09/hello-world/" class="post-title-link" itemprop="url">Hello World</a>
         </h1>
 
         <div class="post-meta">
@@ -347,7 +347,7 @@ E=\lambda\frac{1}{m}\sum^{m}_{k=1}E_k+(1-\lambda)\sum_{i}w^2_i</script><p>&lambd
               </span>
               <span class="post-meta-item-text">发表于</span>
 
-              <time title="创建时间：2021-09-12 22:51:00" itemprop="dateCreated datePublished" datetime="2021-09-12T22:51:00+08:00">2021-09-12</time>
+              <time title="创建时间：2022-01-09 18:29:23" itemprop="dateCreated datePublished" datetime="2022-01-09T18:29:23+08:00">2022-01-09</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
@@ -384,6 +384,65 @@ E=\lambda\frac{1}{m}\sum^{m}_{k=1}E_k+(1-\lambda)\sum_{i}w^2_i</script><p>&lambd
 <h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span></pre></td></tr></table></figure>
 <p>More info: <a href="https://hexo.io/docs/one-command-deployment.html" target="_blank" rel="noopener">Deployment</a></p>
 <p>If you want to show Chinese, you must make sure md is saved with utf-8</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2022/01/09/OS-Summary/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Qiang Chen">
+      <meta itemprop="description" content="记录是忘记的第一助手.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="编辑尼撑">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/01/09/OS-Summary/" class="post-title-link" itemprop="url">OS-Summary</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2022-01-09 18:28:20 / 修改时间：18:38:43" itemprop="dateCreated datePublished" datetime="2022-01-09T18:28:20+08:00">2022-01-09</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <div class="pdf" target="./OS-Summary/os-summary.pdf" height></div>
 
       
     </div>
@@ -1786,142 +1845,6 @@ I^{obj}_{i}指出物体出现在第i个cell中，I^{obj}_{ij}指出第i个cell�
   
   
 
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/09/12/SSD-Detector/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Qiang Chen">
-      <meta itemprop="description" content="记录是忘记的第一助手.">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="编辑尼撑">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/09/12/SSD-Detector/" class="post-title-link" itemprop="url">SSD-Detector</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2021-09-12 16:18:34 / 修改时间：17:16:14" itemprop="dateCreated datePublished" datetime="2021-09-12T16:18:34+08:00">2021-09-12</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Deep-Learning/" itemprop="url" rel="index">
-                    <span itemprop="name">Deep Learning</span>
-                  </a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="SSD-Single-Shot-MultiBox-Detector"><a href="#SSD-Single-Shot-MultiBox-Detector" class="headerlink" title="SSD: Single Shot MultiBox Detector"></a>SSD: Single Shot MultiBox Detector</h2><h4 id="一、概述"><a href="#一、概述" class="headerlink" title="一、概述"></a>一、概述</h4><p>SSD是为了兼顾检测速度和检测精度而提出的，即将一阶段的速度和二阶段的精度都考虑进来。为了检测小目标，其在多个尺度的特征图上进行边界框和类别的学习。</p>
-<h5 id="1-1-SSD的贡献如下："><a href="#1-1-SSD的贡献如下：" class="headerlink" title="1.1 SSD的贡献如下："></a>1.1 SSD的贡献如下：</h5><ul>
-<li>是一种用于多个类别的单次检测器，它比之前的单次检测器 (YOLO) 的最新技术更快，而且准确度更高。</li>
-<li>SSD 的核心是使用应用于特征图的小卷积滤波器为一组固定的默认边界框预测类别分数和框偏移量。 </li>
-<li>为了实现高检测精度，我们从不同尺度的特征图生成不同尺度的预测，并按纵横比明确分离预测。 </li>
-<li>这些设计特性导致简单的端到端训练和高精度，即使在输入低分辨率的图像上，也能进一步提高速度与精度的权衡。</li>
-</ul>
-<h5 id="1-2-SSD和YOLO的区别："><a href="#1-2-SSD和YOLO的区别：" class="headerlink" title="1.2 SSD和YOLO的区别："></a>1.2 SSD和YOLO的区别：</h5><ul>
-<li>SSD<strong>采用卷积直接做检测，</strong>YOLO在全连接层之后做检测</li>
-<li><strong>SSD提取了不同尺度的特征图来做检测</strong>，大尺度特征图（较靠前的特征图）可以用来检测小物体，而小尺度特征图（较靠后的特征图）用来检测大物体</li>
-<li>SSD采用了<strong>不同尺度</strong>和<strong>长宽比的先验框</strong>(Prior boxes, Default boxes，在Faster R-CNN中叫做锚，Anchors)</li>
-</ul>
-<h4 id="二、The-Single-Shot-Detector-SSD"><a href="#二、The-Single-Shot-Detector-SSD" class="headerlink" title="二、The Single Shot Detector (SSD)"></a>二、The Single Shot Detector (SSD)</h4><p><img src="/2021/09/12/SSD-Detector/SSD.png" alt="SSD"></p>
-<p>SSD 方法基于前馈卷积网络，该网络生成固定大小的<strong>边界框集合</strong>和这些框内目标类<strong>实例存在的分数</strong>，然后是非最大抑制步骤以产生最终检测。在高精度分类网络backbone上，添加辅助结构以产生具有以下关键特征的检测： </p>
-<h5 id="2-1-Multi-scale-feature-maps-for-detection"><a href="#2-1-Multi-scale-feature-maps-for-detection" class="headerlink" title="2.1 Multi-scale feature maps for detection"></a>2.1 Multi-scale feature maps for detection</h5><p>在截断的基础网络的末尾添加了<strong>卷积特征层</strong>。 这些层的大小逐渐减小，并允许在多个尺度上进行检测预测。 用于预测检测的卷积模型对于每个特征层都是不同的。</p>
-<h5 id="2-2-Convolutional-predictors-for-detection"><a href="#2-2-Convolutional-predictors-for-detection" class="headerlink" title="2.2 Convolutional predictors for detection"></a>2.2 Convolutional predictors for detection</h5><p><strong>每个添加的特征层（或可选地来自基础网络的特征层）可以使用一组卷积滤波器产生一组固定的检测预测</strong>。对于具有 p 个通道的大小为 m ×n 的特征层，预测潜在检测参数的基本元素是一个 3 ×3 ×p 的小kernel，它产生<strong>类别的分数</strong>，或<strong>相对于默认框坐标的形状偏移量</strong>。 在每一个应用kernel的 m×n 个位置，它都会产生一个输出值。 边界框偏移量输出值是相对于每个特征图位置的默认框位置测量的。</p>
-<h5 id="2-3-Default-boxes-and-aspect-ratios"><a href="#2-3-Default-boxes-and-aspect-ratios" class="headerlink" title="2.3 Default boxes and aspect ratios"></a>2.3 Default boxes and aspect ratios</h5><p>由于网络会添加多尺度的特征层用于多尺度检测，所以每个feature map对应一组<strong>默认边界框</strong>。<strong>什么是默认边界框？</strong>参考上图1。<strong>那么默认边界框与feature map的关系是什么？</strong>将默认边界框以卷积的方式平铺feature map(比如，feature map大小为m&times;n，那么在每一个点就有k个默认边界框，类似Faster R-CNN中的anchor)，这样每个框相对于其对应feature map中的cell的位置是固定的。在每个特征图单元格中，会预测相对于单元格中<strong>默认框</strong>形状的<strong>偏移量</strong>，以及每类的分数，这些分数表明每个框内是否存在类实例。</p>
-<p>具体来说，对于给定位置 k 中的每个框，计算 c 类分数和相对于原始默认框形状的 4 个偏移量。这导致总共 (c + 4)k 个过滤器应用于特征图中的每个位置，为 m ×n 特征图产生 (c + 4)kmn 输出。默认框类似于 Faster R-CNN中使用的锚框，但是SSD中将它们应用于多个不同分辨率的特征图。在几个特征图中允许不同的默认框形状，可以有效地离散化可能的输出框形状的空间。 </p>
-<p><img src="/2021/09/12/SSD-Detector/SDD-1.png" alt="SSD"></p>
-<p><code>SSD 300</code>中输入图像的大小是<code>300x300</code>，特征提取部分使用了<code>VGG16</code>的卷积层，并将<code>VGG16</code>的两个全连接层转换成了普通的卷积层（图中conv6和conv7），之后又接了多个卷积（conv8_1，conv8_2，conv9_1，conv9_2，conv10_1，conv10_2），最后用一个<code>Global Average Pool</code>来变成1x1的输出（conv11_2）。</p>
-<h5 id="2-1-Matching-strategy"><a href="#2-1-Matching-strategy" class="headerlink" title="2.1 Matching strategy"></a>2.1 Matching strategy</h5><p>在训练期间，需要确定<strong>哪些默认框</strong>用于ground Truth的检测并相应地训练网络。 对于每个ground truth，从位置、纵横比和比例不同的默认框中进行选择。 </p>
-<ul>
-<li>首先，寻找与每一个ground truth box有最大的jaccard overlap的default  box，这样就能保证每一个groundtruth box与唯一的一个default box对应起来。</li>
-<li>SSD之后又将剩余还没有配对的default box与任意一个groundtruth box尝试配对，只要两者之间的jaccard overlap大于阈值，就认为match（SSD 300 阈值为0.5）。</li>
-</ul>
-<p>其中，配对到GT的default box就是positive，没有配对到GT的default box就是negative。</p>
-<script type="math/tex; mode=display">
-J(A,B)=\frac{|A\cap B|}{|A\cup B|}=\frac{|A\cap B|}{|A|+|B|-|A\cap B|}</script><p><img src="/2021/09/12/SSD-Detector/SSD-3.png" alt="SDD"></p>
-<p>上图来自<a href="https://blog.csdn.net/qq_38622495/article/details/82289814" target="_blank" rel="noopener">博客</a>-多层级上的anchor回归。<strong>通过同时对多个层级上的anchor计算IOU，就能找到与ground truth的尺寸、位置最接近（即IOU最大）的一批anchor，在训练时也就能达到最好的准确度。</strong></p>
-<h5 id="2-2-训练过程"><a href="#2-2-训练过程" class="headerlink" title="2.2 训练过程"></a>2.2 训练过程</h5><p>整体目标损失函数是定位损失 (loc) 和分类损失 (conf) 的加权和： </p>
-<script type="math/tex; mode=display">
-L(x,c,l,g)=\frac{1}{N}(L_{conf}(x,c)+\alpha L_{loc}(x,l,g))\\
-N是匹配到的默认框的数量，当N=0时，损失为0\\
-定位损失是预测框l和ground\,\,truth\,\,box(g)之间的Smooth\,\,L1\,\,loss</script><script type="math/tex; mode=display">
-L_{loc}(x,l,g)=\sum^{N}_{i\in Pos}\sum_{m\in\{cx,cy,w,h\}}x^k_{ij}smooth_{L1}(l^m_i-\hat{g}^m_j)\\
-\hat{g}^{cx}_j=(g^{cx}_{j}-d^{cx}_i)/d^w_i;\,\hat{g}^{cy}_j=(g^{cy}_{j}-d^{cy}_i)/d^h_i;\,\hat{g}^w_j=\log\Big(\frac{g^w_j}{d^w_i}\Big);\,\hat{g}^h_j=\log\Big(\frac{g^h_j}{d^h_i}\Big)</script><p>分类损失是多类置信度 (c) 上的 softmax 损失。 权重项α通过交叉验证设置为1。 </p>
-<script type="math/tex; mode=display">
-L_{conf}(x,c)=-\sum^{N}_{i\in Pos}x^p_{ij}log(\hat{c}^p_i)-\sum_{i\in Neg}log(\hat{c}^0_i)\,\,where\,\, \hat{c}^p_i=\frac{exp(c^p_i)}{\sum_{p}exp(c^p_i)}\\
-x^p_{ij}=\{0,1\}表示第i个默认框(anchor)与第j个ground\,\,truth的类别p是否匹配\\
-上面,log(\hat{c}^0_i)=x_{ij}^0\times;log(\hat{c}^0_i)，第0类为背景类，所以x_{ij}^0=1,其余x_{ij}^{p\ne0}=0,每个anchor都对应c+1类</script><p>L<sub>conf</sub>是前景的分类loss和背景的分类loss的和。L<sub>loc</sub>(x, l, g)是所有用于前景分类的anchor的位置坐标的回归loss。</p>
-<h5 id="2-3-Choosing-scales-and-aspect-ratios-for-default-boxes"><a href="#2-3-Choosing-scales-and-aspect-ratios-for-default-boxes" class="headerlink" title="2.3 Choosing scales and aspect ratios for default boxes"></a>2.3 Choosing scales and aspect ratios for default boxes</h5><p>已知网络内不同层的特征图具有不同的（经验）感受野大小。 在 SSD 框架内，默认框不需要对应每一层的实际感受野。 因为设计了默认框的平铺，以便特定的特征图学会对目标的特定比例做出响应。 假设要使用第 m 个特征图进行预测。 每个特征图的默认框的比例计算如下： </p>
-<script type="math/tex; mode=display">
-s_k=s_{min}+\frac{s_{max}-s_{min}}{m-1}(k-1),\,\,k\in[1,m]\\
-s_{min}=0.2,s_{max}=0.9,这意味着最低层的尺度为 0.2，最高层的尺度为 0.9，并且中间的所有层都是规则间隔的。\\
-default\,\,boxes有不同的纵横比，a_r\in\{1,2,3,\frac{1}{2},\frac{1}{3}\},default\,\,box的宽、高使用w^a_k=s_k\sqrt{a_r}，h^a_k=s_k/\sqrt{a_r}计算得到\\
-每个default\,\,box的中心设置为\Big(\frac{i+\,0.5}{|f_k|},\frac{j+\,0.5}{|f_k|}\Big),f_k是第k个正方形的feature \,\,map的大小</script><p>SSD从Conv4_3开始，共提取6个特征图(m=6)，因为Conv4_3是单独设置的，所以上面的线性递增规则需要m-1。s<sub>k</sub>表示先验框大小相对于输入图片的比例。</p>
-<p>SSD按照如下规则生成prior box：</p>
-<ul>
-<li>以feature map上每个点的中点为中心，生成一些列同心的prior box</li>
-<li>正方形prior box最小边长为和最大边长为min_size=s<sub>k</sub>，max_size=s<sub>k+1</sub></li>
-<li>根据不同的ratio，可以得到不同的长方形anchor</li>
-</ul>
-<script type="math/tex; mode=display">
-width = \sqrt{ratio}\,\,\ast min\_size; height = 1/\sqrt{ratio}\,\,\ast min\_size</script><p><img src="/2021/09/12/SSD-Detector/SSD-4.png" alt="SSD"></p>
-<p>默认情况下，每个默认情况下，每个特征图会有一个 <script type="math/tex">a_r= 1</script> 且尺度为 <script type="math/tex">s_k</script>  的先验框，除此之外，还会设置一个尺度为 <script type="math/tex">s_k'=\sqrt{s_ks_{k+1}}</script> 且  <script type="math/tex">a_r= 1</script> 的先验框，这样每个特征图都设置了两个长宽比为1但大小不同的正方形先验框。</p>
-<h5 id="2-4-Hard-negative-mining"><a href="#2-4-Hard-negative-mining" class="headerlink" title="2.4 Hard negative mining"></a>2.4 Hard negative mining</h5><p>一般情况下negative default boxes数量&gt;&gt;positive default boxes数量，直接训练会导致网络过于重视负样本，从而loss不稳定。所以需要采取：</p>
-<ul>
-<li>所以SSD在训练时会依据confidience score排序default box，挑选其中confidence高的box进行训练，控制 positive : negative = 1 : 3</li>
-</ul>
-<h5 id="2-5-SSD的数据流"><a href="#2-5-SSD的数据流" class="headerlink" title="2.5 SSD的数据流"></a>2.5 SSD的数据流</h5><p><img src="/2021/09/12/SSD-Detector/SSD-5.jpg" alt="SSD"></p>
-<p>多尺度feature maps和Prior Box如何组合在一起进行forwards/backwards。需要用到Permute，Flatten和Concat这3种层。上图以conv4_3和fc7为例分析SSD是如何将不同size的feature map组合在一起进行prediction。那么为何要在softmax前后都接一个reshape layer？其实只是为了便于softmax分类，至于具体原因这就要从caffe的实现形式说起了。<a href="https://zhuanlan.zhihu.com/p/31427288" target="_blank" rel="noopener">参考博客-白棠</a></p>
-<p><img src="/2021/09/12/SSD-Detector/SSD-2.png" alt="SSD"></p>
-<p>上图来自<a href="https://blog.csdn.net/qq_38622495/article/details/82289814" target="_blank" rel="noopener">博客</a></p>
-<p><a href="https://arxiv.org/pdf/1512.02325.pdf" target="_blank" rel="noopener">论文</a></p>
-<p><a href="https://zhuanlan.zhihu.com/p/31427288" target="_blank" rel="noopener">参考博客-1</a></p>
-<p><a href="https://zhuanlan.zhihu.com/p/79854543" target="_blank" rel="noopener">参考博客-2</a></p>
-<p><a href="https://blog.csdn.net/qianqing13579/article/details/82106664" target="_blank" rel="noopener">强推的博客</a></p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
   </div>
 
   
@@ -1970,7 +1893,7 @@ width = \sqrt{ratio}\,\,\ast min\_size; height = 1/\sqrt{ratio}\,\,\ast min\_siz
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">86</span>
+          <span class="site-state-item-count">87</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
