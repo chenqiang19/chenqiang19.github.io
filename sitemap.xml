@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://yoursite.com/book/os-summary.html</loc>
+    
+    <lastmod>2022-01-09T09:31:14.995Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://yoursite.com/2021/09/12/Cloud-Paas-Learn/</loc>
     
     <lastmod>2021-09-12T14:52:08.804Z</lastmod>
