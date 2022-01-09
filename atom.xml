@@ -65,17 +65,16 @@
     <link href="http://yoursite.com/2022/01/09/OS-Summary/"/>
     <id>http://yoursite.com/2022/01/09/OS-Summary/</id>
     <published>2022-01-09T10:28:20.000Z</published>
-    <updated>2022-01-09T11:39:32.053Z</updated>
+    <updated>2022-01-09T11:51:19.448Z</updated>
     
-    <content type="html"><![CDATA[<object data="./tOS-Summary/os-summary.pdf" type="application/pdf" width="100%" height="100%"></object>]]></content>
+    <content type="html"><![CDATA[<div class="pdf" target="./OS-Summary/os-summary.pdf" height></div>]]></content>
     
     <summary type="html">
     
       
       
-        &lt;object data=&quot;./tOS-Summary/os-summary.pdf&quot; type=&quot;application/pdf&quot; width=&quot;100%&quot; height=&quot;100%&quot;&gt;
+        &lt;div class=&quot;pdf&quot; target=&quot;./OS-Summary/os-summary.pdf&quot; height&gt;&lt;/div&gt;
 
-&lt;/object&gt;
       
     
     </summary>
