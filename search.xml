@@ -71,15 +71,29 @@ E=\lambda\frac{1}{m}\sum^{m}_{k=1}E_k+(1-\lambda)\sum_{i}w^2_i</script><p>&lambd
 ]]></content>
   </entry>
   <entry>
-    <title>OS-Summary</title>
-    <url>/2022/01/09/OS-Summary/</url>
-    <content><![CDATA[<div class="pdf" target="../pdf/os-summary.pdf" height></div>
+    <title>OS-Learn</title>
+    <url>/2022/01/09/OS-Learn/</url>
+    <content><![CDATA[<p><img src="/2022/01/09/OS-Learn/compute-expense.png" alt="OS-Learn"></p>
+<p><img src alt="OS-Learn"><img src="/2022/01/09/OS-Learn/define.jpg" alt="define"></p>
+<p><img src="/2022/01/09/OS-Learn/device-driver.png" alt="OS-Learn">![define](/home/qiangchen/</p>
+<p><img src="/2022/01/09/OS-Learn/device-transfer.png" alt="OS-Learn">![define]</p>
+<p><img src="/2022/01/09/OS-Learn/DMA.png" alt="OS-LEARN"></p>
+<p><img src="/2022/01/09/OS-Learn/file-system.png" alt="OS-LEARN"></p>
+<p><img src="/2022/01/09/OS-Learn/interrupt.png" alt="OS-LEARN"></p>
+<p><img src="/2022/01/09/OS-Learn/I-O.png" alt="OS-LEARN"></p>
+<p><img src="/2022/01/09/OS-Learn/memory-mapping.png" alt="OS-LEARN"></p>
+<p><img src="/2022/01/09/OS-Learn/mmu.png" alt="OS-LEARN"></p>
+<p><img src="/2022/01/09/OS-Learn/os-1-0.png" alt="OS-LEARN"></p>
+<p><img src="/2022/01/09/OS-Learn/swap-tech.png" alt="OS-LEARN"></p>
+<p><img src="/2022/01/09/OS-Learn/var-storage.png" alt="OS-LEARN"></p>
+<p><img src="/2022/01/09/OS-Learn/vfs.png" alt="OS-LEARN"></p>
+<p><img src="/2022/01/09/OS-Learn/virual-memroy.png" alt="OS-LEARN"></p>
 ]]></content>
       <categories>
-        <category>Modern Operation System</category>
+        <category>OS-Operation-System</category>
       </categories>
       <tags>
-        <tag>Book</tag>
+        <tag>image</tag>
       </tags>
   </entry>
   <entry>
@@ -3719,6 +3733,11 @@ S(\mu)=\mathscr{F}\{s_{\Delta T(t)}\}=\mathscr{F}\{\frac{1}{\Delta T}\sum^{\inft
   </entry>
   <entry>
     <title>CUDA-Programmer-Learn-Two</title>
+    <url>/2021/07/03/CUDA-Programmer-Learn-Two/</url>
+    <content><![CDATA[]]></content>
+  </entry>
+  <entry>
+    <title>CUDA-Programmer-Learn-Two</title>
     <url>/2021/07/03/CUDA-Programmer-Learn-two/</url>
     <content><![CDATA[<h2 id="CUDA编程学习笔记"><a href="#CUDA编程学习笔记" class="headerlink" title="CUDA编程学习笔记"></a>CUDA编程学习笔记</h2><p>本笔记主要<a href="https://face2ai.com/program-blog/#GPU%E7%BC%96%E7%A8%8B%EF%BC%88CUDA%EF%BC%89" target="_blank" rel="noopener">参考: 谭升</a>大神的博客进行了部分关键知识的摘录，可能有些地方回去单独查找一些资料进行解释。</p>
 <p>GPU中使用CUDA编程的核心部分分为：核函数、内存管理、线程管理和流。</p>
@@ -3868,11 +3887,6 @@ idx=ix+iy∗nx</script><h4 id="四、执行模型"><a href="#四、执行模型"
       <tags>
         <tag>CUDA Programmer</tag>
       </tags>
-  </entry>
-  <entry>
-    <title>CUDA-Programmer-Learn-Two</title>
-    <url>/2021/07/03/CUDA-Programmer-Learn-Two/</url>
-    <content><![CDATA[]]></content>
   </entry>
   <entry>
     <title>CUDA-Programmer-Learn-One</title>
