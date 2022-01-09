@@ -3713,11 +3713,6 @@ S(\mu)=\mathscr{F}\{s_{\Delta T(t)}\}=\mathscr{F}\{\frac{1}{\Delta T}\sum^{\inft
   </entry>
   <entry>
     <title>CUDA-Programmer-Learn-Two</title>
-    <url>/2021/07/03/CUDA-Programmer-Learn-Two/</url>
-    <content><![CDATA[]]></content>
-  </entry>
-  <entry>
-    <title>CUDA-Programmer-Learn-Two</title>
     <url>/2021/07/03/CUDA-Programmer-Learn-two/</url>
     <content><![CDATA[<h2 id="CUDA编程学习笔记"><a href="#CUDA编程学习笔记" class="headerlink" title="CUDA编程学习笔记"></a>CUDA编程学习笔记</h2><p>本笔记主要<a href="https://face2ai.com/program-blog/#GPU%E7%BC%96%E7%A8%8B%EF%BC%88CUDA%EF%BC%89" target="_blank" rel="noopener">参考: 谭升</a>大神的博客进行了部分关键知识的摘录，可能有些地方回去单独查找一些资料进行解释。</p>
 <p>GPU中使用CUDA编程的核心部分分为：核函数、内存管理、线程管理和流。</p>
@@ -3867,6 +3862,11 @@ idx=ix+iy∗nx</script><h4 id="四、执行模型"><a href="#四、执行模型"
       <tags>
         <tag>CUDA Programmer</tag>
       </tags>
+  </entry>
+  <entry>
+    <title>CUDA-Programmer-Learn-Two</title>
+    <url>/2021/07/03/CUDA-Programmer-Learn-Two/</url>
+    <content><![CDATA[]]></content>
   </entry>
   <entry>
     <title>CUDA-Programmer-Learn-One</title>
