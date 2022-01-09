@@ -73,7 +73,7 @@ E=\lambda\frac{1}{m}\sum^{m}_{k=1}E_k+(1-\lambda)\sum_{i}w^2_i</script><p>&lambd
   <entry>
     <title>OS-Summary</title>
     <url>/2022/01/09/OS-Summary/</url>
-    <content><![CDATA[<div class="pdf" target="./OS-Summary/os-summary.pdf" height></div>
+    <content><![CDATA[<div class="pdf" target="/OS-Summary/os-summary.pdf" height></div>
 ]]></content>
       <categories>
         <category>Modern Operation System</category>
