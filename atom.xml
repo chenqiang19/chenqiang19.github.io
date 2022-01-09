@@ -65,7 +65,7 @@
     <link href="http://yoursite.com/2022/01/09/OS-Summary/"/>
     <id>http://yoursite.com/2022/01/09/OS-Summary/</id>
     <published>2022-01-09T10:28:20.000Z</published>
-    <updated>2022-01-09T10:57:32.404Z</updated>
+    <updated>2022-01-09T11:10:51.005Z</updated>
     
     <content type="html"><![CDATA[<div class="pdf" target="./OS-Summary/os-summary.pdf" height></div>]]></content>
     
@@ -80,6 +80,10 @@
     </summary>
     
     
+      <category term="Modern Operation System" scheme="http://yoursite.com/categories/Modern-Operation-System/"/>
+    
+    
+      <category term="Book" scheme="http://yoursite.com/tags/Book/"/>
     
   </entry>
   
