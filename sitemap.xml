@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://yoursite.com/2022/01/16/Docker-Network/</loc>
+    
+    <lastmod>2022-01-16T13:55:12.780Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://yoursite.com/books/index.html</loc>
     
     <lastmod>2022-01-09T15:38:48.703Z</lastmod>
@@ -156,7 +163,7 @@
   </url>
   
   <url>
-    <loc>http://yoursite.com/2022/01/09/Neural-Network/</loc>
+    <loc>http://yoursite.com/2022/01/16/Neural-Network/</loc>
     
     <lastmod>2021-08-15T10:17:29.984Z</lastmod>
     
@@ -611,7 +618,7 @@
   </url>
   
   <url>
-    <loc>http://yoursite.com/2022/01/09/hello-world/</loc>
+    <loc>http://yoursite.com/2022/01/16/hello-world/</loc>
     
     <lastmod>2021-04-03T12:51:40.438Z</lastmod>
     
